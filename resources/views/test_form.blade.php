@@ -21,7 +21,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    @foreach($test_rows as $test)
+                        <tr>
+                            <th scope="row">{{ $test->id }}</th>
+                            <td>{{ $test->first_name }}</td>
+                            <td>{{ $test->last_name }}</td>
+                            <td>{{ $test->date }}</td>
+                            <td>{{ $test->city }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
