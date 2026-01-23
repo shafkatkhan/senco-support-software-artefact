@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Models\TestForm;
 
 class TestFormController extends Controller
@@ -56,25 +57,14 @@ class TestFormController extends Controller
                 ]
             ];
 
-            $ch = curl_init("https://api.mistral.ai/v1/chat/completions");
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_HTTPHEADER => [
-                    "Authorization: Bearer {$apiKey}",
-                    "Content-Type: application/json"
-                ],
-                CURLOPT_POSTFIELDS => json_encode($payload),
-            ]);
+            $response = Http::withToken($apiKey)
+                ->post('https://api.mistral.ai/v1/chat/completions', $payload);
 
-            $response = curl_exec($ch);
-
-            if ($response === false) {
-                return back()->with('error', 'cURL error: ' . curl_error($ch));
+            if ($response->failed()) {
+                return back()->with('error', 'API error: ' . $response->body());
             }
-            curl_close($ch);
 
-            $result = json_decode($response, true);
+            $result = $response->json();
             $transcript = $result["choices"][0]["message"]["content"] ?? "";
 
             if (empty($transcript)) {
@@ -101,25 +91,14 @@ class TestFormController extends Controller
                 ]
             ];
 
-            $chStructured = curl_init("https://api.mistral.ai/v1/chat/completions");
-            curl_setopt_array($chStructured, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_HTTPHEADER => [
-                    "Authorization: Bearer {$apiKey}",
-                    "Content-Type: application/json"
-                ],
-                CURLOPT_POSTFIELDS => json_encode($structuredPayload),
-            ]);
+            $structuredResponse = Http::withToken($apiKey)
+                ->post('https://api.mistral.ai/v1/chat/completions', $structuredPayload);
 
-            $structuredResponse = curl_exec($chStructured);
-
-            if ($structuredResponse === false) {
-                return back()->with('error', 'cURL error (structured): ' . curl_error($chStructured));
+            if ($structuredResponse->failed()) {
+                return back()->with('error', 'API error (structured): ' . $structuredResponse->body());
             }
-            curl_close($chStructured);
 
-            $structuredResult = json_decode($structuredResponse, true);
+            $structuredResult = $structuredResponse->json();
             $structuredDataRaw = $structuredResult["choices"][0]["message"]["content"] ?? "{}";
 
             $clean = preg_replace('/^```json\s*|\s*```$/', '', trim($structuredDataRaw));
