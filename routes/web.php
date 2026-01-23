@@ -7,3 +7,4 @@ Route::get('/laravel_welcome', function () {
 });
 
 Route::get('/test-form', [TestFormController::class, 'index']);
+Route::post('/test-form', [TestFormController::class, 'store']);

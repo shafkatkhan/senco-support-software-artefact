@@ -9,4 +9,5 @@ class TestForm extends Model
 
     protected $table = 'test_form';
     protected $guarded = ['id'];
+    public $timestamps = false;
 }
