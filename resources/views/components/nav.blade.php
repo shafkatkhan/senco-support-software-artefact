@@ -9,6 +9,7 @@
             <li><a href="{{ url('/page1') }}" class="{{ request()->is('page1') ? 'activenav' : '' }}">Page 1</a></li>
             <li><a href="{{ url('/page2') }}" class="{{ request()->is('page2') ? 'activenav' : '' }}">Page 2</a></li>
             <li><a href="{{ url('/page3') }}" class="{{ request()->is('page3') ? 'activenav' : '' }}">Page 3</a></li>
+            <li><a href="{{ url('/user-groups') }}" class="{{ request()->is('user-groups') ? 'activenav' : '' }}">User Groups</a></li>
         </div>
     </ul>
 </section>
