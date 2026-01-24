@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">
         <div class="select_audio_wrap">
-            <form action="{{ url('/test-form') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('test-form.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <label>Select Audio File:</label>
                 <input type="file" name="audioFile" accept="audio/*" required>
