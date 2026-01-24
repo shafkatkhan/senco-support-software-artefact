@@ -2,7 +2,7 @@
     <ul>
         <li class="logo"><img src="{{ asset('img/logo.png') }}" alt="MySencoSupportSoftware" /></li>
 
-        <li class="nav_user_name">John Smith</li>
+        <li class="nav_user_name">{{ auth()->user()->name }}</li>
 
         <div class="nav_items">
             <li><a href="{{ url('/test-form') }}" class="{{ request()->is('test-form') ? 'activenav' : '' }}">Test Form</a></li>
