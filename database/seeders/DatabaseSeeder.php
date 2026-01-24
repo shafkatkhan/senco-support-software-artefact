@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\UserGroup;
+use App\Models\TestForm;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -43,5 +44,8 @@ class DatabaseSeeder extends Seeder
             'position' => 'Head Teacher',
             'joined_date' => now(),
         ]);
+
+        // create test rows
+        TestForm::factory(20)->create();
     }
 }
