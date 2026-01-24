@@ -52,4 +52,9 @@ class User extends Authenticatable
             'expiry_date' => 'date',
         ];
     }
+
+    public function group()
+    {
+        return $this->belongsTo(UserGroup::class, 'user_group_id');
+    }
 }
