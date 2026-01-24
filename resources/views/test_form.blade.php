@@ -10,7 +10,7 @@
                 <button type="submit">Upload</button>
             </form>
         </div>
-        <div class="classes">
+        <div class="table_wrap">
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
