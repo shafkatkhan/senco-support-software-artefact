@@ -266,6 +266,13 @@ table tr:nth-of-type(odd){
 .table{
 	position: relative;
 }
+.table th, .table td {
+	font-weight: 400;
+	font-family: 'Cabin', sans-serif;
+}
+.table th, .table td {
+	border-right: 1px solid #dee2e6;
+}
 /**/
 @media screen and (max-width:1500px){
 	#nav{
