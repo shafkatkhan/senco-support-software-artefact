@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('name', 'first_name');
+            $table->string('last_name')->after('first_name');
+
             // Add new columns
             $table->unsignedBigInteger('user_group_id')->after('id');
-            $table->string('username')->unique()->after('name');
+            $table->string('username')->unique()->after('last_name');
             $table->string('mobile')->after('username');
             $table->string('position')->nullable()->after('mobile');
             $table->integer('added_by')->nullable()->after('position');
@@ -35,6 +38,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             
+            $table->dropColumn('last_name');
+            $table->renameColumn('first_name', 'name');
+
             $table->dropColumn([
                 'user_group_id', 
                 'username', 

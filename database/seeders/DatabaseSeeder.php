@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
 
         // create admin user
         User::create([
-            'name' => 'Admin User',
+            'first_name' => 'Admin',
+            'last_name' => 'User',
             'username' => 'admin',
             'password' => bcrypt('password'),
             'user_group_id' => $adminGroup->id,
