@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserGroupController;
 use App\Models\UserGroup;
 
 Route::get('/laravel_welcome', function () {
@@ -37,9 +38,7 @@ Route::middleware('auth')->group(function () {
         return view('test_page', ['title' => 'Page 3']);
     })->name('page3');
 
-    Route::get('/user-groups', function () {
-        $user_groups = UserGroup::all();
-        return view('user_groups', ['title' => 'User Groups', 'user_groups' => $user_groups]);
-    })->name('user-groups.index');
+    Route::get('/user-groups', [UserGroupController::class, 'index'])->name('user-groups.index');
+    Route::post('/user-groups', [UserGroupController::class, 'store'])->name('user-groups.store');
 
 });
