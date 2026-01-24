@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'username' => 'admin',
             'password' => bcrypt('password'),
-            'group_id' => 1,
+            'user_group_id' => 1,
             'mobile' => '07777777777',
             'position' => 'Head Teacher',
             'joined_date' => now(),

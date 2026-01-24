@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Add new columns
-            $table->integer('group_id')->after('id');
+            $table->integer('user_group_id')->after('id');
             $table->string('username')->unique()->after('name');
             $table->string('mobile')->after('username');
             $table->string('position')->nullable()->after('mobile');
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             
             $table->dropColumn([
-                'group_id', 
+                'user_group_id', 
                 'username', 
                 'mobile', 
                 'position', 
