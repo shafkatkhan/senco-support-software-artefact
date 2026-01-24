@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Add new columns
-            $table->integer('user_group_id')->after('id');
+            $table->unsignedBigInteger('user_group_id')->after('id');
             $table->string('username')->unique()->after('name');
             $table->string('mobile')->after('username');
             $table->string('position')->nullable()->after('mobile');
