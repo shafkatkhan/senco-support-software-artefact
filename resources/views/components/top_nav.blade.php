@@ -1,5 +1,5 @@
 <section id="top_nav">
-    <div class="page_title">Test Form</div>
+    <div class="page_title">{{ $title ?? 'MySencoSupportSoftware' }}</div>
     <ul>
         <li class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

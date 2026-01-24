@@ -11,7 +11,8 @@ class TestFormController extends Controller
     public function index()
     {
         $test_rows = TestForm::orderBy('id', 'desc')->get();
-        return view('test_form', compact('test_rows'));
+        $title = 'Test Form';
+        return view('test_form', compact('test_rows', 'title'));
     }
 
     public function store(Request $request)

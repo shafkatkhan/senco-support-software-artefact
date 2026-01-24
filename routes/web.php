@@ -25,13 +25,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/test-form', [TestFormController::class, 'store']);
     
     Route::get('/page1', function () {
-        return view('test_page');
+        return view('test_page', ['title' => 'Page 1']);
     });
     Route::get('/page2', function () {
-        return view('test_page');
+        return view('test_page', ['title' => 'Page 2']);
     });
     Route::get('/page3', function () {
-        return view('test_page');
+        return view('test_page', ['title' => 'Page 3']);
+    });
     });
 
 });
