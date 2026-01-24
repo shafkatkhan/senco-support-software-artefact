@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestFormController;
+use App\Http\Controllers\LoginController;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -8,7 +9,9 @@ Route::get('/laravel_welcome', function () {
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
+
+Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/test-form', [TestFormController::class, 'index']);
 Route::post('/test-form', [TestFormController::class, 'store']);

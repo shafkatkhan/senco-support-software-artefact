@@ -17,18 +17,19 @@
             <div class="text">
                 <span>Welcome,</span> please login
             </div>
-            <form action="" method="POST">
+            <form id="loginForm">
+                @csrf
                 <div class="form-group">
-                    <input id="email" type="email" class="form-control" placeholder="Email address" name="email">
+                    <input id="username" type="text" class="form-control" placeholder="Username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <input id="password" type="password" class="form-control" placeholder="Password" name="password">
+                    <input id="password" type="password" class="form-control" placeholder="Password" name="password" required>
                 </div>
-                <button id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit" name="sign_in">Login</button>
+                <button id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form>
-            <div class="alert alert-danger alert-dismissible fade" role="alert">
-                Email address or password is incorrect. <strong style="font-weight:500;">Please try again.</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <div class="alert alert-danger alert-dismissible fade" role="alert" style="display:none;">
+                Username or password is incorrect. <strong style="font-weight:500;">Please try again.</strong>
+                <button type="button" class="close" onclick="$(this).parent().hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div> 
@@ -44,7 +45,38 @@
             </div>
         </div>
     </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script>
+$(document).ready(function(){
+    $('#loginForm').submit(function(e){
+        e.preventDefault();
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var _token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '{{ url('/login') }}',
+            type: 'POST',
+            data: {
+                username: username,
+                password: password,
+                _token: _token
+            },
+            success: function(response) {
+                if(response == 'success'){
+                    window.location.href = "{{ url('/') }}";
+                }
+            },
+            error: function() {
+                $('.alert').show().addClass('show');
+                setTimeout(function(){ 
+                    $('.alert').hide().removeClass('show');
+                }, 3000);
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
