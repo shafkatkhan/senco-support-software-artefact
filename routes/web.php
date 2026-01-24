@@ -12,6 +12,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/test-form', [TestFormController::class, 'index']);
 Route::post('/test-form', [TestFormController::class, 'store']);

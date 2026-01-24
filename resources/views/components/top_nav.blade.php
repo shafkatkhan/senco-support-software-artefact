@@ -2,7 +2,12 @@
     <div class="page_title">Test Form</div>
     <ul>
         <li class="logout">
-            <a href="#">Logout <i class="fas fa-power-off"></i></a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout <i class="fas fa-power-off"></i>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </li>
     </ul>
 </section>
