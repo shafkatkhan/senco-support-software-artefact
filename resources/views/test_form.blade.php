@@ -2,6 +2,9 @@
 
 @section('content')
     <section id="content">
+        <span style="font-size: 15px; font-family: 'Cabin', sans-serif;">
+            This page shows a test form. When uploaded with a basic interview asking for participant's name, current date, and current city, it transcribes and populates the table.
+        </span>
         <div class="select_audio_wrap">
             <form action="{{ route('test-form.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
