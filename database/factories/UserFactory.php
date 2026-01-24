@@ -24,9 +24,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'username' => fake()->unique()->userName(),
+            'user_group_id' => \App\Models\UserGroup::factory(), // Automatically create a group
+            'mobile' => fake()->phoneNumber(),
+            'position' => fake()->jobTitle(),
+            'joined_date' => fake()->date(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
