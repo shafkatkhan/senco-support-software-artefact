@@ -19,9 +19,18 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         // create groups
-        $adminGroup = UserGroup::create(['name' => 'Admin']);
-        UserGroup::create(['name' => 'Standard']);
-        UserGroup::create(['name' => 'Read-Only']);
+        $adminGroup = UserGroup::create([
+            'name' => 'Admin',
+            'description' => 'Full access to all system features.'
+        ]);
+        UserGroup::create([
+            'name' => 'Standard',
+            'description' => 'Regular access to standard features.'
+        ]);
+        UserGroup::create([
+            'name' => 'Read-Only',
+            'description' => 'Can view data but cannot make changes.'
+        ]);
 
         // create admin user
         User::create([

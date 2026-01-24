@@ -18,6 +18,7 @@ class UserGroupFactory extends Factory
     {
         return [
             'name' => fake()->unique()->jobTitle() . ' Group',
+            'description' => fake()->sentence(),
         ];
     }
 }
