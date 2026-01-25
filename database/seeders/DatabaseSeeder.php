@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             'user_group_id' => $adminGroup->id,
             'mobile' => '07777777777',
             'position' => 'Head Teacher',
+            'joined_date' => now(),
         ]);
 
         // create 10 standard users

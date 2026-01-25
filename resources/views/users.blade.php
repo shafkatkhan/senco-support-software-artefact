@@ -30,7 +30,7 @@
                             <td>{{ $user->mobile }}</td>
                             <td>{{ $user->position }}</td>
                             <td>{{ $user->addedBy ? $user->addedBy->first_name . ' ' . $user->addedBy->last_name : 'System' }}</td>
-                            <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                            <td>{{ $user->joined_date ? $user->joined_date->format('d/m/Y') : 'N/A' }}</td>
                             <td>{{ $user->expiry_date ? $user->expiry_date->format('d/m/Y') : 'N/A' }}</td>
                             <td>{{ $user->group ? $user->group->name : 'N/A' }}</td>
                             <td class="icon_wrap">
