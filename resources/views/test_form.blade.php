@@ -14,7 +14,7 @@
             </form>
         </div>
         <div class="table_wrap">
-            <table class="table table-striped">
+            <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>

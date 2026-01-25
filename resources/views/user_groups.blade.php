@@ -2,11 +2,11 @@
 
 @section('content')
     <section id="content">
-        <button type="button" class="new_button" data-toggle="modal" data-target="#new">
+        <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
 			Create User Group
 		</button>
         <div class="table_wrap">
-            <table class="table table-striped">
+            <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -22,8 +22,8 @@
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
                             <td class="icon_wrap">
-                                <button class="icon edit_icon" data-toggle="modal" data-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></button>
-                                <button class="icon delete_icon" data-toggle="modal" data-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     @endforeach
@@ -32,23 +32,21 @@
         </div>
     </section>
 
-    <div class="modal fade" id="new" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form action="{{ route('user-groups.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title">Create User Group</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h1 class="modal-title fs-5">Create User Group</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">            
-                        <div class="form-group">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
                             <label>User Group Name</label>
                             <input type="text" class="form-control" name="name" placeholder="User Group Name" required />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Description</label>
                             <input type="text" class="form-control" name="description" placeholder="Description" />
                         </div>
@@ -62,24 +60,23 @@
     </div>
     
     @include('components.delete_modal', ['type' => 'User Group'])
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form action="" method="post" id="editForm">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit User Group</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h1 class="modal-title fs-5">Edit User Group</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Name</label>
                             <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Description</label>
                             <input type="text" class="form-control" name="description" id="edit_description" placeholder="Description" />
                         </div>
