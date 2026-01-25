@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // create admin user
-        User::create([
+        $adminUser = User::create([
             'first_name' => 'Admin',
             'last_name' => 'User',
             'username' => 'admin',
@@ -48,11 +48,13 @@ class DatabaseSeeder extends Seeder
         // create 10 standard users
         User::factory(10)->create([
             'user_group_id' => $standardGroup->id,
+            'added_by' => $adminUser->id,
         ]);
 
         // create 10 read-only users
         User::factory(10)->create([
             'user_group_id' => $readOnlyGroup->id,
+            'added_by' => $adminUser->id,
         ]);
 
         // create test rows

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('username')->unique()->after('last_name');
             $table->string('mobile')->after('username');
             $table->string('position')->nullable()->after('mobile');
-            $table->integer('added_by')->nullable()->after('position');
+            $table->foreignId('added_by')->nullable()->after('position')->constrained('users')->nullOnDelete();
             $table->date('joined_date')->nullable()->after('added_by');
             $table->date('expiry_date')->nullable()->after('joined_date');
 

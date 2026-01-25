@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserGroup::class, 'user_group_id');
     }
+
+    public function addedBy()
+    {
+        return $this->belongsTo(User::class, 'added_by');
+    }
 }
