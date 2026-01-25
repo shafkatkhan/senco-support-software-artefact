@@ -89,3 +89,17 @@
 
     @include('components.delete_modal', ['type' => 'User Group'])
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).on('click', '.edit_icon', function () {
+            var url = $(this).data('url');
+            var name = $(this).data('name');
+            var description = $(this).data('description');
+
+            $('#editForm').attr('action', url);
+            $('#edit_name').val(name);
+            $('#edit_description').val(description);
+        });
+    </script>
+@endpush
