@@ -14,4 +14,10 @@ class UserController extends Controller
         $title = "Users";
         return view('users', compact('users', 'user_groups', 'title'));
     }
+
+    public function destroy($id)
+    {
+        User::destroy($id);
+        return back()->with('success', 'User Deleted Successfully!');
+    }
 }

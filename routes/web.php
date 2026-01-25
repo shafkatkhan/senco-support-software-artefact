@@ -40,5 +40,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::resource('users', UserController::class)->except(['create', 'show', 'edit', 'store', 'update']);
 });

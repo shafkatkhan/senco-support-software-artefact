@@ -37,7 +37,11 @@
                                 <button class="icon edit_icon">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button class="icon delete_icon">
+                                <button class="icon delete_icon" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#delete" 
+                                    data-url="{{ route('users.destroy', $user->id) }}" 
+                                    data-name="{{ $user->first_name }} {{ $user->last_name }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -47,4 +51,6 @@
             </table>
         </div>
     </section>
+
+    @include('components.delete_modal', ['type' => 'User'])
 @endsection
