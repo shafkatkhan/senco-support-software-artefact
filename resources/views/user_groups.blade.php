@@ -22,8 +22,8 @@
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
                             <td class="icon_wrap">
-                                <a class="icon edit_icon" href="#" data-toggle="modal" data-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></a>
-                                <a class="icon delete_icon" href="#" data-toggle="modal" data-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></a>
+                                <button class="icon edit_icon" data-toggle="modal" data-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon delete_icon" data-toggle="modal" data-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     @endforeach
