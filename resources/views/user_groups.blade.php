@@ -22,7 +22,7 @@
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
                             <td class="icon_wrap">
-                                <a class="icon edit_icon" href="#"><i class="fa fa-edit"></i></a>
+                                <a class="icon edit_icon" href="#" data-toggle="modal" data-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></a>
                                 <a class="icon delete_icon" href="#" data-toggle="modal" data-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></a>
                             </td>
                         </tr>
@@ -62,4 +62,34 @@
     </div>
     
     @include('components.delete_modal', ['type' => 'User Group'])
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form action="" method="post" id="editForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User Group</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" name="description" id="edit_description" placeholder="Description" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" name="save">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection

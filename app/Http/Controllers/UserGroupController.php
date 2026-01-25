@@ -29,6 +29,22 @@ class UserGroupController extends Controller
         return back()->with('success', 'User Group Created Successfully!');
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|max:255|unique:user_groups,name,' . $id,
+            'description' => 'nullable|string',
+        ]);
+
+        $user_group = UserGroup::findOrFail($id);
+        $user_group->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('success', 'User Group Updated Successfully!');
+    }
+
     public function destroy($id)
     {
         $user_group = UserGroup::findOrFail($id);

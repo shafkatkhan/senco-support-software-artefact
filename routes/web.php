@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/user-groups', [UserGroupController::class, 'index'])->name('user-groups.index');
     Route::post('/user-groups', [UserGroupController::class, 'store'])->name('user-groups.store');
+    Route::put('/user-groups/{id}', [UserGroupController::class, 'update'])->name('user-groups.update');
     Route::delete('/user-groups/{id}', [UserGroupController::class, 'destroy'])->name('user-groups.destroy');
 
 });
