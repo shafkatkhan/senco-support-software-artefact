@@ -11,7 +11,8 @@ class UserGroupController extends Controller
     public function index()
     {
         $user_groups = UserGroup::all();
-        return view('user_groups', ['title' => 'User Groups', 'user_groups' => $user_groups]);
+        $title = "User Groups";
+        return view('user_groups', compact('user_groups', 'title'));
     }
 
     public function store(Request $request)
