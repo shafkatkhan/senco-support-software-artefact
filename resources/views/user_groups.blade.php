@@ -43,8 +43,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>User Group Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="User Group Name" required />
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Name" required />
                         </div>
                         <div class="form-group mb-3">
                             <label>Description</label>
