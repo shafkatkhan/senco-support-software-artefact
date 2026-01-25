@@ -30,7 +30,6 @@ class UserFactory extends Factory
             'user_group_id' => \App\Models\UserGroup::factory(), // Automatically create a group
             'mobile' => fake()->phoneNumber(),
             'position' => fake()->jobTitle(),
-            'joined_date' => fake()->date(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

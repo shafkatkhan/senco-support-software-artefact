@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('mobile')->after('username');
             $table->string('position')->nullable()->after('mobile');
             $table->foreignId('added_by')->nullable()->after('position')->constrained('users')->nullOnDelete();
-            $table->date('joined_date')->nullable()->after('added_by');
-            $table->date('expiry_date')->nullable()->after('joined_date');
+            $table->date('expiry_date')->nullable()->after('added_by');
 
             // Drop unneeded default columns
             $table->dropColumn(['email', 'email_verified_at']);
@@ -47,7 +46,6 @@ return new class extends Migration
                 'mobile', 
                 'position', 
                 'added_by', 
-                'joined_date', 
                 'expiry_date'
             ]);
         });

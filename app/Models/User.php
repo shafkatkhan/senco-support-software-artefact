@@ -26,7 +26,6 @@ class User extends Authenticatable
         'mobile',
         'position',
         'added_by',
-        'joined_date',
         'expiry_date',
     ];
 
@@ -49,7 +48,6 @@ class User extends Authenticatable
     {
         return [
             'password' => 'hashed',
-            'joined_date' => 'date',
             'expiry_date' => 'date',
         ];
     }
