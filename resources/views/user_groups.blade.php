@@ -58,8 +58,6 @@
             </div>
         </div>
     </div>
-    
-    @include('components.delete_modal', ['type' => 'User Group'])
 
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -89,4 +87,5 @@
         </div>
     </div>
 
+    @include('components.delete_modal', ['type' => 'User Group'])
 @endsection
