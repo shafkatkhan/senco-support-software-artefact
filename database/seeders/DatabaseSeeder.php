@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'description' => 'Full access to all system features.'
         ]);
-        UserGroup::create([
+        $standardGroup = UserGroup::create([
             'name' => 'Standard',
             'description' => 'Regular access to standard features.'
         ]);
-        UserGroup::create([
+        $readOnlyGroup = UserGroup::create([
             'name' => 'Read-Only',
             'description' => 'Can view data but cannot make changes.'
         ]);
@@ -43,6 +43,16 @@ class DatabaseSeeder extends Seeder
             'mobile' => '07777777777',
             'position' => 'Head Teacher',
             'joined_date' => now(),
+        ]);
+
+        // create 10 standard users
+        User::factory(10)->create([
+            'user_group_id' => $standardGroup->id,
+        ]);
+
+        // create 10 read-only users
+        User::factory(10)->create([
+            'user_group_id' => $readOnlyGroup->id,
         ]);
 
         // create test rows
