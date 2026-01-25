@@ -12,6 +12,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,6 +21,10 @@
                             <th scope="row">{{ $user_group->id }}</th>
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
+                            <td class="icon_wrap">
+                                <a class="icon edit_icon" href="#"><i class="fa fa-edit"></i></a>
+                                <a class="icon delete_icon" href="#"><i class="fa fa-trash-alt"></i></a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

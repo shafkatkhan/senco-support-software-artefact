@@ -273,6 +273,28 @@ table tr:nth-of-type(odd){
 .table th, .table td {
 	border-right: 1px solid #dee2e6;
 }
+.icon_wrap{
+    display: flex;
+}
+.icon{
+    font-size: 15px;
+    margin-right: 12px;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon i{
+    color: #FFF;
+}
+.delete_icon{
+    background-color: #8a1212;
+}
+.edit_icon{
+    background-color: #12408a;
+}
 /**/
 @media screen and (max-width:1500px){
 	#nav{
