@@ -3,6 +3,7 @@
 use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
+use \App\Http\Controllers\UserController;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -39,4 +40,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 });

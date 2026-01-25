@@ -10,6 +10,7 @@
             <li><a href="{{ route('page2') }}" class="{{ request()->routeIs('page2') ? 'activenav' : '' }}">Page 2</a></li>
             <li><a href="{{ route('page3') }}" class="{{ request()->routeIs('page3') ? 'activenav' : '' }}">Page 3</a></li>
             <li><a href="{{ route('user-groups.index') }}" class="{{ request()->routeIs('user-groups.*') ? 'activenav' : '' }}">User Groups</a></li>
+            <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'activenav' : '' }}">Users</a></li>
         </div>
     </ul>
 </section>
