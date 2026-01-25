@@ -52,5 +52,73 @@
         </div>
     </section>
 
+    <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="{{ route('users.store') }}" method="post"> 
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Create User</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">            
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" name="first_name" placeholder="First Name" required />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Username</label>
+                                <input type="text" class="form-control" name="username" placeholder="Username" required />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Mobile</label>
+                                <input type="text" class="form-control" name="mobile" placeholder="Mobile" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Position</label>
+                                <input type="text" class="form-control" name="position" placeholder="Position" />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>User Group</label>
+                                <select class="form-control" name="user_group_id" required>
+                                    <option value="">Select Group</option>
+                                    @foreach($user_groups as $group)
+                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Joined Date</label>
+                                <input type="date" class="form-control" name="joined_date" value="{{ date('Y-m-d') }}" />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Expiry Date</label>
+                                <input type="date" class="form-control" name="expiry_date" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Password" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @include('components.delete_modal', ['type' => 'User'])
 @endsection
