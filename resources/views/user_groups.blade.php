@@ -23,7 +23,7 @@
                             <td>{{ $user_group->description }}</td>
                             <td class="icon_wrap">
                                 <a class="icon edit_icon" href="#"><i class="fa fa-edit"></i></a>
-                                <a class="icon delete_icon" href="#"><i class="fa fa-trash-alt"></i></a>
+                                <a class="icon delete_icon" href="#" data-toggle="modal" data-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -60,4 +60,6 @@
             </div>
         </div>
     </div>
+    
+    @include('components.delete_modal', ['type' => 'User Group'])
 @endsection

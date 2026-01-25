@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserGroup;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class UserGroupController extends Controller
 {
@@ -26,5 +27,20 @@ class UserGroupController extends Controller
         ]);
 
         return back()->with('success', 'User Group Created Successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $user_group = UserGroup::findOrFail($id);
+        
+        try {
+            $user_group->delete();
+            return back()->with('success', 'User Group Deleted Successfully!');
+        } catch (QueryException $e) {
+            if ($e->getCode() == "23000") { // error code for integrity constraint violation (foreign key constraint)
+                return back()->with('error', 'Cannot delete this group because users are assigned to it.');
+            }
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 }
