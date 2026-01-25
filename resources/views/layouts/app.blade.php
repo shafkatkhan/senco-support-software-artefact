@@ -25,5 +25,11 @@
         alert("{{ $errors->first() }}");
     </script>
 @endif
+
+@if(session('error'))
+    <script>
+        alert("{{ session('error') }}");
+    </script>
+@endif
 </body>
 </html>
