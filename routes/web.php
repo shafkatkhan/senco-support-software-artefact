@@ -3,7 +3,6 @@
 use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
-use App\Models\UserGroup;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -38,9 +37,6 @@ Route::middleware('auth')->group(function () {
         return view('test_page', ['title' => 'Page 3']);
     })->name('page3');
 
-    Route::get('/user-groups', [UserGroupController::class, 'index'])->name('user-groups.index');
-    Route::post('/user-groups', [UserGroupController::class, 'store'])->name('user-groups.store');
-    Route::put('/user-groups/{id}', [UserGroupController::class, 'update'])->name('user-groups.update');
-    Route::delete('/user-groups/{id}', [UserGroupController::class, 'destroy'])->name('user-groups.destroy');
+    Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 
 });
