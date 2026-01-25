@@ -39,7 +39,7 @@
                     @csrf
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">Create User Group</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">Save</button>
                     </div>
                 </form>
             </div>
@@ -69,7 +69,7 @@
                     @method('PUT')
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">Edit User Group</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">Update</button>
                     </div>
                 </form>
             </div>

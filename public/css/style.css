@@ -12,6 +12,9 @@ body{
 	background-color: #F4F6F9;
 	overflow: hidden;
 }
+*{
+	font-family: 'Cabin', sans-serif;
+}
 .top_alert{
     z-index: 6;
     position: fixed;
@@ -224,12 +227,12 @@ body{
     -webkit-transition: 0.1s all linear;
 }
 .modal-header{
-	background-color: #34A0E7 !important;
-    color: #FFF !important;
+	background-color: #4179a9;
+	color: #FFF !important;
 }
-.modal-header .close {
-    color: #FFF !important;
-    opacity: 0.8 !important;
+.btn-danger{
+	background-color: #951e1e;
+	border-color: #6f0a0a;
 }
 /**/
 table{
