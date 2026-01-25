@@ -286,15 +286,16 @@ table{
 	border-right: 1px solid #dee2e6;
 }
 .icon_wrap{
-    display: flex;
+    /* display: flex; */
+	width: 100px;
 }
 .icon{
     font-size: 15px;
-    margin-right: 12px;
+    margin-right: 5px;
     border-radius: 5px;
     width: 30px;
     height: 30px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 }
