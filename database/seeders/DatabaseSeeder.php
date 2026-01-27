@@ -8,6 +8,7 @@ use App\Models\TestForm;
 use App\Models\Pupil;
 use App\Models\Medication;
 use App\Models\PupilFamilyMember;
+use App\Models\Diagnosis;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -77,6 +78,12 @@ class DatabaseSeeder extends Seeder
 
             // assign primary family member
             $pupil->update(['primary_family_member_id' => $familyMembers->random()->id]);
+
+            // add diagnoses
+            $diagnosisCount = rand(0, 3);
+            if ($diagnosisCount > 0) {
+                Diagnosis::factory($diagnosisCount)->create(['pupil_id' => $pupil->id]);
+            }
         });
 
     }
