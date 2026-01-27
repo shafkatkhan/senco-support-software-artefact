@@ -36,4 +36,9 @@ class Pupil extends Model
     {
         return $this->hasMany(Medication::class);
     }
+
+    public function onboardedBy()
+    {
+        return $this->belongsTo(User::class, 'onboarded_by');
+    }
 }

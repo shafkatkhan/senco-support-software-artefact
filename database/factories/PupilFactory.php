@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pupil>
@@ -28,6 +29,7 @@ class PupilFactory extends Factory
             'country' => 'United Kingdom',
             'joined_date' => fake()->dateTimeBetween('-6 years', 'now')->format('Y-m-d'),
             'initial_tutor_group' => fake()->bothify('#?'),
+            'onboarded_by' => User::inRandomOrder()->first()->id ?? User::factory(),
             'smoking_history' => fake()->boolean(10),
             'drug_abuse_history' => fake()->boolean(5),
         ];

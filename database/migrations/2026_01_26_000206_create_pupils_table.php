@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('locality');
             $table->string('postcode');
             $table->string('country');
+            $table->foreignId('onboarded_by')->nullable()->constrained('users')->nullOnDelete();
             $table->date('joined_date');
             $table->string('initial_tutor_group');
             $table->boolean('smoking_history')->default(false);
