@@ -32,4 +32,8 @@ class Pupil extends Model
         'smoking_history' => 'boolean',
         'drug_abuse_history' => 'boolean',
     ];
+    public function medications()
+    {
+        return $this->hasMany(Medication::class);
+    }
 }
