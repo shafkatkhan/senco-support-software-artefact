@@ -89,13 +89,13 @@ class DatabaseSeeder extends Seeder
 
         // create accommodations
         $accommodations = [
-            ['name' => 'Extra Time', 'detail' => '25% extra time in examinations.'],
-            ['name' => 'Extended Formulae Sheet', 'detail' => 'Access to extended formulae sheet during maths exams.'],
-            ['name' => 'Reading Pen', 'detail' => 'Use of a reading pen for text support.'],
-            ['name' => 'Scribe', 'detail' => 'A scribe to write down answers dictated by the student.'],
-            ['name' => 'Reader', 'detail' => 'A reader to read examination questions.'],
-            ['name' => 'Disregard Spelling', 'detail' => 'Spelling and grammar errors are to be disregarded.'],
-            ['name' => 'Adjusted Examination Format', 'detail' => 'Exams provided in large print or modified layout.'],
+            ['name' => 'Extra Time', 'description' => '25% extra time in examinations.'],
+            ['name' => 'Extended Formulae Sheet', 'description' => 'Access to extended formulae sheet during maths exams.'],
+            ['name' => 'Reading Pen', 'description' => 'Use of a reading pen for text support.'],
+            ['name' => 'Scribe', 'description' => 'A scribe to write down answers dictated by the student.'],
+            ['name' => 'Reader', 'description' => 'A reader to read examination questions.'],
+            ['name' => 'Disregard Spelling', 'description' => 'Spelling and grammar errors are to be disregarded.'],
+            ['name' => 'Adjusted Examination Format', 'description' => 'Exams provided in large print or modified layout.'],
         ];
         foreach ($accommodations as $accommodation) {
             Accommodation::create($accommodation);
