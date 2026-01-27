@@ -51,4 +51,9 @@ class Pupil extends Model
     {
         return $this->belongsTo(PupilFamilyMember::class, 'primary_family_member_id');
     }
+
+    public function diagnoses()
+    {
+        return $this->hasMany(Diagnosis::class);
+    }
 }
