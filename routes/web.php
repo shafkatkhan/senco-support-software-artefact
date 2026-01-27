@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('users', UserController::class)->except(['create', 'edit']);
+    Route::resource('users', UserController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('pupils', PupilController::class)->except(['create', 'edit']);
 
