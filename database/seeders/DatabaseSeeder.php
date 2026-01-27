@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\UserGroup;
 use App\Models\TestForm;
+use App\Models\Pupil;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -59,5 +60,7 @@ class DatabaseSeeder extends Seeder
 
         // create test rows
         TestForm::factory(20)->create();
+
+        Pupil::factory(20)->create();
     }
 }
