@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('relation');
             $table->timestamps();
         });
+
+        Schema::table('pupils', function (Blueprint $table) {
+            $table->foreign('primary_family_member_id')->references('id')->on('pupil_family_members')->nullOnDelete();
+        });
     }
 
     /**
