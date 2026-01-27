@@ -368,8 +368,9 @@ table{
 	display: flex;
 	gap: 25px;
 	flex-wrap: wrap;
-	width: 100%;
-	margin-top: 100px;
+	width: 95%;
+	margin: 0 auto;
+	margin-top: 75px;
 }
 .pupils .pupil{
 	background-color: #FFF;

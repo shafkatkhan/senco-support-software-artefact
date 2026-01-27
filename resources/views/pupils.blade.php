@@ -2,11 +2,16 @@
 
 @section('content')
     <section id="content">
-        <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-			Onboard Pupil
-		</button>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: flex-end;">
+            <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
+                View More Information
+            </button>
+            <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+                Onboard Pupil
+            </button>
+        </div>
 
-        <div class="pupils">
+        <div id="pupilsGrid" class="pupils" style="display: none;">
             @foreach($pupils as $pupil)
                 <div class="pupil">
                     <div class="top">
@@ -133,5 +138,51 @@
                 </div>
             @endforeach
         </div>
-    </section>
+
+        <div id="pupilsTable" class="table_wrap">
+            <table class="table sen_table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($pupils as $pupil)
+                        <tr>
+                            <th scope="row">{{ $pupil->id }}</th>
+                            <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
+                            <td>{{ $pupil->dob->format('d/m/Y') }}</td>
+                            <td>{{ $pupil->gender }}</td>
+                            <td class="icon_wrap">
+                                <button class="icon edit_icon"><i class="fa fa-edit"></i></button>
+                                <button class="icon delete_icon"><i class="fa fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </section>    
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#toggleViewBtn').click(function() {
+                if ($('#pupilsTable').is(':visible')) {
+                    $('#pupilsTable').hide();
+                    $('#pupilsGrid').css('display', 'flex');
+                    $('#toggleViewBtn').text('View Less Information');
+                } else {
+                    $('#pupilsTable').show();
+                    $('#pupilsGrid').hide();
+                    $('#toggleViewBtn').text('View More Information');
+                }
+            });
+        });
+    </script>
+@endpush
