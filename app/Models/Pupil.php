@@ -21,7 +21,6 @@ class Pupil extends Model
         'country',
         'joined_date',
         'initial_tutor_group',
-        'medications',
         'smoking_history',
         'drug_abuse_history',
     ];

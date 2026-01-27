@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('country');
             $table->date('joined_date');
             $table->string('initial_tutor_group');
-            $table->text('medications')->nullable();
             $table->boolean('smoking_history')->default(false);
             $table->boolean('drug_abuse_history')->default(false);
             $table->timestamps();

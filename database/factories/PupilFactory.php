@@ -27,7 +27,6 @@ class PupilFactory extends Factory
             'country' => 'United Kingdom',
             'joined_date' => fake()->dateTimeBetween('-6 years', 'now')->format('Y-m-d'),
             'initial_tutor_group' => fake()->bothify('#?'),
-            'medications' => fake()->optional(0.3)->sentence(),
             'smoking_history' => fake()->boolean(10),
             'drug_abuse_history' => fake()->boolean(5),
         ];
