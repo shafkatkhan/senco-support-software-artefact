@@ -349,3 +349,136 @@ table{
 .select_audio_wrap button, .select_audio_wrap label, .select_audio_wrap input, .select_audio_wrap select{
 	font-family: 'Cabin', sans-serif;
 }
+/**/
+.label_cards{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.label_cards div{
+    padding: 12px 15px;
+    background-color: #eee;
+    font-weight: 500;
+}
+/**/
+.pupils{
+	display: flex;
+	gap: 25px;
+	flex-wrap: wrap;
+	width: 100%;
+	margin-top: 100px;
+}
+.pupils .pupil{
+	background-color: #FFF;
+	/* flex: 1 1 calc(50% - 12.5px); */
+	flex: 1 1 100%;
+	border-radius: 8px;
+	border: 1px solid #bfbfbf;
+}
+.pupils .pupil .top{
+	border-bottom: 1px solid #eee;
+	padding: 15px 25px;
+	color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.pupils .pupil .top .label{
+	font-family: 'Cabin', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+}
+.pupils .pupil .top .more_details{
+	font-family: 'Cabin', sans-serif;
+	padding: 8px 12px;
+	background-color: #5388b6;
+	color: #FFF;
+	margin-right: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+    cursor: pointer;
+    line-height: normal;
+    border-style: outset;
+    border-width: 2px;
+    border-color: buttonface;
+    color: white;
+}
+.pupils .pupil .top .more_details:active {
+    border-style: inset;
+}
+.pupils .pupil .bottom{
+	padding: 15px 25px;
+	padding-bottom: 0px;
+}
+.pupils .pupil hr{
+	border-color: #ccc;
+}
+.pupils .pupil .border_right-md {
+    border-right: 1px solid #eee;
+}
+@media (max-width: 768px) {
+    .pupils .pupil .border_right-md {
+        border-right: none;
+    }
+}
+.pupils .pupil .bottom .item{
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 15px;
+}
+.pupils .pupil .bottom .item .label_cards div{
+	padding: 5px 12px;
+}
+.pupils .pupil .bottom .item .label{
+	width: 160px;
+	font-weight: 500;
+}
+.pupils .pupil .bottom .item .value{
+	display: flex;
+	align-items: center;
+	color: #444;
+}
+.pupils .pupil .bottom .item .value.students div{
+	font-family: 'Cabin', sans-serif;
+}
+.pupils .pupil .bottom .item .value span{
+	font-family: 'Cabin', sans-serif;
+	font-weight: 600;
+}
+.pupils .pupil .bottom .item .label_cards{
+	margin-top: 0px;
+}
+.pupils .pupil .bottom .item .gap{
+	width: 20px;
+}
+.pupils .pupil .bottom .item i{
+	margin-right: 8px;
+}
+/**/
+.sen_icon_wrap{
+    display: flex;
+}
+.sen_icon{
+    font-size: 17px;
+    margin-right: 12px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	cursor: pointer;
+}
+.sen_icon i{
+    color: #FFF;
+}
+.sen_delete_icon{
+    background-color: #8a1212;
+}
+.sen_edit_icon{
+    background-color: #12408a;
+}
+/**/

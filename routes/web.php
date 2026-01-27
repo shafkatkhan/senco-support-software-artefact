@@ -4,6 +4,7 @@ use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\PupilController;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -41,4 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('users', UserController::class)->except(['create', 'edit']);
+
+    Route::resource('pupils', PupilController::class)->except(['create', 'edit']);
 });
