@@ -41,4 +41,9 @@ class Pupil extends Model
     {
         return $this->belongsTo(User::class, 'onboarded_by');
     }
+
+    public function familyMembers()
+    {
+        return $this->hasMany(PupilFamilyMember::class);
+    }
 }
