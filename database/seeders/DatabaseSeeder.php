@@ -7,6 +7,7 @@ use App\Models\UserGroup;
 use App\Models\TestForm;
 use App\Models\Pupil;
 use App\Models\Medication;
+use App\Models\PupilFamilyMember;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -62,12 +63,17 @@ class DatabaseSeeder extends Seeder
         // create test rows
         TestForm::factory(20)->create();
 
-        // create pupils with medications
+        // create pupils
         Pupil::factory(20)->create()->each(function ($pupil) {
+            // add medications
             $count = rand(0, 4);
             if ($count > 0) {
                 Medication::factory($count)->create(['pupil_id' => $pupil->id]);
             }
+            
+            // add family members
+            $familyCount = rand(1, 3);
+            PupilFamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
         });
 
     }
