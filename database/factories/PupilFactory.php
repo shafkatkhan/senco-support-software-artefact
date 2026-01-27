@@ -20,6 +20,7 @@ class PupilFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'dob' => fake()->dateTimeBetween('-16 years', '-10 years')->format('Y-m-d'),
+            'gender' => fake()->randomElement(['Male', 'Female', 'Other']),
             'address_line_1' => fake()->streetAddress(),
             'address_line_2' => fake()->secondaryAddress(),
             'locality' => fake()->city(),
