@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\PupilController;
+use \App\Http\Controllers\AccommodationController;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -44,4 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)->except(['create', 'edit']);
 
     Route::resource('pupils', PupilController::class)->except(['create', 'edit']);
+
+    Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 });
