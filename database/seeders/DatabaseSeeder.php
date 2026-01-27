@@ -9,6 +9,7 @@ use App\Models\Pupil;
 use App\Models\Medication;
 use App\Models\PupilFamilyMember;
 use App\Models\Diagnosis;
+use App\Models\Accommodation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -86,5 +87,18 @@ class DatabaseSeeder extends Seeder
             }
         });
 
+        // create accommodations
+        $accommodations = [
+            ['name' => 'Extra Time', 'detail' => '25% extra time in examinations.'],
+            ['name' => 'Extended Formulae Sheet', 'detail' => 'Access to extended formulae sheet during maths exams.'],
+            ['name' => 'Reading Pen', 'detail' => 'Use of a reading pen for text support.'],
+            ['name' => 'Scribe', 'detail' => 'A scribe to write down answers dictated by the student.'],
+            ['name' => 'Reader', 'detail' => 'A reader to read examination questions.'],
+            ['name' => 'Disregard Spelling', 'detail' => 'Spelling and grammar errors are to be disregarded.'],
+            ['name' => 'Adjusted Examination Format', 'detail' => 'Exams provided in large print or modified layout.'],
+        ];
+        foreach ($accommodations as $accommodation) {
+            Accommodation::create($accommodation);
+        }
     }
 }
