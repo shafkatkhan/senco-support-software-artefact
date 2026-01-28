@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\DB;
 class InstallController extends Controller
 {
     public function index() {
+        try {
+            // redirect to login if a user exists (ie. already installed)
+            if (\App\Models\User::exists()) {
+                return redirect(route('login'));
+            }
+        } catch (\Exception $e) {
+            // db not configured/migrated/seeded, continue to installation
+        }
         return view('install');
     }
 
