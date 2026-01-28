@@ -160,12 +160,10 @@ body{
 .content-full {
     width: 100% !important;
 }
-.pageTitle{
-	padding-bottom:15px;
-	font-family: 'Source Sans Pro', sans-serif;
-}
-.pageTitle span{
-	font-size: 21px;
+.section_title{
+	font-size: 22px;
+	display: flex;
+	align-items: center;
 }
 #top_nav{
 	width:calc(100% - 250px);
@@ -184,6 +182,7 @@ body{
     margin-left: 45px;
     font-size: 19px;
     font-weight: 500;
+	padding-right: 45px;
 }
 #top_nav .activenav{
 	color: #5a5a5a;
@@ -194,6 +193,10 @@ body{
 #top_nav ul{
 	padding: 0px;
 	margin: 0px;
+	flex-grow: 1;
+}
+#top_nav li:first-child{
+	border-left: 1px solid #ccc;
 }
 #top_nav li{
 	list-style: none;
@@ -257,8 +260,10 @@ table{
 .previous_icon {
     color: #333;
     font-size: 32px;
-    float: left;
-    margin-right: 8px;
+    margin-right: 15px;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
 }
 /**/
 .table{
@@ -468,6 +473,7 @@ table{
     font-size: 17px;
     margin-right: 12px;
     width: 40px;
+	height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

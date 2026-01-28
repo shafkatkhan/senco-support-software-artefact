@@ -38,7 +38,9 @@ class PupilController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pupil = Pupil::with('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->findOrFail($id);
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
+        return view('pupils.show', compact('pupil', 'title'));
     }
 
     /**

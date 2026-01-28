@@ -19,9 +19,9 @@
                             {{ $pupil->first_name }} {{ $pupil->last_name }}
                         </div>
                         <div class="sen_icon_wrap">
-                            <button class="more_details">
+                            <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details">
                                 More Details
-                            </button>
+                            </a>
                             <button class="sen_icon sen_edit_icon">
                                 <i class="far fa-edit"></i>
                             </button>
