@@ -4,7 +4,7 @@
     <section id="content">
         <div style="display: flex; justify-content: space-between;">
            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas fa-arrow-circle-left"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">

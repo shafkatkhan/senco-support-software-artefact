@@ -39,6 +39,9 @@ body{
 	display: flex;
 	transition: transform 0.3s ease-in-out;
 }
+[dir="rtl"] #nav{
+	float: right;
+}
 #nav ul{
 	padding:0px;
 	margin-bottom: 0px;
@@ -157,6 +160,9 @@ body{
 	overflow-y: scroll;
 	transition: width 0.3s ease-in-out;
 }
+[dir="rtl"] #content{
+	float: left;
+}
 .content-full {
     width: 100% !important;
 }
@@ -175,6 +181,9 @@ body{
 	justify-content: space-between;
 	align-items: center;
 	transition: width 0.3s ease-in-out;
+}
+[dir="rtl"] #top_nav{
+	float: left;
 }
 #top_nav .page_title{
 	color: #464646;
@@ -198,12 +207,22 @@ body{
 #top_nav li:first-child{
 	border-left: 1px solid #ccc;
 }
+[dir="rtl"] #top_nav li:first-child{
+	border-left: none;
+	border-right: 1px solid #ccc;
+}
 #top_nav li{
 	list-style: none;
 	float: left;
 }
+[dir="rtl"] #top_nav li{
+	float: right;
+}
 #top_nav li.logout{
 	float: right;
+}
+[dir="rtl"] #top_nav li.logout{
+	float: left;
 }
 #top_nav li.logout i{
 	padding-left: 4px;
@@ -264,6 +283,10 @@ table{
 	display: flex;
 	align-items: center;
 	text-decoration: none;
+}
+[dir="rtl"] .previous_icon{
+	margin-right: 0px;
+	margin-left: 15px;
 }
 /**/
 .table{
@@ -463,6 +486,10 @@ table{
 }
 .sen_cards .sen_card .bottom .item i{
 	margin-right: 8px;
+}
+[dir="rtl"] .sen_cards .sen_card .bottom .item i{
+	margin-left: 8px;
+	margin-right: 0px;
 }
 /**/
 .sen_icon_wrap{

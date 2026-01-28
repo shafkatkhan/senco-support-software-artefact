@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">
         <div class="section_title">
-            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas fa-arrow-circle-left"></i></a> Return back to pupils
+            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
         </div>
         <div class="sen_cards">
             <div class="sen_card" style="flex-grow: 1;">
