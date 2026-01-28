@@ -4,3 +4,7 @@ $(document).on('click', '.delete_icon', function () {
     $('#delete_modal_name').text(name);
     $('#deleteForm').attr('action', url);
 });
+
+$(document).ready(function() {
+    $('.new_button').addClass('button_styled');
+});
