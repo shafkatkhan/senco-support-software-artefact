@@ -39,6 +39,15 @@
                     <input type="text" class="form-control" name="app_url" placeholder="http://localhost" value="http://localhost" required>
                     <div class="form-text text-muted">The root URL where this application is hosted.</div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">System Language</label>
+                    <select class="form-select" name="app_locale" required>
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="ar">Arabic</option>
+                    </select>
+                    <div class="form-text text-muted">Select the default language for the application.</div>
+                </div>
                 <!--  -->
                 <div class="form-section-title">Database Configuration</div>
                 <div class="row mb-3">

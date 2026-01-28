@@ -34,6 +34,7 @@ class InstallController extends Controller
 
         $request->validate([
             'app_url' => 'required|url',
+            'app_locale' => 'required|in:en,fr,ar',
             'db_host' => 'required',
             'db_port' => 'required',
             'db_name' => 'required',
@@ -61,6 +62,7 @@ class InstallController extends Controller
             // update .env
             $this->updateEnv([
                 'APP_URL' => $request->app_url,
+                'APP_LOCALE' => $request->app_locale,
                 'DB_CONNECTION' => 'mysql',
                 'DB_HOST' => $request->db_host,
                 'DB_PORT' => $request->db_port,
