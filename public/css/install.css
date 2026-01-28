@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap');
+
+
+body, html{height:100%; width:100%;}
+body{
+	background-color: #F4F6F9;
+	overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+*{
+	font-family: 'Cabin', sans-serif;
+}
+
+.install-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 0px 12px -8px #555;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+}
+.card-header {
+    background-color: #3f7cae;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: none;
+}
+.card-header .title {
+    font-weight: 600;
+    margin: 0;
+    font-size: 24px;
+}
+.card-header .subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+}
+.card-body {
+    padding: 30px;
+}
+.form-section-title {
+    color: #3f7cae;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eef2f6;
+    font-size: 18px;
+    margin-top: 35px;
+}
+.btn-primary {
+    background-color: #3f7cae;
+    border-color: #3f7cae;
+    padding: 10px 24px;
+    font-weight: 500;
+}
+.btn-primary:hover {
+    background-color: #346b96;
+    border-color: #346b96;
+}
+.form-label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 14px;
+}
+.form-control, .form-select {
+    border-radius: 6px;
+    border-color: #e2e8f0;
+    padding: 10px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #3f7cae;
+    box-shadow: 0 0 0 3px rgba(63, 124, 174, 0.1);
+}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstallController;
 use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
@@ -13,6 +14,9 @@ use \App\Http\Controllers\FamilyMemberController;
 Route::get('/laravel_welcome', function () {
     return view('welcome');
 });
+
+Route::get('/install', [InstallController::class, 'index'])->name('install.index');
+Route::post('/install/process', [InstallController::class, 'process'])->name('install.process');
 
 Route::get('/login', function () {
     return view('login');
