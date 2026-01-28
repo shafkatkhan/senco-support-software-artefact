@@ -5,14 +5,22 @@
     "Accommodations": "التجهيزات",
     "User Groups": "مجموعات المستخدمين",
     "Users": "المستخدمون",
+    
     "Login": "تسجيل الدخول",
     "Logout": "تسجيل الخروج",
     "Dashboard": "لوحة القيادة",
+
     "Test": "اختبار",
+
     "Welcome,": "مرحبًا،",
     "please login": "الرجاء تسجيل الدخول",
     "Username": "اسم المستخدم",
     "Password": "كلمة المرور",
     "Username or password is incorrect.": "اسم المستخدم أو كلمة المرور غير صحيحة.",
-    "Please try again.": "حاول مرة اخرى."
+    "Please try again.": "حاول مرة اخرى.",
+
+    "Summary": "ملخص",
+    "Medications": "الأدوية",
+    "Diagnoses": "التشخيصات",
+    "Family Members": "أفراد العائلة"
 }
