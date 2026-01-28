@@ -24,7 +24,7 @@
                             {{ $medication->name }}
                         </div>
                         <div class="sen_icon_wrap">
-                            <button class="sen_icon sen_edit_icon edit_icon" 
+                            <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
                                 data-url="{{ route('medications.update', $medication->id) }}" 
@@ -41,7 +41,7 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button class="sen_icon sen_delete_icon delete_icon" 
+                            <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
                                 data-url="{{ route('medications.destroy', $medication->id) }}" 

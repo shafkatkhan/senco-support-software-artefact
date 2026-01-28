@@ -19,13 +19,13 @@
                             {{ $pupil->first_name }} {{ $pupil->last_name }}
                         </div>
                         <div class="sen_icon_wrap">
-                            <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details">
+                            <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details button_styled">
                                 More Details
                             </a>
-                            <button class="sen_icon sen_edit_icon">
+                            <button class="sen_icon sen_edit_icon button_styled">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button class="sen_icon sen_delete_icon">
+                            <button class="sen_icon sen_delete_icon button_styled">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </div>

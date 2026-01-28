@@ -408,16 +408,6 @@ table{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	text-decoration: none;
-    cursor: pointer;
-    line-height: normal;
-    border-style: outset;
-    border-width: 2px;
-    border-color: buttonface;
-    color: white;
-}
-.sen_cards .sen_card .top .more_details:active {
-    border-style: inset;
 }
 .sen_cards .sen_card .bottom{
 	padding: 15px 25px;
@@ -491,5 +481,18 @@ table{
 }
 .sen_edit_icon{
     background-color: #12408a;
+}
+/**/
+.button_styled{
+	text-decoration: none;
+	cursor: pointer;
+	line-height: normal;
+	border-style: outset;
+	border-width: 2px;
+	border-color: buttonface;
+    color: white;
+}
+.button_styled:active {
+    border-style: inset;
 }
 /**/

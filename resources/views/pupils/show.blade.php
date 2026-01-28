@@ -12,10 +12,10 @@
                         {{ $pupil->first_name }} {{ $pupil->last_name }}
                     </div>
                     <div class="sen_icon_wrap">
-                        <button class="sen_icon sen_edit_icon">
+                        <button class="sen_icon sen_edit_icon button_styled">
                             <i class="far fa-edit"></i>
                         </button>
-                        <button class="sen_icon sen_delete_icon">
+                        <button class="sen_icon sen_delete_icon button_styled">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
