@@ -369,7 +369,7 @@ table{
     font-weight: 500;
 }
 /**/
-.pupils{
+.sen_cards{
 	display: flex;
 	gap: 25px;
 	flex-wrap: wrap;
@@ -377,7 +377,7 @@ table{
 	margin: 0 auto;
 	margin-top: 75px;
 }
-.pupils .pupil{
+.sen_cards .sen_card{
 	background-color: #FFF;
 	flex: 0 1 calc(50% - 12.5px);
 	/* flex: 1 1 100%; */
@@ -385,7 +385,7 @@ table{
 	border: 1px solid #bfbfbf;
 	overflow: hidden;
 }
-.pupils .pupil .top{
+.sen_cards .sen_card .top{
 	border-bottom: 1px solid #eee;
 	padding: 15px 25px;
 	color: #333;
@@ -394,12 +394,12 @@ table{
 	justify-content: space-between;
 	border-top: 5px solid #4179a9;
 }
-.pupils .pupil .top .label{
+.sen_cards .sen_card .top .label{
 	font-family: 'Cabin', sans-serif;
 	font-size: 18px;
 	font-weight: 500;
 }
-.pupils .pupil .top .more_details{
+.sen_cards .sen_card .top .more_details{
 	font-family: 'Cabin', sans-serif;
 	padding: 8px 12px;
 	background-color: #5388b6;
@@ -416,57 +416,57 @@ table{
     border-color: buttonface;
     color: white;
 }
-.pupils .pupil .top .more_details:active {
+.sen_cards .sen_card .top .more_details:active {
     border-style: inset;
 }
-.pupils .pupil .bottom{
+.sen_cards .sen_card .bottom{
 	padding: 15px 25px;
 	padding-bottom: 0px;
 }
-.pupils .pupil hr{
+.sen_cards .sen_card hr{
 	border-color: #ccc;
 }
-.pupils .pupil .border_right-md {
+.sen_cards .sen_card .border_right-md {
     border-right: 1px solid #eee;
 }
 @media (max-width: 768px) {
-    .pupils .pupil .border_right-md {
+    .sen_cards .sen_card .border_right-md {
         border-right: none;
     }
 }
-.pupils .pupil .bottom .item{
+.sen_cards .sen_card .bottom .item{
 	display: flex;
 	align-items: flex-start;
 	margin-bottom: 15px;
 	flex-direction: column;
 }
-.pupils .pupil .bottom .item .label_cards div{
+.sen_cards .sen_card .bottom .item .label_cards div{
 	padding: 5px 12px;
 }
-.pupils .pupil .bottom .item .label{
+.sen_cards .sen_card .bottom .item .label{
 	/* width: 160px; */
 	font-weight: 500;
 	padding-bottom: 5px;
 }
-.pupils .pupil .bottom .item .value{
+.sen_cards .sen_card .bottom .item .value{
 	display: flex;
 	align-items: center;
 	color: #444;
 }
-.pupils .pupil .bottom .item .value.students div{
+.sen_cards .sen_card .bottom .item .value.students div{
 	font-family: 'Cabin', sans-serif;
 }
-.pupils .pupil .bottom .item .value span{
+.sen_cards .sen_card .bottom .item .value span{
 	font-family: 'Cabin', sans-serif;
 	font-weight: 600;
 }
-.pupils .pupil .bottom .item .label_cards{
+.sen_cards .sen_card .bottom .item .label_cards{
 	margin-top: 0px;
 }
-.pupils .pupil .bottom .item .gap{
+.sen_cards .sen_card .bottom .item .gap{
 	width: 20px;
 }
-.pupils .pupil .bottom .item i{
+.sen_cards .sen_card .bottom .item i{
 	margin-right: 8px;
 }
 /**/

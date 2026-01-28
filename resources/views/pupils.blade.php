@@ -11,9 +11,9 @@
             </button>
         </div>
 
-        <div id="pupilsGrid" class="pupils" style="display: none;">
+        <div id="pupilsGrid" class="sen_cards" style="display: none;">
             @foreach($pupils as $pupil)
-                <div class="pupil">
+                <div class="sen_card">
                     <div class="top">
                         <div class="label">
                             {{ $pupil->first_name }} {{ $pupil->last_name }}

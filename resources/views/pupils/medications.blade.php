@@ -16,9 +16,9 @@
             </div>            
         </div>
 
-        <div id="medicationsGrid" class="pupils" style="display: none;">
+        <div id="medicationsGrid" class="sen_cards" style="display: none;">
             @foreach($pupil->medications as $medication)
-                <div class="pupil">
+                <div class="sen_card">
                     <div class="top">
                         <div class="label">
                             {{ $medication->name }}

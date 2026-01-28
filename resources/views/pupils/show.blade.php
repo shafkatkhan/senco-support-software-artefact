@@ -5,8 +5,8 @@
         <div class="section_title">
             <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas fa-arrow-circle-left"></i></a> Return back to pupils
         </div>
-        <div class="pupils">
-            <div class="pupil" style="flex-grow: 1;">
+        <div class="sen_cards">
+            <div class="sen_card" style="flex-grow: 1;">
                 <div class="top">
                     <div class="label">
                         {{ $pupil->first_name }} {{ $pupil->last_name }}
