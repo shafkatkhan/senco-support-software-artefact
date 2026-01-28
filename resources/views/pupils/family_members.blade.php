@@ -37,6 +37,7 @@
                                 data-last_name="{{ $familyMember->last_name }}" 
                                 data-dob="{{ optional($familyMember->dob)->format('Y-m-d') }}"
                                 data-relation="{{ $familyMember->relation }}"
+                                data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -109,6 +110,7 @@
                                     data-last_name="{{ $familyMember->last_name }}" 
                                     data-dob="{{ optional($familyMember->dob)->format('Y-m-d') }}"
                                     data-relation="{{ $familyMember->relation }}"
+                                    data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -159,6 +161,14 @@
                                 <input type="date" class="form-control" name="dob">
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="new_next_of_kin">
+                                <label class="form-check-label" for="new_next_of_kin">
+                                    Next of Kin?
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -199,6 +209,14 @@
                                 <input type="date" class="form-control" name="dob" id="edit_dob">
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="edit_next_of_kin">
+                                <label class="form-check-label" for="edit_next_of_kin">
+                                    Next of Kin?
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -221,6 +239,9 @@
         $('#edit_last_name').val($(this).data('last_name'));
         $('#edit_dob').val($(this).data('dob'));
         $('#edit_relation').val($(this).data('relation'));
+
+        var isPrimary = $(this).data('is_primary');
+        $('#edit_next_of_kin').prop('checked', isPrimary == 1);
     });
 </script>
 @endpush

@@ -18,7 +18,11 @@ class FamilyMemberController extends Controller
             'relation' => 'string|max:255|nullable',
         ]);
 
-        FamilyMember::create($request->all());
+        $familyMember = FamilyMember::create($request->all());
+
+        if ($request->has('next_of_kin') && $request->next_of_kin) {
+            $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
+        }
 
         return back()->with('success', 'Family Member Added Successfully!');
     }
@@ -32,7 +36,16 @@ class FamilyMemberController extends Controller
             'relation' => 'string|max:255|nullable',
         ]);
 
-        FamilyMember::findOrFail($id)->update($request->all());
+        $familyMember = FamilyMember::findOrFail($id);
+        $familyMember->update($request->all());
+
+        if ($request->input('next_of_kin') == '1') {
+            // set as primary family member
+            $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
+        } elseif ($familyMember->pupil->primary_family_member_id == $familyMember->id) {
+            // unset as primary family member
+            $familyMember->pupil->update(['primary_family_member_id' => null]);
+        }
 
         return back()->with('success', 'Family Member Updated Successfully!');
     }
