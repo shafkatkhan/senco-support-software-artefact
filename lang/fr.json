@@ -5,4 +5,13 @@
     "Accommodations": "Aménagements",
     "User Groups": "Groupes d'utilisateurs",
     "Users": "Utilisateurs",
+    "Login": "Connexion",
+    "Logout": "Déconnexion",
+    "Dashboard": "Tableau de bord",
+    "Welcome,": "Bienvenue,",
+    "please login": "veuillez vous connecter",
+    "Username": "Nom d'utilisateur",
+    "Password": "Mot de passe",
+    "Username or password is incorrect.": "Nom d'utilisateur ou mot de passe incorrect.",
+    "Please try again.": "Veuillez réessayer."
 }

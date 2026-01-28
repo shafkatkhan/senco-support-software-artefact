@@ -15,20 +15,20 @@
         </div>
         <div class="login_form">
             <div class="text">
-                <span>Welcome,</span> please login
+                <span>{{ __('Welcome,') }}</span> {{ __('please login') }}
             </div>
             <form id="loginForm">
                 @csrf
                 <div class="form-group">
-                    <input id="username" type="text" class="form-control" placeholder="Username" name="username" required>
+                    <input id="username" type="text" class="form-control" placeholder="{{ __('Username') }}" name="username" required>
                 </div>
                 <div class="form-group">
-                    <input id="password" type="password" class="form-control" placeholder="Password" name="password" required>
+                    <input id="password" type="password" class="form-control" placeholder="{{ __('Password') }}" name="password" required>
                 </div>
-                <button id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                <button id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit">{{ __('Login') }}</button>
             </form>
             <div class="alert alert-danger alert-dismissible fade" role="alert" style="display:none;">
-                Username or password is incorrect. <strong style="font-weight:500;">Please try again.</strong>
+                {{ __('Username or password is incorrect.') }} <strong style="font-weight:500;">{{ __('Please try again.') }}</strong>
                 <button type="button" class="close" onclick="$(this).parent().hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
