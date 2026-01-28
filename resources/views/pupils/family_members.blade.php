@@ -55,7 +55,7 @@
                             <div class="item col-md-6 border_right-md">
                                 <div class="label">Relation:</div>
                                 <div class="value">
-                                    {{ $familyMember->relation }}
+                                    {{ $familyMember->relation ?? 'N/A' }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
