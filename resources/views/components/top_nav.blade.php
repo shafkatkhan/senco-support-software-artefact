@@ -5,6 +5,9 @@
             <li>
                 <a href="{{ route('pupils.show', $pupil->id) }}" class="{{ request()->routeIs('pupils.show') ? 'activenav' : '' }}">Summary</a>
             </li>
+            <li>
+                <a href="{{ route('pupils.medications', $pupil->id) }}" class="{{ request()->routeIs('pupils.medications') ? 'activenav' : '' }}">Medications</a>
+            </li>
         @endif
         <li class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

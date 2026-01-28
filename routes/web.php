@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)->except(['create', 'edit']);
 
     Route::get('/pupil-details/{id}/summary', [PupilController::class, 'show'])->name('pupils.show');
+    Route::get('/pupil-details/{id}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
