@@ -6,13 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use App\Models\User;
 
 class InstallController extends Controller
 {
     public function index() {
         try {
+            // check cache first
+            if (Cache::get('system_installed')) {
+                 return redirect(route('login'));
+            }
+
             // redirect to login if a user exists (ie. already installed)
-            if (\App\Models\User::exists()) {
+            if (User::exists()) {
+                // cache it for next time
+                Cache::forever('system_installed', true);
                 return redirect(route('login'));
             }
         } catch (\Exception $e) {
@@ -59,6 +68,9 @@ class InstallController extends Controller
                 'DB_USERNAME' => $request->db_username,
                 'DB_PASSWORD' => $request->db_password,
             ]);
+
+            // mark system as installed in cache
+            Cache::forever('system_installed', true);
 
             return redirect(route('login'))->with('success', 'Installation successful! Please login.');
 
