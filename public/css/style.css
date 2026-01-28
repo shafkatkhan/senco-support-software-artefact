@@ -379,10 +379,11 @@ table{
 }
 .pupils .pupil{
 	background-color: #FFF;
-	/* flex: 1 1 calc(50% - 12.5px); */
-	flex: 1 1 100%;
+	flex: 0 1 calc(50% - 12.5px);
+	/* flex: 1 1 100%; */
 	border-radius: 8px;
 	border: 1px solid #bfbfbf;
+	overflow: hidden;
 }
 .pupils .pupil .top{
 	border-bottom: 1px solid #eee;
@@ -391,6 +392,7 @@ table{
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	border-top: 5px solid #4179a9;
 }
 .pupils .pupil .top .label{
 	font-family: 'Cabin', sans-serif;
@@ -436,13 +438,15 @@ table{
 	display: flex;
 	align-items: flex-start;
 	margin-bottom: 15px;
+	flex-direction: column;
 }
 .pupils .pupil .bottom .item .label_cards div{
 	padding: 5px 12px;
 }
 .pupils .pupil .bottom .item .label{
-	width: 160px;
+	/* width: 160px; */
 	font-weight: 500;
+	padding-bottom: 5px;
 }
 .pupils .pupil .bottom .item .value{
 	display: flex;
