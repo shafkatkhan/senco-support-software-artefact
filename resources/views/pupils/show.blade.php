@@ -92,7 +92,7 @@
                         <div class="item col-md-6 border_right-md">
                             <div class="label">Next of Kin:</div>
                             <div class="value">
-                                {{ $pupil->primaryFamilyMember->first_name }} {{ $pupil->primaryFamilyMember->last_name }}
+                                {{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : 'N/A' }}
                             </div>
                         </div>
                         <div class="item col-md-6">
