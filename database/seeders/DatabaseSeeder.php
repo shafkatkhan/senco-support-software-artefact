@@ -74,7 +74,7 @@ class DatabaseSeeder extends Seeder
             }
             
             // add family members
-            $familyCount = rand(1, 3);
+            $familyCount = rand(3, 5);
             $familyMembers = FamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
 
             // assign primary family member
