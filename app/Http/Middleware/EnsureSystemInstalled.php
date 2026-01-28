@@ -37,7 +37,7 @@ class EnsureSystemInstalled
 
             return redirect()->route('install.index');
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // database not configured or migrated
             return redirect()->route('install.index');
         }
