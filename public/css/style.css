@@ -290,6 +290,9 @@ table{
 .table th, .table td {
 	border-right: 1px solid #dee2e6;
 }
+.primary_family_member, .primary_family_member td, .primary_family_member th{
+	background-color: #fffbec !important;
+}
 .icon_wrap{
     /* display: flex; */
 	width: 100px;
@@ -394,9 +397,12 @@ table{
 	border-top: 5px solid #4179a9;
 }
 .sen_cards .sen_card .top .label{
-	font-family: 'Cabin', sans-serif;
 	font-size: 18px;
 	font-weight: 500;
+}
+.sen_cards .sen_card .top .sub_label{
+	font-weight: 400;
+	font-size: 15px;
 }
 .sen_cards .sen_card .top .more_details{
 	font-family: 'Cabin', sans-serif;

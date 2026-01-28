@@ -18,10 +18,15 @@
 
         <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @foreach($pupil->familyMembers as $familyMember)
-                <div class="sen_card">
+                <div class="sen_card" @if($pupil->primary_family_member_id == $familyMember->id) style="background-color: #fffbec;" @endif>
                     <div class="top">
                         <div class="label">
                             {{ $familyMember->first_name }} {{ $familyMember->last_name }}
+                            @if ($pupil->primary_family_member_id == $familyMember->id)
+                                <div class="sub_label" style="color: #aa1b1b;font-weight:600;">
+                                    Next of Kin
+                                </div>
+                            @endif
                         </div>
                         <div class="sen_icon_wrap">
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
@@ -90,7 +95,7 @@
                 </thead>
                 <tbody>
                     @foreach($pupil->familyMembers as $familyMember)
-                        <tr>
+                        <tr @if($pupil->primary_family_member_id == $familyMember->id) class="primary_family_member" @endif>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
                             <td>{{ $familyMember->relation }}</td>
