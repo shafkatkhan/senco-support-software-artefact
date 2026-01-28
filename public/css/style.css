@@ -227,6 +227,10 @@ body{
 #top_nav li.logout i{
 	padding-left: 4px;
 }
+[dir="rtl"] #top_nav li.logout i{
+	padding-left: 0px;
+	padding-right: 4px;
+}
 #top_nav a{
 	padding: 16px 18px;
 	display: block;
