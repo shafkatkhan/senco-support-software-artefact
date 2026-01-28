@@ -46,9 +46,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/pupil-details/{id}/summary', [PupilController::class, 'show'])->name('pupils.show');
     Route::get('/pupil-details/{id}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
+    Route::get('/pupil-details/{id}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('medications', \App\Http\Controllers\MedicationController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('diagnoses', \App\Http\Controllers\DiagnosisController::class)->only(['store', 'update', 'destroy']);
 });

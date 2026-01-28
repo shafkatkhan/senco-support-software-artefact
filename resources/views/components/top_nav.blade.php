@@ -8,6 +8,9 @@
             <li>
                 <a href="{{ route('pupils.medications', $pupil->id) }}" class="{{ request()->routeIs('pupils.medications') ? 'activenav' : '' }}">Medications</a>
             </li>
+            <li>
+                <a href="{{ route('pupils.diagnoses', $pupil->id) }}" class="{{ request()->routeIs('pupils.diagnoses') ? 'activenav' : '' }}">Diagnoses</a>
+            </li>
         @endif
         <li class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
