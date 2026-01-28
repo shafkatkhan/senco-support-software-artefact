@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pupil_family_members', function (Blueprint $table) {
+        Schema::create('family_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pupil_id')->constrained()->cascadeOnDelete();
             $table->string('first_name');
@@ -22,7 +22,7 @@ return new class extends Migration
         });
 
         Schema::table('pupils', function (Blueprint $table) {
-            $table->foreign('primary_family_member_id')->references('id')->on('pupil_family_members')->nullOnDelete();
+            $table->foreign('primary_family_member_id')->references('id')->on('family_members')->nullOnDelete();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pupil_family_members');
+        Schema::dropIfExists('family_members');
     }
 };

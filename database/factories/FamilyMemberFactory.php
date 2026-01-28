@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Pupil;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PupilFamilyMember>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FamilyMember>
  */
-class PupilFamilyMemberFactory extends Factory
+class FamilyMemberFactory extends Factory
 {
     /**
      * Define the model's default state.

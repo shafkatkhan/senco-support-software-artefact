@@ -44,12 +44,12 @@ class Pupil extends Model
 
     public function familyMembers()
     {
-        return $this->hasMany(PupilFamilyMember::class);
+        return $this->hasMany(FamilyMember::class);
     }
 
     public function primaryFamilyMember()
     {
-        return $this->belongsTo(PupilFamilyMember::class, 'primary_family_member_id');
+        return $this->belongsTo(FamilyMember::class, 'primary_family_member_id');
     }
 
     public function diagnoses()

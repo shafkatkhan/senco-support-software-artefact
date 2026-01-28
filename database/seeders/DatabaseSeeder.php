@@ -7,7 +7,7 @@ use App\Models\UserGroup;
 use App\Models\TestForm;
 use App\Models\Pupil;
 use App\Models\Medication;
-use App\Models\PupilFamilyMember;
+use App\Models\FamilyMember;
 use App\Models\Diagnosis;
 use App\Models\Accommodation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             
             // add family members
             $familyCount = rand(1, 3);
-            $familyMembers = PupilFamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
+            $familyMembers = FamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
 
             // assign primary family member
             $pupil->update(['primary_family_member_id' => $familyMembers->random()->id]);
