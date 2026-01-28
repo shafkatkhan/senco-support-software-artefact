@@ -16,7 +16,7 @@
             </div>            
         </div>
 
-        <div id="medicationsGrid" class="sen_cards" style="display: none;">
+        <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @foreach($pupil->medications as $medication)
                 <div class="sen_card">
                     <div class="top">
@@ -131,7 +131,7 @@
             @endforeach
         </div>
 
-        <div id="medicationsTable" class="table_wrap">
+        <div id="toggleViewTable" class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -352,20 +352,6 @@
         
         var selfAdmin = $(this).data('self_administer');
         $('#edit_self_administer').prop('checked', selfAdmin == 1);
-    });
-
-    $(document).ready(function() {
-        $('#toggleViewBtn').click(function() {
-            if ($('#medicationsTable').is(':visible')) {
-                $('#medicationsTable').hide();
-                $('#medicationsGrid').css('display', 'flex');
-                $('#toggleViewBtn').text('Toggle Table View');
-            } else {
-                $('#medicationsTable').show();
-                $('#medicationsGrid').hide();
-                $('#toggleViewBtn').text('Toggle Card View');
-            }
-        });
     });
 </script>
 @endpush

@@ -16,7 +16,7 @@
             </div>            
         </div>
 
-        <div id="familyMembersGrid" class="sen_cards" style="display: none;">
+        <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @foreach($pupil->familyMembers as $familyMember)
                 <div class="sen_card">
                     <div class="top">
@@ -77,7 +77,7 @@
             @endforeach
         </div>
 
-        <div id="familyMembersTable" class="table_wrap">
+        <div id="toggleViewTable" class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -216,20 +216,6 @@
         $('#edit_last_name').val($(this).data('last_name'));
         $('#edit_dob').val($(this).data('dob'));
         $('#edit_relation').val($(this).data('relation'));
-    });
-
-    $(document).ready(function() {
-        $('#toggleViewBtn').click(function() {
-            if ($('#familyMembersTable').is(':visible')) {
-                $('#familyMembersTable').hide();
-                $('#familyMembersGrid').css('display', 'flex');
-                $('#toggleViewBtn').text('Toggle Table View');
-            } else {
-                $('#familyMembersTable').show();
-                $('#familyMembersGrid').hide();
-                $('#toggleViewBtn').text('Toggle Card View');
-            }
-        });
     });
 </script>
 @endpush

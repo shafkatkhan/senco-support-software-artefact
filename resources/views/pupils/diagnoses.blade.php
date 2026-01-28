@@ -16,7 +16,7 @@
             </div>            
         </div>
 
-        <div id="diagnosesGrid" class="sen_cards" style="display: none;">
+        <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @foreach($pupil->diagnoses as $diagnosis)
                 <div class="sen_card">
                     <div class="top">
@@ -92,7 +92,7 @@
             @endforeach
         </div>
 
-        <div id="diagnosesTable" class="table_wrap">
+        <div id="toggleViewTable" class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -241,20 +241,6 @@
         $('#edit_carried_out_by').val($(this).data('carried_out_by'));
         $('#edit_description').val($(this).data('description'));
         $('#edit_recommendations').val($(this).data('recommendations'));
-    });
-
-    $(document).ready(function() {
-        $('#toggleViewBtn').click(function() {
-            if ($('#diagnosesTable').is(':visible')) {
-                $('#diagnosesTable').hide();
-                $('#diagnosesGrid').css('display', 'flex');
-                $('#toggleViewBtn').text('Toggle Table View');
-            } else {
-                $('#diagnosesTable').show();
-                $('#diagnosesGrid').hide();
-                $('#toggleViewBtn').text('Toggle Card View');
-            }
-        });
     });
 </script>
 @endpush
