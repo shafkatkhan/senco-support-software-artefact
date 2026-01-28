@@ -57,6 +57,13 @@ class PupilController extends Controller
         return view('pupils.diagnoses', compact('pupil', 'title'));
     }
 
+    public function familyMembers(string $id)
+    {
+        $pupil = Pupil::with('familyMembers')->findOrFail($id);
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
+        return view('pupils.family_members', compact('pupil', 'title'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

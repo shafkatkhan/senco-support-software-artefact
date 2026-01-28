@@ -6,6 +6,9 @@ use App\Http\Controllers\UserGroupController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\PupilController;
 use \App\Http\Controllers\AccommodationController;
+use \App\Http\Controllers\MedicationController;
+use \App\Http\Controllers\DiagnosisController;
+use \App\Http\Controllers\FamilyMemberController;
 
 Route::get('/laravel_welcome', function () {
     return view('welcome');
@@ -47,11 +50,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{id}/summary', [PupilController::class, 'show'])->name('pupils.show');
     Route::get('/pupil-details/{id}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::get('/pupil-details/{id}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
+    Route::get('/pupil-details/{id}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('medications', \App\Http\Controllers\MedicationController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
 
-    Route::resource('diagnoses', \App\Http\Controllers\DiagnosisController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
 });

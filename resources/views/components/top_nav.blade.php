@@ -11,6 +11,9 @@
             <li>
                 <a href="{{ route('pupils.diagnoses', $pupil->id) }}" class="{{ request()->routeIs('pupils.diagnoses') ? 'activenav' : '' }}">Diagnoses</a>
             </li>
+            <li>
+                <a href="{{ route('pupils.family_members', $pupil->id) }}" class="{{ request()->routeIs('pupils.family_members') ? 'activenav' : '' }}">Family Members</a>
+            </li>
         @endif
         <li class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

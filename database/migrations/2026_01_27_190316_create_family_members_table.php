@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('pupil_id')->constrained()->cascadeOnDelete();
             $table->string('first_name');
             $table->string('last_name');
-            $table->date('dob');
-            $table->string('relation');
+            $table->date('dob')->nullable();
+            $table->string('relation')->nullable();
             $table->timestamps();
         });
 
