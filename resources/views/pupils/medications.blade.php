@@ -6,11 +6,132 @@
            <div class="section_title">
                 <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas fa-arrow-circle-left"></i></a> Return back to pupils
             </div>
-            <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                Add New Medication
-            </button> 
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
+                    Toggle Card View
+                </button>
+                <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+                    Add New Medication
+                </button> 
+            </div>            
         </div>
-        <div class="table_wrap">
+
+        <div id="medicationsGrid" class="pupils" style="display: none;">
+            @foreach($pupil->medications as $medication)
+                <div class="pupil">
+                    <div class="top">
+                        <div class="label">
+                            {{ $medication->name }}
+                        </div>
+                        <div class="sen_icon_wrap">
+                            <button class="sen_icon sen_edit_icon edit_icon" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#edit" 
+                                data-url="{{ route('medications.update', $medication->id) }}" 
+                                data-name="{{ $medication->name }}" 
+                                data-dosage="{{ $medication->dosage }}" 
+                                data-frequency="{{ $medication->frequency }}"
+                                data-time_of_day="{{ $medication->time_of_day }}"
+                                data-administration_method="{{ $medication->administration_method }}"
+                                data-start_date="{{ $medication->start_date->format('Y-m-d') }}"
+                                data-end_date="{{ $medication->end_date ? $medication->end_date->format('Y-m-d') : '' }}"
+                                data-expiry_date="{{ $medication->expiry_date ? $medication->expiry_date->format('Y-m-d') : '' }}"
+                                data-storage_instructions="{{ $medication->storage_instructions }}"
+                                data-self_administer="{{ $medication->self_administer }}"
+                            >
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="sen_icon sen_delete_icon delete_icon" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#delete" 
+                                data-url="{{ route('medications.destroy', $medication->id) }}" 
+                                data-name="{{ $medication->name }}"
+                            >
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="row">
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Dosage:</div>
+                                <div class="value">
+                                    {{ $medication->dosage }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Frequency:</div>
+                                <div class="value">
+                                    {{ $medication->frequency }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Time of Day:</div>
+                                <div class="value">
+                                    {{ $medication->time_of_day }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Administration Method:</div>
+                                <div class="value">
+                                    {{ $medication->administration_method }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Start Date:</div>
+                                <div class="value">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ $medication->start_date->format('d/m/Y') }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">End Date:</div>
+                                <div class="value">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ $medication->end_date ? $medication->end_date->format('d/m/Y') : 'N/A'}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Expiry Date:</div>
+                                <div class="value">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Self Adminster?</div>
+                                <div class="value">
+                                    {{ $medication->self_adminster ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-12">
+                                <div class="label">Storage Instructions:</div>
+                                <div class="value">
+                                    {{ $medication->storage_instructions ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-12">
+                                <div class="label">Last Edited:</div>
+                                <div class="value">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ $medication->updated_at->format('d/m/Y') }}
+                                    <div class="gap"></div>
+                                    <i class="far fa-clock"></i>
+                                    {{ $medication->updated_at->format('H:i') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div id="medicationsTable" class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -231,6 +352,20 @@
         
         var selfAdmin = $(this).data('self_administer');
         $('#edit_self_administer').prop('checked', selfAdmin == 1);
+    });
+
+    $(document).ready(function() {
+        $('#toggleViewBtn').click(function() {
+            if ($('#medicationsTable').is(':visible')) {
+                $('#medicationsTable').hide();
+                $('#medicationsGrid').css('display', 'flex');
+                $('#toggleViewBtn').text('Toggle Table View');
+            } else {
+                $('#medicationsTable').show();
+                $('#medicationsGrid').hide();
+                $('#toggleViewBtn').text('Toggle Card View');
+            }
+        });
     });
 </script>
 @endpush
