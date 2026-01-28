@@ -49,4 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
+
+    Route::resource('medications', \App\Http\Controllers\MedicationController::class)->only(['store', 'update', 'destroy']);
 });

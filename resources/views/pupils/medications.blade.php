@@ -43,8 +43,31 @@
                             <td>{{ $medication->storage_instructions }}</td>
                             <td>{{ $medication->self_administer ? 'Yes' : 'No' }}</td>
                             <td class="icon_wrap">
-                                <button class="icon edit_icon"><i class="fa fa-edit"></i></button>
-                                <button class="icon delete_icon"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon edit_icon" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#edit" 
+                                    data-url="{{ route('medications.update', $medication->id) }}" 
+                                    data-name="{{ $medication->name }}" 
+                                    data-dosage="{{ $medication->dosage }}" 
+                                    data-frequency="{{ $medication->frequency }}"
+                                    data-time_of_day="{{ $medication->time_of_day }}"
+                                    data-administration_method="{{ $medication->administration_method }}"
+                                    data-start_date="{{ $medication->start_date->format('Y-m-d') }}"
+                                    data-end_date="{{ $medication->end_date ? $medication->end_date->format('Y-m-d') : '' }}"
+                                    data-expiry_date="{{ $medication->expiry_date ? $medication->expiry_date->format('Y-m-d') : '' }}"
+                                    data-storage_instructions="{{ $medication->storage_instructions }}"
+                                    data-self_administer="{{ $medication->self_administer }}"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="icon delete_icon" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#delete" 
+                                    data-url="{{ route('medications.destroy', $medication->id) }}" 
+                                    data-name="{{ $medication->name }}"
+                                >
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -52,4 +75,162 @@
             </table>
         </div>
     </section>
+
+    <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Add New Medication</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('medications.store') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label>Name*</label>
+                            <input type="text" class="form-control" name="name" required placeholder="Medication Name">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Dosage</label>
+                                <input type="text" class="form-control" name="dosage" placeholder="e.g. 50mg">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Frequency*</label>
+                                <input type="text" class="form-control" name="frequency" required placeholder="e.g. Twice Daily, As Needed">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Time of Day</label>
+                                <input type="text" class="form-control" name="time_of_day" placeholder="e.g. Morning, Night, 1:30pm">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Method</label>
+                                <input type="text" class="form-control" name="administration_method" placeholder="e.g. Oral, Injection">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Start Date*</label>
+                                <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-d') }}" required>
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>End Date</label>
+                                <input type="date" class="form-control" name="end_date">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Expiry Date</label>
+                                <input type="date" class="form-control" name="expiry_date">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Storage Instructions</label>
+                            <textarea class="form-control" name="storage_instructions" rows="2"></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="hidden" name="self_administer" value="0">
+                            <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="create_self_administer">
+                            <label class="form-check-label" for="create_self_administer">Self Administer?</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Edit Medication</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm" method="post">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                         <div class="form-group mb-3">
+                            <label>Name*</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Dosage</label>
+                                <input type="text" class="form-control" name="dosage" id="edit_dosage">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Frequency*</label>
+                                <input type="text" class="form-control" name="frequency" id="edit_frequency" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Time of Day</label>
+                                <input type="text" class="form-control" name="time_of_day" id="edit_time_of_day">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Method</label>
+                                <input type="text" class="form-control" name="administration_method" id="edit_administration_method">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Start Date*</label>
+                                <input type="date" class="form-control" name="start_date" id="edit_start_date" required>
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>End Date</label>
+                                <input type="date" class="form-control" name="end_date" id="edit_end_date">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Expiry Date</label>
+                                <input type="date" class="form-control" name="expiry_date" id="edit_expiry_date">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Storage Instructions</label>
+                            <textarea class="form-control" name="storage_instructions" id="edit_storage_instructions" rows="2"></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="hidden" name="self_administer" value="0">
+                            <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="edit_self_administer">
+                            <label class="form-check-label" for="edit_self_administer">Self Administer?</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @include('components.delete_modal', ['type' => 'Medication'])
 @endsection
+
+@push('scripts')
+<script>
+    $(document).on('click', '.edit_icon', function () {
+        var url = $(this).data('url');
+        $('#editForm').attr('action', url);
+        
+        $('#edit_name').val($(this).data('name'));
+        $('#edit_dosage').val($(this).data('dosage'));
+        $('#edit_frequency').val($(this).data('frequency'));
+        $('#edit_time_of_day').val($(this).data('time_of_day'));
+        $('#edit_administration_method').val($(this).data('administration_method'));
+        $('#edit_start_date').val($(this).data('start_date'));
+        $('#edit_end_date').val($(this).data('end_date'));
+        $('#edit_expiry_date').val($(this).data('expiry_date'));
+        $('#edit_storage_instructions').val($(this).data('storage_instructions'));
+        
+        var selfAdmin = $(this).data('self_administer');
+        $('#edit_self_administer').prop('checked', selfAdmin == 1);
+    });
+</script>
+@endpush
