@@ -123,4 +123,12 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Language Direction Configuration
+    |--------------------------------------------------------------------------
+    */
+    
+    'language_direction' => env('APP_LANGUAGE_DIRECTION', 'ltr'),
+
 ];

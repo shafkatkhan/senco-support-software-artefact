@@ -46,6 +46,17 @@
                 @csrf
                 <input type="hidden" name="app_locale" value="{{ $locale }}">
                 
+                <div class="form-section-title">Language Direction</div>
+                <div class="row mb-3 align-items-center">
+                    <label class="col-sm-3 col-form-label">Direction</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="app_direction"required>
+                            <option value="ltr" {{ $app_direction == 'ltr' ? 'selected' : '' }}>Left-to-Right (LTR)</option>
+                            <option value="rtl" {{ $app_direction == 'rtl' ? 'selected' : '' }}>Right-to-Left (RTL)</option>
+                        </select>
+                    </div>
+                </div>
+                
                 @foreach($translation_schema as $group => $keys)
                     <div class="form-section-title">{{ $group }}</div>
                     

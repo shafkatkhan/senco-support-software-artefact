@@ -158,19 +158,22 @@ class InstallController extends Controller
 
         $locale = env('APP_LOCALE');
         $locale_name = Cache::get('locale_name', $locale); // fallback to locale code if name isn't found
+        $app_direction = in_array($locale, ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
 
         $translation_schema = config('translations.groups');
         
         return view('lang_setup', [
             'translation_schema' => $translation_schema,
             'locale' => $locale,
-            'locale_name' => $locale_name
+            'locale_name' => $locale_name,
+            'app_direction' => $app_direction
         ]);
     }
 
     public function lang_setup(Request $request) {
         $request->validate([
             'app_locale' => 'required',
+            'app_direction' => 'required|in:ltr,rtl',
             'translations' => 'required|array',
         ]);
 
@@ -186,6 +189,11 @@ class InstallController extends Controller
             // create the lang json file
             $json_path = base_path("lang/{$locale}.json");
             File::put($json_path, json_encode($processed_translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+            // update .env direction
+            $this->updateEnv([
+                'APP_LANGUAGE_DIRECTION' => $request->app_direction,
+            ]);
 
             // mark system as fully installed in cache once translations are done
             Cache::forever('system_installed', true);
