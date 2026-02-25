@@ -152,8 +152,13 @@ class InstallController extends Controller
     }
 
     public function lang_setup_view(Request $request) {
-        if(!Cache::get('lang_setup_pending')){
-            return redirect(route('login'));
+        try {
+            if(!Cache::get('lang_setup_pending')){
+                return redirect()->back()->with('error', 'Error: language has already been setup.');
+            }
+        } catch (\Exception $e) {
+            // db not configured/migrated/seeded, continue to installation
+            return redirect(route('install.index'));
         }
 
         $locale = env('APP_LOCALE');
