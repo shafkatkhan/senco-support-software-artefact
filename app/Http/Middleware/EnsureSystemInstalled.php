@@ -28,6 +28,11 @@ class EnsureSystemInstalled
                 return $next($request);
             }
 
+            // check if language setup is pending
+            if(Cache::get('lang_setup_pending')) {
+                return redirect(route('install.lang_setup_view'));
+            }
+
             // verify against DB if not in cache
             if (User::exists()) {
                 // cache it for next time

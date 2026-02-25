@@ -21,6 +21,8 @@ Route::get('/laravel_welcome', function () {
 
 Route::get('/install', [InstallController::class, 'index'])->name('install.index');
 Route::post('/install/process', [InstallController::class, 'process'])->name('install.process');
+Route::get('/install/lang_setup', [InstallController::class, 'lang_setup_view'])->name('install.lang_setup_view');
+Route::post('/install/lang_setup', [InstallController::class, 'lang_setup'])->name('install.lang_setup');
 
 Route::get('/login', function () {
     return view('login');
