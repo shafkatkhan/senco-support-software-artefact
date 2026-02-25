@@ -162,11 +162,58 @@ class InstallController extends Controller
 
         $translation_schema = config('translations.groups');
         
+        // LLM Translation
+        
+        $english_labels = [];
+        foreach ($translation_schema as $group => $keys) {
+            $english_labels = array_merge($english_labels, $keys);
+        }
+
+        $apiKey = env('MISTRAL_API_KEY');
+        $auto_translations = [];
+
+        if ($apiKey && !empty($english_labels)) {
+            $payload = [
+                "model" => "mistral-small-latest",
+                "response_format" => ["type" => "json_object"],
+                "messages" => [
+                    [
+                        "role" => "system",
+                        "content" =>
+                            "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". " .
+                            "Do not change or omit any of the original english keys."
+                    ],
+                    [
+                        "role" => "user",
+                        "content" => json_encode($english_labels)
+                    ]
+                ]
+            ];
+
+            try {
+                $response = \Illuminate\Support\Facades\Http::withToken($apiKey)
+                    ->timeout(30)
+                    ->post('https://api.mistral.ai/v1/chat/completions', $payload);
+
+                if ($response->successful()) {
+                    $result = $response->json();
+                    $rawContent = $result["choices"][0]["message"]["content"] ?? "{}";
+                    $clean = preg_replace('/^```json\s*|\s*```$/i', '', trim($rawContent));
+                    $auto_translations = json_decode($clean, true) ?: [];
+                }
+            } catch (\Exception $e) {
+                // silently fail and fallback to empty boxes if the API drops
+            }
+        }
+
+        // end LLM Translation
+        
         return view('lang_setup', [
             'translation_schema' => $translation_schema,
             'locale' => $locale,
             'locale_name' => $locale_name,
-            'app_direction' => $app_direction
+            'app_direction' => $app_direction,
+            'auto_translations' => $auto_translations
         ]);
     }
 

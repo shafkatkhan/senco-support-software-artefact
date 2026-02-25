@@ -64,7 +64,7 @@
                         <div class="row mb-3 align-items-center">
                             <label class="col-sm-3 col-form-label">{{ $english_label }}</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" required>
+                                <input type="text" class="form-control" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" value="{{ $auto_translations[$english_label] ?? '' }}" required>
                             </div>
                         </div>
                     @endforeach
