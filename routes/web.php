@@ -11,6 +11,10 @@ use \App\Http\Controllers\MedicationController;
 use \App\Http\Controllers\DiagnosisController;
 use \App\Http\Controllers\FamilyMemberController;
 
+Route::get('/debug-session', function () {
+    return response()->json(session()->all());
+});
+
 Route::get('/laravel_welcome', function () {
     return view('welcome');
 });
