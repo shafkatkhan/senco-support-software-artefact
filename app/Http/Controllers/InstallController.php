@@ -15,7 +15,7 @@ class InstallController extends Controller
         try {
             // check cache first
             if (Cache::get('system_installed')) {
-                 return redirect(route('login'));
+                return redirect()->back()->with('error', 'Error: system has already been installed.');
             }
 
             // redirect to login if a user exists (ie. already installed)
@@ -25,7 +25,7 @@ class InstallController extends Controller
                 }else{
                     // cache it for next time
                     Cache::forever('system_installed', true);
-                    return redirect(route('login'));
+                    return redirect()->back()->with('error', 'Error: system has already been installed.');
                 }
             }
         } catch (\Exception $e) {
