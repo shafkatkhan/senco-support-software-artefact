@@ -170,6 +170,7 @@ class InstallController extends Controller
                 'DB_USERNAME' => $request->db_username,
                 'DB_PASSWORD' => $request->db_password,
             ]);
+            Artisan::call('config:clear');
 
             return redirect(route('install.lang_setup_view'))->with('success', 'Database installed successfully! Please configure language translations.');
 
@@ -252,7 +253,7 @@ class InstallController extends Controller
             $this->updateEnv([
                 'APP_LANGUAGE_DIRECTION' => $request->app_direction,
             ]);
-            
+            Artisan::call('config:clear');
 
             // mark system as fully installed in cache once translations are done
             Cache::forever('system_installed', true);
