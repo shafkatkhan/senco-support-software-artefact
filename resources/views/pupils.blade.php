@@ -168,21 +168,3 @@
         </div>
     </section>    
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#toggleViewBtn').click(function() {
-                if ($('#pupilsTable').is(':visible')) {
-                    $('#pupilsTable').hide();
-                    $('#pupilsGrid').css('display', 'flex');
-                    $('#toggleViewBtn').text('View Less Information');
-                } else {
-                    $('#pupilsTable').show();
-                    $('#pupilsGrid').hide();
-                    $('#toggleViewBtn').text('View More Information');
-                }
-            });
-        });
-    </script>
-@endpush

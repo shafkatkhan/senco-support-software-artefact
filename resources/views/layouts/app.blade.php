@@ -12,6 +12,25 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     @endif
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+    <script>
+        (function() {
+            var view_preference = localStorage.getItem('sen_view_preference') || 'card';
+            document.documentElement.classList.add('view-pref-' + view_preference);
+        })();
+    </script>
+    <style>
+        html.view-pref-card #toggleViewTable, 
+        html.view-pref-card #pupilsTable { display: none !important; }
+        
+        html.view-pref-card #toggleViewGrid, 
+        html.view-pref-card #pupilsGrid { display: flex !important; }
+
+        html.view-pref-table #toggleViewTable, 
+        html.view-pref-table #pupilsTable { display: block !important; }
+        
+        html.view-pref-table #toggleViewGrid, 
+        html.view-pref-table #pupilsGrid { display: none !important; }
+    </style>
 </head>
 <body>
 
