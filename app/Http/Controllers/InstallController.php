@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use App\Models\User;
 
 class InstallController extends Controller
@@ -106,58 +107,64 @@ class InstallController extends Controller
 
             $locale_name = $languages[$request->app_locale] ?? $request->app_locale;
 
+            // bypass translation setup and mark system as installed if locale is english
+            $english_language = Str::startsWith($request->app_locale, 'en');
+            if ($english_language) {
+                Cache::forever('system_installed', true); 
+            }else{
             #
-            
-            // LLM Translation
-            $translation_schema = config('translations.groups');
-            $english_labels = [];
-            foreach ($translation_schema as $group => $keys) {
-                $english_labels = array_merge($english_labels, $keys);
-            }
-
-            $apiKey = config('services.mistral.key');
-            $auto_translations = [];
-
-            if ($apiKey && !empty($english_labels)) {
-                $payload = [
-                    "model" => "mistral-small-latest",
-                    "response_format" => ["type" => "json_object"],
-                    "messages" => [
-                        [
-                            "role" => "system",
-                            "content" =>
-                                "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". " .
-                                "Do not change or omit any of the original english keys."
-                        ],
-                        [
-                            "role" => "user",
-                            "content" => json_encode($english_labels)
-                        ]
-                    ]
-                ];
-
-                try {
-                    $response = \Illuminate\Support\Facades\Http::withToken($apiKey)
-                        ->timeout(30)
-                        ->post('https://api.mistral.ai/v1/chat/completions', $payload);
-
-                    if ($response->successful()) {
-                        $result = $response->json();
-                        $rawContent = $result["choices"][0]["message"]["content"] ?? "{}";
-                        $clean = preg_replace('/^```json\s*|\s*```$/i', '', trim($rawContent));
-                        $auto_translations = json_decode($clean, true) ?: [];
-                    }
-                } catch (\Exception $e) {
-                    // silently fail and fallback to empty boxes if the API drops
+                // LLM Translation
+                $translation_schema = config('translations.groups');
+                $english_labels = [];
+                foreach ($translation_schema as $group => $keys) {
+                    $english_labels = array_merge($english_labels, $keys);
                 }
-            }
-            // ---------------------------------------------
 
-            Cache::forever('auto_translations', $auto_translations);
+                $apiKey = config('services.mistral.key');
+                $auto_translations = [];
+
+                if ($apiKey && !empty($english_labels)) {
+                    $payload = [
+                        "model" => "mistral-small-latest",
+                        "response_format" => ["type" => "json_object"],
+                        "messages" => [
+                            [
+                                "role" => "system",
+                                "content" =>
+                                    "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". " .
+                                    "Do not change or omit any of the original english keys."
+                            ],
+                            [
+                                "role" => "user",
+                                "content" => json_encode($english_labels)
+                            ]
+                        ]
+                    ];
+
+                    try {
+                        $response = \Illuminate\Support\Facades\Http::withToken($apiKey)
+                            ->timeout(30)
+                            ->post('https://api.mistral.ai/v1/chat/completions', $payload);
+
+                        if ($response->successful()) {
+                            $result = $response->json();
+                            $rawContent = $result["choices"][0]["message"]["content"] ?? "{}";
+                            $clean = preg_replace('/^```json\s*|\s*```$/i', '', trim($rawContent));
+                            $auto_translations = json_decode($clean, true) ?: [];
+                        }
+                    } catch (\Exception $e) {
+                        // silently fail and fallback to empty boxes if the API drops
+                    }
+                }
+                // ---------------------------------------------
+
+                Cache::forever('auto_translations', $auto_translations);
+            
             #
             
-            Cache::forever('locale_name', $locale_name);
-            Cache::forever('lang_setup_pending', true);
+                Cache::forever('locale_name', $locale_name);
+                Cache::forever('lang_setup_pending', true);
+            }
 
             // update .env (triggers artisan serve restart)
             $this->updateEnv([
@@ -170,7 +177,16 @@ class InstallController extends Controller
                 'DB_USERNAME' => $request->db_username,
                 'DB_PASSWORD' => $request->db_password,
             ]);
+            if ($english_language) {
+                $this->updateEnv([
+                    'APP_LANGUAGE_DIRECTION' => 'ltr',
+                ]);
+            }
             Artisan::call('config:clear');
+
+            if ($english_language) {
+                return redirect(route('login'))->with('success', 'Installation successful! Please login.');
+            }
 
             return redirect(route('install.lang_setup_view'))->with('success', 'Database installed successfully! Please configure language translations.');
 
