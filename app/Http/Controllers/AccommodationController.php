@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class AccommodationController extends Controller
 {
@@ -26,24 +27,25 @@ class AccommodationController extends Controller
         return back()->with('success', 'Accommodation Created Successfully!');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Accommodation $accommodation)
     {
         $request->validate([
-            'name' => 'required|max:255|unique:accommodations,name,' . $id,
+            'name' => 'required|max:255|unique:accommodations,name,' . $accommodation->id,
             'detail' => 'nullable|string',
         ]);
 
-        $accommodation = Accommodation::findOrFail($id);
         $accommodation->update($request->all());
 
         return back()->with('success', 'Accommodation Updated Successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Accommodation $accommodation)
     {
-        $accommodation = Accommodation::findOrFail($id);
-        $accommodation->delete();
-
-        return back()->with('success', 'Accommodation Deleted Successfully!');
+        try {
+            $accommodation->delete();
+            return back()->with('success', 'Accommodation Deleted Successfully!');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 }

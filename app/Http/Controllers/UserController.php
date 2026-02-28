@@ -7,6 +7,7 @@ use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Database\QueryException;
 
 class UserController extends Controller
 {
@@ -18,9 +19,8 @@ class UserController extends Controller
         return view('users', compact('users', 'user_groups', 'title'));
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
         return response()->json($user);
     }
 
@@ -54,10 +54,8 @@ class UserController extends Controller
         return back()->with('success', 'User Created Successfully!');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -90,9 +88,13 @@ class UserController extends Controller
         return back()->with('success', 'User Updated Successfully!');
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        User::destroy($id);
-        return back()->with('success', 'User Deleted Successfully!');
+        try {
+            $user->delete();
+            return back()->with('success', 'User Deleted Successfully!');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 }

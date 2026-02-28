@@ -29,7 +29,7 @@ class MedicationController extends Controller
         return back()->with('success', 'Medication Added Successfully!');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Medication $medication)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -44,15 +44,13 @@ class MedicationController extends Controller
             'self_administer' => 'boolean',
         ]);
 
-        Medication::findOrFail($id)->update($request->all());
+        $medication->update($request->all());
 
         return back()->with('success', 'Medication Updated Successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Medication $medication)
     {
-        $medication = Medication::findOrFail($id);
-        
         try {
             $medication->delete();
             return back()->with('success', 'Medication Deleted Successfully!');

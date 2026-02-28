@@ -27,7 +27,7 @@ class FamilyMemberController extends Controller
         return back()->with('success', 'Family Member Added Successfully!');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, FamilyMember $family_member)
     {
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -36,26 +36,23 @@ class FamilyMemberController extends Controller
             'relation' => 'string|max:255|nullable',
         ]);
 
-        $familyMember = FamilyMember::findOrFail($id);
-        $familyMember->update($request->all());
+        $family_member->update($request->all());
 
         if ($request->input('next_of_kin') == '1') {
             // set as primary family member
-            $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
-        } elseif ($familyMember->pupil->primary_family_member_id == $familyMember->id) {
+            $family_member->pupil->update(['primary_family_member_id' => $family_member->id]);
+        } elseif ($family_member->pupil->primary_family_member_id == $family_member->id) {
             // unset as primary family member
-            $familyMember->pupil->update(['primary_family_member_id' => null]);
+            $family_member->pupil->update(['primary_family_member_id' => null]);
         }
 
         return back()->with('success', 'Family Member Updated Successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(FamilyMember $family_member)
     {
-        $familyMember = FamilyMember::findOrFail($id);
-        
         try {
-            $familyMember->delete();
+            $family_member->delete();
             return back()->with('success', 'Family Member Deleted Successfully!');
         } catch (QueryException $e) {
             return back()->with('error', 'Something went wrong.');

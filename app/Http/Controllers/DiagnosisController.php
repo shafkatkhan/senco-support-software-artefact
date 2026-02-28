@@ -24,7 +24,7 @@ class DiagnosisController extends Controller
         return back()->with('success', 'Diagnosis Added Successfully!');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Diagnosis $diagnosis)
     {
         $request->validate([
             'date' => 'nullable|date',
@@ -34,15 +34,13 @@ class DiagnosisController extends Controller
             'recommendations' => 'nullable|string',
         ]);
 
-        Diagnosis::findOrFail($id)->update($request->all());
+        $diagnosis->update($request->all());
 
         return back()->with('success', 'Diagnosis Updated Successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Diagnosis $diagnosis)
     {
-        $diagnosis = Diagnosis::findOrFail($id);
-        
         try {
             $diagnosis->delete();
             return back()->with('success', 'Diagnosis Deleted Successfully!');
