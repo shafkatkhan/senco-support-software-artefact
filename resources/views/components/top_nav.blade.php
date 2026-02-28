@@ -12,6 +12,9 @@
                 <a href="{{ route('pupils.diagnoses', $pupil->id) }}" class="{{ request()->routeIs('pupils.diagnoses') ? 'activenav' : '' }}">{{ __('Diagnoses') }}</a>
             </li>
             <li>
+                <a href="{{ route('pupils.accommodations', $pupil->id) }}" class="{{ request()->routeIs('pupils.accommodations') ? 'activenav' : '' }}">{{ __('Accommodations') }}</a>
+            </li>
+            <li>
                 <a href="{{ route('pupils.family_members', $pupil->id) }}" class="{{ request()->routeIs('pupils.family_members') ? 'activenav' : '' }}">{{ __('Family Members') }}</a>
             </li>
         @endif

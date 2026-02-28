@@ -10,6 +10,7 @@ use \App\Http\Controllers\AccommodationController;
 use \App\Http\Controllers\MedicationController;
 use \App\Http\Controllers\DiagnosisController;
 use \App\Http\Controllers\FamilyMemberController;
+use \App\Http\Controllers\PupilAccommodationController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -60,7 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{id}/summary', [PupilController::class, 'show'])->name('pupils.show');
     Route::get('/pupil-details/{id}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::get('/pupil-details/{id}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
+    Route::get('/pupil-details/{id}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{id}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
+
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
@@ -70,4 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
+
+    Route::post('/pupils/{pupil}/accommodations', [PupilAccommodationController::class, 'store'])->name('pupils.accommodations.store');
+    Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');
 });
