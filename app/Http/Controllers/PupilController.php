@@ -37,30 +37,30 @@ class PupilController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Pupil $pupil)
     {
-        $pupil = Pupil::with('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->findOrFail($id);
+        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
         return view('pupils.show', compact('pupil', 'title'));
     }
 
-    public function medications(string $id)
+    public function medications(Pupil $pupil)
     {
-        $pupil = Pupil::with('medications')->findOrFail($id);
+        $pupil->load('medications');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Medications";
         return view('pupils.medications', compact('pupil', 'title'));
     }
 
-    public function diagnoses(string $id)
+    public function diagnoses(Pupil $pupil)
     {
-        $pupil = Pupil::with('diagnoses')->findOrFail($id);
+        $pupil->load('diagnoses');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
         return view('pupils.diagnoses', compact('pupil', 'title'));
     }
 
-    public function accommodations(string $id)
+    public function accommodations(Pupil $pupil)
     {
-        $pupil = Pupil::with('accommodations')->findOrFail($id);
+        $pupil->load('accommodations');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Accommodations";
         
         // get accommodations the pupil doesn't already have
@@ -70,9 +70,9 @@ class PupilController extends Controller
         return view('pupils.accommodations', compact('pupil', 'title', 'availableAccommodations'));
     }
 
-    public function familyMembers(string $id)
+    public function familyMembers(Pupil $pupil)
     {
-        $pupil = Pupil::with('familyMembers')->findOrFail($id);
+        $pupil->load('familyMembers');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
         return view('pupils.family_members', compact('pupil', 'title'));
     }
