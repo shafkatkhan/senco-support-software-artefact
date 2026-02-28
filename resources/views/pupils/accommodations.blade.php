@@ -123,5 +123,5 @@
         </div>
     </div>
 
-    @include('components.delete_modal', ['type' => 'Accommodation'])
+    @include('components.delete_modal', ['type' => 'Accommodation', 'action' => 'Remove'])
 @endsection
