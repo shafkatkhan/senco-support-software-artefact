@@ -151,7 +151,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pupils as $pupil)
+                    @forelse($pupils as $pupil)
                         <tr>
                             <th scope="row">{{ $pupil->id }}</th>
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
@@ -162,7 +162,11 @@
                                 <button class="icon delete_icon"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="empty_table_message">No pupils found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

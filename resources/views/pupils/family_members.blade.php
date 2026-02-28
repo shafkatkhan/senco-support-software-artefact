@@ -95,7 +95,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pupil->familyMembers as $familyMember)
+                    @forelse($pupil->familyMembers as $familyMember)
                         <tr @if($pupil->primary_family_member_id == $familyMember->id) class="primary_family_member" @endif>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
@@ -124,7 +124,11 @@
                                 </button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

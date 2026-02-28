@@ -150,7 +150,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pupil->medications as $medication)
+                    @forelse($pupil->medications as $medication)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $medication->name }}</td>
@@ -191,7 +191,11 @@
                                 </button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="12" class="empty_table_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

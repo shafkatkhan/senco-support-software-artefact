@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($accommodations as $accommodation)
+                    @forelse($accommodations as $accommodation)
                         <tr>
                             <th scope="row">{{ $accommodation->id }}</th>
                             <td>{{ $accommodation->name }}</td>
@@ -26,7 +26,11 @@
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('accommodations.destroy', $accommodation->id) }}" data-name="{{ $accommodation->name }}"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4" class="empty_table_message">No accommodations found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

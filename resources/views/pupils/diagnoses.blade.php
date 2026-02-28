@@ -106,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pupil->diagnoses as $diagnosis)
+                    @forelse($pupil->diagnoses as $diagnosis)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diagnosis->name }}</td>
@@ -137,7 +137,11 @@
                                 </button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="7" class="empty_table_message">No diagnoses found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
