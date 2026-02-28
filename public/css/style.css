@@ -532,3 +532,13 @@ table{
     border-style: inset;
 }
 /**/
+.empty_grid_message {
+    width: 100%;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #fafafa;
+    border: 2px dashed #d2d2d2;
+    border-radius: 8px;
+    color: #687078;
+    font-size: 18px;
+}

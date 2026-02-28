@@ -12,7 +12,7 @@
         </div>
 
         <div id="pupilsGrid" class="sen_cards" style="display: none;">
-            @foreach($pupils as $pupil)
+            @forelse($pupils as $pupil)
                 <div class="sen_card">
                     <div class="top">
                         <div class="label">
@@ -136,7 +136,9 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="empty_grid_message">No pupils found.</div>
+            @endforelse
         </div>
 
         <div id="pupilsTable" class="table_wrap">

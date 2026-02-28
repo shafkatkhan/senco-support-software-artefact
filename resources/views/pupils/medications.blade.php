@@ -17,7 +17,7 @@
         </div>
 
         <div id="toggleViewGrid" class="sen_cards" style="display: none;">
-            @foreach($pupil->medications as $medication)
+            @forelse($pupil->medications as $medication)
                 <div class="sen_card">
                     <div class="top">
                         <div class="label">
@@ -128,7 +128,9 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="empty_grid_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+            @endforelse
         </div>
 
         <div id="toggleViewTable" class="table_wrap">

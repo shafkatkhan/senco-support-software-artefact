@@ -17,7 +17,7 @@
         </div>
 
         <div id="toggleViewGrid" class="sen_cards" style="display: none;">
-            @foreach($pupil->familyMembers as $familyMember)
+            @forelse($pupil->familyMembers as $familyMember)
                 <div class="sen_card" @if($pupil->primary_family_member_id == $familyMember->id) style="background-color: #fffbec;" @endif>
                     <div class="top">
                         <div class="label">
@@ -80,7 +80,9 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="empty_grid_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+            @endforelse
         </div>
 
         <div id="toggleViewTable" class="table_wrap">
