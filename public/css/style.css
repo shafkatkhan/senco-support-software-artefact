@@ -188,10 +188,9 @@ body{
 #top_nav .page_title{
 	color: #464646;
     font-family: 'Raleway', sans-serif;
-    margin-left: 45px;
     font-size: 19px;
     font-weight: 500;
-	padding-right: 45px;
+	padding: 0px 30px;
 }
 #top_nav .activenav{
 	color: #5a5a5a;
@@ -232,7 +231,7 @@ body{
 	padding-right: 4px;
 }
 #top_nav a{
-	padding: 16px 18px;
+	padding: 16px 10px;
 	display: block;
 	color: #616161;
 	font-family: 'Raleway', sans-serif;
