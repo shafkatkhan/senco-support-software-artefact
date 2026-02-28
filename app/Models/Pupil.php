@@ -56,4 +56,9 @@ class Pupil extends Model
     {
         return $this->hasMany(Diagnosis::class);
     }
+
+    public function accommodations()
+    {
+        return $this->belongsToMany(Accommodation::class, 'pupil_accommodations');
+    }
 }
