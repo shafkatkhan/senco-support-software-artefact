@@ -97,8 +97,19 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Disregard Spelling', 'description' => 'Spelling and grammar errors are to be disregarded.'],
             ['name' => 'Adjusted Examination Format', 'description' => 'Exams provided in large print or modified layout.'],
         ];
+        
+        $createdAccommodations = collect();
         foreach ($accommodations as $accommodation) {
-            Accommodation::create($accommodation);
+            $createdAccommodations->push(Accommodation::create($accommodation));
         }
+
+        // assign accommodations to pupils
+        Pupil::all()->each(function ($pupil) use ($createdAccommodations) {
+            $count = rand(0, 3);
+            if ($count > 0) {
+                $randomAccommodations = $createdAccommodations->random($count)->pluck('id');
+                $pupil->accommodations()->sync($randomAccommodations);
+            }
+        });
     }
 }
