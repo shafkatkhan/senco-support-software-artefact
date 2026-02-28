@@ -19,6 +19,13 @@ $(document).ready(function() {
         applyViewPreference();
     });
 
+    $('#toggleNavBtn').click(function(e) {
+        e.preventDefault();
+        $('html').toggleClass('nav-hidden');
+        var isHidden = $('html').hasClass('nav-hidden');
+        localStorage.setItem('sen_nav_hidden', isHidden);
+    });
+
     function applyViewPreference() {
         var pref = localStorage.getItem('sen_view_preference') || 'card';
         

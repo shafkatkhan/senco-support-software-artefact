@@ -16,6 +16,11 @@
         (function() {
             var view_preference = localStorage.getItem('sen_view_preference') || 'card';
             document.documentElement.classList.add('view-pref-' + view_preference);
+
+            var nav_hidden = localStorage.getItem('sen_nav_hidden');
+            if (nav_hidden == 'true') {
+                document.documentElement.classList.add('nav-hidden');
+            }
         })();
     </script>
     <style>

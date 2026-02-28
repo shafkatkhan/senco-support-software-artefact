@@ -1,5 +1,8 @@
 <section id="top_nav">
-    <div class="page_title">{{ $title ?? 'MySencoSupportSoftware' }}</div>
+    <div style="display: flex; align-items: center; padding: 0px 15px;">
+        <a href="#" id="toggleNavBtn"><i class="fas fa-bars"></i></a>
+        <div class="page_title">{{ $title ?? 'MySencoSupportSoftware' }}</div>
+    </div>
     <ul>
         @if(request()->is('pupil-*'))
             <li>
