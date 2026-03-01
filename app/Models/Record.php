@@ -20,6 +20,10 @@ class Record extends Model
         'outcome',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function pupil()
     {
         return $this->belongsTo(Pupil::class);
