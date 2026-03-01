@@ -12,6 +12,7 @@ use App\Models\Diagnosis;
 use App\Models\Accommodation;
 use App\Models\RecordType;
 use App\Models\Professional;
+use App\Models\Record;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -128,5 +129,8 @@ class DatabaseSeeder extends Seeder
 
         // create professionals
         Professional::factory(50)->create();
+
+        // create records
+        Record::factory(70)->create();
     }
 }
