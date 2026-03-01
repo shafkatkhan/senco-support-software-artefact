@@ -17,30 +17,20 @@ class UserGroupController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        UserGroup::create($request->validate([
             'name' => 'required|unique:user_groups,name|max:255',
             'description' => 'nullable|string',
-        ]);
-
-        UserGroup::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        ]));
 
         return back()->with('success', 'User Group Created Successfully!');
     }
 
     public function update(Request $request, UserGroup $user_group)
     {
-        $request->validate([
+        $user_group->update($request->validate([
             'name' => 'required|max:255|unique:user_groups,name,' . $user_group->id,
             'description' => 'nullable|string',
-        ]);
-
-        $user_group->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        ]));
 
         return back()->with('success', 'User Group Updated Successfully!');
     }

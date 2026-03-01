@@ -17,30 +17,20 @@ class RecordTypeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        RecordType::create($request->validate([
             'name' => 'required|unique:record_types,name|max:255',
             'description' => 'nullable|string',
-        ]);
-
-        RecordType::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        ]));
 
         return back()->with('success', 'Record Type Created Successfully!');
     }
 
     public function update(Request $request, RecordType $record_type)
     {
-        $request->validate([
+        $record_type->update($request->validate([
             'name' => 'required|max:255|unique:record_types,name,' . $record_type->id,
             'description' => 'nullable|string',
-        ]);
-
-        $record_type->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        ]));
 
         return back()->with('success', 'Record Type Updated Successfully!');
     }

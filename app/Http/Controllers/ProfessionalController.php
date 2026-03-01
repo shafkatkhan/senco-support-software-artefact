@@ -17,7 +17,7 @@ class ProfessionalController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        Professional::create($request->validate([
             'title' => 'nullable|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -25,16 +25,14 @@ class ProfessionalController extends Controller
             'agency' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
-        ]);
-
-        Professional::create($request->all());
+        ]));
 
         return back()->with('success', 'Professional Added Successfully!');
     }
 
     public function update(Request $request, Professional $professional)
     {
-        $request->validate([
+        $professional->update($request->validate([
             'title' => 'nullable|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -42,9 +40,7 @@ class ProfessionalController extends Controller
             'agency' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
-        ]);
-
-        $professional->update($request->all());
+        ]));
 
         return back()->with('success', 'Professional Updated Successfully!');
     }

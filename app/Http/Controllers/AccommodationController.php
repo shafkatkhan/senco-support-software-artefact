@@ -17,24 +17,20 @@ class AccommodationController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+        Accommodation::create($request->validate([
             'name' => 'required|unique:accommodations,name|max:255',
             'description' => 'nullable|string',
-        ]);
-
-        Accommodation::create($request->all());
+        ]));
 
         return back()->with('success', 'Accommodation Created Successfully!');
     }
 
     public function update(Request $request, Accommodation $accommodation)
     {
-        $request->validate([
+        $accommodation->update($request->validate([
             'name' => 'required|max:255|unique:accommodations,name,' . $accommodation->id,
             'description' => 'nullable|string',
-        ]);
-
-        $accommodation->update($request->all());
+        ]));
 
         return back()->with('success', 'Accommodation Updated Successfully!');
     }

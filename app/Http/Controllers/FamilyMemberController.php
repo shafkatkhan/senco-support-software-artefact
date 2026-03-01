@@ -10,15 +10,13 @@ class FamilyMemberController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $familyMember = FamilyMember::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'date|nullable',
             'relation' => 'string|max:255|nullable',
-        ]);
-
-        $familyMember = FamilyMember::create($request->all());
+        ]));
 
         if ($request->has('next_of_kin') && $request->next_of_kin) {
             $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
@@ -29,14 +27,12 @@ class FamilyMemberController extends Controller
 
     public function update(Request $request, FamilyMember $family_member)
     {
-        $request->validate([
+        $family_member->update($request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'date|nullable',
             'relation' => 'string|max:255|nullable',
-        ]);
-
-        $family_member->update($request->all());
+        ]));
 
         if ($request->input('next_of_kin') == '1') {
             // set as primary family member

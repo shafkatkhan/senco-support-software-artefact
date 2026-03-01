@@ -10,7 +10,7 @@ class MedicationController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        Medication::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'name' => 'required|string|max:255',
             'dosage' => 'string|max:255',
@@ -22,16 +22,14 @@ class MedicationController extends Controller
             'expiry_date' => 'nullable|date',
             'storage_instructions' => 'nullable|string',
             'self_administer' => 'boolean',
-        ]);
-
-        Medication::create($request->all());
+        ]));
 
         return back()->with('success', 'Medication Added Successfully!');
     }
 
     public function update(Request $request, Medication $medication)
     {
-        $request->validate([
+        $medication->update($request->validate([
             'name' => 'required|string|max:255',
             'dosage' => 'string|max:255',
             'frequency' => 'required|string|max:255',
@@ -42,9 +40,7 @@ class MedicationController extends Controller
             'expiry_date' => 'nullable|date',
             'storage_instructions' => 'nullable|string',
             'self_administer' => 'boolean',
-        ]);
-
-        $medication->update($request->all());
+        ]));
 
         return back()->with('success', 'Medication Updated Successfully!');
     }
