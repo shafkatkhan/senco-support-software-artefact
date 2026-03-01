@@ -19,6 +19,8 @@ return [
             'Summary',
             'Medications',
             'Diagnoses',
+            'Records',
+            'Accommodations',
             'Family Members',
         ],
 
