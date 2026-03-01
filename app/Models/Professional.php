@@ -18,4 +18,9 @@ class Professional extends Model
         'phone',
         'email',
     ];
+
+    public function records()
+    {
+        return $this->hasMany(Record::class);
+    }
 }

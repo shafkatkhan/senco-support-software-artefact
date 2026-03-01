@@ -61,4 +61,9 @@ class Pupil extends Model
     {
         return $this->belongsToMany(Accommodation::class, 'pupil_accommodations');
     }
+
+    public function records()
+    {
+        return $this->hasMany(Record::class);
+    }
 }

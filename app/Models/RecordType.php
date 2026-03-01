@@ -13,4 +13,9 @@ class RecordType extends Model
         'name',
         'description',
     ];
+
+    public function records()
+    {
+        return $this->hasMany(Record::class);
+    }
 }
