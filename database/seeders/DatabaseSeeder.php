@@ -11,6 +11,7 @@ use App\Models\FamilyMember;
 use App\Models\Diagnosis;
 use App\Models\Accommodation;
 use App\Models\RecordType;
+use App\Models\Professional;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -124,5 +125,8 @@ class DatabaseSeeder extends Seeder
         foreach ($recordTypes as $type) {
             RecordType::create($type);
         }
+
+        // create professionals
+        Professional::factory(50)->create();
     }
 }
