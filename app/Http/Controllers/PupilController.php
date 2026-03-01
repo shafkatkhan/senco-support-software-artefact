@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pupil;
 use App\Models\Accommodation;
+use App\Models\RecordType;
+use App\Models\Professional;
 
 class PupilController extends Controller
 {
@@ -56,6 +58,15 @@ class PupilController extends Controller
         $pupil->load('diagnoses');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
         return view('pupils.diagnoses', compact('pupil', 'title'));
+    }
+
+    public function records(Pupil $pupil)
+    {
+        $pupil->load(['records.recordType', 'records.professional']);
+        $record_types = RecordType::all();
+        $professionals = Professional::orderBy('last_name')->get();
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Records";
+        return view('pupils.records', compact('pupil', 'title', 'record_types', 'professionals'));
     }
 
     public function accommodations(Pupil $pupil)

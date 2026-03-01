@@ -12,6 +12,7 @@ use \App\Http\Controllers\DiagnosisController;
 use \App\Http\Controllers\FamilyMemberController;
 use \App\Http\Controllers\PupilAccommodationController;
 use \App\Http\Controllers\RecordTypeController;
+use \App\Http\Controllers\RecordController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/summary', [PupilController::class, 'show'])->name('pupils.show');
     Route::get('/pupil-details/{pupil}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::get('/pupil-details/{pupil}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
+    Route::get('/pupil-details/{pupil}/records', [PupilController::class, 'records'])->name('pupils.records');
     Route::get('/pupil-details/{pupil}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
 
@@ -72,6 +74,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
 
