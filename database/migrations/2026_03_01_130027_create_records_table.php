@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pupil_id')->constrained()->cascadeOnDelete();
             $table->foreignId('record_type_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('professional_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('professional_id')->nullable()->constrained()->restrictOnDelete();
             $table->string('title')->nullable();
             $table->date('date')->nullable();
             $table->string('reference_number')->nullable();

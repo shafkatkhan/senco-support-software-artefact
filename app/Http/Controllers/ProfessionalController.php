@@ -55,6 +55,9 @@ class ProfessionalController extends Controller
             $professional->delete();
             return back()->with('success', 'Professional Deleted Successfully!');
         } catch (QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return back()->with('error', 'Cannot delete this professional as they are linked to existing records.');
+            }
             return back()->with('error', 'Something went wrong.');
         }
     }
