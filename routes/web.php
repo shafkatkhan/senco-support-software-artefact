@@ -13,6 +13,7 @@ use \App\Http\Controllers\FamilyMemberController;
 use \App\Http\Controllers\PupilAccommodationController;
 use \App\Http\Controllers\RecordTypeController;
 use \App\Http\Controllers\RecordController;
+use \App\Http\Controllers\ProfessionalController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -83,4 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');
 
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
+    
+    Route::resource('professionals', ProfessionalController::class)->except(['create', 'show', 'edit']);
 });
