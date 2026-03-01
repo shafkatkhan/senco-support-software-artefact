@@ -31,7 +31,7 @@ class AccommodationController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|unique:accommodations,name,' . $accommodation->id,
-            'detail' => 'nullable|string',
+            'description' => 'nullable|string',
         ]);
 
         $accommodation->update($request->all());
