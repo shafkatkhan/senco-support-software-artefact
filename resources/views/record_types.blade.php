@@ -18,7 +18,7 @@
                 <tbody>
                     @foreach($record_types as $record_type)
                         <tr>
-                            <th scope="row">{{ $record_type->id }}</th>
+                            <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $record_type->name }}</td>
                             <td>{{ $record_type->description }}</td>
                             <td class="icon_wrap">

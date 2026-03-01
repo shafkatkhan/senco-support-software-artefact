@@ -18,7 +18,7 @@
                 <tbody>
                     @foreach($user_groups as $user_group)
                         <tr>
-                            <th scope="row">{{ $user_group->id }}</th>
+                            <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
                             <td class="icon_wrap">
