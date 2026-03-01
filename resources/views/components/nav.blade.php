@@ -9,6 +9,7 @@
             <li><a href="{{ route('page1') }}" class="{{ request()->routeIs('page1') ? 'activenav' : '' }}">{{ __('Page 1') }}</a></li>
             <li><a href="{{ route('pupils.index') }}" class="{{ request()->routeIs('pupils.*') ? 'activenav' : '' }}">{{ __('SEND Pupils') }}</a></li>
             <li><a href="{{ route('accommodations.index') }}" class="{{ request()->routeIs('accommodations.*') ? 'activenav' : '' }}">{{ __('Accommodations') }}</a></li>
+            <li><a href="{{ route('record-types.index') }}" class="{{ request()->routeIs('record-types.*') ? 'activenav' : '' }}">{{ __('Record Types') }}</a></li>
             <li><a href="{{ route('user-groups.index') }}" class="{{ request()->routeIs('user-groups.*') ? 'activenav' : '' }}">{{ __('User Groups') }}</a></li>
             <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'activenav' : '' }}">{{ __('Users') }}</a></li>
         </div>

@@ -10,6 +10,7 @@ return [
             'Page 1',
             'SEND Pupils',
             'Accommodations',
+            'Record Types',
             'User Groups',
             'Users',
         ],

@@ -11,6 +11,7 @@ use \App\Http\Controllers\MedicationController;
 use \App\Http\Controllers\DiagnosisController;
 use \App\Http\Controllers\FamilyMemberController;
 use \App\Http\Controllers\PupilAccommodationController;
+use \App\Http\Controllers\RecordTypeController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -76,4 +77,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/pupils/{pupil}/accommodations', [PupilAccommodationController::class, 'store'])->name('pupils.accommodations.store');
     Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');
+
+    Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
 });
