@@ -238,7 +238,7 @@
 
 @push('scripts')
 <script>
-    $(document).on('click', '.edit_icon, .sen_edit_icon', function () {
+    $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
         
