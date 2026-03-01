@@ -103,7 +103,7 @@
                             <div class="form-group mb-3">
                                 <label>Select Accommodation*</label>
                                 <select name="accommodation_id" class="form-control" required>
-                                    <option value="">-- Choose Accommodation --</option>
+                                    <option value="" disabled>-- Choose Accommodation --</option>
                                     @foreach($availableAccommodations as $available)
                                         <option value="{{ $available->id }}">{{ $available->name }}</option>
                                     @endforeach

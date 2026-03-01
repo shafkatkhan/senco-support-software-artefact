@@ -93,7 +93,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>User Group</label>
                                 <select class="form-control" name="user_group_id" required>
-                                    <option value="">Select Group</option>
+                                    <option value="" disabled>--- Choose Group ---</option>
                                     @foreach($user_groups as $group)
                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                     @endforeach
@@ -162,7 +162,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>User Group</label>
                                 <select class="form-control" name="user_group_id" id="edit_user_group_id" required>
-                                    <option value="">Select Group</option>
+                                    <option value="" disabled>--- Choose Group ---</option>
                                     @foreach($user_groups as $group)
                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                     @endforeach
