@@ -10,6 +10,7 @@ use App\Models\Medication;
 use App\Models\FamilyMember;
 use App\Models\Diagnosis;
 use App\Models\Accommodation;
+use App\Models\RecordType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -111,5 +112,17 @@ class DatabaseSeeder extends Seeder
                 $pupil->accommodations()->sync($randomAccommodations);
             }
         });
+
+        // create record types
+        $recordTypes = [
+            ['name' => 'Medical', 'description' => 'Records relating to medical history, doctor visits, and health plans.'],
+            ['name' => 'Criminal', 'description' => 'Records relating to police involvement, youth offending, or legal issues.'],
+            ['name' => 'Educational', 'description' => 'Records relating to academic performance, IEPs, and learning plans.'],
+            ['name' => 'Behavioral', 'description' => 'Records relating to behavior incidents, detentions, and interventions.'],
+            ['name' => 'Safeguarding', 'description' => 'Sensitive records relating to child protection and safety concerns.'],
+        ];
+        foreach ($recordTypes as $type) {
+            RecordType::create($type);
+        }
     }
 }
