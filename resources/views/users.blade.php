@@ -3,22 +3,22 @@
 @section('content')
     <section id="content">
         <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-			Create User
+			{{ __('Create User') }}
 		</button>
         <div class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Mobile</th>
-                        <th scope="col">Position</th>
-                        <th scope="col">Added By</th>
-                        <th scope="col">Joined Date</th>
-                        <th scope="col">Expiry Date</th>
-                        <th scope="col">Group</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Username') }}</th>
+                        <th scope="col">{{ __('Mobile') }}</th>
+                        <th scope="col">{{ __('Position') }}</th>
+                        <th scope="col">{{ __('Added By') }}</th>
+                        <th scope="col">{{ __('Joined Date') }}</th>
+                        <th scope="col">{{ __('Expiry Date') }}</th>
+                        <th scope="col">{{ __('Group') }}</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,39 +61,39 @@
                 <form action="{{ route('users.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Create User</h1>
+                        <h1 class="modal-title fs-5">{{ __('Create User') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">            
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name" required />
+                                <label>{{ __('First Name') }}</label>
+                                <input type="text" class="form-control" name="first_name" placeholder="{{ __('First Name') }}" required />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group mb-3">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required />
-                            </div>
-                            <div class="col-md-6 form-group mb-3">
-                                <label>Mobile</label>
-                                <input type="text" class="form-control" name="mobile" placeholder="Mobile" required />
+                                <label>{{ __('Last Name') }}</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="{{ __('Last Name') }}" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Position</label>
-                                <input type="text" class="form-control" name="position" placeholder="Position" />
+                                <label>{{ __('Username') }}</label>
+                                <input type="text" class="form-control" name="username" placeholder="{{ __('Username') }}" required />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>User Group</label>
+                                <label>{{ __('Mobile') }}</label>
+                                <input type="text" class="form-control" name="mobile" placeholder="{{ __('Mobile') }}" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>{{ __('Position') }}</label>
+                                <input type="text" class="form-control" name="position" placeholder="{{ __('Position') }}" />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>{{ __('User Group') }}</label>
                                 <select class="form-control" name="user_group_id" required>
-                                    <option value="" disabled>--- Choose Group ---</option>
+                                    <option value="" disabled>--- {{ __('Choose Group') }} ---</option>
                                     @foreach($user_groups as $group)
                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                     @endforeach
@@ -102,21 +102,21 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Joined Date</label>
+                                <label>{{ __('Joined Date') }}</label>
                                 <input type="date" class="form-control" name="joined_date" value="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Expiry Date</label>
+                                <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date" />
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password" required />
+                            <label>{{ __('Password') }}</label>
+                            <input type="password" class="form-control" name="password" placeholder="{{ __('Password') }}" required />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -130,39 +130,39 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Edit User</h1>
+                        <h1 class="modal-title fs-5">{{ __('Edit User') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="First Name" required />
+                                <label>{{ __('First Name') }}</label>
+                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="{{ __('First Name') }}" required />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="Last Name" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group mb-3">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" id="edit_username" placeholder="Username" required />
-                            </div>
-                            <div class="col-md-6 form-group mb-3">
-                                <label>Mobile</label>
-                                <input type="text" class="form-control" name="mobile" id="edit_mobile" placeholder="Mobile" required />
+                                <label>{{ __('Last Name') }}</label>
+                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="{{ __('Last Name') }}" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Position</label>
-                                <input type="text" class="form-control" name="position" id="edit_position" placeholder="Position" />
+                                <label>{{ __('Username') }}</label>
+                                <input type="text" class="form-control" name="username" id="edit_username" placeholder="{{ __('Username') }}" required />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>User Group</label>
+                                <label>{{ __('Mobile') }}</label>
+                                <input type="text" class="form-control" name="mobile" id="edit_mobile" placeholder="{{ __('Mobile') }}" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>{{ __('Position') }}</label>
+                                <input type="text" class="form-control" name="position" id="edit_position" placeholder="{{ __('Position') }}" />
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>{{ __('User Group') }}</label>
                                 <select class="form-control" name="user_group_id" id="edit_user_group_id" required>
-                                    <option value="" disabled>--- Choose Group ---</option>
+                                    <option value="" disabled>--- {{ __('Choose Group') }} ---</option>
                                     @foreach($user_groups as $group)
                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                     @endforeach
@@ -171,17 +171,17 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Joined Date</label>
+                                <label>{{ __('Joined Date') }}</label>
                                 <input type="date" class="form-control" name="joined_date" id="edit_joined_date" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Expiry Date</label>
+                                <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date" id="edit_expiry_date" />
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>

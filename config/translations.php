@@ -21,7 +21,6 @@ return [
             'Medications',
             'Diagnoses',
             'Records',
-            'Accommodations',
             'Family Members',
         ],
 
@@ -38,6 +37,27 @@ return [
 
         'Test Form' => [
             'Test',
+        ],
+
+        'Users' => [
+            'Create User',
+            'Mobile',
+            'Position',
+            'Added By',
+            'Joined Date',
+            'Expiry Date',
+            'Group',
+            'User Group',
+            'Choose Group',
+            'Edit User',
+        ],
+
+        'Misc/General' => [
+            'Actions',
+            'First Name',
+            'Last Name',
+            'Save',
+            'Update',
         ],
     ],
 
