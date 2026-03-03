@@ -557,3 +557,23 @@ html.nav-hidden #content,
 html.nav-hidden #top_nav {
     width: 100% !important;
 }
+/* end sidebar toggle */
+/**/
+#toggle_professional_btn{
+	font-size: 0.85rem;
+	text-decoration: none;
+}
+#new_professional_box{
+	display: none;
+	background: #f8f9fa;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #dee2e6;
+	margin-top: 5px;
+}
+/**/
+.justify-between-flexbox{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

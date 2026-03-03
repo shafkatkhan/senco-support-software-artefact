@@ -48,3 +48,21 @@ $(document).ready(function() {
         }
     }
 });
+
+$('#toggle_professional_btn').click(function() {
+    var isNew = $('#is_new_professional').val() == '1';
+    if (isNew) {
+        // switch to existing professional dropdown
+        $('#new_professional_box').hide();
+        $('#existing_professional_box').show();
+        $('#is_new_professional').val('0');
+        $(this).text('+ Add New Professional');
+    } else {
+        // switch to new professional form
+        $('#existing_professional_box').hide();
+        $('#new_professional_box').show();
+        $('#is_new_professional').val('1');
+        $('#professional_id').val('');
+        $(this).text('Cancel New Professional');
+    }
+});
