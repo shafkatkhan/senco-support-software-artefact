@@ -13,6 +13,7 @@ use App\Models\Accommodation;
 use App\Models\RecordType;
 use App\Models\Professional;
 use App\Models\Record;
+use App\Models\MeetingType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -132,5 +133,17 @@ class DatabaseSeeder extends Seeder
 
         // create records
         Record::factory(70)->create();
+
+        // create meeting types
+        $meetingTypes = [
+            ['name' => 'EHCP Review', 'description' => 'Annual review of Education, Health and Care Plan.'],
+            ['name' => 'Parent Meeting', 'description' => 'Meeting with parents to discuss progress or concerns.'],
+            ['name' => 'Staff Case Conference', 'description' => 'Internal staff meeting to coordinate support.'],
+            ['name' => 'External Agency Meeting', 'description' => 'Meeting involving external professionals (e.g. SALT, EdPsych).'],
+            ['name' => 'Emergency Intervention', 'description' => 'Urgent meeting convened due to a critical incident.'],
+        ];
+        foreach ($meetingTypes as $type) {
+            MeetingType::create($type);
+        }
     }
 }
