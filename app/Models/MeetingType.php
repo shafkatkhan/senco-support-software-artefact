@@ -13,4 +13,9 @@ class MeetingType extends Model
         'name',
         'description',
     ];
+
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class);
+    }
 }

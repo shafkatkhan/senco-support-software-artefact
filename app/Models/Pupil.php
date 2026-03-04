@@ -66,4 +66,9 @@ class Pupil extends Model
     {
         return $this->hasMany(Record::class);
     }
+
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class);
+    }
 }
