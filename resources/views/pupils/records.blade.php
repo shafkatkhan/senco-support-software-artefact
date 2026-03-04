@@ -189,7 +189,7 @@
                                 </div>
                                 <div id="existing_professional_box">
                                     <select class="form-select" name="professional_id" id="professional_id">
-                                        <option value="" selected disabled>None / Not Applicable</option>
+                                        <option value="">None / Not Applicable</option>
                                         @foreach($professionals as $prof)
                                             <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
                                         @endforeach

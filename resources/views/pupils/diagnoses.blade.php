@@ -172,7 +172,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>Carried Out By (Professional)</label>
                                 <select class="form-select" name="professional_id">
-                                    <option value="" selected disabled>None / Not Applicable</option>
+                                    <option value="">None / Not Applicable</option>
                                     @foreach($professionals as $prof)
                                         <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
                                     @endforeach
@@ -219,7 +219,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>Carried Out By (Professional)</label>
                                 <select class="form-select" name="professional_id" id="edit_professional_id">
-                                    <option value="" selected disabled>None / Not Applicable</option>
+                                    <option value="">None / Not Applicable</option>
                                     @foreach($professionals as $prof)
                                         <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
                                     @endforeach
