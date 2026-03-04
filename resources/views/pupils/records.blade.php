@@ -109,8 +109,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Type</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Date</th>
                         <th scope="col">Professional</th>
                         <th scope="col">Ref No</th>
@@ -121,8 +121,8 @@
                     @forelse($pupil->records as $record)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td><span class="badge bg-secondary">{{ $record->recordType->name }}</span></td>
                             <td>{{ $record->title ?? 'N/A' }}</td>
+                            <td><span class="badge bg-secondary">{{ $record->recordType->name }}</span></td>
                             <td>{{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $record->professional ? $record->professional->title . ' ' . $record->professional->first_name . ' ' . $record->professional->last_name : 'N/A' }}</td>
                             <td>{{ $record->reference_number ?? 'N/A' }}</td>

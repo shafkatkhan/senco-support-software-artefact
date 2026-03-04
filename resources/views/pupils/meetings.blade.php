@@ -107,8 +107,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Type</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Date</th>
                         <th scope="col">Participants</th>
                         <th scope="col">Discussion</th>
@@ -119,8 +119,8 @@
                     @forelse($pupil->meetings as $meeting)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td><span class="badge bg-secondary">{{ $meeting->meetingType->name }}</span></td>
                             <td>{{ $meeting->title }}</td>
+                            <td><span class="badge bg-secondary">{{ $meeting->meetingType->name }}</span></td>
                             <td>{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ Str::limit($meeting->participants, 30) }}</td>
                             <td>{{ Str::limit($meeting->discussion, 50) }}</td>
