@@ -11,6 +11,7 @@ return [
             'SEND Pupils',
             'Accommodations',
             'Record Types',
+            'Meeting Types',
             'Professionals',
             'User Groups',
             'Users',

@@ -14,6 +14,7 @@ use \App\Http\Controllers\PupilAccommodationController;
 use \App\Http\Controllers\RecordTypeController;
 use \App\Http\Controllers\RecordController;
 use \App\Http\Controllers\ProfessionalController;
+use \App\Http\Controllers\MeetingTypeController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -86,4 +87,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
     
     Route::resource('professionals', ProfessionalController::class)->except(['create', 'show', 'edit']);
+
+    Route::resource('meeting-types', MeetingTypeController::class)->except(['create', 'show', 'edit']);
 });
