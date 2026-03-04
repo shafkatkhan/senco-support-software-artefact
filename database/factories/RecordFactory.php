@@ -26,7 +26,7 @@ class RecordFactory extends Factory
 
         return [
             'pupil_id' => Pupil::inRandomOrder()->value('id') ?? Pupil::factory(),
-            'record_type_id' => RecordType::inRandomOrder()->value('id') ?? 1,
+            'record_type_id' => RecordType::inRandomOrder()->value('id'),
             'professional_id' => $this->faker->boolean(80) ? Professional::inRandomOrder()->value('id') : null,
             'title' => $this->faker->boolean(70) ? $this->faker->randomElement($titles) : null,
             'date' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
