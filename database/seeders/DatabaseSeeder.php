@@ -126,6 +126,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Educational', 'description' => 'Records relating to academic performance, IEPs, and learning plans.'],
             ['name' => 'Behavioral', 'description' => 'Records relating to behavior incidents, detentions, and interventions.'],
             ['name' => 'Safeguarding', 'description' => 'Sensitive records relating to child protection and safety concerns.'],
+            ['name' => 'Other', 'description' => 'Other records.'],
         ];
         foreach ($recordTypes as $type) {
             RecordType::create($type);
@@ -141,6 +142,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Staff Case Conference', 'description' => 'Internal staff meeting to coordinate support.'],
             ['name' => 'External Agency Meeting', 'description' => 'Meeting involving external professionals (e.g. SALT, EdPsych).'],
             ['name' => 'Emergency Intervention', 'description' => 'Urgent meeting convened due to a critical incident.'],
+            ['name' => 'Other', 'description' => 'Other meetings.'],
         ];
         foreach ($meetingTypes as $type) {
             MeetingType::create($type);
