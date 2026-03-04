@@ -55,9 +55,10 @@ class PupilController extends Controller
 
     public function diagnoses(Pupil $pupil)
     {
-        $pupil->load('diagnoses');
+        $pupil->load('diagnoses.professional');
+        $professionals = Professional::orderBy('last_name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
-        return view('pupils.diagnoses', compact('pupil', 'title'));
+        return view('pupils.diagnoses', compact('pupil', 'title', 'professionals'));
     }
 
     public function records(Pupil $pupil)

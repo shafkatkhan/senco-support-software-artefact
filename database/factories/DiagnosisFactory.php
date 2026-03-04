@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Professional;
+use App\Models\Pupil;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Diagnosis>
@@ -27,12 +29,12 @@ class DiagnosisFactory extends Factory
         ];
 
         return [
+            'pupil_id' => Pupil::factory(),
             'date' => $this->faker->date(),
             'name' => $this->faker->randomElement($diagnoses),
-            'carried_out_by' => 'Dr. ' . $this->faker->lastName,
+            'professional_id' => $this->faker->boolean(80) ? Professional::inRandomOrder()->value('id') : null,
             'description' => $this->faker->sentence(),
             'recommendations' => $this->faker->paragraph(),
-            'pupil_id' => \App\Models\Pupil::factory(),
         ];
     }
 }

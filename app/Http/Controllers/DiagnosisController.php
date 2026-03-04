@@ -14,7 +14,7 @@ class DiagnosisController extends Controller
             'pupil_id' => 'required|exists:pupils,id',
             'date' => 'nullable|date',
             'name' => 'required|string|max:255',
-            'carried_out_by' => 'nullable|string|max:255',
+            'professional_id' => 'nullable|exists:professionals,id',
             'description' => 'nullable|string',
             'recommendations' => 'nullable|string',
         ]));
@@ -27,7 +27,7 @@ class DiagnosisController extends Controller
         $diagnosis->update($request->validate([
             'date' => 'nullable|date',
             'name' => 'required|string|max:255',
-            'carried_out_by' => 'nullable|string|max:255',
+            'professional_id' => 'nullable|exists:professionals,id',
             'description' => 'nullable|string',
             'recommendations' => 'nullable|string',
         ]));

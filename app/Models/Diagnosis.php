@@ -11,9 +11,9 @@ class Diagnosis extends Model
     
     protected $fillable = [
         'pupil_id',
+        'professional_id',
         'date',
         'name',
-        'carried_out_by',
         'description',
         'recommendations',
     ];
@@ -25,5 +25,10 @@ class Diagnosis extends Model
     public function pupil()
     {
         return $this->belongsTo(Pupil::class);
+    }
+
+    public function professional()
+    {
+        return $this->belongsTo(Professional::class);
     }
 }

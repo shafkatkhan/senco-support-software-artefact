@@ -30,7 +30,7 @@
                                 data-url="{{ route('diagnoses.update', $diagnosis->id) }}" 
                                 data-date="{{ optional($diagnosis->date)->format('Y-m-d') }}" 
                                 data-name="{{ $diagnosis->name }}" 
-                                data-carried_out_by="{{ $diagnosis->carried_out_by }}"
+                                data-professional_id="{{ $diagnosis->professional_id }}"
                                 data-description="{{ $diagnosis->description }}"
                                 data-recommendations="{{ $diagnosis->recommendations }}"
                             >
@@ -58,7 +58,7 @@
                             <div class="item col-md-6">
                                 <div class="label">Carried Out By:</div>
                                 <div class="value">
-                                    {{ $diagnosis->carried_out_by ?? 'N/A' }}
+                                    {{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}
                                 </div>
                             </div>
                             <hr>
@@ -113,7 +113,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diagnosis->name }}</td>
                             <td>{{ optional($diagnosis->date)->format('d/m/Y') }}</td>
-                            <td>{{ $diagnosis->carried_out_by }}</td>
+                            <td>{{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}</td>
                             <td>{{ $diagnosis->description }}</td>
                             <td>{{ $diagnosis->recommendations }}</td>
                             <td class="icon_wrap">
@@ -123,7 +123,7 @@
                                     data-url="{{ route('diagnoses.update', $diagnosis->id) }}" 
                                     data-date="{{ optional($diagnosis->date)->format('Y-m-d') }}" 
                                     data-name="{{ $diagnosis->name }}" 
-                                    data-carried_out_by="{{ $diagnosis->carried_out_by }}"
+                                    data-professional_id="{{ $diagnosis->professional_id }}"
                                     data-description="{{ $diagnosis->description }}"
                                     data-recommendations="{{ $diagnosis->recommendations }}"
                                 >
@@ -170,8 +170,13 @@
                                 <input type="date" class="form-control" name="date">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Carried Out By</label>
-                                <input type="text" class="form-control" name="carried_out_by" placeholder="e.g. Dr. Smith">
+                                <label>Carried Out By (Professional)</label>
+                                <select class="form-select" name="professional_id">
+                                    <option value="" selected disabled>None / Not Applicable</option>
+                                    @foreach($professionals as $prof)
+                                        <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
@@ -212,8 +217,13 @@
                                 <input type="date" class="form-control" name="date" id="edit_date">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Carried Out By</label>
-                                <input type="text" class="form-control" name="carried_out_by" id="edit_carried_out_by" placeholder="e.g. Dr. Smith">
+                                <label>Carried Out By (Professional)</label>
+                                <select class="form-select" name="professional_id" id="edit_professional_id">
+                                    <option value="" selected disabled>None / Not Applicable</option>
+                                    @foreach($professionals as $prof)
+                                        <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
@@ -244,7 +254,7 @@
         
         $('#edit_date').val($(this).data('date'));
         $('#edit_name').val($(this).data('name'));
-        $('#edit_carried_out_by').val($(this).data('carried_out_by'));
+        $('#edit_professional_id').val($(this).data('professional_id'));
         $('#edit_description').val($(this).data('description'));
         $('#edit_recommendations').val($(this).data('recommendations'));
     });

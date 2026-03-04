@@ -68,6 +68,9 @@ class DatabaseSeeder extends Seeder
         // create test rows
         TestForm::factory(20)->create();
 
+        // create professionals
+        Professional::factory(50)->create();
+
         // create pupils
         Pupil::factory(20)->create()->each(function ($pupil) {
             // add medications
@@ -126,9 +129,6 @@ class DatabaseSeeder extends Seeder
         foreach ($recordTypes as $type) {
             RecordType::create($type);
         }
-
-        // create professionals
-        Professional::factory(50)->create();
 
         // create records
         Record::factory(70)->create();
