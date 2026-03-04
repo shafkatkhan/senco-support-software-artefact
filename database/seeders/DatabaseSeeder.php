@@ -14,6 +14,7 @@ use App\Models\RecordType;
 use App\Models\Professional;
 use App\Models\Record;
 use App\Models\MeetingType;
+use App\Models\Meeting;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -147,5 +148,8 @@ class DatabaseSeeder extends Seeder
         foreach ($meetingTypes as $type) {
             MeetingType::create($type);
         }
+
+        // create meetings
+        Meeting::factory(50)->create();
     }
 }
