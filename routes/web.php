@@ -14,6 +14,7 @@ use \App\Http\Controllers\PupilAccommodationController;
 use \App\Http\Controllers\RecordTypeController;
 use \App\Http\Controllers\RecordController;
 use \App\Http\Controllers\ProfessionalController;
+use \App\Http\Controllers\MeetingController;
 use \App\Http\Controllers\MeetingTypeController;
 
 Route::get('/debug-session', function () {
@@ -68,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/records', [PupilController::class, 'records'])->name('pupils.records');
     Route::get('/pupil-details/{pupil}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
+    Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
 
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
@@ -80,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
 
     Route::post('/pupils/{pupil}/accommodations', [PupilAccommodationController::class, 'store'])->name('pupils.accommodations.store');
     Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');

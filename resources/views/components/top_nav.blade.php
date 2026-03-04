@@ -18,6 +18,9 @@
                 <a href="{{ route('pupils.records', $pupil->id) }}" class="{{ request()->routeIs('pupils.records') ? 'activenav' : '' }}">{{ __('Records') }}</a>
             </li>
             <li>
+                <a href="{{ route('pupils.meetings', $pupil->id) }}" class="{{ request()->routeIs('pupils.meetings') ? 'activenav' : '' }}">{{ __('Meetings') }}</a>
+            </li>
+            <li>
                 <a href="{{ route('pupils.accommodations', $pupil->id) }}" class="{{ request()->routeIs('pupils.accommodations') ? 'activenav' : '' }}">{{ __('Accommodations') }}</a>
             </li>
             <li>

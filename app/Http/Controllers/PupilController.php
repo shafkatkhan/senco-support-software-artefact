@@ -7,6 +7,7 @@ use App\Models\Pupil;
 use App\Models\Accommodation;
 use App\Models\RecordType;
 use App\Models\Professional;
+use App\Models\MeetingType;
 
 class PupilController extends Controller
 {
@@ -87,6 +88,14 @@ class PupilController extends Controller
         $pupil->load('familyMembers');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
         return view('pupils.family_members', compact('pupil', 'title'));
+    }
+
+    public function meetings(Pupil $pupil)
+    {
+        $pupil->load(['meetings.meetingType']);
+        $meeting_types = MeetingType::all();
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Meetings";
+        return view('pupils.meetings', compact('pupil', 'title', 'meeting_types'));
     }
 
     /**

@@ -22,6 +22,7 @@ return [
             'Medications',
             'Diagnoses',
             'Records',
+            'Meetings',
             'Family Members',
         ],
 
