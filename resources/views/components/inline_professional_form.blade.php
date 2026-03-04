@@ -6,7 +6,7 @@
     <select class="form-select" name="professional_id" id="professional_id">
         <option value="">None / Not Applicable</option>
         @foreach($professionals as $prof)
-            <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
+            <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }}{{ $prof->role ? ' (' . $prof->role . ')' : '' }}</option>
         @endforeach
     </select>
 </div>
