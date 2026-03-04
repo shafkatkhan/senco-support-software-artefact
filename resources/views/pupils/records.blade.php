@@ -50,30 +50,37 @@
                     </div>
                     <div class="bottom">
                         <div class="row">
-                            <div class="item col-md-4 border_right-md">
+                            <div class="item col-md-6 border_right-md">
                                 <div class="label">Type:</div>
                                 <div class="value">
                                     <span class="badge bg-secondary">{{ $record->recordType->name }}</span>
                                 </div>
                             </div>
-                            <div class="item col-md-4 border_right-md">
-                                <div class="label">Date:</div>
-                                <div class="value">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}
-                                </div>
-                            </div>
-                            <div class="item col-md-4">
+                            <div class="item col-md-6">
                                 <div class="label">Professional:</div>
                                 <div class="value">
                                     {{ $record->professional ? $record->professional->title . ' ' . $record->professional->first_name . ' ' . $record->professional->last_name : 'N/A' }}
                                 </div>
                             </div>
                             <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Date:</div>
+                                <div class="value">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Reference No.:</div>
+                                <div class="value">
+                                    {{ $record->reference_number ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <hr>
                             <div class="item col-md-12">
                                 <div class="label">Description:</div>
                                 <div class="value">
-                                    {{ $record->description }}
+                                    {{ $record->description ?? 'N/A' }}
                                 </div>
                             </div>
                             @if($record->outcome)
@@ -81,7 +88,7 @@
                                 <div class="item col-md-12">
                                     <div class="label">Outcome:</div>
                                     <div class="value">
-                                        {{ $record->outcome }}
+                                        {{ $record->outcome ?? 'N/A' }}
                                     </div>
                                 </div>
                             @endif
@@ -113,7 +120,7 @@
                         <th scope="col">Type</th>
                         <th scope="col">Date</th>
                         <th scope="col">Professional</th>
-                        <th scope="col">Ref No</th>
+                        <th scope="col">Reference No.</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
