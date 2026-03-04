@@ -71,6 +71,13 @@ class PupilController extends Controller
         return view('pupils.records', compact('pupil', 'title', 'record_types', 'professionals'));
     }
 
+    public function events(Pupil $pupil)
+    {
+        $pupil->load('events');
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Events";
+        return view('pupils.events', compact('pupil', 'title'));
+    }
+
     public function accommodations(Pupil $pupil)
     {
         $pupil->load('accommodations');

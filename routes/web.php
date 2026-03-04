@@ -16,6 +16,7 @@ use \App\Http\Controllers\RecordController;
 use \App\Http\Controllers\ProfessionalController;
 use \App\Http\Controllers\MeetingController;
 use \App\Http\Controllers\MeetingTypeController;
+use \App\Http\Controllers\EventController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -67,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::get('/pupil-details/{pupil}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
     Route::get('/pupil-details/{pupil}/records', [PupilController::class, 'records'])->name('pupils.records');
+    Route::get('/pupil-details/{pupil}/events', [PupilController::class, 'events'])->name('pupils.events');
     Route::get('/pupil-details/{pupil}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
     Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
@@ -80,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('events', EventController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
 
