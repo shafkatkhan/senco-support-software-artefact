@@ -170,13 +170,7 @@
                                 <input type="date" class="form-control" name="date">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Carried Out By (Professional)</label>
-                                <select class="form-select" name="professional_id">
-                                    <option value="">None / Not Applicable</option>
-                                    @foreach($professionals as $prof)
-                                        <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }} ({{ $prof->role }})</option>
-                                    @endforeach
-                                </select>
+                                @include('components.inline_professional_form')
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
