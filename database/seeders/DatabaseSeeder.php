@@ -15,6 +15,7 @@ use App\Models\Professional;
 use App\Models\Record;
 use App\Models\MeetingType;
 use App\Models\Meeting;
+use App\Models\Event;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -75,6 +76,14 @@ class DatabaseSeeder extends Seeder
 
         // create pupils
         Pupil::factory(20)->create()->each(function ($pupil) {
+            // add onboarded event
+            Event::create([
+                'pupil_id' => $pupil->id,
+                'title' => 'Pupil Onboarded',
+                'date' => $pupil->joined_date,
+                'description' => 'Pupil profile created and onboarded into the system.',
+            ]);
+
             // add medications
             $count = rand(0, 4);
             if ($count > 0) {
@@ -151,5 +160,8 @@ class DatabaseSeeder extends Seeder
 
         // create meetings
         Meeting::factory(50)->create();
+
+        // create events
+        Event::factory(50)->create();
     }
 }
