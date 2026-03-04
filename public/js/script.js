@@ -57,6 +57,10 @@ $('#toggle_professional_btn').click(function() {
         $('#existing_professional_box').show();
         $('#is_new_professional').val('0');
         $(this).text('+ Add New Professional');
+        
+        // remove required attributes
+        $('input[name="prof_first_name"]').removeAttr('required');
+        $('input[name="prof_last_name"]').removeAttr('required');
     } else {
         // switch to new professional form
         $('#existing_professional_box').hide();
@@ -64,5 +68,9 @@ $('#toggle_professional_btn').click(function() {
         $('#is_new_professional').val('1');
         $('#professional_id').val('');
         $(this).text('Cancel New Professional');
+        
+        // add required attributes
+        $('input[name="prof_first_name"]').attr('required', true);
+        $('input[name="prof_last_name"]').attr('required', true);
     }
 });
