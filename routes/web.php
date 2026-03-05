@@ -17,6 +17,7 @@ use \App\Http\Controllers\ProfessionalController;
 use \App\Http\Controllers\MeetingController;
 use \App\Http\Controllers\MeetingTypeController;
 use \App\Http\Controllers\EventController;
+use \App\Http\Controllers\BackupController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -97,4 +98,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('professionals', ProfessionalController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('meeting-types', MeetingTypeController::class)->except(['create', 'show', 'edit']);
+
+    Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
+    Route::post('/backups', [BackupController::class, 'store'])->name('backups.store');
 });
