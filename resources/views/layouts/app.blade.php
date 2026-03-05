@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ is_rtl() ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ is_rtl() ? 'rtl' : 'ltr' }}" class="{{ request()->is('pupil-*') ? 'has-secondary-nav' : '' }}">
 <head>
     <meta charset="utf-8">
     <title>MySencoSupportSoftware</title>
