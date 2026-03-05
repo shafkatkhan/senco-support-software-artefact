@@ -83,7 +83,11 @@ $(document).ready(function() {
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        "responsive": true
+        "responsive": true,
+        "initComplete": function() {
+            $('div.dt-length select').addClass('form-select form-select-sm');
+            $('div.dt-search input').addClass('form-control form-control-sm');
+        }
     };
     
     var locale = document.documentElement.lang.split('-')[0] || 'en';
@@ -125,6 +129,4 @@ $(document).ready(function() {
         };
     }
     $('.table').DataTable(datatableConfigs);
-    $('div.dt-length select').addClass('form-select form-select-sm');
-    $('div.dt-search input').addClass('form-control form-control-sm');
 });
