@@ -377,6 +377,9 @@ table{
 .edit_icon{
     background-color: #12408a;
 }
+.download_icon{
+	background-color: #18a138;
+}
 /**/
 @media screen and (max-width:1500px){
 	#nav{

@@ -63,6 +63,21 @@ class BackupController extends Controller
     }
 
     /**
+     * Download a backup file.
+     */
+    public function download($file_path)
+    {
+        $file = urldecode($file_path);
+        $disk = Storage::disk('local');
+
+        if ($disk->exists($file)) {
+            return response()->download($disk->path($file));
+        }
+
+        return redirect()->route('backups.index')->with('error', 'Backup file not found.');
+    }
+
+    /**
      * Delete a backup file.
      */
     public function destroy($file_path)

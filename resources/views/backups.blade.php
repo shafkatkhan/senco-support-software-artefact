@@ -30,6 +30,9 @@
                             <td>{{ $backup['file_size'] }}</td>
                             <td data-order="{{ $backup['last_modified'] }}">{{ date('d M Y \a\t H:i', $backup['last_modified']) }}</td>
                             <td class="icon_wrap">
+                                <a class="icon download_icon button_styled" href="{{ route('backups.download', ['file_path' => urlencode($backup['relative_path'])]) }}" title="{{ __('Download') }}">
+                                    <i class="fa fa-download"></i>
+                                </a>
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
