@@ -24,7 +24,7 @@ class BackupController extends Controller
                     'file_name' => basename($file),
                     'relative_path' => $file,
                     'file_size' => Number::fileSize($disk->size($file), 1),
-                    'last_modified' => date('d M Y \a\t H:i', $disk->lastModified($file)),
+                    'last_modified' => $disk->lastModified($file),
                 ];
             }
         }

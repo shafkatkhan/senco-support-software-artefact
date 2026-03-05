@@ -27,7 +27,7 @@
                             <th scope="row">{{ $index + 1 }}</th>
                             <td>{{ $backup['file_name'] }}</td>
                             <td>{{ $backup['file_size'] }}</td>
-                            <td>{{ $backup['last_modified'] }}</td>
+                            <td data-order="{{ $backup['last_modified'] }}">{{ date('d M Y \a\t H:i', $backup['last_modified']) }}</td>
                         </tr>
                     @empty
                         <tr>
