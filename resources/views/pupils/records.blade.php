@@ -130,7 +130,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $record->title ?? 'N/A' }}</td>
                             <td><span class="badge bg-secondary">{{ $record->recordType->name }}</span></td>
-                            <td>{{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($record->date)->format('Y-m-d') ?? '' }}">{{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $record->professional ? $record->professional->title . ' ' . $record->professional->first_name . ' ' . $record->professional->last_name : 'N/A' }}</td>
                             <td>{{ $record->reference_number ?? 'N/A' }}</td>
                             <td class="icon_wrap">

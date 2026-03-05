@@ -112,7 +112,7 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diagnosis->name }}</td>
-                            <td>{{ optional($diagnosis->date)->format('d/m/Y') }}</td>
+                            <td data-order="{{ optional($diagnosis->date)->format('Y-m-d') ?? '' }}">{{ optional($diagnosis->date)->format('d/m/Y') }}</td>
                             <td>{{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}</td>
                             <td>{{ $diagnosis->description }}</td>
                             <td>{{ $diagnosis->recommendations }}</td>

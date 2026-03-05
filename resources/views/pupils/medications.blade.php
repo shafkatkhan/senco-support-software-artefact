@@ -160,9 +160,9 @@
                             <td>{{ $medication->frequency }}</td>
                             <td>{{ $medication->time_of_day }}</td>
                             <td>{{ $medication->administration_method }}</td>
-                            <td>{{ $medication->start_date->format('d/m/Y') }}</td>
-                            <td>{{ $medication->end_date ? $medication->end_date->format('d/m/Y') : 'N/A'}}</td>
-                            <td>{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}</td>
+                            <td data-order="{{ optional($medication->start_date)->format('Y-m-d') ?? '' }}">{{ $medication->start_date->format('d/m/Y') }}</td>
+                            <td data-order="{{ optional($medication->end_date)->format('Y-m-d') ?? '' }}">{{ $medication->end_date ? $medication->end_date->format('d/m/Y') : 'N/A'}}</td>
+                            <td data-order="{{ optional($medication->expiry_date)->format('Y-m-d') ?? '' }}">{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}</td>
                             <td>{{ $medication->storage_instructions }}</td>
                             <td>{{ $medication->self_administer ? 'Yes' : 'No' }}</td>
                             <td class="icon_wrap">

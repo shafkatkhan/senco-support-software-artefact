@@ -170,7 +170,7 @@
                         <tr>
                             <th scope="row">{{ $pupil->id }}</th>
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
-                            <td>{{ $pupil->dob->format('d/m/Y') }}</td>
+                            <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
                             <td>{{ $pupil->gender }}</td>
                             <td class="icon_wrap">
                                 <button class="icon edit_icon"><i class="fa fa-edit"></i></button>

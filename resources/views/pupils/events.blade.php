@@ -112,7 +112,7 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $event->title }}</td>
-                            <td>{{ optional($event->date)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($event->date)->format('Y-m-d') ?? '' }}">{{ optional($event->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $event->reference_number ?? 'N/A' }}</td>
                             <td class="icon_wrap">
                                 <button class="icon edit_icon" 

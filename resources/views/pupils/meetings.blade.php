@@ -121,7 +121,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $meeting->title }}</td>
                             <td><span class="badge bg-secondary">{{ $meeting->meetingType->name }}</span></td>
-                            <td>{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($meeting->date)->format('Y-m-d') ?? '' }}">{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ Str::limit($meeting->participants, 30) }}</td>
                             <td>{{ Str::limit($meeting->discussion, 50) }}</td>
                             <td class="icon_wrap">

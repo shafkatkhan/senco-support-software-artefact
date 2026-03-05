@@ -102,7 +102,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
                             <td>{{ $familyMember->relation }}</td>
-                            <td>{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td class="icon_wrap">
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
