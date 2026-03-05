@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pupil_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('dosage');
+            $table->string('dosage')->nullable();
             $table->string('frequency');
             $table->string('time_of_day')->nullable();
             $table->string('administration_method')->nullable();

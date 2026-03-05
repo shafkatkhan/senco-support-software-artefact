@@ -13,7 +13,7 @@ class MedicationController extends Controller
         Medication::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'name' => 'required|string|max:255',
-            'dosage' => 'string|max:255',
+            'dosage' => 'nullable|string|max:255',
             'frequency' => 'required|string|max:255',
             'time_of_day' => 'nullable|string|max:255',
             'administration_method' => 'nullable|string|max:255',
@@ -31,7 +31,7 @@ class MedicationController extends Controller
     {
         $medication->update($request->validate([
             'name' => 'required|string|max:255',
-            'dosage' => 'string|max:255',
+            'dosage' => 'nullable|string|max:255',
             'frequency' => 'required|string|max:255',
             'time_of_day' => 'nullable|string|max:255',
             'administration_method' => 'nullable|string|max:255',
