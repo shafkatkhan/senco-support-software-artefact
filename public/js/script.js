@@ -74,3 +74,19 @@ $('#toggle_professional_btn').click(function() {
         $('input[name="prof_last_name"]').attr('required', true);
     }
 });
+
+$(document).ready(function() {
+    var datatableConfigs = {
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true
+    };
+    
+    $('.table').DataTable(datatableConfigs);
+    $('div.dt-length select').addClass('form-select form-select-sm');
+    $('div.dt-search input').addClass('form-control form-control-sm');
+});
