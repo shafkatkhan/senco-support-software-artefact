@@ -128,5 +128,6 @@ $(document).ready(function() {
             "url": "https://cdn.datatables.net/plug-ins/2.3.7/i18n/" + dtFileName + ".json"
         };
     }
+    $.fn.dataTable.ext.errMode = 'throw';
     $('.table').DataTable(datatableConfigs);
 });
