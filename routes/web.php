@@ -101,4 +101,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
     Route::post('/backups', [BackupController::class, 'store'])->name('backups.store');
+    Route::delete('/backups/delete/{file_path}', [BackupController::class, 'destroy'])->name('backups.destroy')->where('file_path', '.*');
 });

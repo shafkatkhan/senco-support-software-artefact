@@ -33,7 +33,7 @@ class BackupController extends Controller
     }
 
     /**
-     * Create a database backup.
+     * Create a database backup file.
      */
     public function store()
     {
@@ -60,5 +60,21 @@ class BackupController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('backups.index')->with('error', 'Backup failed: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Delete a backup file.
+     */
+    public function destroy($file_path)
+    {
+        $file = urldecode($file_path);
+        $disk = Storage::disk('local');
+
+        if ($disk->exists($file)) {
+            $disk->delete($file);
+            return redirect()->route('backups.index')->with('success', 'Backup deleted successfully!');
+        }
+
+        return redirect()->route('backups.index')->with('error', 'Backup file not found.');
     }
 }

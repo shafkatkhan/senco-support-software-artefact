@@ -19,6 +19,7 @@
                         <th scope="col">{{ __('File Name') }}</th>
                         <th scope="col">{{ __('File Size') }}</th>
                         <th scope="col">{{ __('Last Modified') }}</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,15 @@
                             <td>{{ $backup['file_name'] }}</td>
                             <td>{{ $backup['file_size'] }}</td>
                             <td data-order="{{ $backup['last_modified'] }}">{{ date('d M Y \a\t H:i', $backup['last_modified']) }}</td>
+                            <td class="icon_wrap">
+                                <button class="icon delete_icon" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#delete" 
+                                    data-url="{{ route('backups.destroy', ['file_path' => urlencode($backup['relative_path'])]) }}" 
+                                    data-name="{{ $backup['file_name'] }}">
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -38,4 +48,6 @@
             </table>
         </div>
     </section>
+
+    @include('components.delete_modal', ['type' => 'Backup'])
 @endsection
