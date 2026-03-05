@@ -86,6 +86,44 @@ $(document).ready(function() {
         "responsive": true
     };
     
+    var locale = document.documentElement.lang.split('-')[0] || 'en';
+
+    // translate if not English from DataTables CDN
+    if (!locale.startsWith('en')) {
+        // mapping to match DataTables CDN file names
+        var dtLangMap = {
+            'az': 'az-AZ',
+            'bs': 'bs-BA',
+            'zh-HK': 'zh-HANT',
+            'zh-CN': 'zh',
+            'zh-TW': 'zh-HANT',
+            'nl': 'nl-NL',
+            'fr': 'fr-FR',
+            'fr-CA': 'fr-FR',
+            'fr-CH': 'fr-FR',
+            'de': 'de-DE',
+            'de-AT': 'de-DE',
+            'de-LI': 'de-DE',
+            'de-CH': 'de-DE',
+            'it': 'it-IT',
+            'it-CH': 'it-IT',
+            'no': 'no-NO',
+            'nb': 'no-NB',
+            'nn': 'no-NO',
+            'pt': 'pt-PT',
+            'mo': 'ro',
+            'sh': 'sr-SP',
+            'sd': 'snd',
+            'es': 'es-ES',
+            'es-419': 'es-ES',
+            'es-US': 'es-MX',
+            'sv': 'sv-SE'
+        };
+        var dtFileName = dtLangMap[locale] || locale;
+        datatableConfigs.language = {
+            "url": "https://cdn.datatables.net/plug-ins/2.3.7/i18n/" + dtFileName + ".json"
+        };
+    }
     $('.table').DataTable(datatableConfigs);
     $('div.dt-length select').addClass('form-select form-select-sm');
     $('div.dt-search input').addClass('form-control form-control-sm');
