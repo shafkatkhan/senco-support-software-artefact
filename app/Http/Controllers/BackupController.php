@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
+use Ifsnop\Mysqldump as IMysqldump;
 
 class BackupController extends Controller
 {
@@ -19,7 +19,7 @@ class BackupController extends Controller
 
         $backups = [];
         foreach ($files as $file) {
-            if (substr($file, -4) == '.zip') {
+            if (substr($file, -4) == '.sql') {
                 $backups[] = [
                     'file_name' => basename($file),
                     'relative_path' => $file,
@@ -38,14 +38,23 @@ class BackupController extends Controller
     public function store()
     {
         try {
-            // backup command for only database (spatie/laravel-backup package)
-            $exitCode = Artisan::call('backup:run', ['--only-db' => true]);
-            $output = Artisan::output();
+            $db = config('database.connections.mysql');
+            $database_connection = "mysql:host={$db['host']};dbname={$db['database']}";
             
-            if ($exitCode !== 0) {
-                // shorten to first 500 characters of output, in case of error that is too long
-                return redirect()->route('backups.index')->with('error', 'Backup failed. Check logs for details: ' . substr($output, 0, 500));
+            $fileName = 'backup-' . date('Y-m-d-H-i-s') . '.sql';
+            $directory = env('APP_NAME', 'laravel-backup');
+            
+            // ensure directory exists in storage
+            if (!Storage::disk('local')->exists($directory)) {
+                Storage::disk('local')->makeDirectory($directory);
             }
+            
+            // generate absolute path
+            $path = Storage::disk('local')->path("{$directory}/{$fileName}");
+
+            // create dump
+            $dump = new IMysqldump\Mysqldump($database_connection, $db['username'], $db['password']);
+            $dump->start($path);
 
             return redirect()->route('backups.index')->with('success', 'Backup created successfully!');
         } catch (\Exception $e) {
