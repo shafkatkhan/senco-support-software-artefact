@@ -2,9 +2,11 @@
 
 @section('content')
     <section id="content">
-        <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-			Create User Group
-		</button>
+        <div class="content_top_buttons">
+            <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+                Create User Group
+            </button>
+        </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">

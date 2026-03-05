@@ -2,7 +2,7 @@
 
 @section('content')
     <section id="content">
-        <div style="display: flex; justify-content: space-between;">
+        <div class="content_top_buttons justify-content-between">
            <div class="section_title">
                 <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
             </div>

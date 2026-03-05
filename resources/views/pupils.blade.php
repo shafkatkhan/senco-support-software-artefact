@@ -2,7 +2,7 @@
 
 @section('content')
     <section id="content">
-        <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: flex-end;">
+        <div class="content_top_buttons">
             <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                 View More Information
             </button>
