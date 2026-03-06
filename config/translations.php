@@ -53,6 +53,17 @@ return [
             'User Group',
             'Choose Group',
             'Edit User',
+            'System Backups',
+        ],
+
+        'Backups' => [
+            'Are you sure you want to create a new backup? This may take a moment.',
+            'Create Backup',
+            'File Name',
+            'File Size',
+            'Last Modified',
+            'Download',
+            'No backups found.',
         ],
 
         'Misc/General' => [
