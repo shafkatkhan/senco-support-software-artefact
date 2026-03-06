@@ -764,3 +764,36 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	border-bottom: none;
 }
 /**/
+.select2-selection{
+	padding: .375rem .75rem;
+	border: var(--bs-border-width) solid var(--bs-border-color) !important;
+}
+.select2-dropdown{
+	border-color: var(--bs-border-color);
+}
+.select2-search__field{
+	margin: 0px !important;
+	height: 24px !important;
+	font-family: 'Cabin', sans-serif !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	margin-top: 2.5px;
+	margin-left: 0px;
+	margin-right: 5px;
+	margin-bottom: 2.5px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	background-color: #eeeeee;
+	border: 1px solid #cfcfcf;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+	border-right-color: #cfcfcf;
+}
+.select2-container--default .select2-results__option--selected{
+	background-color: #ebebeb;
+	box-shadow: inset 0px 0px 0px 2px #a1a1a1;
+}
+.select2-results__option--selectable{
+	margin-bottom: -2px;
+}
+/**/

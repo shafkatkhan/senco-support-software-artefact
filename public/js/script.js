@@ -159,3 +159,28 @@ function niceAlert(type, title, message) {
         $("#alert-container").fadeOut();
     }, 3000);
 }
+
+$(document).ready(function() {
+    $('.select2_multi_select').each(function() {
+        var $this = $(this);
+        $this.select2({
+            width: '100%',
+            placeholder: $this.data('placeholder'),
+            closeOnSelect: false,
+            dropdownParent: $('#' + $this.data('dropdown_parent'))
+        });
+    });
+
+    // clear hover highlight when pointer leaves an open select2 results list
+    $(document).on('select2:open', function() {
+        var $results = $('.select2-container--open .select2-results__options');
+        $results.off('mouseleave.select2clear').on('mouseleave.select2clear', function() {
+            $(this)
+                .find('.select2-results__option--highlighted.select2-results__option--selectable')
+                .removeClass('select2-results__option--highlighted')
+                .removeAttr('aria-selected');
+
+            $('.select2-search__field').removeAttr('aria-activedescendant');
+        });
+    });
+});

@@ -14,6 +14,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
+                        <th scope="col">Subjects</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -23,8 +24,15 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $major->name }}</td>
                             <td>{{ $major->code }}</td>
+                            <td>
+                                @forelse($major->subjects as $subject)
+                                    <span class="badge bg-secondary">{{ $subject->name }}</span>
+                                @empty
+                                    <span class="text-muted">N/A</span>
+                                @endforelse
+                            </td>
                             <td class="icon_wrap">
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('majors.update', $major->id) }}" data-name="{{ $major->name }}" data-code="{{ $major->code }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('majors.update', $major->id) }}" data-name="{{ $major->name }}" data-code="{{ $major->code }}" data-subjects='@json($major->subjects->pluck("id"))'><i class="fa fa-edit"></i></button>
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('majors.destroy', $major->id) }}" data-name="{{ $major->name }}"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
@@ -51,6 +59,14 @@
                         <div class="form-group mb-3">
                             <label>Code</label>
                             <input type="text" class="form-control" name="code" placeholder="Code" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Subjects</label>
+                            <select class="form-control select2_multi_select" name="subject_ids[]" id="new_subject_ids" multiple data-placeholder="Select subjects" data-dropdown_parent="new">
+                                @foreach($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -80,6 +96,14 @@
                             <label>Code</label>
                             <input type="text" class="form-control" name="code" id="edit_code" placeholder="Code" />
                         </div>
+                        <div class="form-group mb-3">
+                            <label>Subjects</label>
+                            <select class="form-control select2_multi_select" name="subject_ids[]" id="edit_subject_ids" multiple data-placeholder="Select subjects" data-dropdown_parent="edit">
+                                @foreach($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" name="save">Update</button>
@@ -98,10 +122,14 @@
             var url = $(this).data('url');
             var name = $(this).data('name');
             var code = $(this).data('code');
+            var subjects = $(this).data('subjects');
 
             $('#editForm').attr('action', url);
             $('#edit_name').val(name);
             $('#edit_code').val(code);
+            $('#edit_subject_ids')
+                .val(subjects ? subjects.map(String) : [])
+                .trigger('change');
         });
     </script>
 @endpush
