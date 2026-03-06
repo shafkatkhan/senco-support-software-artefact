@@ -17,6 +17,7 @@ use App\Models\MeetingType;
 use App\Models\Meeting;
 use App\Models\Event;
 use App\Models\Subject;
+use App\Models\Major;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -185,6 +186,29 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($subjects as $subject) {
             Subject::create($subject);
+        }
+
+        // create majors
+        $majors = [
+            ['name' => 'Car Electronics', 'code' => 'CE'],
+            ['name' => 'Carpentry', 'code' => 'CAR'],
+            ['name' => 'Hairdressing', 'code' => 'HD'],
+            ['name' => 'Plumbing', 'code' => 'PLU'],
+            ['name' => 'Electrical Installation', 'code' => 'EI'],
+            ['name' => 'Health & Social Care', 'code' => 'HSC'],
+            ['name' => 'Childcare', 'code' => 'CC'],
+            ['name' => 'Beauty Therapy', 'code' => 'BT'],
+            ['name' => 'Animal Care', 'code' => 'AC'],
+            ['name' => 'Computer Science', 'code' => 'CS'],
+            ['name' => 'Engineering', 'code' => 'ENG'],
+            ['name' => 'Nursing', 'code' => 'NUR'],
+            ['name' => 'Architecture', 'code' => 'ARC'],
+            ['name' => 'Accounting & Finance', 'code' => 'AF'],
+            ['name' => 'Education', 'code' => 'EDU'],
+            ['name' => 'Social Work', 'code' => 'SW'],
+        ];
+        foreach ($majors as $major) {
+            Major::create($major);
         }
     }
 }
