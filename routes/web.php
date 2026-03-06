@@ -19,6 +19,7 @@ use \App\Http\Controllers\MeetingTypeController;
 use \App\Http\Controllers\EventController;
 use \App\Http\Controllers\BackupController;
 use \App\Http\Controllers\SubjectController;
+use \App\Http\Controllers\MajorController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -100,10 +101,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('meeting-types', MeetingTypeController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('subjects', SubjectController::class)->except(['create', 'show', 'edit']);
-
     Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
     Route::post('/backups', [BackupController::class, 'store'])->name('backups.store');
     Route::get('/backups/download/{file_path}', [BackupController::class, 'download'])->name('backups.download')->where('file_path', '.*');
     Route::delete('/backups/delete/{file_path}', [BackupController::class, 'destroy'])->name('backups.destroy')->where('file_path', '.*');
+
+    Route::resource('subjects', SubjectController::class)->except(['create', 'show', 'edit']);
+
+    Route::resource('majors', MajorController::class)->except(['create', 'show', 'edit']);
 });
