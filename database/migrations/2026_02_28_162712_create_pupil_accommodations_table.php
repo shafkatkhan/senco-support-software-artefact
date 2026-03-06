@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('pupil_id')->constrained()->cascadeOnDelete();
             $table->foreignId('accommodation_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['pupil_id', 'accommodation_id']);
         });
     }
 
