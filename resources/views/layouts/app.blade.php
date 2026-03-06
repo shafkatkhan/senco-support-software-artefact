@@ -40,6 +40,8 @@
 </head>
 <body>
 
+<div id="alert-container" class="sen_alert" style="display: none;"></div>
+
 @include('components.nav')
 @include('components.top_nav')
 
@@ -53,13 +55,19 @@
 
 @if($errors->any())
     <script>
-        alert("{{ $errors->first() }}");
+         niceAlert("danger", "Error:", "{{ $errors->first() }}")
     </script>
 @endif
 
 @if(session('error'))
     <script>
-        alert("{{ session('error') }}");
+        niceAlert("danger", "Error:", "{{ session('error') }}")
+    </script>
+@endif
+
+@if(session('success'))
+    <script>
+        niceAlert("success", "", "{{ session('success') }}")
     </script>
 @endif
 </body>

@@ -131,3 +131,20 @@ $(document).ready(function() {
     $.fn.dataTable.ext.errMode = 'throw';
     $('.table').DataTable(datatableConfigs);
 });
+
+function niceAlert(type, title, message) {
+    let alertBox = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            <strong>${title}</strong> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+
+    // inject into alert container and show
+    $("#alert-container").html(alertBox).fadeIn();
+
+    // auto-hide after 3 seconds
+    setTimeout(function() {
+        $("#alert-container").fadeOut();
+    }, 3000);
+}

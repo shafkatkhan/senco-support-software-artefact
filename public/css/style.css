@@ -699,3 +699,20 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	justify-content: flex-end;
 }
 /**/
+.sen_alert{
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    top: 40px;
+    width: 90%;
+    max-width: 525px;
+    margin: 0px auto;
+}
+.sen_alert .alert{
+	width: 100%;
+}
+/**/
