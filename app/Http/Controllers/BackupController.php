@@ -29,7 +29,8 @@ class BackupController extends Controller
             }
         }
 
-        return view('backups', compact('backups'));
+        $title = 'System Backups';
+        return view('backups', compact('backups', 'title'));
     }
 
     /**
