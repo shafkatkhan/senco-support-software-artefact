@@ -16,6 +16,7 @@ use App\Models\Record;
 use App\Models\MeetingType;
 use App\Models\Meeting;
 use App\Models\Event;
+use App\Models\Subject;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -163,5 +164,27 @@ class DatabaseSeeder extends Seeder
 
         // create events
         Event::factory(50)->create();
+
+        // create subjects
+        $subjects = [
+            ['name' => 'English', 'code' => 'ENG'],
+            ['name' => 'Mathematics', 'code' => 'MAT'],
+            ['name' => 'Science', 'code' => 'SCI'],
+            ['name' => 'History', 'code' => 'HIS'],
+            ['name' => 'Geography', 'code' => 'GEO'],
+            ['name' => 'Religious Education', 'code' => 'RE'],
+            ['name' => 'Art & Design', 'code' => 'ART'],
+            ['name' => 'Music', 'code' => 'MUS'],
+            ['name' => 'Physical Education', 'code' => 'PE'],
+            ['name' => 'Computing', 'code' => 'COM'],
+            ['name' => 'Design & Technology', 'code' => 'DT'],
+            ['name' => 'Modern Foreign Languages', 'code' => 'MFL'],
+            ['name' => 'PSHE', 'code' => 'PSHE'],
+            ['name' => 'Drama', 'code' => 'DRA'],
+            ['name' => 'Business Studies', 'code' => 'BUS'],
+        ];
+        foreach ($subjects as $subject) {
+            Subject::create($subject);
+        }
     }
 }
