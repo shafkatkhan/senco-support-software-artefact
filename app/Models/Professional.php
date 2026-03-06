@@ -23,4 +23,9 @@ class Professional extends Model
     {
         return $this->hasMany(Record::class);
     }
+
+    public function diagnoses()
+    {
+        return $this->hasMany(Diagnosis::class);
+    }
 }
