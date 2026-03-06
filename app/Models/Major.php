@@ -10,4 +10,9 @@ class Major extends Model
         'name',
         'code',
     ];
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'major_subjects');
+    }
 }
