@@ -22,35 +22,34 @@
                 </div>
                 <div class="bottom">
                     <div class="row">
-                        <div class="item col-md-6 border_right-md">
+                        <div class="item col-md-3 border_right-md">
                             <div class="label">DOB:</div>
                             <div class="value">
                                 <i class="far fa-calendar-alt"></i>
                                 {{ $pupil->dob->format('d/m/Y') }}
                             </div>
                         </div>
-                        <div class="item col-md-6">
+                        <div class="item col-md-3 border_right-md">
                             <div class="label">Gender:</div>
                             <div class="value">
                                 {{ $pupil->gender }}
                             </div>
                         </div>
-                        <hr>
-                        <div class="item col-md-6 border_right-md">
+                        <div class="item col-md-3 border_right-md">
                             <div class="label">Joined Date:</div>
                             <div class="value">
                                 <i class="far fa-calendar-alt"></i>
                                 {{ $pupil->joined_date->format('d/m/Y') }}
                             </div>
                         </div>
-                        <div class="item col-md-6">
+                        <div class="item col-md-3">
                             <div class="label">Initial Tutor Group:</div>
                             <div class="value">
                                 {{ $pupil->initial_tutor_group }}
                             </div>
-                        </div>
+                        </div>                        
                         <hr>
-                        <div class="item col-12">
+                        <div class="item col-md-4 border_right-md">
                             <div class="label">Medications:</div>
                             <div class="value">
                                 <div class="label_cards">
@@ -62,13 +61,24 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="item col-12">
+                        <div class="item col-md-4 border_right-md">
                             <div class="label">Diagnoses:</div>
                             <div class="value">
                                 <div class="label_cards">
                                     @forelse ($pupil->diagnoses as $diagnosis)
                                         <div>{{ $diagnosis->name }}</div>
+                                    @empty
+                                        N/A
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item col-md-4">
+                            <div class="label">Accommodations:</div>
+                            <div class="value">
+                                <div class="label_cards">
+                                    @forelse ($pupil->accommodations as $accommodation)
+                                        <div>{{ $accommodation->name }}</div>
                                     @empty
                                         N/A
                                     @endforelse
