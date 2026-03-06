@@ -61,8 +61,15 @@ class InstallController extends Controller
             DB::reconnect('mysql');
             DB::connection()->getPdo();
 
-            // run migrations and seed
-            Artisan::call('migrate:fresh', ['--seed' => true]);
+            if ($request->hasFile('restore_file')) {
+                // backup provided: wipe the DB and run the raw SQL file
+                Artisan::call('db:wipe', ['--force' => true]);
+                $sqlInput = file_get_contents($request->file('restore_file')->getRealPath());
+                DB::unprepared($sqlInput);
+            } else {
+                // no backup provided: run migrations and seed
+                Artisan::call('migrate:fresh', ['--seed' => true]);
+            }
 
 
             // mapping of full language names

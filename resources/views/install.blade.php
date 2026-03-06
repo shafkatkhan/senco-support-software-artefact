@@ -31,7 +31,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('install.process') }}" method="POST">
+            <form action="{{ route('install.process') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-section-title mt-0">System Configuration</div>
                 <div class="mb-3">
@@ -238,6 +238,14 @@
                         <input type="password" class="form-control" name="db_password" placeholder="">
                     </div>
                 </div>
+                <!--  -->
+                <div class="form-section-title">Restore from Backup (Optional)</div>
+                <div class="mb-4">
+                    <label class="form-label">Database Backup File (.sql)</label>
+                    <input class="form-control" type="file" name="restore_file" accept=".sql">
+                    <div class="form-text text-muted">Upload a <b>.sql</b> file to automatically restore the entire system state.</div>
+                </div>
+                
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg">Install System</button>
                 </div>
