@@ -42,9 +42,28 @@ class PupilController extends Controller
      */
     public function show(Pupil $pupil)
     {
-        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses');
+        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'accommodations');
+        
+        // build a grouped list of professional involvements
+        $grouped = [];
+        foreach ($pupil->diagnoses as $diagnosis) {
+            if ($diagnosis->professional) {
+                $id = $diagnosis->professional->id;
+                $grouped[$id]['professional'] = $diagnosis->professional;
+                $grouped[$id]['involvements'][] = $diagnosis->name . ' Diagnosis';
+            }
+        }
+        foreach ($pupil->records as $record) {
+            if ($record->professional) {
+                $id = $record->professional->id;
+                $grouped[$id]['professional'] = $record->professional;
+                $grouped[$id]['involvements'][] = $record->recordType->name . ' Record';
+            }
+        }
+        $involvements = collect(array_values($grouped));
+
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
-        return view('pupils.show', compact('pupil', 'title'));
+        return view('pupils.show', compact('pupil', 'title', 'involvements'));
     }
 
     public function medications(Pupil $pupil)

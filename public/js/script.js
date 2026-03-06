@@ -89,6 +89,16 @@ $(document).ready(function() {
             $('div.dt-search input').addClass('form-control form-control-sm');
         }
     };
+
+    var datatableConfigsNoFilters = {
+        "paging": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": false,
+        "autoWidth": false,
+        "responsive": true,
+    };
     
     var locale = document.documentElement.lang.split('-')[0] || 'en';
 
@@ -129,7 +139,8 @@ $(document).ready(function() {
         };
     }
     $.fn.dataTable.ext.errMode = 'throw';
-    $('.table').DataTable(datatableConfigs);
+    $('.table:not(.no-datatable-filters)').DataTable(datatableConfigs);
+    $('.table.no-datatable-filters').DataTable(datatableConfigsNoFilters);
 });
 
 function niceAlert(type, title, message) {
