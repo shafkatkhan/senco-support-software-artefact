@@ -10,6 +10,7 @@ return [
             'Page 1',
             'SEND Pupils',
             'Accommodations',
+            'Subjects',
             'Record Types',
             'Meeting Types',
             'Professionals',
