@@ -18,6 +18,7 @@ use App\Models\Meeting;
 use App\Models\Event;
 use App\Models\Subject;
 use App\Models\Major;
+use App\Models\Proficiency;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -229,5 +230,14 @@ class DatabaseSeeder extends Seeder
                 $major->subjects()->syncWithoutDetaching($randomSubjects);
             }
         });
+
+        // create proficiencies
+        $proficiencies = [
+            ['name' => 'Foundation', 'description' => 'Core level subject pathway.'],
+            ['name' => 'Higher', 'description' => 'Advanced level subject pathway.'],
+        ];
+        foreach ($proficiencies as $proficiency) {
+            Proficiency::create($proficiency);
+        }
     }
 }
