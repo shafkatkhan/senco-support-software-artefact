@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
+use App\Models\Proficiency;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
@@ -11,10 +12,11 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::with('accommodations:id,name')->get();
+        $subjects = Subject::with(['accommodations:id,name', 'proficiencies:id,name'])->get();
         $accommodations = Accommodation::orderBy('name')->get(['id', 'name']);
+        $proficiencies = Proficiency::orderBy('name')->get(['id', 'name']);
         $title = "Subjects";
-        return view('subjects', compact('subjects', 'accommodations', 'title'));
+        return view('subjects', compact('subjects', 'accommodations', 'proficiencies', 'title'));
     }
 
     public function store(Request $request)
@@ -24,6 +26,8 @@ class SubjectController extends Controller
             'code' => 'nullable|string|unique:subjects,code|max:255',
             'accommodation_ids' => 'nullable|array',
             'accommodation_ids.*' => 'exists:accommodations,id',
+            'proficiency_ids' => 'nullable|array',
+            'proficiency_ids.*' => 'exists:proficiencies,id',
         ]);
 
         $subject = Subject::create([
@@ -31,6 +35,7 @@ class SubjectController extends Controller
             'code' => $validated['code'] ?? null,
         ]);
         $subject->accommodations()->sync($validated['accommodation_ids'] ?? []);
+        $subject->proficiencies()->sync($validated['proficiency_ids'] ?? []);
 
         return back()->with('success', 'Subject Created Successfully!');
     }
@@ -42,6 +47,8 @@ class SubjectController extends Controller
             'code' => 'nullable|string|max:255|unique:subjects,code,' . $subject->id,
             'accommodation_ids' => 'nullable|array',
             'accommodation_ids.*' => 'exists:accommodations,id',
+            'proficiency_ids' => 'nullable|array',
+            'proficiency_ids.*' => 'exists:proficiencies,id',
         ]);
 
         $subject->update([
@@ -50,6 +57,7 @@ class SubjectController extends Controller
         ]);
 
         $subject->accommodations()->sync($validated['accommodation_ids'] ?? []);
+        $subject->proficiencies()->sync($validated['proficiency_ids'] ?? []);
 
         return back()->with('success', 'Subject Updated Successfully!');
     }
