@@ -15,4 +15,9 @@ class Accommodation extends Model
     {
         return $this->belongsToMany(Pupil::class, 'pupil_accommodations');
     }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_accommodations');
+    }
 }

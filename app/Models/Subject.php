@@ -15,4 +15,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(Major::class, 'major_subjects');
     }
+
+    public function accommodations()
+    {
+        return $this->belongsToMany(Accommodation::class, 'subject_accommodations');
+    }
 }
