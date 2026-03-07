@@ -10,6 +10,7 @@
             <li><a href="{{ route('pupils.index') }}" class="{{ request()->routeIs('pupils.*') ? 'activenav' : '' }}">{{ __('SEND Pupils') }}</a></li>
             <li><a href="{{ route('accommodations.index') }}" class="{{ request()->routeIs('accommodations.*') ? 'activenav' : '' }}">{{ __('Accommodations') }}</a></li>
             <li><a href="{{ route('majors.index') }}" class="{{ request()->routeIs('majors.*') ? 'activenav' : '' }}">{{ __('Majors') }}</a></li>
+            <li><a href="{{ route('proficiencies.index') }}" class="{{ request()->routeIs('proficiencies.*') ? 'activenav' : '' }}">{{ __('Proficiencies') }}</a></li>
             <li><a href="{{ route('subjects.index') }}" class="{{ request()->routeIs('subjects.*') ? 'activenav' : '' }}">{{ __('Subjects') }}</a></li>
             <li><a href="{{ route('record-types.index') }}" class="{{ request()->routeIs('record-types.*') ? 'activenav' : '' }}">{{ __('Record Types') }}</a></li>
             <li><a href="{{ route('meeting-types.index') }}" class="{{ request()->routeIs('meeting-types.*') ? 'activenav' : '' }}">{{ __('Meeting Types') }}</a></li>

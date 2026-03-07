@@ -20,6 +20,7 @@ use \App\Http\Controllers\EventController;
 use \App\Http\Controllers\BackupController;
 use \App\Http\Controllers\SubjectController;
 use \App\Http\Controllers\MajorController;
+use \App\Http\Controllers\ProficiencyController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -109,4 +110,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('subjects', SubjectController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('majors', MajorController::class)->except(['create', 'show', 'edit']);
+
+    Route::resource('proficiencies', ProficiencyController::class)->except(['create', 'show', 'edit']);
 });
