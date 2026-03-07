@@ -10,4 +10,9 @@ class Proficiency extends Model
         'name',
         'description',
     ];
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_proficiencies');
+    }
 }

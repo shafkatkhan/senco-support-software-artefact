@@ -20,4 +20,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(Accommodation::class, 'subject_accommodations');
     }
+    
+    public function proficiencies()
+    {
+        return $this->belongsToMany(Proficiency::class, 'subject_proficiencies');
+    }
 }
