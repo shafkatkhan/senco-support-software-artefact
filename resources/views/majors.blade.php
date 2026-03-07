@@ -24,7 +24,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $major->name }}</td>
                             <td>{{ $major->code }}</td>
-                            <td>
+                            <td data-order="{{ $major->subjects->count() }}">
                                 @forelse($major->subjects as $subject)
                                     <span class="badge bg-secondary">{{ $subject->name }}</span>
                                 @empty
