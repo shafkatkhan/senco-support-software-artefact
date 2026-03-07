@@ -188,6 +188,15 @@ class DatabaseSeeder extends Seeder
             Subject::create($subject);
         }
 
+        // assign accommodations to subjects
+        Subject::all()->each(function ($subject) use ($createdAccommodations) {
+            $count = rand(0, 3);
+            if ($count > 0) {
+                $randomAccommodations = $createdAccommodations->random($count)->pluck('id');
+                $subject->accommodations()->syncWithoutDetaching($randomAccommodations);
+            }
+        });
+
         // create majors
         $majors = [
             ['name' => 'Car Electronics', 'code' => 'CE'],
