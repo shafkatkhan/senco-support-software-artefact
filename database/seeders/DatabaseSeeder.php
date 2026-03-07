@@ -167,6 +167,15 @@ class DatabaseSeeder extends Seeder
         // create events
         Event::factory(50)->create();
 
+        // create proficiencies
+        $proficiencies = [
+            ['name' => 'Foundation', 'description' => 'Core level subject pathway.'],
+            ['name' => 'Higher', 'description' => 'Advanced level subject pathway.'],
+        ];
+        foreach ($proficiencies as $proficiency) {
+            Proficiency::create($proficiency);
+        }
+
         // create subjects
         $subjects = [
             ['name' => 'English', 'code' => 'ENG'],
@@ -189,12 +198,18 @@ class DatabaseSeeder extends Seeder
             Subject::create($subject);
         }
 
-        // assign accommodations to subjects
-        Subject::all()->each(function ($subject) use ($createdAccommodations) {
+        // assign accommodations and proficiencies to subjects
+        $proficiencyIds = Proficiency::pluck('id');
+        Subject::all()->each(function ($subject) use ($createdAccommodations, $proficiencyIds) {
             $count = rand(0, 3);
             if ($count > 0) {
                 $randomAccommodations = $createdAccommodations->random($count)->pluck('id');
                 $subject->accommodations()->syncWithoutDetaching($randomAccommodations);
+            }
+
+            // 40% chance to assign all proficiencies
+            if (rand(1, 100) <= 40) {
+                $subject->proficiencies()->syncWithoutDetaching($proficiencyIds->all());
             }
         });
 
@@ -230,14 +245,5 @@ class DatabaseSeeder extends Seeder
                 $major->subjects()->syncWithoutDetaching($randomSubjects);
             }
         });
-
-        // create proficiencies
-        $proficiencies = [
-            ['name' => 'Foundation', 'description' => 'Core level subject pathway.'],
-            ['name' => 'Higher', 'description' => 'Advanced level subject pathway.'],
-        ];
-        foreach ($proficiencies as $proficiency) {
-            Proficiency::create($proficiency);
-        }
     }
 }
