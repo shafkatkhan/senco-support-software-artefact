@@ -76,4 +76,9 @@ class Pupil extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function diets()
+    {
+        return $this->hasMany(Diet::class);
+    }
 }

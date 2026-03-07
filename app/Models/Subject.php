@@ -25,4 +25,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(Proficiency::class, 'subject_proficiencies');
     }
+
+    public function diets()
+    {
+        return $this->hasMany(Diet::class);
+    }
 }
