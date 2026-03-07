@@ -14,6 +14,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
+                        <th scope="col">Accommodations</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -23,8 +24,15 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $subject->name }}</td>
                             <td>{{ $subject->code }}</td>
+                            <td data-order="{{ $subject->accommodations->count() }}">
+                                @forelse($subject->accommodations as $accommodation)
+                                    <span class="badge bg-secondary">{{ $accommodation->name }}</span>
+                                @empty
+                                    <span class="text-muted">N/A</span>
+                                @endforelse
+                            </td>
                             <td class="icon_wrap">
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('subjects.update', $subject->id) }}" data-name="{{ $subject->name }}" data-code="{{ $subject->code }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('subjects.update', $subject->id) }}" data-name="{{ $subject->name }}" data-code="{{ $subject->code }}" data-accommodations='@json($subject->accommodations->pluck("id"))'><i class="fa fa-edit"></i></button>
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('subjects.destroy', $subject->id) }}" data-name="{{ $subject->name }}"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
@@ -51,6 +59,14 @@
                         <div class="form-group mb-3">
                             <label>Code</label>
                             <input type="text" class="form-control" name="code" placeholder="Code" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Accommodations</label>
+                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="new_accommodation_ids" multiple data-placeholder="Select accommodations" data-dropdown_parent="new">
+                                @foreach($accommodations as $accommodation)
+                                    <option value="{{ $accommodation->id }}">{{ $accommodation->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -80,6 +96,14 @@
                             <label>Code</label>
                             <input type="text" class="form-control" name="code" id="edit_code" placeholder="Code" />
                         </div>
+                        <div class="form-group mb-3">
+                            <label>Accommodations</label>
+                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="edit_accommodation_ids" multiple data-placeholder="Select accommodations" data-dropdown_parent="edit">
+                                @foreach($accommodations as $accommodation)
+                                    <option value="{{ $accommodation->id }}">{{ $accommodation->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" name="save">Update</button>
@@ -98,10 +122,14 @@
             var url = $(this).data('url');
             var name = $(this).data('name');
             var code = $(this).data('code');
+            var accommodations = $(this).data('accommodations');
 
             $('#editForm').attr('action', url);
             $('#edit_name').val(name);
             $('#edit_code').val(code);
+            $('#edit_accommodation_ids')
+                .val(accommodations ? accommodations.map(String) : [])
+                .trigger('change');
         });
     </script>
 @endpush
