@@ -219,5 +219,15 @@ class DatabaseSeeder extends Seeder
         foreach ($majors as $major) {
             Major::create($major);
         }
+
+        // assign subjects to majors
+        $subjectIds = Subject::pluck('id');
+        Major::all()->each(function ($major) use ($subjectIds) {
+            $count = rand(0, 3);
+            if ($count > 0) {
+                $randomSubjects = $subjectIds->random($count)->all();
+                $major->subjects()->syncWithoutDetaching($randomSubjects);
+            }
+        });
     }
 }
