@@ -7,13 +7,81 @@
                 <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
+                    Toggle Card View
+                </button>
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add Subject to Diet
                 </button>
             </div>
         </div>
 
-        <div class="table_wrap">
+        <div id="toggleViewGrid" class="sen_cards" style="display: none;">
+            @forelse($pupil->diets as $diet)
+                <div class="sen_card">
+                    <div class="top">
+                        <div class="label">
+                            {{ $diet->subject->name }}
+                        </div>
+                        <div class="sen_icon_wrap">
+                            <button class="sen_icon sen_edit_icon edit_icon button_styled" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#edit" 
+                                data-url="{{ route('diets.update', $diet->id) }}"
+                                data-subject_id="{{ $diet->subject_id }}"
+                                data-proficiency_id="{{ $diet->proficiency_id }}"
+                                data-accommodations="{{ $diet->accommodations->toJson() }}"
+                            >
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="sen_icon sen_delete_icon delete_icon button_styled" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#delete" 
+                                data-url="{{ route('diets.destroy', $diet->id) }}"
+                                data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}"
+                            >
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="row">
+                            <div class="item col-md-12">
+                                <div class="label">Proficiency:</div>
+                                <div class="value">
+                                    {{ $diet->proficiency?->name ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-12">
+                                <div class="label">Accommodations:</div>
+                                <div class="value diet_acc_list">
+                                    @forelse($diet->accommodations as $acc)
+                                        <div class="diet_acc_row">
+                                            <div class="diet_acc_main">
+                                                <div class="diet_acc_name">{{ $acc->name }}</div>
+                                                <span class="badge {{ $acc->pivot->status === 'Approved' ? 'bg-success' : 'bg-warning text-dark' }}">
+                                                    {{ $acc->pivot->status }}
+                                                </span>
+                                            </div>
+                                            @if($acc->pivot->details)
+                                                <div class="diet_acc_details">{{ $acc->pivot->details }}</div>
+                                            @endif
+                                        </div>
+                                    @empty
+                                        N/A
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="empty_grid_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+            @endforelse
+        </div>
+
+        <div id="toggleViewTable" class="table_wrap">
             <table class="table sen_table-striped">
                 <thead class="thead-dark">
                     <tr>

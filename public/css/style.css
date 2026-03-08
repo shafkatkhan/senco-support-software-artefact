@@ -519,6 +519,31 @@ table{
 	font-family: 'Cabin', sans-serif;
 	font-weight: 600;
 }
+.sen_cards .sen_card .bottom .item .value.diet_acc_list{
+	display: block;
+	width: 100%;
+}
+.sen_cards .sen_card .bottom .item .value.diet_acc_list .diet_acc_row{
+	width: 100%;
+	border-bottom: 1px solid #eee;
+	padding: 15px 0;
+}
+.sen_cards .sen_card .bottom .item .value.diet_acc_list .diet_acc_row:last-child{
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+.sen_cards .sen_card .bottom .item .value.diet_acc_list .diet_acc_main{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+}
+.sen_cards .sen_card .bottom .item .value.diet_acc_list .diet_acc_details{
+	margin-top: 8px;
+	color: #757575;
+	font-size: 15px;
+	line-height: 1.35;
+}
 .sen_cards .sen_card .bottom .item .label_cards{
 	margin-top: 0px;
 }
