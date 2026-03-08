@@ -86,19 +86,6 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="item col-12">
-                                <div class="label">Accommodations:</div>
-                                <div class="value">
-                                    <div class="label_cards">
-                                        @forelse ($pupil->accommodations as $accommodation)
-                                            <div>{{ $accommodation->name }}</div>
-                                        @empty
-                                            N/A
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
                             <div class="item col-md-6 border_right-md">
                                 <div class="label">Smoking History?</div>
                                 <div class="value">

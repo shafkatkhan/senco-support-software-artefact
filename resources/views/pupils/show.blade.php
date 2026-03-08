@@ -50,7 +50,7 @@
                                 </div>
                             </div>                        
                             <hr>
-                            <div class="item col-md-4 border_right-md">
+                            <div class="item col-md-6 border_right-md">
                                 <div class="label">Medications:</div>
                                 <div class="value">
                                     <div class="label_cards">
@@ -62,24 +62,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item col-md-4 border_right-md">
+                            <div class="item col-md-6 border_right-md">
                                 <div class="label">Diagnoses:</div>
                                 <div class="value">
                                     <div class="label_cards">
                                         @forelse ($pupil->diagnoses as $diagnosis)
                                             <div>{{ $diagnosis->name }}</div>
-                                        @empty
-                                            N/A
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item col-md-4">
-                                <div class="label">Accommodations:</div>
-                                <div class="value">
-                                    <div class="label_cards">
-                                        @forelse ($pupil->accommodations as $accommodation)
-                                            <div>{{ $accommodation->name }}</div>
                                         @empty
                                             N/A
                                         @endforelse

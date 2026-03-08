@@ -10,7 +10,6 @@ use \App\Http\Controllers\AccommodationController;
 use \App\Http\Controllers\MedicationController;
 use \App\Http\Controllers\DiagnosisController;
 use \App\Http\Controllers\FamilyMemberController;
-use \App\Http\Controllers\PupilAccommodationController;
 use \App\Http\Controllers\RecordTypeController;
 use \App\Http\Controllers\RecordController;
 use \App\Http\Controllers\ProfessionalController;
@@ -74,7 +73,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
     Route::get('/pupil-details/{pupil}/records', [PupilController::class, 'records'])->name('pupils.records');
     Route::get('/pupil-details/{pupil}/events', [PupilController::class, 'events'])->name('pupils.events');
-    Route::get('/pupil-details/{pupil}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
     Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
     Route::get('/pupil-details/{pupil}/diet', [PupilController::class, 'diets'])->name('pupils.diets');
@@ -96,9 +94,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
     
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
-
-    Route::post('/pupils/{pupil}/accommodations', [PupilAccommodationController::class, 'store'])->name('pupils.accommodations.store');
-    Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');
 
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
     

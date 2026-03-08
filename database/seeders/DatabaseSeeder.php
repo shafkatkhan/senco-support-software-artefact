@@ -123,15 +123,6 @@ class DatabaseSeeder extends Seeder
             $createdAccommodations->push(Accommodation::create($accommodation));
         }
 
-        // assign accommodations to pupils
-        Pupil::all()->each(function ($pupil) use ($createdAccommodations) {
-            $count = rand(0, 3);
-            if ($count > 0) {
-                $randomAccommodations = $createdAccommodations->random($count)->pluck('id');
-                $pupil->accommodations()->sync($randomAccommodations);
-            }
-        });
-
         // create record types
         $recordTypes = [
             ['name' => 'Medical', 'description' => 'Records relating to medical history, doctor visits, and health plans.'],

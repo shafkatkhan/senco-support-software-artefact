@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pupil;
-use App\Models\Accommodation;
 use App\Models\RecordType;
 use App\Models\Professional;
 use App\Models\MeetingType;
@@ -44,7 +43,7 @@ class PupilController extends Controller
      */
     public function show(Pupil $pupil)
     {
-        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'accommodations');
+        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType');
         
         // build a grouped list of professional involvements
         $grouped = [];
@@ -97,18 +96,6 @@ class PupilController extends Controller
         $pupil->load('events');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Events";
         return view('pupils.events', compact('pupil', 'title'));
-    }
-
-    public function accommodations(Pupil $pupil)
-    {
-        $pupil->load('accommodations');
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Accommodations";
-        
-        // get accommodations the pupil doesn't already have
-        $existingAccommodationIds = $pupil->accommodations->pluck('id')->toArray();
-        $availableAccommodations = Accommodation::whereNotIn('id', $existingAccommodationIds)->get();
-
-        return view('pupils.accommodations', compact('pupil', 'title', 'availableAccommodations'));
     }
 
     public function familyMembers(Pupil $pupil)
