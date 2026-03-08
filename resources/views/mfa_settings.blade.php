@@ -37,7 +37,7 @@
                                 <div class="mfa_option_icon"><i class="fas fa-mobile-alt"></i></div>
                                 <div class="text">
                                     <div class="mfa_option_title">{{ __('Authenticator App') }}</div>
-                                    <div class="mfa_option_description">{{ __('Users must set up an Authenticator app and enter a time-based code each time they log in.') }}</div>
+                                    <div class="mfa_option_description">{{ __('Users must set up an authenticator app and enter a time-based code each time they log in.') }}</div>
                                 </div>
                             </div>
                         </label>

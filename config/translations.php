@@ -18,6 +18,8 @@ return [
             'Professionals',
             'User Groups',
             'Users',
+            'MFA Settings',
+            'System Backups',
         ],
 
         'Top Navigation' => [
@@ -57,7 +59,6 @@ return [
             'User Group',
             'Choose Group',
             'Edit User',
-            'System Backups',
         ],
 
         'Backups' => [
@@ -70,12 +71,24 @@ return [
             'No backups found.',
         ],
 
+        'MFA Settings' => [
+            'Multi-Factor Authentication',
+            'Choose how users must verify their identity when logging in.',
+            'No MFA',
+            'Users log in with username and password only. No additional verification step.',
+            'Email Verification',
+            'A one-time code is sent to the user\'s email address after login. Users must enter the code to continue.',
+            'Authenticator App',
+            'Users must set up an authenticator app and enter a time-based code each time they log in.',
+        ],
+
         'Misc/General' => [
             'Actions',
             'First Name',
             'Last Name',
             'Save',
             'Update',
+            'Save Changes',
         ],
     ],
 
