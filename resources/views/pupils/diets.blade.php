@@ -8,7 +8,7 @@
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add Diet Entry
+                    Add Subject to Diet
                 </button>
             </div>
         </div>
