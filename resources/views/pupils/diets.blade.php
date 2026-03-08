@@ -20,6 +20,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Subject</th>
                         <th scope="col">Proficiency</th>
+                        <th scope="col">Accommodations</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -29,13 +30,21 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diet->subject->name}}</td>
                             <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">N/A</span>' !!}</td>
+                            <td>
+                                @forelse($diet->accommodations as $acc)
+                                    <span class="badge bg-secondary">{{ $acc->name }} ({{ $acc->pivot->status }})</span>
+                                @empty
+                                    <span class="text-muted">N/A</span>
+                                @endforelse
+                            </td>
                             <td class="icon_wrap">
                                 <button class="icon edit_icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#edit"
                                     data-url="{{ route('diets.update', $diet->id) }}"
                                     data-subject_id="{{ $diet->subject_id }}"
-                                    data-proficiency_id="{{ $diet->proficiency_id }}">
+                                    data-proficiency_id="{{ $diet->proficiency_id }}"
+                                    data-accommodations="{{ $diet->accommodations->toJson() }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
                                 <button class="icon delete_icon"
@@ -49,7 +58,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="5" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -81,6 +90,13 @@
                             <label>Proficiency*</label>
                             <select name="proficiency_id" id="new_proficiency_id" class="form-control">
                             </select>
+                        </div>
+                        <div class="form-group mb-3" id="new_accommodations_wrapper" style="display: none;">
+                            <label>Accommodations</label>
+                            <div id="new_accommodations_container"></div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addAccommodationRow('new')">
+                                <i class="fa fa-plus"></i> Add Accommodation
+                            </button>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -116,6 +132,13 @@
                             <select name="proficiency_id" id="edit_proficiency_id" class="form-control">
                             </select>
                         </div>
+                        <div class="form-group mb-3" id="edit_accommodations_wrapper" style="display: none;">
+                            <label>Accommodations</label>
+                            <div id="edit_accommodations_container"></div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addAccommodationRow('edit')">
+                                <i class="fa fa-plus"></i> Add Accommodation
+                            </button>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -131,43 +154,111 @@
 @push('scripts')
 <script>
     const subjectsData = {!! $subjects->toJson() !!};
+    let accommodationRowIndex = 0;
 
-    function filterProficiencies(formPrefix, currentProficiencyId = null) {
+    function filterSubjectOptions(formPrefix, currentProficiencyId = null, currentAccommodations = []) {
         const subjectId = $(`#${formPrefix}_subject_id`).val();
-        const $group = $(`#${formPrefix}_proficiency_group`);
-        const $select = $(`#${formPrefix}_proficiency_id`);
+        
+        // proficiency logic
+        const $profGroup = $(`#${formPrefix}_proficiency_group`);
+        const $profSelect = $(`#${formPrefix}_proficiency_id`);
         
         const subject = subjectsData.find(s => s.id == subjectId);
+        
+        // update proficiencies
         const hasProficiencies = subject && subject.proficiencies.length > 0;
-
         if (hasProficiencies) {
-            $select.empty().append('<option value="" disabled selected>--- Choose Proficiency ---</option>');
+            $profSelect.empty().append('<option value="" disabled selected>--- Choose Proficiency ---</option>');
             subject.proficiencies.forEach(p => {
-                $select.append(`<option value="${p.id}" ${p.id == currentProficiencyId ? 'selected' : ''}>${p.name}</option>`);
+                $profSelect.append(`<option value="${p.id}" ${p.id == currentProficiencyId ? 'selected' : ''}>${p.name}</option>`);
             });
-            $select.attr('required', true);
-            $group.show();
+            $profSelect.attr('required', true);
+            $profGroup.show();
         } else {
-            $select.empty().attr('required', false);
-            $group.hide();
+            $profSelect.empty().attr('required', false);
+            $profGroup.hide();
+        }
+
+        // accommodation logic
+        const $accWrapper = $(`#${formPrefix}_accommodations_wrapper`);
+        const $accContainer = $(`#${formPrefix}_accommodations_container`);
+        const hasAccommodations = subject && subject.accommodations.length > 0;
+
+        $accContainer.empty(); // clear existing rows when subject changes or on load
+
+        if (hasAccommodations) {
+            $accWrapper.show();
+            // fill in existing accommodations (for edit)
+            currentAccommodations.forEach(acc => {
+                addAccommodationRow(formPrefix, subject.accommodations, acc.id, acc.pivot.status, acc.pivot.details);
+            });
+        } else {
+            $accWrapper.hide();
         }
     }
 
+    function addAccommodationRow(formPrefix, availableAccommodations = null, selectedId = null, selectedStatus = 'Recommended', details = '') {
+        if (!availableAccommodations) {
+            const subjectId = $(`#${formPrefix}_subject_id`).val();
+            const subject = subjectsData.find(s => s.id == subjectId);
+            availableAccommodations = subject ? subject.accommodations : [];
+        }
+
+        if (availableAccommodations.length === 0) return;
+
+        let options = '<option value="" disabled selected>--- Choose Accommodation ---</option>';
+        availableAccommodations.forEach(a => {
+            options += `<option value="${a.id}" ${a.id == selectedId ? 'selected' : ''}>${a.name}</option>`;
+        });
+
+        const statusRecommended = selectedStatus === 'Recommended' ? 'selected' : '';
+        const statusApproved = selectedStatus === 'Approved' ? 'selected' : '';
+
+        const rowHtml = `
+            <div class="row align-items-center mb-2 acc-row">
+                <div class="col-md-4 mb-2 mb-md-0">
+                    <select name="accommodations[${accommodationRowIndex}][id]" class="form-control" required>
+                        ${options}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <select name="accommodations[${accommodationRowIndex}][status]" class="form-control" required>
+                        <option value="Recommended" ${statusRecommended}>Recommended</option>
+                        <option value="Approved" ${statusApproved}>Approved</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2 mb-md-0">
+                    <textarea name="accommodations[${accommodationRowIndex}][details]" class="form-control" rows="1" placeholder="Details (Optional)">${details || ''}</textarea>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm w-100" onclick="$(this).closest('.acc-row').remove()"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+        `;
+
+        $(`#${formPrefix}_accommodations_container`).append(rowHtml);
+        accommodationRowIndex++;
+    }
+
     $(document).on('change', '#new_subject_id', function () {
-        filterProficiencies('new');
+        filterSubjectOptions('new');
     });
 
     $(document).on('change', '#edit_subject_id', function () {
-        filterProficiencies('edit', $('#edit_proficiency_id').val());
+        // if subject changes manually in edit, wipe existing accommodations by passing empty array
+        filterSubjectOptions('edit', $('#edit_proficiency_id').val(), []);
     });
 
     $(document).on('click', '.edit_icon', function () {
         const subjectId = $(this).data('subject_id');
         const proficiencyId = $(this).data('proficiency_id');
+        const subjectData = subjectsData.find(s => s.id == subjectId);
+        const dietAccommodationsStr = $(this).attr('data-accommodations');
+        const accommodations = dietAccommodationsStr ? JSON.parse(dietAccommodationsStr) : [];
         
         $('#editForm').attr('action', $(this).data('url'));
         $('#edit_subject_id').val(subjectId);
-        filterProficiencies('edit', proficiencyId);
+        filterSubjectOptions('edit', proficiencyId, accommodations);
     });
 </script>
 @endpush

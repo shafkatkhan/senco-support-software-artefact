@@ -14,7 +14,7 @@ class DietController extends Controller
     {
         $hasProficiencies = DB::table('subject_proficiencies')->where('subject_id', $request->subject_id)->exists();
 
-        Diet::create($request->validate([
+        $validatedData = $request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'subject_id' => [
                 'required',
@@ -26,9 +26,34 @@ class DietController extends Controller
                 'nullable',
                 Rule::exists('subject_proficiencies', 'proficiency_id')->where('subject_id', $request->subject_id)
             ],
+            'accommodations' => 'nullable|array',
+            'accommodations.*.id' => [
+                'required',
+                'exists:accommodations,id',
+                Rule::exists('subject_accommodations', 'accommodation_id')->where('subject_id', $request->subject_id)
+            ],
+            'accommodations.*.status' => 'required|in:Recommended,Approved',
+            'accommodations.*.details' => 'nullable|string'
         ], [
             'subject_id.unique' => 'This subject is already in the pupil\'s diet.'
-        ]));
+        ]);
+
+        $diet = Diet::create([
+            'pupil_id' => $validatedData['pupil_id'],
+            'subject_id' => $validatedData['subject_id'],
+            'proficiency_id' => $validatedData['proficiency_id'] ?? null,
+        ]);
+
+        $syncData = collect($validatedData['accommodations'] ?? [])
+            ->unique('id')
+            ->mapWithKeys(fn($acc) => [
+                $acc['id'] => [
+                    'status' => $acc['status'],
+                    'details' => $acc['details'] ?? null
+                ]
+            ]);
+
+        $diet->accommodations()->sync($syncData);
 
         return back()->with('success', 'Diet Entry Added Successfully!');
     }
@@ -37,7 +62,7 @@ class DietController extends Controller
     {
         $hasProficiencies = DB::table('subject_proficiencies')->where('subject_id', $request->subject_id)->exists();
 
-        $diet->update($request->validate([
+        $validatedData = $request->validate([
             'subject_id' => [
                 'required',
                 'exists:subjects,id',
@@ -48,9 +73,33 @@ class DietController extends Controller
                 'nullable',
                 Rule::exists('subject_proficiencies', 'proficiency_id')->where('subject_id', $request->subject_id)
             ],
+            'accommodations' => 'nullable|array',
+            'accommodations.*.id' => [
+                'required',
+                'exists:accommodations,id',
+                Rule::exists('subject_accommodations', 'accommodation_id')->where('subject_id', $request->subject_id)
+            ],
+            'accommodations.*.status' => 'required|in:Recommended,Approved',
+            'accommodations.*.details' => 'nullable|string'
         ], [
             'subject_id.unique' => 'This subject is already in the pupil\'s diet.'
-        ]));
+        ]);
+
+        $diet->update([
+            'subject_id' => $validatedData['subject_id'],
+            'proficiency_id' => $validatedData['proficiency_id'] ?? null,
+        ]);
+
+        $syncData = collect($validatedData['accommodations'] ?? [])
+            ->unique('id')
+            ->mapWithKeys(fn($acc) => [
+                $acc['id'] => [
+                    'status' => $acc['status'],
+                    'details' => $acc['details'] ?? null
+                ]
+            ]);
+
+        $diet->accommodations()->sync($syncData);
 
         return back()->with('success', 'Diet Entry Updated Successfully!');
     }
