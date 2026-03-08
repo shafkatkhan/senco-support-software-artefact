@@ -129,10 +129,9 @@ class PupilController extends Controller
     public function diets(Pupil $pupil)
     {
         $pupil->load(['diets.subject', 'diets.proficiency']);
-        $subjects = Subject::orderBy('name')->get(['id', 'name']);
-        $proficiencies = Proficiency::orderBy('name')->get(['id', 'name']);
+        $subjects = Subject::with('proficiencies')->orderBy('name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diet";
-        return view('pupils.diets', compact('pupil', 'title', 'subjects', 'proficiencies'));
+        return view('pupils.diets', compact('pupil', 'title', 'subjects'));
     }
 
     /**

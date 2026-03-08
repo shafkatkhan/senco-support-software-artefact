@@ -28,7 +28,7 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diet->subject->name}}</td>
-                            <td>{{ $diet->proficiency->name}}</td>
+                            <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">N/A</span>' !!}</td>
                             <td class="icon_wrap">
                                 <button class="icon edit_icon"
                                     data-bs-toggle="modal"
@@ -42,7 +42,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete"
                                     data-url="{{ route('diets.destroy', $diet->id) }}"
-                                    data-name="{{ ($diet->subject->name) . ' (' . ($diet->proficiency->name) . ')' }}">
+                                    data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -70,20 +70,16 @@
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <label>Subject*</label>
-                            <select name="subject_id" class="form-control" required>
+                            <select name="subject_id" id="new_subject_id" class="form-control" required>
                                 <option value="" disabled selected>--- Choose Subject ---</option>
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" id="new_proficiency_group" style="display: none;">
                             <label>Proficiency*</label>
-                            <select name="proficiency_id" class="form-control" required>
-                                <option value="" disabled selected>--- Choose Proficiency ---</option>
-                                @foreach($proficiencies as $proficiency)
-                                    <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
-                                @endforeach
+                            <select name="proficiency_id" id="new_proficiency_id" class="form-control">
                             </select>
                         </div>
                     </div>
@@ -115,13 +111,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" id="edit_proficiency_group" style="display: none;">
                             <label>Proficiency*</label>
-                            <select name="proficiency_id" id="edit_proficiency_id" class="form-control" required>
-                                <option value="" disabled>--- Choose Proficiency ---</option>
-                                @foreach($proficiencies as $proficiency)
-                                    <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
-                                @endforeach
+                            <select name="proficiency_id" id="edit_proficiency_id" class="form-control">
                             </select>
                         </div>
                     </div>
@@ -138,10 +130,44 @@
 
 @push('scripts')
 <script>
+    const subjectsData = {!! $subjects->toJson() !!};
+
+    function filterProficiencies(formPrefix, currentProficiencyId = null) {
+        const subjectId = $(`#${formPrefix}_subject_id`).val();
+        const $group = $(`#${formPrefix}_proficiency_group`);
+        const $select = $(`#${formPrefix}_proficiency_id`);
+        
+        const subject = subjectsData.find(s => s.id == subjectId);
+        const hasProficiencies = subject && subject.proficiencies.length > 0;
+
+        if (hasProficiencies) {
+            $select.empty().append('<option value="" disabled selected>--- Choose Proficiency ---</option>');
+            subject.proficiencies.forEach(p => {
+                $select.append(`<option value="${p.id}" ${p.id == currentProficiencyId ? 'selected' : ''}>${p.name}</option>`);
+            });
+            $select.attr('required', true);
+            $group.show();
+        } else {
+            $select.empty().attr('required', false);
+            $group.hide();
+        }
+    }
+
+    $(document).on('change', '#new_subject_id', function () {
+        filterProficiencies('new');
+    });
+
+    $(document).on('change', '#edit_subject_id', function () {
+        filterProficiencies('edit', $('#edit_proficiency_id').val());
+    });
+
     $(document).on('click', '.edit_icon', function () {
+        const subjectId = $(this).data('subject_id');
+        const proficiencyId = $(this).data('proficiency_id');
+        
         $('#editForm').attr('action', $(this).data('url'));
-        $('#edit_subject_id').val(String($(this).data('subject_id')));
-        $('#edit_proficiency_id').val(String($(this).data('proficiency_id')));
+        $('#edit_subject_id').val(subjectId);
+        filterProficiencies('edit', proficiencyId);
     });
 </script>
 @endpush
