@@ -822,3 +822,90 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	margin-bottom: -2px;
 }
 /**/
+.settings_wrap{
+	width: 95%;
+	margin: 90px auto 0;
+}
+.settings_section{
+	background-color: #FFF;
+	border-radius: 8px;
+	padding: 30px;
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.06);
+	border: 1px solid #e8e8e8;
+}
+.settings_section .title{
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 5px;
+	font-size: 17px;
+}
+.settings_section .description{
+	color: #777;
+	font-size: 15px;
+	margin-bottom: 25px;
+}
+.settings_actions{
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+}
+.mfa_options{
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.mfa_option{
+	display: block;
+	border: 2px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 20px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	background-color: #fafafa;
+}
+.mfa_option:hover{
+	border-color: #b0c4de;
+	background-color: #f5f8fc;
+}
+.mfa_option.active{
+	border-color: #4179a9;
+	background-color: #f0f6fb;
+	box-shadow: 0 0 0 1px #4179a9;
+}
+.mfa_option input[type="radio"]{
+	display: none;
+}
+.mfa_option_content{
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+.mfa_option_icon{
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	background-color: #e9eff5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	font-size: 18px;
+	color: #4179a9;
+	transition: all 0.2s ease;
+}
+.mfa_option.active .mfa_option_icon{
+	background-color: #4179a9;
+	color: #FFF;
+}
+.mfa_option_title{
+	font-weight: 600;
+	font-size: 16px;
+	color: #333;
+	margin-bottom: 4px;
+}
+.mfa_option_description{
+	font-size: 14px;
+	color: #777;
+	line-height: 1.4;
+}
+/* end Settings Page */

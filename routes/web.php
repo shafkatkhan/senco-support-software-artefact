@@ -21,6 +21,7 @@ use \App\Http\Controllers\SubjectController;
 use \App\Http\Controllers\MajorController;
 use \App\Http\Controllers\ProficiencyController;
 use \App\Http\Controllers\DietController;
+use \App\Http\Controllers\MfaSettingController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -111,4 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('majors', MajorController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('proficiencies', ProficiencyController::class)->except(['create', 'show', 'edit']);
+
+    Route::get('/mfa-settings', [MfaSettingController::class, 'index'])->name('mfa-settings.index');
+    Route::put('/mfa-settings', [MfaSettingController::class, 'update'])->name('mfa-settings.update');
 });
