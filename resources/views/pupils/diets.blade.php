@@ -1,0 +1,147 @@
+@extends('layouts.app')
+
+@section('content')
+    <section id="content">
+        <div class="content_top_buttons justify-content-between">
+            <div class="section_title">
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+                    Add Diet Entry
+                </button>
+            </div>
+        </div>
+
+        <div class="table_wrap">
+            <table class="table sen_table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Proficiency</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($pupil->diets as $diet)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $diet->subject->name}}</td>
+                            <td>{{ $diet->proficiency->name}}</td>
+                            <td class="icon_wrap">
+                                <button class="icon edit_icon"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit"
+                                    data-url="{{ route('diets.update', $diet->id) }}"
+                                    data-subject_id="{{ $diet->subject_id }}"
+                                    data-proficiency_id="{{ $diet->proficiency_id }}">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="icon delete_icon"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#delete"
+                                    data-url="{{ route('diets.destroy', $diet->id) }}"
+                                    data-name="{{ ($diet->subject->name) . ' (' . ($diet->proficiency->name) . ')' }}">
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Add Diet Entry</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('diets.store') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label>Subject*</label>
+                            <select name="subject_id" class="form-control" required>
+                                <option value="" disabled selected>--- Choose Subject ---</option>
+                                @foreach($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Proficiency*</label>
+                            <select name="proficiency_id" class="form-control" required>
+                                <option value="" disabled selected>--- Choose Proficiency ---</option>
+                                @foreach($proficiencies as $proficiency)
+                                    <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Edit Diet Entry</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm" method="post">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label>Subject*</label>
+                            <select name="subject_id" id="edit_subject_id" class="form-control" required>
+                                <option value="" disabled>--- Choose Subject ---</option>
+                                @foreach($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Proficiency*</label>
+                            <select name="proficiency_id" id="edit_proficiency_id" class="form-control" required>
+                                <option value="" disabled>--- Choose Proficiency ---</option>
+                                @foreach($proficiencies as $proficiency)
+                                    <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @include('components.delete_modal', ['type' => 'Diet Entry'])
+@endsection
+
+@push('scripts')
+<script>
+    $(document).on('click', '.edit_icon', function () {
+        $('#editForm').attr('action', $(this).data('url'));
+        $('#edit_subject_id').val(String($(this).data('subject_id')));
+        $('#edit_proficiency_id').val(String($(this).data('proficiency_id')));
+    });
+</script>
+@endpush

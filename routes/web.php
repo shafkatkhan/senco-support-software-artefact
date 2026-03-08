@@ -21,6 +21,7 @@ use \App\Http\Controllers\BackupController;
 use \App\Http\Controllers\SubjectController;
 use \App\Http\Controllers\MajorController;
 use \App\Http\Controllers\ProficiencyController;
+use \App\Http\Controllers\DietController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -76,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/accommodations', [PupilController::class, 'accommodations'])->name('pupils.accommodations');
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
     Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
+    Route::get('/pupil-details/{pupil}/diet', [PupilController::class, 'diets'])->name('pupils.diets');
 
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
@@ -92,6 +94,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
+    
+    Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
 
     Route::post('/pupils/{pupil}/accommodations', [PupilAccommodationController::class, 'store'])->name('pupils.accommodations.store');
     Route::delete('/pupils/{pupil}/accommodations/{accommodation}', [PupilAccommodationController::class, 'destroy'])->name('pupils.accommodations.destroy');

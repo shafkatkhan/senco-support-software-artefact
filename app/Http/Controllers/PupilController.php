@@ -8,6 +8,8 @@ use App\Models\Accommodation;
 use App\Models\RecordType;
 use App\Models\Professional;
 use App\Models\MeetingType;
+use App\Models\Subject;
+use App\Models\Proficiency;
 
 class PupilController extends Controller
 {
@@ -122,6 +124,15 @@ class PupilController extends Controller
         $meeting_types = MeetingType::all();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Meetings";
         return view('pupils.meetings', compact('pupil', 'title', 'meeting_types'));
+    }
+
+    public function diets(Pupil $pupil)
+    {
+        $pupil->load(['diets.subject', 'diets.proficiency']);
+        $subjects = Subject::orderBy('name')->get(['id', 'name']);
+        $proficiencies = Proficiency::orderBy('name')->get(['id', 'name']);
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Diet";
+        return view('pupils.diets', compact('pupil', 'title', 'subjects', 'proficiencies'));
     }
 
     /**

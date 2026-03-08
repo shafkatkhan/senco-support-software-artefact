@@ -27,6 +27,7 @@ return [
             'Records',
             'Events',
             'Meetings',
+            'Diet',
             'Family Members',
         ],
 
