@@ -26,4 +26,11 @@ class Diet extends Model
     {
         return $this->belongsTo(Proficiency::class);
     }
+
+    public function accommodations()
+    {
+        return $this->belongsToMany(Accommodation::class, 'diet_accommodations')
+                    ->withPivot('status', 'details')
+                    ->withTimestamps();
+    }
 }

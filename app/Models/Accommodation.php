@@ -15,4 +15,11 @@ class Accommodation extends Model
     {
         return $this->belongsToMany(Subject::class, 'subject_accommodations');
     }
+
+    public function diets()
+    {
+        return $this->belongsToMany(Diet::class, 'diet_accommodations')
+                    ->withPivot('status', 'details')
+                    ->withTimestamps();
+    }
 }
