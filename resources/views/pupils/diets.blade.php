@@ -98,7 +98,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diet->subject->name}}</td>
                             <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">N/A</span>' !!}</td>
-                            <td>
+                            <td data-order="{{ $diet->accommodations->count() }}">
                                 @forelse($diet->accommodations as $acc)
                                     <span class="badge bg-secondary">{{ $acc->name }} ({{ $acc->pivot->status }})</span>
                                 @empty
