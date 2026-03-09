@@ -24,6 +24,7 @@ use \App\Http\Controllers\DietController;
 use \App\Http\Controllers\MfaSettingController;
 use \App\Http\Controllers\MfaSetupController;
 use \App\Http\Controllers\MfaChallengeController;
+use \App\Http\Controllers\EmailSettingController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -117,6 +118,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mfa-settings', [MfaSettingController::class, 'index'])->name('mfa-settings.index');
     Route::put('/mfa-settings', [MfaSettingController::class, 'update'])->name('mfa-settings.update');
+
+    Route::get('/email-settings', [EmailSettingController::class, 'index'])->name('email-settings.index');
+    Route::put('/email-settings', [EmailSettingController::class, 'update'])->name('email-settings.update');
+    Route::post('/email-settings/test', [EmailSettingController::class, 'test'])->name('email-settings.test');
 
     Route::get('/mfa-setup', [MfaSetupController::class, 'index'])->name('mfa-setup.index');
     Route::post('/mfa-setup', [MfaSetupController::class, 'verify'])->name('mfa-setup.verify');
