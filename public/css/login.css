@@ -4,6 +4,9 @@ body, html{height:100%; width:100%;}
 body{
 	overflow: hidden;
 }
+*{
+	font-family: 'Cabin', sans-serif;
+}
 /**/
 .login_body{
 	background-color: #35424e;
@@ -51,7 +54,7 @@ body{
 	background-color: #2e3b47;
 	color: #FFF;
 }
-.login_form .btn{
+#login_btn{
 	background-color: #2983c3;
 	border: none;
 	font-family: 'Cabin', sans-serif;
@@ -83,4 +86,28 @@ body{
 	-ms-transition: 0.2s all linear;
 	-o-transition: 0.2s all linear;
 	-webkit-transition: 0.2s all linear;
+}
+/**/
+.mfa_title{
+	color: #FFF;
+	font-size: 20px;
+	text-align: center;
+	font-weight: 600;
+}
+.mfa_caption{
+	color: #bfbfbf;
+	text-align: center;
+	margin-bottom: 25px;
+}
+.mfa_pin{
+	font-size: 1.5rem;
+	letter-spacing: 0.5rem;
+	text-align: center;
+}
+.back_to_login{
+	color: #eee;
+	text-decoration: none;
+}
+.back_to_login:hover{
+	color: #ddd;
 }

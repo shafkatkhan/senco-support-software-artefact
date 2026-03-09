@@ -23,6 +23,7 @@ use \App\Http\Controllers\ProficiencyController;
 use \App\Http\Controllers\DietController;
 use \App\Http\Controllers\MfaSettingController;
 use \App\Http\Controllers\MfaSetupController;
+use \App\Http\Controllers\MfaChallengeController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -120,4 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mfa-setup', [MfaSetupController::class, 'index'])->name('mfa-setup.index');
     Route::post('/mfa-setup', [MfaSetupController::class, 'verify'])->name('mfa-setup.verify');
     Route::post('/mfa-setup/reset', [MfaSetupController::class, 'reset'])->name('mfa-setup.reset');
+
+    Route::get('/mfa-challenge', [MfaChallengeController::class, 'index'])->name('mfa-challenge.index');
+    Route::post('/mfa-challenge', [MfaChallengeController::class, 'verify'])->name('mfa-challenge.verify');
 });

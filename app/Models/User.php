@@ -67,8 +67,20 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'added_by');
     }
 
-    public function hasPendingMfaSetup()
+    public function isMfaPending()
     {
-        return Setting::get('mfa_method', 'none') !== 'none' && !$this->mfa_verified_at;
+        if (Setting::get('mfa_method', 'none') === 'none') {
+            return false;
+        }
+
+        if (!$this->mfa_verified_at) {
+            return true;
+        }
+
+        if (!session('mfa_session_verified')) {
+            return true;
+        }
+
+        return false;
     }
 }

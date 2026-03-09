@@ -23,7 +23,7 @@ class EnsureMfaIsVerified
         }
 
         // verify the user has a pending MFA setup requirement
-        if (!$request->user()->hasPendingMfaSetup()) {
+        if (!$request->user()->isMfaPending()) {
             return $next($request);
         }
 
@@ -31,6 +31,9 @@ class EnsureMfaIsVerified
         $excludedRoutes = [
             'mfa-setup.index',
             'mfa-setup.verify',
+            'mfa-setup.reset',
+            'mfa-challenge.index',
+            'mfa-challenge.verify',
             'logout'
         ];
 
@@ -38,7 +41,12 @@ class EnsureMfaIsVerified
             return $next($request);
         }
 
-        // MFA setup is required
-        return redirect()->route('mfa-setup.index')->with('warning', __('Please complete your MFA setup before continuing.'));
+        if (!$request->user()->mfa_verified_at) {
+            // MFA setup is required
+            return redirect()->route('mfa-setup.index')->with('warning', __('Please complete your MFA setup before continuing.'));
+        }
+
+        // MFA challenge is required
+        return redirect()->route('mfa-challenge.index');
     }
 }

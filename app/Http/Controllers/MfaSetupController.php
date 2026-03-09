@@ -63,6 +63,7 @@ class MfaSetupController extends Controller
         if ($valid) {
             $user->mfa_verified_at = now();
             $user->save();
+            $request->session()->put('mfa_session_verified', true);
             return redirect()->route('mfa-setup.index')->with('success', __('MFA has been successfully verified and activated.'));
         }
 
@@ -75,6 +76,7 @@ class MfaSetupController extends Controller
         $user->mfa_secret = null;
         $user->mfa_verified_at = null;
         $user->save();
+        $request->session()->forget('mfa_session_verified');
 
         return redirect()->route('mfa-setup.index')->with('success', __('MFA settings have been reset, please configure them again.'));
     }

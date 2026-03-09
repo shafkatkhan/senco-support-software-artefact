@@ -43,6 +43,10 @@ return [
             'please login',
             'Username or password is incorrect.',
             'Please try again.',
+            'Two-Factor Authentication',
+            'Please enter your 6-digit PIN',
+            'Verify',
+            'Back to Login'
         ],
 
         'Test Form' => [
