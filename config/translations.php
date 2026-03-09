@@ -94,6 +94,13 @@ return [
             'Your administrator requires authenticator app verification. You will need to scan the QR code with your authenticator app.',
             'MFA is set up and active on your account.',
             'Verified',
+            'Scan the following QR Code',
+            'Open your authenticator app (e.g., Google Authenticator, Authy) and scan the QR code below. Alternatively, you can manually enter the secret key.',
+            'Secret Key:',
+            'Enter 6-digit PIN',
+            'Verify & Activate',
+            'MFA has been successfully verified and activated.',
+            'Invalid PIN. Please try again.',
         ],
 
         'Misc/General' => [

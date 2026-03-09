@@ -977,3 +977,18 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #555;
 }
 /**/
+.mfa_setup_action{
+	display: flex;
+	gap: 20px;
+	margin-top: 20px;
+}
+.mfa_setup_action .left{
+	flex: 1;
+}
+.mfa_setup_action .right{
+	flex: 1;
+}
+.mfa_setup_action form{
+	width: 80%;
+	margin: 0 auto;
+}

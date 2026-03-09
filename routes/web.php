@@ -118,4 +118,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/mfa-settings', [MfaSettingController::class, 'update'])->name('mfa-settings.update');
 
     Route::get('/mfa-setup', [MfaSetupController::class, 'index'])->name('mfa-setup.index');
+    Route::post('/mfa-setup', [MfaSetupController::class, 'verify'])->name('mfa-setup.verify');
 });

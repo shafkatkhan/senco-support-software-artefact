@@ -31,6 +31,43 @@
                             <div class="mfa_setup_status_description">{{ __('Your administrator requires authenticator app verification. You will need to scan the QR code with your authenticator app.') }}</div>
                         </div>
                     </div>
+                    
+                    @if(!auth()->user()->mfa_verified_at)
+                        <hr>
+                        <div class="mfa_setup_action mt-4">
+                            <div class="left">
+                                <div class="title">{{ __('Scan the following QR Code') }}</div>
+                                <div class="description">
+                                    {{ __('Open your authenticator app (e.g., Google Authenticator, Authy) and scan the QR code below. Alternatively, you can manually enter the secret key.') }}
+                                </div>
+                                
+                                <div class="text-center mb-4">
+                                    {!! $qrCodeSvg !!}
+                                </div>
+                                
+                                <div class="text-center mb-4">
+                                    <strong>{{ __('Secret Key:') }}</strong> <code style="font-size: 1.2rem; letter-spacing: 1px;">{{ $mfaSecret }}</code>
+                                </div>
+                            </div>
+
+                            <div class="right">
+                                <form method="POST" action="{{ route('mfa-setup.verify') }}" class="mt-4">
+                                    @csrf
+                                    <div class="form-group mb-3">
+                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit PIN') }}</label>
+                                        <input type="text" name="pin" id="pin" class="form-control text-center fs-4 letter-spacing-2" placeholder="123456" required maxlength="6" pattern="\d{6}">
+                                        @error('pin')
+                                            <div class="text-danger mt-1 text-start">{{ $message }}</div>
+                                        @enderror
+                                        @if(session('error'))
+                                            <div class="text-danger mt-1 text-start">{{ session('error') }}</div>
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">{{ __('Verify & Activate') }}</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
                 @endif
 
                 @if(auth()->user()->mfa_verified_at)
