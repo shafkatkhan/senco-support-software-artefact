@@ -102,6 +102,9 @@ return [
             'MFA has been successfully verified and activated.',
             'Invalid PIN. Please try again.',
             'Please complete your MFA setup before continuing.',
+            'Reset MFA',
+            'Are you sure you want to reset your MFA settings? You will be required to set it up again.',
+            'MFA settings have been reset, please configure them again.',
         ],
 
         'Misc/General' => [

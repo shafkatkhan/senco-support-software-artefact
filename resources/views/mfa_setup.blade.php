@@ -71,10 +71,16 @@
                 @endif
 
                 @if(auth()->user()->mfa_verified_at)
-                    <div class="mfa_setup_verified">
-                        <i class="fas fa-check-circle"></i>
-                        {{ __('MFA is set up and active on your account.') }}
-                        <span class="text-muted">{{ __('Verified') }}: {{ auth()->user()->mfa_verified_at->format('d M Y') }}</span>
+                    <div class="mfa_setup_verified d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-check-circle"></i>
+                            {{ __('MFA is set up and active on your account.') }}
+                            <span class="text-muted d-block mt-1" style="font-size: 0.85em;">{{ __('Verified') }}: {{ auth()->user()->mfa_verified_at->format('d M Y') }}</span>
+                        </div>
+                        <form method="POST" action="{{ route('mfa-setup.reset') }}" onsubmit="return confirm('{{ __('Are you sure you want to reset your MFA settings? You will be required to set it up again.') }}');">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger btn-sm">{{ __('Reset MFA') }}</button>
+                        </form>
                     </div>
                 @endif
             </div>

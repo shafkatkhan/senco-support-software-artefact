@@ -68,4 +68,14 @@ class MfaSetupController extends Controller
 
         return redirect()->route('mfa-setup.index')->with('error', __('Invalid PIN. Please try again.'));
     }
+
+    public function reset(Request $request)
+    {
+        $user = auth()->user();
+        $user->mfa_secret = null;
+        $user->mfa_verified_at = null;
+        $user->save();
+
+        return redirect()->route('mfa-setup.index')->with('success', __('MFA settings have been reset, please configure them again.'));
+    }
 }

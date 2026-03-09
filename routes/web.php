@@ -119,4 +119,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mfa-setup', [MfaSetupController::class, 'index'])->name('mfa-setup.index');
     Route::post('/mfa-setup', [MfaSetupController::class, 'verify'])->name('mfa-setup.verify');
+    Route::post('/mfa-setup/reset', [MfaSetupController::class, 'reset'])->name('mfa-setup.reset');
 });
