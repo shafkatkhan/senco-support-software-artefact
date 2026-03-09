@@ -17,7 +17,7 @@ class MfaSettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'mfa_method' => 'required|in:none,email,google_authenticator',
+            'mfa_method' => 'required|in:none,email,authenticator_app',
         ]);
         Setting::set('mfa_method', $request->mfa_method);
 
