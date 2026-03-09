@@ -18,6 +18,7 @@
             <li><a href="{{ route('user-groups.index') }}" class="{{ request()->routeIs('user-groups.*') ? 'activenav' : '' }}">{{ __('User Groups') }}</a></li>
             <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'activenav' : '' }}">{{ __('Users') }}</a></li>
             <li><a href="{{ route('mfa-settings.index') }}" class="{{ request()->routeIs('mfa-settings.*') ? 'activenav' : '' }}">{{ __('MFA Settings') }}</a></li>
+            <li><a href="{{ route('mfa-setup.index') }}" class="{{ request()->routeIs('mfa-setup.*') ? 'activenav' : '' }}">{{ __('MFA Setup') }}</a></li>
             <li><a href="{{ route('backups.index') }}" class="{{ request()->routeIs('backups.*') ? 'activenav' : '' }}">{{ __('System Backups') }}</a></li>
         </div>
     </ul>

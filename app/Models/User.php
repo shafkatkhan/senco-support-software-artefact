@@ -53,6 +53,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'joined_date' => 'date',
             'expiry_date' => 'date',
+            'mfa_verified_at' => 'datetime',
         ];
     }
 

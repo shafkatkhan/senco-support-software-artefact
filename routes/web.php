@@ -22,6 +22,7 @@ use \App\Http\Controllers\MajorController;
 use \App\Http\Controllers\ProficiencyController;
 use \App\Http\Controllers\DietController;
 use \App\Http\Controllers\MfaSettingController;
+use \App\Http\Controllers\MfaSetupController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -115,4 +116,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mfa-settings', [MfaSettingController::class, 'index'])->name('mfa-settings.index');
     Route::put('/mfa-settings', [MfaSettingController::class, 'update'])->name('mfa-settings.update');
+
+    Route::get('/mfa-setup', [MfaSetupController::class, 'index'])->name('mfa-setup.index');
 });

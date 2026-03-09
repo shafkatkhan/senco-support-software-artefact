@@ -19,6 +19,7 @@ return [
             'User Groups',
             'Users',
             'MFA Settings',
+            'MFA Setup',
             'System Backups',
         ],
 

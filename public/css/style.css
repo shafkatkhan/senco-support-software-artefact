@@ -908,4 +908,72 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #777;
 	line-height: 1.4;
 }
-/* end Settings Page */
+/**/
+.mfa_setup_status{
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 20px;
+	border-radius: 8px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 20px;
+}
+.mfa_setup_status.mfa_status_disabled{
+	background-color: #f9f9f9;
+	border-color: #e0e0e0;
+}
+.mfa_setup_status.mfa_status_pending{
+	background-color: #fff8e6;
+	border-color: #f0d68a;
+}
+.mfa_setup_status_icon{
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	font-size: 18px;
+}
+.mfa_status_disabled .mfa_setup_status_icon{
+	background-color: #e9eff5;
+	color: #999;
+}
+.mfa_status_pending .mfa_setup_status_icon{
+	background-color: #f0d68a;
+	color: #7a6100;
+}
+.mfa_setup_status_title{
+	font-weight: 600;
+	font-size: 16px;
+	color: #333;
+	margin-bottom: 4px;
+}
+.mfa_setup_status_description{
+	font-size: 14px;
+	color: #777;
+	line-height: 1.4;
+}
+.mfa_setup_verified{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 15px 20px;
+	background-color: #eaf7ee;
+	border: 1px solid #b3dfbe;
+	border-radius: 8px;
+	color: #1e7e34;
+	font-weight: 500;
+	margin-top: 20px;
+}
+.mfa_setup_verified i{
+	font-size: 20px;
+}
+.mfa_setup_verified span{
+	margin-left: auto;
+	font-weight: 400;
+	font-size: 14px;
+	color: #555;
+}
+/**/
