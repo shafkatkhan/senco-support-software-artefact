@@ -17,8 +17,13 @@ class EnsureMfaIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // verify the user is authenticated
-        if (!Auth::check()) {
+        try {
+            // verify the user is authenticated
+            if (!Auth::check()) {
+                return $next($request);
+            }
+        } catch (\Exception $e) {
+            // database not yet configured or connection failed; safely ignore to allow installation
             return $next($request);
         }
 
