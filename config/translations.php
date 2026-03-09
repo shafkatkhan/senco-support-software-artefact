@@ -83,6 +83,19 @@ return [
             'Users must set up an authenticator app and enter a time-based code each time they log in.',
         ],
 
+        'MFA Setup' => [
+            'MFA Setup',
+            'Set up multi-factor authentication for your account.',
+            'MFA is not required',
+            'Your administrator has not enabled multi-factor authentication. No action is needed.',
+            'Email Verification',
+            'Your administrator requires email-based verification. A one-time code will be sent to your email each time you log in.',
+            'Authenticator App',
+            'Your administrator requires authenticator app verification. You will need to scan the QR code with your authenticator app.',
+            'MFA is set up and active on your account.',
+            'Verified',
+        ],
+
         'Misc/General' => [
             'Actions',
             'First Name',
