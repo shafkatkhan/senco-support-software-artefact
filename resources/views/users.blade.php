@@ -14,6 +14,7 @@
                         <th scope="col">#</th>
                         <th scope="col">{{ __('Name') }}</th>
                         <th scope="col">{{ __('Username') }}</th>
+                        <th scope="col">{{ __('Email') }}</th>
                         <th scope="col">{{ __('Mobile') }}</th>
                         <th scope="col">{{ __('Position') }}</th>
                         <th scope="col">{{ __('Added By') }}</th>
@@ -29,6 +30,7 @@
                             <th scope="row">{{ $user->id }}</th>
                             <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                             <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>{{ $user->mobile }}</td>
                             <td>{{ $user->position }}</td>
                             <td>{{ $user->addedBy ? $user->addedBy->first_name . ' ' . $user->addedBy->last_name : 'System' }}</td>
@@ -78,11 +80,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>{{ __('Username') }}</label>
                                 <input type="text" class="form-control" name="username" placeholder="{{ __('Username') }}" required />
                             </div>
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}" required />
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
                                 <label>{{ __('Mobile') }}</label>
                                 <input type="text" class="form-control" name="mobile" placeholder="{{ __('Mobile') }}" required />
                             </div>
@@ -147,11 +153,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>{{ __('Username') }}</label>
                                 <input type="text" class="form-control" name="username" id="edit_username" placeholder="{{ __('Username') }}" required />
                             </div>
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="{{ __('Email') }}" required />
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
                                 <label>{{ __('Mobile') }}</label>
                                 <input type="text" class="form-control" name="mobile" id="edit_mobile" placeholder="{{ __('Mobile') }}" required />
                             </div>
@@ -204,6 +214,7 @@
                 $('#edit_first_name').val(data.first_name);
                 $('#edit_last_name').val(data.last_name);
                 $('#edit_username').val(data.username);
+                $('#edit_email').val(data.email);
                 $('#edit_mobile').val(data.mobile);
                 $('#edit_position').val(data.position);
                 $('#edit_user_group_id').val(data.user_group_id);

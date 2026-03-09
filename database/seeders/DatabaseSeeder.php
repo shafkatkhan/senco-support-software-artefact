@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'User',
             'username' => 'admin',
+            'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'user_group_id' => $adminGroup->id,
             'mobile' => '07777777777',

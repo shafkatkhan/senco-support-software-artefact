@@ -55,6 +55,7 @@ return [
 
         'Users' => [
             'Create User',
+            'Email',
             'Mobile',
             'Position',
             'Added By',

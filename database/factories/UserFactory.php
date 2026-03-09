@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->userName(),
+            'email' => fake()->unique()->safeEmail(),
             'user_group_id' => \App\Models\UserGroup::factory(), // Automatically create a group
             'mobile' => fake()->phoneNumber(),
             'position' => fake()->jobTitle(),
