@@ -70,7 +70,7 @@
                     @endif
                 @endif
 
-                @if(auth()->user()->mfa_verified_at)
+                @if($mfa_method !== 'none' && auth()->user()->mfa_verified_at)
                     <div class="mfa_setup_verified d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-check-circle"></i>
