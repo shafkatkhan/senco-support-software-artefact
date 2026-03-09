@@ -880,6 +880,9 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	align-items: flex-start;
 	gap: 16px;
 }
+.mfa_option_content .text{
+	width: 100%;
+}
 .mfa_option_icon{
 	width: 45px;
 	height: 45px;
@@ -907,6 +910,14 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	font-size: 14px;
 	color: #777;
 	line-height: 1.4;
+}
+.mfa_option.disabled_option{
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+.mfa_option.disabled_option .mfa_option_icon{
+	color: #999;
+	background-color: #eee;
 }
 /**/
 .email_settings_wrap .settings_section{

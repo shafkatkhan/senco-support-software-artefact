@@ -21,12 +21,17 @@
                                 </div>
                             </div>
                         </label>
-                        <label class="mfa_option {{ $mfa_method === 'email' ? 'active' : '' }}">
-                            <input type="radio" name="mfa_method" value="email" {{ $mfa_method === 'email' ? 'checked' : '' }}>
+                        <label class="mfa_option {{ $mfa_method === 'email' ? 'active' : '' }} {{ !$smtp_configured ? 'disabled_option' : '' }}">
+                            <input type="radio" name="mfa_method" value="email" {{ $mfa_method === 'email' ? 'checked' : '' }} {{ !$smtp_configured ? 'disabled' : '' }}>
                             <div class="mfa_option_content">
                                 <div class="mfa_option_icon"><i class="fas fa-envelope"></i></div>
                                 <div class="text">
-                                    <div class="mfa_option_title">{{ __('Email Verification') }}</div>
+                                    <div class="mfa_option_title">
+                                        {{ __('Email Verification') }}
+                                        @if(!$smtp_configured)
+                                            <span class="badge bg-danger" style="font-size: 0.75rem;float:right;">{{ __('Requires SMTP Configuration') }}</span>
+                                        @endif
+                                    </div>
                                     <div class="mfa_option_description">{{ __('A one-time code is sent to the user\'s email address after login. Users must enter the code to continue.') }}</div>
                                 </div>
                             </div>

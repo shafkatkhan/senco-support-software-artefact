@@ -122,6 +122,8 @@ return [
             'A one-time code is sent to the user\'s email address after login. Users must enter the code to continue.',
             'Authenticator App',
             'Users must set up an authenticator app and enter a time-based code each time they log in.',
+            'Requires SMTP Configuration',
+            'You must configure your Email Settings before enabling Email MFA.',
         ],
 
         'MFA Setup' => [
