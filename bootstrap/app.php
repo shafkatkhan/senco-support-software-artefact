@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(prepend: [
             \App\Http\Middleware\EnsureSystemInstalled::class,
         ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsureMfaIsVerified::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

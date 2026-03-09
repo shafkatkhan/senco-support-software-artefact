@@ -101,6 +101,7 @@ return [
             'Verify & Activate',
             'MFA has been successfully verified and activated.',
             'Invalid PIN. Please try again.',
+            'Please complete your MFA setup before continuing.',
         ],
 
         'Misc/General' => [

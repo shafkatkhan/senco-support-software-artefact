@@ -184,3 +184,7 @@ $(document).ready(function() {
         });
     });
 });
+
+$(function() {
+    $('.nav_disabled a').removeAttr('href');
+});

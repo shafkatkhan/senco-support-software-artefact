@@ -72,5 +72,11 @@
         niceAlert("success", "", "{{ session('success') }}")
     </script>
 @endif
+
+@if(session('warning'))
+    <script>
+        niceAlert("warning", "", "{{ session('warning') }}")
+    </script>
+@endif
 </body>
 </html>

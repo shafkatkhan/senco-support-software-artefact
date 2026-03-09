@@ -992,3 +992,8 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	width: 80%;
 	margin: 0 auto;
 }
+
+.nav_disabled a {
+	opacity: 0.8;
+	cursor: not-allowed;
+}
