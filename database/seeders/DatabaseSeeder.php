@@ -19,6 +19,7 @@ use App\Models\Event;
 use App\Models\Subject;
 use App\Models\Major;
 use App\Models\Proficiency;
+use App\Models\Diet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -193,7 +194,7 @@ class DatabaseSeeder extends Seeder
         // assign accommodations and proficiencies to subjects
         $proficiencyIds = Proficiency::pluck('id');
         Subject::all()->each(function ($subject) use ($createdAccommodations, $proficiencyIds) {
-            $count = rand(0, 3);
+            $count = rand(2, 5);
             if ($count > 0) {
                 $randomAccommodations = $createdAccommodations->random($count)->pluck('id');
                 $subject->accommodations()->syncWithoutDetaching($randomAccommodations);
@@ -237,5 +238,40 @@ class DatabaseSeeder extends Seeder
                 $major->subjects()->syncWithoutDetaching($randomSubjects);
             }
         });
+
+        // create diets
+        $pupils = Pupil::all();
+        $statuses = ['Recommended', 'Approved'];
+        foreach ($pupils as $pupil) {
+            $count = rand(1, 4);
+            $randomSubjects = Subject::inRandomOrder()->take($count)->get();
+
+            foreach ($randomSubjects as $subject) {
+                // assign a proficiency if the subject has any
+                $proficiency = $subject->proficiencies()->inRandomOrder()->first();
+                $proficiencyId = $proficiency ? $proficiency->id : null;
+
+                $diet = Diet::create([
+                    'pupil_id' => $pupil->id,
+                    'subject_id' => $subject->id,
+                    'proficiency_id' => $proficiencyId,
+                ]);
+
+                // assign some random accommodations with status and details
+                $subjectAccomms = $subject->accommodations;
+                if ($subjectAccomms->count() > 0) {
+                    $accommCount = rand(1, min(3, $subjectAccomms->count()));
+                    $randomAccomms = $subjectAccomms->random($accommCount);
+                    $attachData = [];
+                    foreach ($randomAccomms as $accomm) {
+                        $attachData[$accomm->id] = [
+                            'status' => collect($statuses)->random(),
+                            'details' => fake()->sentence()
+                        ];
+                    }
+                    $diet->accommodations()->attach($attachData);
+                }
+            }
+        }
     }
 }
