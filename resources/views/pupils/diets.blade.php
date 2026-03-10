@@ -10,9 +10,11 @@
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                     Toggle Card View
                 </button>
+                @can('add-to-diets')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add Subject to Diet
                 </button>
+                @endcan
             </div>
         </div>
 
@@ -24,6 +26,7 @@
                             {{ $diet->subject->name }}
                         </div>
                         <div class="sen_icon_wrap">
+                            @can('edit-diets')
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
@@ -34,6 +37,8 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-diets')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
@@ -42,6 +47,7 @@
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -89,7 +95,9 @@
                         <th scope="col">Subject</th>
                         <th scope="col">Proficiency</th>
                         <th scope="col">Accommodations</th>
+                        @canany(['edit-diets', 'delete-diets'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -105,7 +113,9 @@
                                     <span class="text-muted">N/A</span>
                                 @endforelse
                             </td>
+                            @canany(['edit-diets', 'delete-diets'])
                             <td class="icon_wrap">
+                                @can('edit-diets')
                                 <button class="icon edit_icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#edit"
@@ -115,6 +125,8 @@
                                     data-accommodations="{{ $diet->accommodations->toJson() }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-diets')
                                 <button class="icon delete_icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete"
@@ -122,11 +134,13 @@
                                     data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-diets', 'delete-diets']) ? '5' : '4' }}" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -134,6 +148,7 @@
         </div>
     </section>
 
+    @can('add-to-diets')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -174,7 +189,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-diets')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -215,8 +232,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-diets')
     @include('components.delete_modal', ['type' => 'Diet Entry'])
+    @endcan
 @endsection
 
 @push('scripts')

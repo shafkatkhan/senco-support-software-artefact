@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class DietController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('add-to-diets');
+
         $hasProficiencies = DB::table('subject_proficiencies')->where('subject_id', $request->subject_id)->exists();
 
         $validatedData = $request->validate([
@@ -60,6 +63,8 @@ class DietController extends Controller
 
     public function update(Request $request, Diet $diet)
     {
+        Gate::authorize('edit-diets');
+
         $hasProficiencies = DB::table('subject_proficiencies')->where('subject_id', $request->subject_id)->exists();
 
         $validatedData = $request->validate([
@@ -106,6 +111,8 @@ class DietController extends Controller
 
     public function destroy(Diet $diet)
     {
+        Gate::authorize('delete-diets');
+        
         try {
             $diet->delete();
             return back()->with('success', 'Diet Entry Deleted Successfully!');

@@ -132,6 +132,8 @@ class PupilController extends Controller
 
     public function diets(Pupil $pupil)
     {
+        Gate::authorize('view-diets');
+
         $pupil->load(['diets.subject', 'diets.proficiency', 'diets.accommodations']);
         $subjects = Subject::with(['proficiencies', 'accommodations'])->orderBy('name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diet";
