@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Setting;
 use App\Models\User;
 
@@ -10,6 +11,8 @@ class MfaSettingController extends Controller
 {
     public function index()
     {
+        Gate::authorize('manage-mfa-settings');
+
         $title = 'MFA Settings';
         $mfa_method = Setting::get('mfa_method', 'none');
         $smtp_configured = Setting::get('mail_host');
@@ -18,6 +21,8 @@ class MfaSettingController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('manage-mfa-settings');
+
         $request->validate([
             'mfa_method' => 'required|in:none,email,authenticator_app',
         ]);
