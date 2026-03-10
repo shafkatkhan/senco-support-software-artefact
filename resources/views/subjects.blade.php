@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-subjects')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create Subject
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -16,11 +18,13 @@
                         <th scope="col">Code</th>
                         <th scope="col">Proficiencies</th>
                         <th scope="col">Accommodations</th>
+                        @canany(['edit-subjects', 'delete-subjects'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($subjects as $subject)
+                    @forelse($subjects as $subject)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $subject->name }}</td>
@@ -39,17 +43,28 @@
                                     <span class="text-muted">N/A</span>
                                 @endforelse
                             </td>
+                            @canany(['edit-subjects', 'delete-subjects'])
                             <td class="icon_wrap">
+                                @can('edit-subjects')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('subjects.update', $subject->id) }}" data-name="{{ $subject->name }}" data-code="{{ $subject->code }}" data-accommodations='@json($subject->accommodations->pluck("id"))' data-proficiencies='@json($subject->proficiencies->pluck("id"))'><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-subjects')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('subjects.destroy', $subject->id) }}" data-name="{{ $subject->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->user()->canAny(['edit-subjects', 'delete-subjects']) ? '6' : '5' }}" class="empty_table_message">No subjects found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </section>
 
+    @can('create-subjects')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -92,7 +107,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-subjects')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -136,8 +153,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-subjects')
     @include('components.delete_modal', ['type' => 'Subject'])
+    @endcan
 @endsection
 
 @push('scripts')
