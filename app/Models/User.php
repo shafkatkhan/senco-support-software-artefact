@@ -84,4 +84,9 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function hasPermission($permissionSlug)
+    {
+        return $this->group->permissions()->where('slug', $permissionSlug)->exists();
+    }
 }

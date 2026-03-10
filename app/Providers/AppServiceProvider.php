@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             // database might not exist yet, or connection failed; safely ignore to allow installation
         }
+
+        Gate::before(function ($user, $ability) {
+            if ($user->hasPermission($ability)) {
+                return true;
+            }
+        });
     }
 }
