@@ -6,9 +6,11 @@
             <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                 View More Information
             </button>
+            @can('create-pupils')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Onboard Pupil
             </button>
+            @endcan
         </div>
 
         <div id="pupilsGrid" class="sen_cards" style="display: none;">
@@ -22,12 +24,16 @@
                             <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details button_styled">
                                 More Details
                             </a>
+                            @can('edit-pupils')
                             <button class="sen_icon sen_edit_icon button_styled">
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-pupils')
                             <button class="sen_icon sen_delete_icon button_styled">
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -149,7 +155,9 @@
                         <th scope="col">Name</th>
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Gender</th>
+                        @canany(['edit-pupils', 'delete-pupils'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -159,14 +167,20 @@
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
                             <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
                             <td>{{ $pupil->gender }}</td>
+                            @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
+                                @can('edit-pupils')
                                 <button class="icon edit_icon"><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-pupils')
                                 <button class="icon delete_icon"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty_table_message">No pupils found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '5' : '4' }}" class="empty_table_message">No pupils found.</td>
                         </tr>
                     @endforelse
                 </tbody>

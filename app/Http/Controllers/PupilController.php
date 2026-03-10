@@ -9,6 +9,7 @@ use App\Models\Professional;
 use App\Models\MeetingType;
 use App\Models\Subject;
 use App\Models\Proficiency;
+use Illuminate\Support\Facades\Gate;
 
 class PupilController extends Controller
 {
@@ -17,6 +18,8 @@ class PupilController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-pupils');
+        
         $pupils = Pupil::with('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->get();
         $title = "Pupils";
         return view('pupils', compact('pupils', 'title'));
@@ -35,6 +38,8 @@ class PupilController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-pupils');
+        
         //
     }
 
@@ -43,6 +48,8 @@ class PupilController extends Controller
      */
     public function show(Pupil $pupil)
     {
+        Gate::authorize('view-pupils');
+
         $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType');
         
         // build a grouped list of professional involvements
@@ -134,6 +141,8 @@ class PupilController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-pupils');
+
         //
     }
 
@@ -142,6 +151,8 @@ class PupilController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-pupils');
+        
         //
     }
 }
