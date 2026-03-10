@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
+use Illuminate\Support\Facades\Gate;
 use Ifsnop\Mysqldump as IMysqldump;
 
 class BackupController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view-download-backups');
+
         $disk = Storage::disk('local');
         $appName = env('APP_NAME', 'laravel-backup');
         
@@ -38,6 +41,8 @@ class BackupController extends Controller
      */
     public function store()
     {
+        Gate::authorize('create-backups');
+
         try {
             $db = config('database.connections.mysql');
             $database_connection = "mysql:host={$db['host']};dbname={$db['database']}";
@@ -68,6 +73,8 @@ class BackupController extends Controller
      */
     public function download($file_path)
     {
+        Gate::authorize('view-download-backups');
+
         $file = urldecode($file_path);
         $disk = Storage::disk('local');
 
@@ -83,6 +90,8 @@ class BackupController extends Controller
      */
     public function destroy($file_path)
     {
+        Gate::authorize('delete-backups');
+
         $file = urldecode($file_path);
         $disk = Storage::disk('local');
 

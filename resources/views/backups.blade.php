@@ -3,12 +3,14 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-backups')
             <form action="{{ route('backups.store') }}" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit" class="new_button" onclick="return confirm('{{ __('Are you sure you want to create a new backup? This may take a moment.') }}')">
                     {{ __('Create Backup') }}
                 </button>
             </form>
+            @endcan
         </div>
 
         <div class="table_wrap">
@@ -19,7 +21,9 @@
                         <th scope="col">{{ __('File Name') }}</th>
                         <th scope="col">{{ __('File Size') }}</th>
                         <th scope="col">{{ __('Last Modified') }}</th>
+                        @canany(['view-download-backups', 'delete-backups'])
                         <th scope="col">{{ __('Actions') }}</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -29,10 +33,14 @@
                             <td>{{ $backup['file_name'] }}</td>
                             <td>{{ $backup['file_size'] }}</td>
                             <td data-order="{{ $backup['last_modified'] }}">{{ date('d M Y \a\t H:i', $backup['last_modified']) }}</td>
+                            @canany(['view-download-backups', 'delete-backups'])
                             <td class="icon_wrap">
+                                @can('view-download-backups')
                                 <a class="icon download_icon button_styled" href="{{ route('backups.download', ['file_path' => urlencode($backup['relative_path'])]) }}" title="{{ __('Download') }}">
                                     <i class="fa fa-download"></i>
                                 </a>
+                                @endcan
+                                @can('delete-backups')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -40,11 +48,13 @@
                                     data-name="{{ $backup['file_name'] }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">{{ __('No backups found.') }}</td>
+                            <td colspan="{{ auth()->user()->canAny(['view-download-backups', 'delete-backups']) ? '5' : '4' }}" class="text-center">{{ __('No backups found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -52,5 +62,7 @@
         </div>
     </section>
 
+    @can('delete-backups')
     @include('components.delete_modal', ['type' => 'Backup'])
+    @endcan
 @endsection
