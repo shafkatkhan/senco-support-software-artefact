@@ -101,7 +101,7 @@ class MfaSetupController extends Controller
             return redirect()->route('mfa-setup.index')->with('success', __('MFA has been successfully verified and activated.'));
         }
 
-        return redirect()->route('mfa-setup.index')->with('error', __('Invalid PIN. Please try again.'));
+        return redirect()->route('mfa-setup.index')->with('error', __('Invalid code. Please try again.'));
     }
 
     public function reset(Request $request)

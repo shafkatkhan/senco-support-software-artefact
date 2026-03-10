@@ -46,7 +46,7 @@
                                 <form method="POST" action="{{ route('mfa-setup.verify') }}" class="mt-4">
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit code') }}</label>
+                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit code:') }}</label>
                                         <input type="text" name="pin" id="pin" class="form-control text-center fs-4 letter-spacing-2" placeholder="123456" required maxlength="6" pattern="\d{6}">
                                         @error('pin')
                                             <div class="text-danger mt-1 text-start">{{ $message }}</div>
@@ -91,7 +91,7 @@
                                 <form method="POST" action="{{ route('mfa-setup.verify') }}" class="mt-4">
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit PIN') }}</label>
+                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit code:') }}</label>
                                         <input type="text" name="pin" id="pin" class="form-control text-center fs-4 letter-spacing-2" placeholder="123456" required maxlength="6" pattern="\d{6}">
                                         @error('pin')
                                             <div class="text-danger mt-1 text-start">{{ $message }}</div>
