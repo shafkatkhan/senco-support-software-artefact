@@ -6,7 +6,11 @@
         {{ __('Two-Factor Authentication') }}
     </div>
     <div class="mfa_caption">
-        {{ __('Please enter your 6-digit PIN') }}
+        @if($mfa_method == 'email')
+            {{ __('Please enter the 6-digit code sent to your email') }}
+        @else
+            {{ __('Please enter your 6-digit PIN') }}
+        @endif
     </div>
     <form method="POST" action="{{ route('mfa-challenge.verify') }}">
         @csrf

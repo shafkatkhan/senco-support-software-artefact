@@ -23,6 +23,43 @@
                             <div class="mfa_setup_status_description">{{ __('Your administrator requires email-based verification. A one-time code will be sent to your email each time you log in.') }}</div>
                         </div>
                     </div>
+
+                    @if(!auth()->user()->mfa_verified_at)
+                        <hr>
+                        <div class="mfa_setup_action mt-4">
+                            <div class="left">
+                                <div class="title">{{ __('Check your email inbox') }}</div>
+                                <div class="description">
+                                    {{ __('We have sent a 6-digit verification code to your email address. It will expire in 15 minutes.') }}
+                                </div>
+                                <div class="text-center mt-4">
+                                    <i class="fas fa-envelope-open-text text-primary" style="font-size: 3rem; opacity: 0.8;"></i>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <form method="GET" action="{{ route('mfa-setup.index') }}">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">{{ __('Resend Code') }}</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="right">
+                                <form method="POST" action="{{ route('mfa-setup.verify') }}" class="mt-4">
+                                    @csrf
+                                    <div class="form-group mb-3">
+                                        <label for="pin" class="form-label text-start d-block">{{ __('Enter 6-digit code') }}</label>
+                                        <input type="text" name="pin" id="pin" class="form-control text-center fs-4 letter-spacing-2" placeholder="123456" required maxlength="6" pattern="\d{6}">
+                                        @error('pin')
+                                            <div class="text-danger mt-1 text-start">{{ $message }}</div>
+                                        @enderror
+                                        @if(session('error'))
+                                            <div class="text-danger mt-1 text-start">{{ session('error') }}</div>
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">{{ __('Verify & Activate') }}</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
                 @elseif($mfa_method === 'authenticator_app')
                     <div class="mfa_setup_status mfa_status_pending">
                         <div class="mfa_setup_status_icon"><i class="fas fa-mobile-alt"></i></div>

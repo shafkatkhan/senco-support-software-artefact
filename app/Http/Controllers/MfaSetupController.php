@@ -9,6 +9,9 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailMfaCode;
 
 class MfaSetupController extends Controller
 {
@@ -44,6 +47,27 @@ class MfaSetupController extends Controller
             );
             $writer = new Writer($renderer);
             $qrCodeSvg = $writer->writeString($qrCodeUrl);
+        } elseif ($mfa_method == 'email' && !$user->mfa_verified_at) {
+            // check if recently sent an email to avoid spam/rate limits
+            $rateLimitKey = 'mfa_email_sent_' . $user->id;
+            
+            if (!Cache::has($rateLimitKey)) {
+                // generate a random 6-digit code
+                $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+                
+                // cache the code for 15 minutes
+                Cache::put('mfa_setup_code_' . $user->id, $code, now()->addMinutes(15));
+                
+                // set a 1-minute rate limit on sending emails
+                Cache::put($rateLimitKey, true, now()->addMinute());
+                
+                // send the email
+                try {
+                    Mail::to($user->email)->send(new EmailMfaCode($code));
+                } catch (\Exception $e) {
+                    return back()->with('error', __('Failed to send MFA email. Please check the system SMTP settings.'));
+                }
+            }
         }
 
         return view('mfa_setup', compact('title', 'mfa_method', 'qrCodeSvg', 'mfaSecret'));
@@ -56,9 +80,19 @@ class MfaSetupController extends Controller
         ]);
 
         $user = auth()->user();
-        $google2fa = new Google2FA();
+        $mfa_method = Setting::get('mfa_method', 'none');
+        $valid = false;
 
-        $valid = $google2fa->verifyKey($user->mfa_secret, $request->pin);
+        if ($mfa_method == 'authenticator_app') {
+            $google2fa = new Google2FA();
+            $valid = $google2fa->verifyKey($user->mfa_secret, $request->pin);
+        } elseif ($mfa_method == 'email') {
+            $cachedCode = Cache::get('mfa_setup_code_' . $user->id);
+            if ($cachedCode && $cachedCode == $request->pin) {
+                $valid = true;
+                Cache::forget('mfa_setup_code_' . $user->id); // clear the code once used
+            }
+        }
 
         if ($valid) {
             $user->mfa_verified_at = now();

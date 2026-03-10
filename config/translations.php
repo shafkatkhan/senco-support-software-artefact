@@ -44,10 +44,6 @@ return [
             'please login',
             'Username or password is incorrect.',
             'Please try again.',
-            'Two-Factor Authentication',
-            'Please enter your 6-digit PIN',
-            'Verify',
-            'Back to Login'
         ],
 
         'Test Form' => [
@@ -135,8 +131,11 @@ return [
             'Your administrator requires email-based verification. A one-time code will be sent to your email each time you log in.',
             'Authenticator App',
             'Your administrator requires authenticator app verification. You will need to scan the QR code with your authenticator app.',
-            'MFA is set up and active on your account.',
-            'Verified',
+            'Check your email inbox',
+            'We have sent a 6-digit verification code to your email address. It will expire in 15 minutes.',
+            'Resend Code',
+            'Enter 6-digit code',
+            'Verify & Activate',
             'Scan the following QR Code',
             'Open your authenticator app (e.g., Google Authenticator, Authy) and scan the QR code below. Alternatively, you can manually enter the secret key.',
             'Secret Key:',
@@ -145,9 +144,31 @@ return [
             'MFA has been successfully verified and activated.',
             'Invalid PIN. Please try again.',
             'Please complete your MFA setup before continuing.',
-            'Reset MFA',
+            'MFA is set up and active on your account.',
+            'Verified',
             'Are you sure you want to reset your MFA settings? You will be required to set it up again.',
             'MFA settings have been reset, please configure them again.',
+            'Reset MFA',
+            'Failed to send MFA email. Please check the system SMTP settings.',
+            'Failed to send MFA email. Please contact your administrator.',
+        ],
+
+        'MFA Challenge' => [
+            'Two-Factor Authentication',
+            'Please enter the 6-digit code sent to your email',
+            'Please enter your 6-digit PIN',
+            'Verify',
+            'Back to Login',
+        ],
+
+        'Email MFA' => [
+            'Your MFA Verification Code',
+            'MFA Verification Code',
+            'MFA Verification',
+            'Here is your one-time verification code.',
+            'Please enter the following 6-digit code to continue.',
+            'This code will expire in 15 minutes.',
+            'If you did not request this code, please ignore this email or contact your administrator.',
         ],
 
         'Misc/General' => [
