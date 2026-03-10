@@ -20,6 +20,7 @@ use App\Models\Subject;
 use App\Models\Major;
 use App\Models\Proficiency;
 use App\Models\Diet;
+use App\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -47,6 +48,147 @@ class DatabaseSeeder extends Seeder
             'name' => 'Read-Only',
             'description' => 'Can view data but cannot make changes.'
         ]);
+
+        // define and create permissions
+        $permissions = [
+            // Pupil Management
+            ['name' => 'View Pupils', 'slug' => 'view-pupils', 'description' => 'Can view the list of pupils and their details.'],
+            ['name' => 'Create Pupils', 'slug' => 'create-pupils', 'description' => 'Can add new pupils.'],
+            ['name' => 'Edit Pupils', 'slug' => 'edit-pupils', 'description' => 'Can edit existing pupils.'],
+            ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],
+
+            // Medication Management
+            ['name' => 'View Medications', 'slug' => 'view-medications', 'description' => 'Can view the list of medications and their details.'],
+            ['name' => 'Create Medications', 'slug' => 'create-medications', 'description' => 'Can add new medications.'],
+            ['name' => 'Edit Medications', 'slug' => 'edit-medications', 'description' => 'Can edit existing medications.'],
+            ['name' => 'Delete Medications', 'slug' => 'delete-medications', 'description' => 'Can delete medications.'],
+
+            // Diagnosis Management
+            ['name' => 'View Diagnoses', 'slug' => 'view-diagnoses', 'description' => 'Can view the list of diagnoses and their details.'],
+            ['name' => 'Create Diagnoses', 'slug' => 'create-diagnoses', 'description' => 'Can add new diagnoses.'],
+            ['name' => 'Edit Diagnoses', 'slug' => 'edit-diagnoses', 'description' => 'Can edit existing diagnoses.'],
+            ['name' => 'Delete Diagnoses', 'slug' => 'delete-diagnoses', 'description' => 'Can delete diagnoses.'],
+
+            // Record Management
+            ['name' => 'View Records', 'slug' => 'view-records', 'description' => 'Can view the list of records and their details.'],
+            ['name' => 'Create Records', 'slug' => 'create-records', 'description' => 'Can create new records.'],
+            ['name' => 'Edit Records', 'slug' => 'edit-records', 'description' => 'Can edit existing records.'],
+            ['name' => 'Delete Records', 'slug' => 'delete-records', 'description' => 'Can delete records.'],
+
+            // Event Management
+            ['name' => 'View Events', 'slug' => 'view-events', 'description' => 'Can view the list of events and their details.'],
+            ['name' => 'Create Events', 'slug' => 'create-events', 'description' => 'Can create new events.'],
+            ['name' => 'Edit Events', 'slug' => 'edit-events', 'description' => 'Can edit existing events.'],
+            ['name' => 'Delete Events', 'slug' => 'delete-events', 'description' => 'Can delete events.'],
+
+            // Meeting Management
+            ['name' => 'View Meetings', 'slug' => 'view-meetings', 'description' => 'Can view the list of meetings and their details.'],
+            ['name' => 'Create Meetings', 'slug' => 'create-meetings', 'description' => 'Can create new meetings.'],
+            ['name' => 'Edit Meetings', 'slug' => 'edit-meetings', 'description' => 'Can edit existing meetings.'],
+            ['name' => 'Delete Meetings', 'slug' => 'delete-meetings', 'description' => 'Can delete meetings.'],
+
+            // Diet Management
+            ['name' => 'View Diets', 'slug' => 'view-diets', 'description' => 'Can view the list of diets and their details.'],
+            ['name' => 'Add to Diets', 'slug' => 'add-to-diets', 'description' => 'Can add subjects to pupil diets.'],
+            ['name' => 'Edit Diets', 'slug' => 'edit-diets', 'description' => 'Can edit existing diets.'],
+            ['name' => 'Delete Diets', 'slug' => 'delete-diets', 'description' => 'Can delete diets.'],
+
+            // Family Member Management
+            ['name' => 'View Family Members', 'slug' => 'view-family-members', 'description' => 'Can view the list of family members and their details.'],
+            ['name' => 'Create Family Members', 'slug' => 'create-family-members', 'description' => 'Can add new family members.'],
+            ['name' => 'Edit Family Members', 'slug' => 'edit-family-members', 'description' => 'Can edit existing family members.'],
+            ['name' => 'Delete Family Members', 'slug' => 'delete-family-members', 'description' => 'Can delete family members.'],
+
+            // Accommodation Management
+            ['name' => 'View Accommodations', 'slug' => 'view-accommodations', 'description' => 'Can view the list of accommodations and their details.'],
+            ['name' => 'Create Accommodations', 'slug' => 'create-accommodations', 'description' => 'Can create new accommodations.'],
+            ['name' => 'Edit Accommodations', 'slug' => 'edit-accommodations', 'description' => 'Can edit existing accommodations.'],
+            ['name' => 'Delete Accommodations', 'slug' => 'delete-accommodations', 'description' => 'Can delete accommodations.'],
+
+            // Major Management
+            ['name' => 'View Majors', 'slug' => 'view-majors', 'description' => 'Can view the list of majors and their details.'],
+            ['name' => 'Create Majors', 'slug' => 'create-majors', 'description' => 'Can create new majors.'],
+            ['name' => 'Edit Majors', 'slug' => 'edit-majors', 'description' => 'Can edit existing majors.'],
+            ['name' => 'Delete Majors', 'slug' => 'delete-majors', 'description' => 'Can delete majors.'],
+
+            // Proficiency Management
+            ['name' => 'View Proficiencies', 'slug' => 'view-proficiencies', 'description' => 'Can view the list of proficiencies and their details.'],
+            ['name' => 'Create Proficiencies', 'slug' => 'create-proficiencies', 'description' => 'Can create new proficiencies.'],
+            ['name' => 'Edit Proficiencies', 'slug' => 'edit-proficiencies', 'description' => 'Can edit existing proficiencies.'],
+            ['name' => 'Delete Proficiencies', 'slug' => 'delete-proficiencies', 'description' => 'Can delete proficiencies.'],
+
+            // Subject Management
+            ['name' => 'View Subjects', 'slug' => 'view-subjects', 'description' => 'Can view the list of subjects and their details.'],
+            ['name' => 'Create Subjects', 'slug' => 'create-subjects', 'description' => 'Can create new subjects.'],
+            ['name' => 'Edit Subjects', 'slug' => 'edit-subjects', 'description' => 'Can edit existing subjects.'],
+            ['name' => 'Delete Subjects', 'slug' => 'delete-subjects', 'description' => 'Can delete subjects.'],
+
+            // Record Type Management
+            ['name' => 'View Record Types', 'slug' => 'view-record-types', 'description' => 'Can view the list of record types and their details.'],
+            ['name' => 'Create Record Types', 'slug' => 'create-record-types', 'description' => 'Can create new record types.'],
+            ['name' => 'Edit Record Types', 'slug' => 'edit-record-types', 'description' => 'Can edit existing record types.'],
+            ['name' => 'Delete Record Types', 'slug' => 'delete-record-types', 'description' => 'Can delete record types.'],
+
+            // Meeting Type Management
+            ['name' => 'View Meeting Types', 'slug' => 'view-meeting-types', 'description' => 'Can view the list of meeting types and their details.'],
+            ['name' => 'Create Meeting Types', 'slug' => 'create-meeting-types', 'description' => 'Can create new meeting types.'],
+            ['name' => 'Edit Meeting Types', 'slug' => 'edit-meeting-types', 'description' => 'Can edit existing meeting types.'],
+            ['name' => 'Delete Meeting Types', 'slug' => 'delete-meeting-types', 'description' => 'Can delete meeting types.'],
+
+            // Professional Management
+            ['name' => 'View Professionals', 'slug' => 'view-professionals', 'description' => 'Can view the list of professionals and their details.'],
+            ['name' => 'Create Professionals', 'slug' => 'create-professionals', 'description' => 'Can create new professionals.'],
+            ['name' => 'Edit Professionals', 'slug' => 'edit-professionals', 'description' => 'Can edit existing professionals.'],
+            ['name' => 'Delete Professionals', 'slug' => 'delete-professionals', 'description' => 'Can delete professionals.'],
+
+            // User Group Management
+            ['name' => 'View User Groups', 'slug' => 'view-user-groups', 'description' => 'Can view the list of user groups and their details.'],
+            ['name' => 'Create User Groups', 'slug' => 'create-user-groups', 'description' => 'Can create new user groups.'],
+            ['name' => 'Edit User Groups', 'slug' => 'edit-user-groups', 'description' => 'Can edit existing user groups.'],
+            ['name' => 'Delete User Groups', 'slug' => 'delete-user-groups', 'description' => 'Can delete user groups.'],
+
+            // User Management
+            ['name' => 'View Users', 'slug' => 'view-users', 'description' => 'Can view the list of users and their details.'],
+            ['name' => 'Create Users', 'slug' => 'create-users', 'description' => 'Can create new users.'],
+            ['name' => 'Edit Users', 'slug' => 'edit-users', 'description' => 'Can edit existing users.'],
+            ['name' => 'Delete Users', 'slug' => 'delete-users', 'description' => 'Can delete users.'],            
+
+            // Settings Management
+            ['name' => 'Manage Email Settings', 'slug' => 'manage-email-settings', 'description' => 'Can view and modify email settings.'],
+            ['name' => 'Manage MFA Settings', 'slug' => 'manage-mfa-settings', 'description' => 'Can view and modify MFA settings.'],
+            ['name' => 'Manage Permissions', 'slug' => 'manage-permissions', 'description' => 'Can view and modify permissions.'],
+
+            // Backup Management
+            ['name' => 'View & Download Backups', 'slug' => 'view-download-backups', 'description' => 'Can view and download backups.'],
+            ['name' => 'Create Backups', 'slug' => 'create-backups', 'description' => 'Can create backups.'],
+            ['name' => 'Delete Backups', 'slug' => 'delete-backups', 'description' => 'Can delete backups.'],
+        ];
+
+        $createdPermissions = collect();
+        foreach ($permissions as $permission) {
+            $createdPermissions->push(Permission::create($permission));
+        }
+
+        // assign permissions to Admin Group (all permissions)
+        $adminGroup->permissions()->attach(
+            $createdPermissions->pluck('id')->all()
+        );
+
+        // assign permissions to Standard Group (all non-delete, non-settings)
+        $standardGroup->permissions()->attach(
+            $createdPermissions
+                ->reject(fn ($permission) => str_contains($permission->slug, 'delete') || str_contains($permission->slug, 'settings') || str_contains($permission->slug, 'permissions') || str_contains($permission->slug, 'backups'))
+                ->pluck('id')
+                ->all()
+        );
+
+        // assign permissions to Read-Only Group (only view permissions)
+        $readOnlyGroup->permissions()->attach(
+            $createdPermissions
+                ->filter(fn ($permission) => str_contains($permission->slug, 'view') && !str_contains($permission->slug, 'backups'))
+                ->pluck('id')
+                ->all()
+        );
 
         // create admin user
         $adminUser = User::create([
