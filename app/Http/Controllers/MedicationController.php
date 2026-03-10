@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Medication;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class MedicationController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-medications');
+
         Medication::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'name' => 'required|string|max:255',
@@ -29,6 +32,8 @@ class MedicationController extends Controller
 
     public function update(Request $request, Medication $medication)
     {
+        Gate::authorize('edit-medications');
+
         $medication->update($request->validate([
             'name' => 'required|string|max:255',
             'dosage' => 'nullable|string|max:255',
@@ -47,6 +52,8 @@ class MedicationController extends Controller
 
     public function destroy(Medication $medication)
     {
+        Gate::authorize('delete-medications');
+        
         try {
             $medication->delete();
             return back()->with('success', 'Medication Deleted Successfully!');

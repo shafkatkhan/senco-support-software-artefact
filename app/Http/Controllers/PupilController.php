@@ -76,6 +76,8 @@ class PupilController extends Controller
 
     public function medications(Pupil $pupil)
     {
+        Gate::authorize('view-medications');
+
         $pupil->load('medications');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Medications";
         return view('pupils.medications', compact('pupil', 'title'));

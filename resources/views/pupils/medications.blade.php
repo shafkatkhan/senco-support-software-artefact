@@ -10,9 +10,11 @@
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                     Toggle Card View
                 </button>
+                @can('create-medications')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add New Medication
                 </button> 
+                @endcan
             </div>            
         </div>
 
@@ -24,6 +26,7 @@
                             {{ $medication->name }}
                         </div>
                         <div class="sen_icon_wrap">
+                            @can('edit-medications')
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
@@ -41,6 +44,8 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-medications')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
@@ -49,6 +54,7 @@
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -148,7 +154,9 @@
                         <th scope="col">Expiry Date</th>
                         <th scope="col">Storage Instructions</th>
                         <th scope="col">Self Administer?</th>
+                        @canany(['edit-medications', 'delete-medications'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -165,7 +173,9 @@
                             <td data-order="{{ optional($medication->expiry_date)->format('Y-m-d') ?? '' }}">{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}</td>
                             <td>{{ $medication->storage_instructions }}</td>
                             <td>{{ $medication->self_administer ? 'Yes' : 'No' }}</td>
+                            @canany(['edit-medications', 'delete-medications'])
                             <td class="icon_wrap">
+                                @can('edit-medications')
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit" 
@@ -183,6 +193,8 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-medications')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -191,11 +203,13 @@
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="12" class="empty_table_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-medications', 'delete-medications']) ? '12' : '11' }}" class="empty_table_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -203,6 +217,7 @@
         </div>
     </section>
 
+    @can('create-medications')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -269,7 +284,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-medications')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -336,8 +353,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-medications')
     @include('components.delete_modal', ['type' => 'Medication'])
+    @endcan
 @endsection
 
 @push('scripts')
