@@ -76,4 +76,9 @@ class Pupil extends Model
     {
         return $this->hasMany(Diet::class);
     }
+
+    public function schoolHistories()
+    {
+        return $this->hasMany(SchoolHistory::class);
+    }
 }
