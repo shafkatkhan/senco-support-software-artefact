@@ -58,49 +58,49 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],
 
             // Medication Management
-            ['name' => 'View Medications', 'slug' => 'view-medications', 'description' => 'Can view the list of medications and their details.'],
+            ['name' => 'View Medications', 'slug' => 'view-medications', 'description' => 'Can view a pupil\'s list of medications and their details.'],
             ['name' => 'Create Medications', 'slug' => 'create-medications', 'description' => 'Can add new medications.'],
             ['name' => 'Edit Medications', 'slug' => 'edit-medications', 'description' => 'Can edit existing medications.'],
             ['name' => 'Delete Medications', 'slug' => 'delete-medications', 'description' => 'Can delete medications.'],
 
             // Diagnosis Management
-            ['name' => 'View Diagnoses', 'slug' => 'view-diagnoses', 'description' => 'Can view the list of diagnoses and their details.'],
+            ['name' => 'View Diagnoses', 'slug' => 'view-diagnoses', 'description' => 'Can view a pupil\'s list of diagnoses and their details.'],
             ['name' => 'Create Diagnoses', 'slug' => 'create-diagnoses', 'description' => 'Can add new diagnoses.'],
             ['name' => 'Edit Diagnoses', 'slug' => 'edit-diagnoses', 'description' => 'Can edit existing diagnoses.'],
             ['name' => 'Delete Diagnoses', 'slug' => 'delete-diagnoses', 'description' => 'Can delete diagnoses.'],
 
             // Record Management
-            ['name' => 'View Records', 'slug' => 'view-records', 'description' => 'Can view the list of records and their details.'],
+            ['name' => 'View Records', 'slug' => 'view-records', 'description' => 'Can view a pupil\'s list of records and their details.'],
             ['name' => 'Create Records', 'slug' => 'create-records', 'description' => 'Can create new records.'],
             ['name' => 'Edit Records', 'slug' => 'edit-records', 'description' => 'Can edit existing records.'],
             ['name' => 'Delete Records', 'slug' => 'delete-records', 'description' => 'Can delete records.'],
 
             // Event Management
-            ['name' => 'View Events', 'slug' => 'view-events', 'description' => 'Can view the list of events and their details.'],
+            ['name' => 'View Events', 'slug' => 'view-events', 'description' => 'Can view a pupil\'s list of events and their details.'],
             ['name' => 'Create Events', 'slug' => 'create-events', 'description' => 'Can create new events.'],
             ['name' => 'Edit Events', 'slug' => 'edit-events', 'description' => 'Can edit existing events.'],
             ['name' => 'Delete Events', 'slug' => 'delete-events', 'description' => 'Can delete events.'],
 
             // School History Management
-            ['name' => 'View School Histories', 'slug' => 'view-school-histories', 'description' => 'Can view the list of school histories and their details.'],
+            ['name' => 'View School Histories', 'slug' => 'view-school-histories', 'description' => 'Can view a pupil\'s list of school histories and their details.'],
             ['name' => 'Create School Histories', 'slug' => 'create-school-histories', 'description' => 'Can create new school histories.'],
             ['name' => 'Edit School Histories', 'slug' => 'edit-school-histories', 'description' => 'Can edit existing school histories.'],
             ['name' => 'Delete School Histories', 'slug' => 'delete-school-histories', 'description' => 'Can delete school histories.'],
 
             // Meeting Management
-            ['name' => 'View Meetings', 'slug' => 'view-meetings', 'description' => 'Can view the list of meetings and their details.'],
+            ['name' => 'View Meetings', 'slug' => 'view-meetings', 'description' => 'Can view a pupil\'s list of meetings and their details.'],
             ['name' => 'Create Meetings', 'slug' => 'create-meetings', 'description' => 'Can create new meetings.'],
             ['name' => 'Edit Meetings', 'slug' => 'edit-meetings', 'description' => 'Can edit existing meetings.'],
             ['name' => 'Delete Meetings', 'slug' => 'delete-meetings', 'description' => 'Can delete meetings.'],
 
             // Diet Management
-            ['name' => 'View Diets', 'slug' => 'view-diets', 'description' => 'Can view the list of diets and their details.'],
+            ['name' => 'View Diets', 'slug' => 'view-diets', 'description' => 'Can view a pupil\'s list of diets and their details.'],
             ['name' => 'Add to Diets', 'slug' => 'add-to-diets', 'description' => 'Can add subjects to pupil diets.'],
             ['name' => 'Edit Diets', 'slug' => 'edit-diets', 'description' => 'Can edit existing diets.'],
             ['name' => 'Delete Diets', 'slug' => 'delete-diets', 'description' => 'Can delete diets.'],
 
             // Family Member Management
-            ['name' => 'View Family Members', 'slug' => 'view-family-members', 'description' => 'Can view the list of family members and their details.'],
+            ['name' => 'View Family Members', 'slug' => 'view-family-members', 'description' => 'Can view a pupil\'s list of family members and their details.'],
             ['name' => 'Create Family Members', 'slug' => 'create-family-members', 'description' => 'Can add new family members.'],
             ['name' => 'Edit Family Members', 'slug' => 'edit-family-members', 'description' => 'Can edit existing family members.'],
             ['name' => 'Delete Family Members', 'slug' => 'delete-family-members', 'description' => 'Can delete family members.'],
