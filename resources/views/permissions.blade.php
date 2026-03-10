@@ -8,7 +8,7 @@
                 <table class="table sen_table-striped" data-page-length="100">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">{{ __('Permission') }}</th>
+                            <th scope="col" class="dt-left">{{ __('Permission') }}</th>
                             @foreach($userGroups as $userGroup)
                                 <th scope="col" class="text-center">{{ $userGroup->name }}</th>
                             @endforeach
@@ -17,7 +17,7 @@
                     <tbody>
                         @foreach($permissions as $permission)
                             <tr>
-                                <td data-order="{{ $permission->id }}">
+                                <td data-order="{{ $permission->id }}" class="dt-left">
                                     <strong>{{ $permission->name }}</strong><br>
                                     <small class="text-muted">{{ $permission->description }}</small>
                                 </td>
