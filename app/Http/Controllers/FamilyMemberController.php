@@ -19,6 +19,18 @@ class FamilyMemberController extends Controller
             'last_name' => 'required|string|max:255',
             'dob' => 'date|nullable',
             'relation' => 'string|max:255|nullable',
+            'phone' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'locality' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'marital_status' => 'nullable|string|max:255',
+            'highest_education' => 'nullable|string|max:255',
+            'financial_status' => 'nullable|string|max:255',
+            'occupation' => 'nullable|string|max:255',
+            'state_support' => 'nullable|string|max:255',
         ]));
 
         if ($request->has('next_of_kin') && $request->next_of_kin) {
@@ -37,6 +49,18 @@ class FamilyMemberController extends Controller
             'last_name' => 'required|string|max:255',
             'dob' => 'date|nullable',
             'relation' => 'string|max:255|nullable',
+            'phone' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'locality' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'marital_status' => 'nullable|string|max:255',
+            'highest_education' => 'nullable|string|max:255',
+            'financial_status' => 'nullable|string|max:255',
+            'occupation' => 'nullable|string|max:255',
+            'state_support' => 'nullable|string|max:255',
         ]));
 
         if ($request->input('next_of_kin') == '1') {

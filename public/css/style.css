@@ -158,6 +158,10 @@ html.has-secondary-nav #nav {
 	font-family: 'Raleway', sans-serif;
 	flex-shrink: 0;
 }
+.nav_disabled a {
+	opacity: 0.8;
+	cursor: not-allowed;
+}
 #content{
 	width:calc(100% - 250px);
 	float:right;
@@ -1012,8 +1016,9 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	width: 80%;
 	margin: 0 auto;
 }
-
-.nav_disabled a {
-	opacity: 0.8;
-	cursor: not-allowed;
+.form_sub_title{
+	font-weight: 600;
+	font-size: 16px;
+	color: #333;
+	margin-bottom: 15px;
 }

@@ -40,6 +40,18 @@
                                 data-last_name="{{ $familyMember->last_name }}" 
                                 data-dob="{{ optional($familyMember->dob)->format('Y-m-d') }}"
                                 data-relation="{{ $familyMember->relation }}"
+                                data-phone="{{ $familyMember->phone }}"
+                                data-email="{{ $familyMember->email }}"
+                                data-address_line_1="{{ $familyMember->address_line_1 }}"
+                                data-address_line_2="{{ $familyMember->address_line_2 }}"
+                                data-locality="{{ $familyMember->locality }}"
+                                data-postcode="{{ $familyMember->postcode }}"
+                                data-country="{{ $familyMember->country }}"
+                                data-marital_status="{{ $familyMember->marital_status }}"
+                                data-highest_education="{{ $familyMember->highest_education }}"
+                                data-financial_status="{{ $familyMember->financial_status }}"
+                                data-occupation="{{ $familyMember->occupation }}"
+                                data-state_support="{{ $familyMember->state_support }}"
                                 data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
                             >
                                 <i class="far fa-edit"></i>
@@ -65,12 +77,60 @@
                                     {{ $familyMember->relation ?? 'N/A' }}
                                 </div>
                             </div>
-                            <div class="item col-md-6">
+                            <div class="item col-md-6 border_right-md">
                                 <div class="label">Date of Birth:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}
                                 </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Phone:</div>
+                                <div class="value">
+                                    <i class="fas fa-phone"></i>
+                                    {{ $familyMember->phone ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Email:</div>
+                                <div class="value">
+                                    <i class="fas fa-envelope"></i>
+                                    @if($familyMember->email)
+                                        <a class="value_link" href="mailto:{{ $familyMember->email }}">{{ $familyMember->email }}</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-12 mb-2">
+                                <div class="label">Address:</div>
+                                <div class="value">
+                                    {!! collect([$familyMember->address_line_1, $familyMember->address_line_2, $familyMember->locality, $familyMember->postcode, $familyMember->country])->filter()->implode(', <br>') ?: 'N/A' !!}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Marital Status:</div>
+                                <div class="value">{{ $familyMember->marital_status ?? 'N/A' }}</div>
+                            </div>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Highest Education:</div>
+                                <div class="value">{{ $familyMember->highest_education ?? 'N/A' }}</div>
+                            </div>
+                            <div class="item col-md-4">
+                                <div class="label">Occupation:</div>
+                                <div class="value">{{ $familyMember->occupation ?? 'N/A' }}</div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Financial Status:</div>
+                                <div class="value">{{ $familyMember->financial_status ?? 'N/A' }}</div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Government/State Support:</div>
+                                <div class="value">{{ $familyMember->state_support ?? 'N/A' }}</div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
@@ -99,6 +159,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Relation</th>
                         <th scope="col">DOB</th>
+                        <th scope="col">Phone</th>
                         @canany(['edit-family-members', 'delete-family-members'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -111,6 +172,7 @@
                             <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
                             <td>{{ $familyMember->relation }}</td>
                             <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td>{{ $familyMember->phone ?? 'N/A' }}</td>
                             @canany(['edit-family-members', 'delete-family-members'])
                             <td class="icon_wrap">
                                 @can('edit-family-members')
@@ -122,6 +184,18 @@
                                     data-last_name="{{ $familyMember->last_name }}" 
                                     data-dob="{{ optional($familyMember->dob)->format('Y-m-d') }}"
                                     data-relation="{{ $familyMember->relation }}"
+                                    data-phone="{{ $familyMember->phone }}"
+                                    data-email="{{ $familyMember->email }}"
+                                    data-address_line_1="{{ $familyMember->address_line_1 }}"
+                                    data-address_line_2="{{ $familyMember->address_line_2 }}"
+                                    data-locality="{{ $familyMember->locality }}"
+                                    data-postcode="{{ $familyMember->postcode }}"
+                                    data-country="{{ $familyMember->country }}"
+                                    data-marital_status="{{ $familyMember->marital_status }}"
+                                    data-highest_education="{{ $familyMember->highest_education }}"
+                                    data-financial_status="{{ $familyMember->financial_status }}"
+                                    data-occupation="{{ $familyMember->occupation }}"
+                                    data-state_support="{{ $familyMember->state_support }}"
                                     data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
                                 >
                                     <i class="fa fa-edit"></i>
@@ -163,30 +237,90 @@
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
                          <div class="row">
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>First Name*</label>
                                 <input type="text" class="form-control" name="first_name" required placeholder="First Name">
                             </div>
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>Last Name*</label>
                                 <input type="text" class="form-control" name="last_name" required placeholder="Last Name">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Relation</label>
+                                <input type="text" class="form-control" name="relation" placeholder="e.g. Mother, Guardian">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Date of Birth</label>
+                                <input type="date" class="form-control" name="dob">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form_sub_title">Address</div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Address Line 1</label>
+                                <input type="text" class="form-control" name="address_line_1" placeholder="Address Line 1">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Address Line 2</label>
+                                <input type="text" class="form-control" name="address_line_2" placeholder="Address Line 2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Town/City</label>
+                                <input type="text" class="form-control" name="locality" placeholder="Town/City">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Postcode</label>
+                                <input type="text" class="form-control" name="postcode" placeholder="Postcode">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Country</label>
+                                <input type="text" class="form-control" name="country" placeholder="Country">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form_sub_title">Demographics & Other info</div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Marital Status</label>
+                                <input type="text" class="form-control" name="marital_status" placeholder="e.g. Married, Single">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Highest Education</label>
+                                <input type="text" class="form-control" name="highest_education" placeholder="e.g. Bachelors Degree">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Financial Status</label>
+                                <input type="text" class="form-control" name="financial_status">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Relation</label>
-                                <input type="text" class="form-control" name="relation" placeholder="e.g. Mother, Guardian">
+                                <label>Occupation</label>
+                                <input type="text" class="form-control" name="occupation" placeholder="Current profession">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date of Birth</label>
-                                <input type="date" class="form-control" name="dob">
+                                <label>State Support/Benefits</label>
+                                <input type="text" class="form-control" name="state_support" placeholder="e.g. Universal Credit">
                             </div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mt-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="new_next_of_kin">
                                 <label class="form-check-label" for="new_next_of_kin">
-                                    Next of Kin?
+                                    Pupil's next of kin?
                                 </label>
                             </div>
                         </div>
@@ -213,30 +347,90 @@
                     @method('PUT')
                     <div class="modal-body">
                          <div class="row">
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>First Name*</label>
                                 <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="First Name" required>
                             </div>
-                            <div class="col-md-6 form-group mb-3">
+                            <div class="col-md-4 form-group mb-3">
                                 <label>Last Name*</label>
                                 <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="Last Name" required>
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Relation</label>
+                                <input type="text" class="form-control" name="relation" id="edit_relation" placeholder="e.g. Mother, Guardian">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Date of Birth</label>
+                                <input type="date" class="form-control" name="dob" id="edit_dob">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="Phone">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="Email">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form_sub_title">Address Details</div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Address Line 1</label>
+                                <input type="text" class="form-control" name="address_line_1" id="edit_address_line_1" placeholder="Address Line 1">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label>Address Line 2</label>
+                                <input type="text" class="form-control" name="address_line_2" id="edit_address_line_2" placeholder="Address Line 2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Town/City</label>
+                                <input type="text" class="form-control" name="locality" id="edit_locality" placeholder="Town/City">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Postcode</label>
+                                <input type="text" class="form-control" name="postcode" id="edit_postcode" placeholder="Postcode">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Country</label>
+                                <input type="text" class="form-control" name="country" id="edit_country" placeholder="Country">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form_sub_title">Demographics & Other info</div>
+                        <div class="row">
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Marital Status</label>
+                                <input type="text" class="form-control" name="marital_status" id="edit_marital_status" placeholder="e.g. Married, Single">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Highest Education</label>
+                                <input type="text" class="form-control" name="highest_education" id="edit_highest_education" placeholder="e.g. Bachelors Degree">
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label>Financial Status</label>
+                                <input type="text" class="form-control" name="financial_status" id="edit_financial_status">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Relation</label>
-                                <input type="text" class="form-control" name="relation" id="edit_relation" placeholder="e.g. Mother, Guardian">
+                                <label>Occupation</label>
+                                <input type="text" class="form-control" name="occupation" id="edit_occupation" placeholder="Current profession">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date of Birth</label>
-                                <input type="date" class="form-control" name="dob" id="edit_dob">
+                                <label>State Support/Benefits</label>
+                                <input type="text" class="form-control" name="state_support" id="edit_state_support" placeholder="e.g. Universal Credit">
                             </div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mt-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="edit_next_of_kin">
                                 <label class="form-check-label" for="edit_next_of_kin">
-                                    Next of Kin?
+                                    Pupil's next of kin?
                                 </label>
                             </div>
                         </div>
@@ -265,6 +459,18 @@
         $('#edit_last_name').val($(this).data('last_name'));
         $('#edit_dob').val($(this).data('dob'));
         $('#edit_relation').val($(this).data('relation'));
+        $('#edit_phone').val($(this).data('phone'));
+        $('#edit_email').val($(this).data('email'));
+        $('#edit_address_line_1').val($(this).data('address_line_1'));
+        $('#edit_address_line_2').val($(this).data('address_line_2'));
+        $('#edit_locality').val($(this).data('locality'));
+        $('#edit_postcode').val($(this).data('postcode'));
+        $('#edit_country').val($(this).data('country'));
+        $('#edit_marital_status').val($(this).data('marital_status'));
+        $('#edit_highest_education').val($(this).data('highest_education'));
+        $('#edit_financial_status').val($(this).data('financial_status'));
+        $('#edit_occupation').val($(this).data('occupation'));
+        $('#edit_state_support').val($(this).data('state_support'));
 
         var isPrimary = $(this).data('is_primary');
         $('#edit_next_of_kin').prop('checked', isPrimary == 1);
