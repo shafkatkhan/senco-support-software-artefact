@@ -6,11 +6,14 @@ use App\Models\Diagnosis;
 use App\Models\Professional;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class DiagnosisController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-diagnoses');
+
         $validated = $request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'date' => 'nullable|date',
@@ -29,6 +32,7 @@ class DiagnosisController extends Controller
         ]);
 
         if ($request->input('is_new_professional')) {
+            // allow inline creation of professionals even if user is not authorised to create professionals from the professionals page
             $professional = Professional::create([
                 'title' => $validated['prof_title'] ?? null,
                 'first_name' => $validated['prof_first_name'],
@@ -48,6 +52,8 @@ class DiagnosisController extends Controller
 
     public function update(Request $request, Diagnosis $diagnosis)
     {
+        Gate::authorize('edit-diagnoses');
+
         $diagnosis->update($request->validate([
             'date' => 'nullable|date',
             'name' => 'required|string|max:255',
@@ -61,6 +67,8 @@ class DiagnosisController extends Controller
 
     public function destroy(Diagnosis $diagnosis)
     {
+        Gate::authorize('delete-diagnoses');
+
         try {
             $diagnosis->delete();
             return back()->with('success', 'Diagnosis Deleted Successfully!');

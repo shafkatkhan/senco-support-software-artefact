@@ -85,6 +85,8 @@ class PupilController extends Controller
 
     public function diagnoses(Pupil $pupil)
     {
+        Gate::authorize('view-diagnoses');
+
         $pupil->load('diagnoses.professional');
         $professionals = Professional::orderBy('last_name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
