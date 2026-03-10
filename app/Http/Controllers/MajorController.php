@@ -6,11 +6,14 @@ use App\Models\Major;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class MajorController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view-majors');
+
         $majors = Major::with('subjects:id,name')->get();
         $subjects = Subject::orderBy('name')->get(['id', 'name']);
         $title = "Majors";
@@ -19,6 +22,8 @@ class MajorController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('create-majors');
+
         $validated = $request->validate([
             'name' => 'required|unique:majors,name|max:255',
             'code' => 'nullable|string|unique:majors,code|max:255',
@@ -37,6 +42,8 @@ class MajorController extends Controller
 
     public function update(Request $request, Major $major)
     {
+        Gate::authorize('edit-majors');
+
         $validated = $request->validate([
             'name' => 'required|max:255|unique:majors,name,' . $major->id,
             'code' => 'nullable|string|max:255|unique:majors,code,' . $major->id,
@@ -55,6 +62,8 @@ class MajorController extends Controller
 
     public function destroy(Major $major)
     {
+        Gate::authorize('delete-majors');
+
         try {
             $major->delete();
             return back()->with('success', 'Major Deleted Successfully!');

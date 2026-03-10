@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-majors')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create Major
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -15,11 +17,13 @@
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
                         <th scope="col">Subjects</th>
+                        @canany(['edit-majors', 'delete-majors'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($majors as $major)
+                    @forelse($majors as $major)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $major->name }}</td>
@@ -31,17 +35,28 @@
                                     <span class="text-muted">N/A</span>
                                 @endforelse
                             </td>
+                            @canany(['edit-majors', 'delete-majors'])
                             <td class="icon_wrap">
+                                @can('edit-majors')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('majors.update', $major->id) }}" data-name="{{ $major->name }}" data-code="{{ $major->code }}" data-subjects='@json($major->subjects->pluck("id"))'><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-majors')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('majors.destroy', $major->id) }}" data-name="{{ $major->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->user()->canAny(['edit-majors', 'delete-majors']) ? '5' : '4' }}" class="empty_table_message">No majors found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </section>
 
+    @can('create-majors')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -76,7 +91,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-majors')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -112,8 +129,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-majors')
     @include('components.delete_modal', ['type' => 'Major'])
+    @endcan
 @endsection
 
 @push('scripts')
