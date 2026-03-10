@@ -10,9 +10,11 @@
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                     Toggle Card View
                 </button>
+                @can('create-records')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add New Record
                 </button> 
+                @endcan
             </div>            
         </div>
 
@@ -24,6 +26,7 @@
                             {{ $record->title ?? $record->recordType->name . ' Record' }}
                         </div>
                         <div class="sen_icon_wrap">
+                            @can('edit-records')
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
@@ -38,6 +41,8 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-records')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
@@ -46,6 +51,7 @@
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -121,7 +127,9 @@
                         <th scope="col">Date</th>
                         <th scope="col">Professional</th>
                         <th scope="col">Reference No.</th>
+                        @canany(['edit-records', 'delete-records'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -133,7 +141,9 @@
                             <td data-order="{{ optional($record->date)->format('Y-m-d') ?? '' }}">{{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $record->professional ? $record->professional->title . ' ' . $record->professional->first_name . ' ' . $record->professional->last_name : 'N/A' }}</td>
                             <td>{{ $record->reference_number ?? 'N/A' }}</td>
+                            @canany(['edit-records', 'delete-records'])
                             <td class="icon_wrap">
+                                @can('edit-records')
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit" 
@@ -148,6 +158,8 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-records')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -156,11 +168,13 @@
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="empty_table_message">No records found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-records', 'delete-records']) ? '7' : '6' }}" class="empty_table_message">No records found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -168,6 +182,7 @@
         </div>
     </section>
 
+    @can('create-records')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -223,7 +238,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-records')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -285,8 +302,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-records')
     @include('components.delete_modal', ['type' => 'Record'])
+    @endcan
 @endsection
 
 @push('scripts')

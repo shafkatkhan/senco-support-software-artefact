@@ -6,11 +6,14 @@ use App\Models\Record;
 use App\Models\Professional;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class RecordController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-records');
+
         $validated = $request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'record_type_id' => 'required|exists:record_types,id',
@@ -31,6 +34,7 @@ class RecordController extends Controller
         ]);
 
         if ($request->input('is_new_professional')) {
+            // allow inline creation of professionals even if user is not authorised to create professionals from the professionals page
             $professional = Professional::create([
                 'title' => $validated['prof_title'] ?? null,
                 'first_name' => $validated['prof_first_name'],
@@ -50,6 +54,8 @@ class RecordController extends Controller
 
     public function update(Request $request, Record $record)
     {
+        Gate::authorize('edit-records');
+
         $record->update($request->validate([
             'record_type_id' => 'required|exists:record_types,id',
             'professional_id' => 'nullable|exists:professionals,id',
@@ -65,6 +71,8 @@ class RecordController extends Controller
 
     public function destroy(Record $record)
     {
+        Gate::authorize('delete-records');
+        
         try {
             $record->delete();
             return back()->with('success', 'Record Deleted Successfully!');

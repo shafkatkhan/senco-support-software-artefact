@@ -95,6 +95,8 @@ class PupilController extends Controller
 
     public function records(Pupil $pupil)
     {
+        Gate::authorize('view-records');
+
         $pupil->load(['records.recordType', 'records.professional']);
         $record_types = RecordType::all();
         $professionals = Professional::orderBy('last_name')->get();
