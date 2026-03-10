@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-accommodations')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create Accommodation
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -14,7 +16,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        @canany(['edit-accommodations', 'delete-accommodations'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -23,14 +27,20 @@
                             <th scope="row">{{ $accommodation->id }}</th>
                             <td>{{ $accommodation->name }}</td>
                             <td>{{ $accommodation->description }}</td>
+                            @canany(['edit-accommodations', 'delete-accommodations'])
                             <td class="icon_wrap">
+                                @can('edit-accommodations')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('accommodations.update', $accommodation->id) }}" data-name="{{ $accommodation->name }}" data-description="{{ $accommodation->description }}"><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-accommodations')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('accommodations.destroy', $accommodation->id) }}" data-name="{{ $accommodation->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="empty_table_message">No accommodations found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-accommodations', 'delete-accommodations']) ? '4' : '3' }}" class="empty_table_message">No accommodations found.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -38,6 +48,7 @@
         </div>
     </section>
 
+    @can('create-accommodations')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -64,7 +75,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-accommodations')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -92,8 +105,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-accommodations')
     @include('components.delete_modal', ['type' => 'Accommodation'])
+    @endcan
 @endsection
 
 @push('scripts')
