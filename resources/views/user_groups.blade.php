@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-user-groups')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create User Group
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -14,7 +16,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        @canany(['edit-user-groups', 'delete-user-groups'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -23,10 +27,16 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $user_group->name }}</td>
                             <td>{{ $user_group->description }}</td>
+                            @canany(['edit-user-groups', 'delete-user-groups'])
                             <td class="icon_wrap">
+                                @can('edit-user-groups')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('user-groups.update', $user_group->id) }}" data-name="{{ $user_group->name }}" data-description="{{ $user_group->description }}"><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-user-groups')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('user-groups.destroy', $user_group->id) }}" data-name="{{ $user_group->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @endforeach
                 </tbody>
@@ -34,6 +44,7 @@
         </div>
     </section>
 
+    @can('create-user-groups')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -60,7 +71,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-user-groups')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -88,8 +101,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-user-groups')
     @include('components.delete_modal', ['type' => 'User Group'])
+    @endcan
 @endsection
 
 @push('scripts')
