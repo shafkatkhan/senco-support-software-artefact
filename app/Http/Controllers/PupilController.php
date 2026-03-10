@@ -122,6 +122,8 @@ class PupilController extends Controller
 
     public function meetings(Pupil $pupil)
     {
+        Gate::authorize('view-meetings');
+
         $pupil->load(['meetings.meetingType']);
         $meeting_types = MeetingType::all();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Meetings";

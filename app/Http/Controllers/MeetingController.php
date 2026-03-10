@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class MeetingController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-meetings');
+
         Meeting::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'meeting_type_id' => 'required|exists:meeting_types,id',
@@ -25,6 +28,8 @@ class MeetingController extends Controller
 
     public function update(Request $request, Meeting $meeting)
     {
+        Gate::authorize('edit-meetings');
+
         $meeting->update($request->validate([
             'meeting_type_id' => 'required|exists:meeting_types,id',
             'date' => 'nullable|date',
@@ -39,6 +44,8 @@ class MeetingController extends Controller
 
     public function destroy(Meeting $meeting)
     {
+        Gate::authorize('delete-meetings');
+        
         try {
             $meeting->delete();
             return back()->with('success', 'Meeting Deleted Successfully!');

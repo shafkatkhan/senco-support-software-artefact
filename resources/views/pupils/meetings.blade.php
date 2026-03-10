@@ -10,9 +10,11 @@
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                     Toggle Card View
                 </button>
+                @can('create-meetings')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add New Meeting
                 </button> 
+                @endcan
             </div>            
         </div>
 
@@ -24,6 +26,7 @@
                             {{ $meeting->title }}
                         </div>
                         <div class="sen_icon_wrap">
+                            @can('edit-meetings')
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
@@ -37,6 +40,8 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-meetings')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
@@ -45,6 +50,7 @@
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -112,7 +118,9 @@
                         <th scope="col">Date</th>
                         <th scope="col">Participants</th>
                         <th scope="col">Discussion</th>
+                        @canany(['edit-meetings', 'delete-meetings'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -124,7 +132,9 @@
                             <td data-order="{{ optional($meeting->date)->format('Y-m-d') ?? '' }}">{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ Str::limit($meeting->participants, 30) }}</td>
                             <td>{{ Str::limit($meeting->discussion, 50) }}</td>
+                            @canany(['edit-meetings', 'delete-meetings'])
                             <td class="icon_wrap">
+                                @can('edit-meetings')
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit" 
@@ -138,6 +148,8 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-meetings')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -146,11 +158,13 @@
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="empty_table_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-meetings', 'delete-meetings']) ? '7' : '6' }}" class="empty_table_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -158,6 +172,7 @@
         </div>
     </section>
 
+    @can('create-meetings')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -208,7 +223,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-meetings')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -259,8 +276,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-meetings')
     @include('components.delete_modal', ['type' => 'Meeting'])
+    @endcan
 @endsection
 
 @push('scripts')
