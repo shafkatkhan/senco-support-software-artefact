@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-proficiencies')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create Proficiency
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -14,26 +16,39 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        @canany(['edit-proficiencies', 'delete-proficiencies'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($proficiencies as $proficiency)
+                    @forelse($proficiencies as $proficiency)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $proficiency->name }}</td>
                             <td>{{ $proficiency->description }}</td>
+                            @canany(['edit-proficiencies', 'delete-proficiencies'])
                             <td class="icon_wrap">
+                                @can('edit-proficiencies')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('proficiencies.update', $proficiency->id) }}" data-name="{{ $proficiency->name }}" data-description="{{ $proficiency->description }}"><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-proficiencies')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('proficiencies.destroy', $proficiency->id) }}" data-name="{{ $proficiency->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->user()->canAny(['edit-proficiencies', 'delete-proficiencies']) ? '4' : '3' }}" class="empty_table_message">No proficiencies found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </section>
 
+    @can('create-proficiencies')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -60,7 +75,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-proficiencies')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -88,8 +105,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-proficiencies')
     @include('components.delete_modal', ['type' => 'Proficiency'])
+    @endcan
 @endsection
 
 @push('scripts')
