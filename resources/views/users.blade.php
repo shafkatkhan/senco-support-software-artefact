@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-users')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 {{ __('Create User') }}
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -21,7 +23,9 @@
                         <th scope="col">{{ __('Joined Date') }}</th>
                         <th scope="col">{{ __('Expiry Date') }}</th>
                         <th scope="col">{{ __('Group') }}</th>
+                        @canany(['edit-users', 'delete-users'])
                         <th scope="col">{{ __('Actions') }}</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -37,13 +41,17 @@
                             <td data-order="{{ optional($user->joined_date)->format('Y-m-d') ?? '' }}">{{ $user->joined_date ? $user->joined_date->format('d/m/Y') : 'N/A' }}</td>
                             <td data-order="{{ optional($user->expiry_date)->format('Y-m-d') ?? '' }}">{{ $user->expiry_date ? $user->expiry_date->format('d/m/Y') : 'N/A' }}</td>
                             <td>{{ $user->group ? $user->group->name : 'N/A' }}</td>
+                            @canany(['edit-users', 'delete-users'])
                             <td class="icon_wrap">
+                                @can('edit-users')
                                 <button class="icon edit_icon" 
                                     data-id="{{ $user->id }}"
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit">
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-users')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -51,7 +59,9 @@
                                     data-name="{{ $user->first_name }} {{ $user->last_name }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @endforeach
                 </tbody>
@@ -59,6 +69,7 @@
         </div>
     </section>
 
+    @can('create-users')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -130,7 +141,9 @@
             </div>
         </div>
     </div>
+    @endcan
     
+    @can('edit-users')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -199,8 +212,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-users')
     @include('components.delete_modal', ['type' => 'User'])
+    @endcan
 @endsection
 
 @push('scripts')

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 
@@ -13,6 +14,8 @@ class UserController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view-users');
+
         $users = User::with(['group', 'addedBy'])->get();
         $user_groups = UserGroup::all();
         $title = "Users";
@@ -21,11 +24,15 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        Gate::authorize('edit-users');
+
         return response()->json($user);
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('create-users');
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -58,6 +65,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        Gate::authorize('edit-users');
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -94,6 +103,8 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        Gate::authorize('delete-users');
+        
         try {
             $user->delete();
             return back()->with('success', 'User Deleted Successfully!');
