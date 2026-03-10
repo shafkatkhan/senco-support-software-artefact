@@ -24,6 +24,16 @@ class Pupil extends Model
         'initial_tutor_group',
         'smoking_history',
         'drug_abuse_history',
+        'phone',
+        'email',
+        'after_school_job',
+        'has_special_needs',
+        'special_needs_details',
+        'attended_special_school',
+        'special_school_details',
+        'parental_description',
+        'social_services_involvement',
+        'probation_officer_required',
     ];
 
     protected $casts = [
@@ -31,6 +41,10 @@ class Pupil extends Model
         'joined_date' => 'date',
         'smoking_history' => 'boolean',
         'drug_abuse_history' => 'boolean',
+        'has_special_needs' => 'boolean',
+        'attended_special_school' => 'boolean',
+        'social_services_involvement' => 'boolean',
+        'probation_officer_required' => 'boolean',
     ];
     public function medications()
     {
