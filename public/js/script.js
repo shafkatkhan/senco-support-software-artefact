@@ -26,6 +26,22 @@ $(document).ready(function() {
         localStorage.setItem('sen_nav_hidden', isHidden);
     });
 
+    $('.dropdown_nav_btn').click(function(e) {
+        e.preventDefault();
+        var $dropdown = $(this).next('.dropdown_items');
+        var $icon = $(this).find('i');
+        
+        $dropdown.slideToggle(300);
+        $icon.toggleClass('rotate');
+    });
+    // open dropdown if any child is active on page load
+    $('.dropdown_items').each(function() {
+        if ($(this).find('.activenav').length > 0) {
+            $(this).show();
+            $(this).prev('.dropdown_nav_btn').find('i').addClass('rotate');
+        }
+    });
+
     function applyViewPreference() {
         var pref = localStorage.getItem('sen_view_preference') || 'card';
         

@@ -113,8 +113,8 @@ html.has-secondary-nav #nav {
 	overflow: hidden;
 	display: none;
 }
-.dropdown_items.show{
-	height: 250px;
+.dropdown_nav_btn i.rotate {
+    transform: rotate(-90deg);
 }
 #nav li a:hover{
 	text-decoration:none;

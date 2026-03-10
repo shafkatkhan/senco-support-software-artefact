@@ -17,10 +17,13 @@
             <li><a href="{{ route('professionals.index') }}" class="{{ request()->routeIs('professionals.*') ? 'activenav' : '' }}">{{ __('Professionals') }}</a></li>
             <li><a href="{{ route('user-groups.index') }}" class="{{ request()->routeIs('user-groups.*') ? 'activenav' : '' }}">{{ __('User Groups') }}</a></li>
             <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'activenav' : '' }}">{{ __('Users') }}</a></li>
-            <li><a href="{{ route('email-settings.index') }}" class="{{ request()->routeIs('email-settings.*') ? 'activenav' : '' }}">{{ __('Email Settings') }}</a></li>
-            <li><a href="{{ route('mfa-settings.index') }}" class="{{ request()->routeIs('mfa-settings.*') ? 'activenav' : '' }}">{{ __('MFA Settings') }}</a></li>
-            <li><a href="{{ route('mfa-setup.index') }}" class="{{ request()->routeIs('mfa-setup.*') ? 'activenav' : '' }}">{{ __('MFA Setup') }}</a></li>
-            <li><a href="{{ route('backups.index') }}" class="{{ request()->routeIs('backups.*') ? 'activenav' : '' }}">{{ __('System Backups') }}</a></li>
+            <li class="dropdown_nav_btn"><a href="#">{{ __('System Settings') }} <i class="fas fa-chevron-left"></i></a></li>
+            <div class="dropdown_items">
+                <li class="sub_nav_item"><a href="{{ route('email-settings.index') }}" class="{{ request()->routeIs('email-settings.*') ? 'activenav' : '' }}">{{ __('Email Settings') }}</a></li>
+                <li class="sub_nav_item"><a href="{{ route('mfa-settings.index') }}" class="{{ request()->routeIs('mfa-settings.*') ? 'activenav' : '' }}">{{ __('MFA Settings') }}</a></li>
+                <li class="sub_nav_item"><a href="{{ route('mfa-setup.index') }}" class="{{ request()->routeIs('mfa-setup.*') ? 'activenav' : '' }}">{{ __('MFA Setup') }}</a></li>
+                <li class="sub_nav_item"><a href="{{ route('backups.index') }}" class="{{ request()->routeIs('backups.*') ? 'activenav' : '' }}">{{ __('System Backups') }}</a></li>
+            </div>
         </div>
     </ul>
 </section>
