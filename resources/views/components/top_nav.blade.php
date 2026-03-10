@@ -16,30 +16,46 @@
     @if(request()->is('pupil-*'))
     <div class="top_nav_items_container">
         <ul>
-            <li>
-                <a href="{{ route('pupils.show', $pupil->id) }}" class="{{ request()->routeIs('pupils.show') ? 'activenav' : '' }}">{{ __('Summary') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.medications', $pupil->id) }}" class="{{ request()->routeIs('pupils.medications') ? 'activenav' : '' }}">{{ __('Medications') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.diagnoses', $pupil->id) }}" class="{{ request()->routeIs('pupils.diagnoses') ? 'activenav' : '' }}">{{ __('Diagnoses') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.records', $pupil->id) }}" class="{{ request()->routeIs('pupils.records') ? 'activenav' : '' }}">{{ __('Records') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.events', $pupil->id) }}" class="{{ request()->routeIs('pupils.events') ? 'activenav' : '' }}">{{ __('Events') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.meetings', $pupil->id) }}" class="{{ request()->routeIs('pupils.meetings') ? 'activenav' : '' }}">{{ __('Meetings') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.diets', $pupil->id) }}" class="{{ request()->routeIs('pupils.diets') ? 'activenav' : '' }}">{{ __('Diet') }}</a>
-            </li>
-            <li>
-                <a href="{{ route('pupils.family_members', $pupil->id) }}" class="{{ request()->routeIs('pupils.family_members') ? 'activenav' : '' }}">{{ __('Family Members') }}</a>
-            </li>
+            @can('view-pupils')
+                <li>
+                    <a href="{{ route('pupils.show', $pupil->id) }}" class="{{ request()->routeIs('pupils.show') ? 'activenav' : '' }}">{{ __('Summary') }}</a>
+                </li>
+            @endcan
+            @can('view-medications')
+                <li>
+                    <a href="{{ route('pupils.medications', $pupil->id) }}" class="{{ request()->routeIs('pupils.medications') ? 'activenav' : '' }}">{{ __('Medications') }}</a>
+                </li>
+            @endcan
+            @can('view-diagnoses')
+                <li>
+                    <a href="{{ route('pupils.diagnoses', $pupil->id) }}" class="{{ request()->routeIs('pupils.diagnoses') ? 'activenav' : '' }}">{{ __('Diagnoses') }}</a>
+                </li>
+            @endcan
+            @can('view-records')
+                <li>
+                    <a href="{{ route('pupils.records', $pupil->id) }}" class="{{ request()->routeIs('pupils.records') ? 'activenav' : '' }}">{{ __('Records') }}</a>
+                </li>
+            @endcan
+            @can('view-events')
+                <li>
+                    <a href="{{ route('pupils.events', $pupil->id) }}" class="{{ request()->routeIs('pupils.events') ? 'activenav' : '' }}">{{ __('Events') }}</a>
+                </li>
+            @endcan
+            @can('view-meetings')
+                <li>
+                    <a href="{{ route('pupils.meetings', $pupil->id) }}" class="{{ request()->routeIs('pupils.meetings') ? 'activenav' : '' }}">{{ __('Meetings') }}</a>
+                </li>
+            @endcan
+            @can('view-diets')
+                <li>
+                    <a href="{{ route('pupils.diets', $pupil->id) }}" class="{{ request()->routeIs('pupils.diets') ? 'activenav' : '' }}">{{ __('Diet') }}</a>
+                </li>
+            @endcan
+            @can('view-family-members')
+                <li>
+                    <a href="{{ route('pupils.family_members', $pupil->id) }}" class="{{ request()->routeIs('pupils.family_members') ? 'activenav' : '' }}">{{ __('Family Members') }}</a>
+                </li>
+            @endcan
         </ul>
     </div>
     @endif
