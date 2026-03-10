@@ -106,6 +106,8 @@ class PupilController extends Controller
 
     public function events(Pupil $pupil)
     {
+        Gate::authorize('view-events');
+
         $pupil->load('events');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Events";
         return view('pupils.events', compact('pupil', 'title'));

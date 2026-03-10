@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-events');
+
         $validated = $request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'title' => 'required|string|max:255',
@@ -26,6 +29,8 @@ class EventController extends Controller
 
     public function update(Request $request, Event $event)
     {
+        Gate::authorize('edit-events');
+
         $event->update($request->validate([
             'title' => 'required|string|max:255',
             'date' => 'nullable|date',
@@ -39,6 +44,8 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
+        Gate::authorize('delete-events');
+        
         try {
             $event->delete();
             return back()->with('success', 'Event Deleted Successfully!');
