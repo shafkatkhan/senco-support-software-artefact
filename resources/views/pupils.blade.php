@@ -114,11 +114,7 @@
                             <div class="item col-md-6">
                                 <div class="label">Address:</div>
                                 <div class="value">
-                                    {{ $pupil->address_line_1 }},<br>
-                                    {{ $pupil->address_line_2 }},<br>
-                                    {{ $pupil->locality }},<br>
-                                    {{ $pupil->postcode }},<br>
-                                    {{ $pupil->country }}
+                                    {!! collect([$pupil->address_line_1, $pupil->address_line_2, $pupil->locality, $pupil->postcode, $pupil->country])->filter()->implode(', <br>') ?: 'N/A' !!}
                                 </div>
                             </div>
                             <hr>
