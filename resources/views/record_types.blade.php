@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-record-types')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Create Record Type
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -14,26 +16,39 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        @canany(['edit-record-types', 'delete-record-types'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($record_types as $record_type)
+                    @forelse($record_types as $record_type)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $record_type->name }}</td>
                             <td>{{ $record_type->description }}</td>
+                            @canany(['edit-record-types', 'delete-record-types'])
                             <td class="icon_wrap">
+                                @can('edit-record-types')
                                 <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('record-types.update', $record_type->id) }}" data-name="{{ $record_type->name }}" data-description="{{ $record_type->description }}"><i class="fa fa-edit"></i></button>
+                                @endcan
+                                @can('delete-record-types')
                                 <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('record-types.destroy', $record_type->id) }}" data-name="{{ $record_type->name }}"><i class="fa fa-trash-alt"></i></button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->user()->canAny(['edit-record-types', 'delete-record-types']) ? '4' : '3' }}" class="empty_table_message">No record types found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </section>
 
+    @can('create-record-types')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -60,7 +75,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-record-types')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -88,8 +105,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-record-types')
     @include('components.delete_modal', ['type' => 'Record Type'])
+    @endcan
 @endsection
 
 @push('scripts')
