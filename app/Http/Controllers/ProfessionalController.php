@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Professional;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class ProfessionalController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view-professionals');
+
         $professionals = Professional::all();
         $title = "Professionals";
         return view('professionals', compact('professionals', 'title'));
@@ -17,6 +20,8 @@ class ProfessionalController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('create-professionals');
+
         Professional::create($request->validate([
             'title' => 'nullable|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -32,6 +37,8 @@ class ProfessionalController extends Controller
 
     public function update(Request $request, Professional $professional)
     {
+        Gate::authorize('edit-professionals');
+
         $professional->update($request->validate([
             'title' => 'nullable|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -47,6 +54,8 @@ class ProfessionalController extends Controller
 
     public function destroy(Professional $professional)
     {
+        Gate::authorize('delete-professionals');
+        
         try {
             $professional->delete();
             return back()->with('success', 'Professional Deleted Successfully!');

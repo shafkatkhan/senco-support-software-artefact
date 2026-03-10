@@ -3,9 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
+            @can('create-professionals')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                 Add Professional
             </button>
+            @endcan
         </div>
         <div class="table_wrap">
             <table class="table sen_table-striped">
@@ -16,11 +18,13 @@
                         <th scope="col">Role</th>
                         <th scope="col">Agency</th>
                         <th scope="col">Contact</th>
+                        @canany(['edit-professionals', 'delete-professionals'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($professionals as $professional)
+                    @forelse($professionals as $professional)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $professional->title }} {{ $professional->first_name }} {{ $professional->last_name }}</td>
@@ -37,7 +41,9 @@
                                     N/A
                                 @endif
                             </td>
+                            @canany(['edit-professionals', 'delete-professionals'])
                             <td class="icon_wrap">
+                                @can('edit-professionals')
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit" 
@@ -52,6 +58,8 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-professionals')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -60,14 +68,21 @@
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->user()->canAny(['edit-professionals', 'delete-professionals']) ? '6' : '5' }}" class="empty_table_message">No professionals found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </section>
 
+    @can('create-professionals')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -120,7 +135,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-professionals')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -174,8 +191,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-professionals')
     @include('components.delete_modal', ['type' => 'Professional'])
+    @endcan
 @endsection
 
 @push('scripts')
