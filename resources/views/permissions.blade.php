@@ -5,7 +5,7 @@
         <div class="table_wrap">
             <form action="{{ route('permissions.update') }}" method="POST">
                 @csrf
-                <table class="table sen_table-striped">
+                <table class="table sen_table-striped" data-page-length="100">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">{{ __('Permission') }}</th>
@@ -17,7 +17,7 @@
                     <tbody>
                         @foreach($permissions as $permission)
                             <tr>
-                                <td>
+                                <td data-order="{{ $permission->id }}">
                                     <strong>{{ $permission->name }}</strong><br>
                                     <small class="text-muted">{{ $permission->description }}</small>
                                 </td>

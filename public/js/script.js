@@ -155,7 +155,16 @@ $(document).ready(function() {
         };
     }
     $.fn.dataTable.ext.errMode = 'throw';
-    $('.table:not(.no-datatable-filters)').DataTable(datatableConfigs);
+    $('.table:not(.no-datatable-filters)').each(function() {
+        var $this = $(this);
+        var config = $.extend(true, {}, datatableConfigs);
+        
+        if ($this.data('page-length')) {
+            config.pageLength = $this.data('page-length');
+        }
+        
+        $this.DataTable(config);
+    });
     $('.table.no-datatable-filters').DataTable(datatableConfigsNoFilters);
 });
 
