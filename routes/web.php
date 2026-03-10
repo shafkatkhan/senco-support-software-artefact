@@ -25,6 +25,7 @@ use \App\Http\Controllers\MfaSettingController;
 use \App\Http\Controllers\MfaSetupController;
 use \App\Http\Controllers\MfaChallengeController;
 use \App\Http\Controllers\EmailSettingController;
+use \App\Http\Controllers\PermissionController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -129,4 +130,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mfa-challenge', [MfaChallengeController::class, 'index'])->name('mfa-challenge.index');
     Route::post('/mfa-challenge', [MfaChallengeController::class, 'verify'])->name('mfa-challenge.verify');
+
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::post('/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 });

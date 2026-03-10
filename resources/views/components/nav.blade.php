@@ -22,6 +22,7 @@
                 <li class="sub_nav_item"><a href="{{ route('email-settings.index') }}" class="{{ request()->routeIs('email-settings.*') ? 'activenav' : '' }}">{{ __('Email Settings') }}</a></li>
                 <li class="sub_nav_item"><a href="{{ route('mfa-settings.index') }}" class="{{ request()->routeIs('mfa-settings.*') ? 'activenav' : '' }}">{{ __('MFA Settings') }}</a></li>
                 <li class="sub_nav_item"><a href="{{ route('mfa-setup.index') }}" class="{{ request()->routeIs('mfa-setup.*') ? 'activenav' : '' }}">{{ __('MFA Setup') }}</a></li>
+                <li class="sub_nav_item"><a href="{{ route('permissions.index') }}" class="{{ request()->routeIs('permissions.*') ? 'activenav' : '' }}">{{ __('Permissions') }}</a></li>
                 <li class="sub_nav_item"><a href="{{ route('backups.index') }}" class="{{ request()->routeIs('backups.*') ? 'activenav' : '' }}">{{ __('System Backups') }}</a></li>
             </div>
         </div>

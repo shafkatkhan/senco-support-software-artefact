@@ -21,6 +21,7 @@ return [
             'Email Settings',
             'MFA Settings',
             'MFA Setup',
+            'Permissions',
             'System Backups',
         ],
 
@@ -168,6 +169,13 @@ return [
             'Please enter the following 6-digit code to continue.',
             'This code will expire in 15 minutes.',
             'If you did not request this code, please ignore this email or contact your administrator.',
+        ],
+
+        'Permissions' => [
+            'Roles & Permissions',
+            'Permission',
+            'Save Permissions',
+            'Permissions updated successfully!',
         ],
 
         'Misc/General' => [
