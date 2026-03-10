@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 use Exception;
 use App\Models\Setting;
 use App\Mail\TestEmail;
@@ -12,6 +13,8 @@ class EmailSettingController extends Controller
 {
     public function index()
     {
+        Gate::authorize('manage-email-settings');
+
         $title = 'Email Settings';
         
         $settings = [
@@ -29,6 +32,8 @@ class EmailSettingController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('manage-email-settings');
+
         $request->validate([
             'mail_host' => 'required|string',
             'mail_port' => 'required|numeric',
@@ -52,6 +57,8 @@ class EmailSettingController extends Controller
 
     public function test(Request $request)
     {
+        Gate::authorize('manage-email-settings');
+
         $request->validate([
             'test_email_address' => 'required|email'
         ]);
