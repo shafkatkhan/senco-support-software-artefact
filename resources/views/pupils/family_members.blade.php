@@ -10,9 +10,11 @@
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
                     Toggle Card View
                 </button>
+                @can('create-family-members')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
                     Add New Family Member
                 </button> 
+                @endcan
             </div>            
         </div>
 
@@ -29,6 +31,7 @@
                             @endif
                         </div>
                         <div class="sen_icon_wrap">
+                            @can('edit-family-members')
                             <button class="sen_icon sen_edit_icon edit_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#edit" 
@@ -41,6 +44,8 @@
                             >
                                 <i class="far fa-edit"></i>
                             </button>
+                            @endcan
+                            @can('delete-family-members')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#delete" 
@@ -49,6 +54,7 @@
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                            @endcan
                         </div>
                     </div>
                     <div class="bottom">
@@ -93,7 +99,9 @@
                         <th scope="col">Name</th>
                         <th scope="col">Relation</th>
                         <th scope="col">DOB</th>
+                        @canany(['edit-family-members', 'delete-family-members'])
                         <th scope="col">Actions</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -103,7 +111,9 @@
                             <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
                             <td>{{ $familyMember->relation }}</td>
                             <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
+                            @canany(['edit-family-members', 'delete-family-members'])
                             <td class="icon_wrap">
+                                @can('edit-family-members')
                                 <button class="icon edit_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#edit" 
@@ -116,6 +126,8 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
+                                @endcan
+                                @can('delete-family-members')
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
@@ -124,11 +136,13 @@
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
+                                @endcan
                             </td>
+                            @endcanany
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-family-members', 'delete-family-members']) ? '5' : '4' }}" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -136,6 +150,7 @@
         </div>
     </section>
 
+    @can('create-family-members')
     <div class="modal fade" id="new" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -183,7 +198,9 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('edit-family-members')
     <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -231,8 +248,11 @@
             </div>
         </div>
     </div>
+    @endcan
 
+    @can('delete-family-members')
     @include('components.delete_modal', ['type' => 'Family Member'])
+    @endcan
 @endsection
 
 @push('scripts')

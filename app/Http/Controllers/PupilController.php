@@ -115,6 +115,8 @@ class PupilController extends Controller
 
     public function familyMembers(Pupil $pupil)
     {
+        Gate::authorize('view-family-members');
+
         $pupil->load('familyMembers');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
         return view('pupils.family_members', compact('pupil', 'title'));

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\FamilyMember;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Gate;
 
 class FamilyMemberController extends Controller
 {
     public function store(Request $request)
     {
+        Gate::authorize('create-family-members');
+
         $familyMember = FamilyMember::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'first_name' => 'required|string|max:255',
@@ -27,6 +30,8 @@ class FamilyMemberController extends Controller
 
     public function update(Request $request, FamilyMember $family_member)
     {
+        Gate::authorize('edit-family-members');
+
         $family_member->update($request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -47,6 +52,8 @@ class FamilyMemberController extends Controller
 
     public function destroy(FamilyMember $family_member)
     {
+        Gate::authorize('delete-family-members');
+        
         try {
             $family_member->delete();
             return back()->with('success', 'Family Member Deleted Successfully!');
