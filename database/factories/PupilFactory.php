@@ -32,6 +32,16 @@ class PupilFactory extends Factory
             'onboarded_by' => User::inRandomOrder()->first()->id ?? User::factory(),
             'smoking_history' => fake()->boolean(10),
             'drug_abuse_history' => fake()->boolean(5),
+            'phone' => fake()->phoneNumber(),
+            'email' => fake()->unique()->safeEmail(),
+            'after_school_job' => fake()->boolean(20) ? fake()->jobTitle() : null,
+            'has_special_needs' => $hasSpecialNeeds = fake()->boolean(30),
+            'special_needs_details' => $hasSpecialNeeds ? fake()->sentence() : null,
+            'attended_special_school' => $attendedSpecialSchool = fake()->boolean(20),
+            'special_school_details' => $attendedSpecialSchool ? fake()->sentence() : null,
+            'parental_description' => fake()->boolean(70) ? fake()->paragraph() : null,
+            'social_services_involvement' => fake()->boolean(15),
+            'probation_officer_required' => fake()->boolean(15),
         ];
     }
 }
