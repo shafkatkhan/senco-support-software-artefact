@@ -169,7 +169,12 @@
                     @forelse($pupil->familyMembers as $familyMember)
                         <tr @if($pupil->primary_family_member_id == $familyMember->id) class="primary_family_member" @endif>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $familyMember->first_name }} {{ $familyMember->last_name }}</td>
+                            <td>
+                                {{ $familyMember->first_name }} {{ $familyMember->last_name }}
+                                @if ($pupil->primary_family_member_id == $familyMember->id)
+                                    <span class="badge" style="background-color: #aa1b1b; margin-left:10px;">Next of Kin</span>
+                                @endif
+                            </td>
                             <td>{{ $familyMember->relation }}</td>
                             <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $familyMember->phone ?? 'N/A' }}</td>
