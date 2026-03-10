@@ -1022,3 +1022,13 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #333;
 	margin-bottom: 15px;
 }
+/**/
+.nice_link{
+	color: #5388b6;
+	text-decoration: none;
+	transition: color 0.1s ease-in-out;
+}
+.nice_link:hover{
+	color: #36658a;
+	text-decoration: underline;
+}

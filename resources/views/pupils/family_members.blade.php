@@ -97,7 +97,7 @@
                                 <div class="value">
                                     <i class="fas fa-envelope"></i>
                                     @if($familyMember->email)
-                                        <a class="value_link" href="mailto:{{ $familyMember->email }}">{{ $familyMember->email }}</a>
+                                        <a class="nice_link" href="mailto:{{ $familyMember->email }}">{{ $familyMember->email }}</a>
                                     @else
                                         N/A
                                     @endif

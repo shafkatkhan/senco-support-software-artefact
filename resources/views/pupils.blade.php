@@ -106,6 +106,44 @@
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
+                                <div class="label">Phone:</div>
+                                <div class="value">
+                                    <i class="fas fa-phone"></i>
+                                    {{ $pupil->phone ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Email:</div>
+                                <div class="value">
+                                    <i class="fas fa-envelope"></i>
+                                    @if($pupil->email)
+                                        <a href="mailto:{{ $pupil->email }}" class="nice_link">{{ $pupil->email }}</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Special Needs?</div>
+                                <div class="value">
+                                    {{ $pupil->has_special_needs ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Social Services?</div>
+                                <div class="value">
+                                    {{ $pupil->social_services_involvement ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-4">
+                                <div class="label">Visiting Probation Officer Required?</div>
+                                <div class="value">
+                                    {{ $pupil->probation_officer_required ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
                                 <div class="label">Next of Kin:</div>
                                 <div class="value">
                                     {{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : 'N/A' }}
@@ -151,6 +189,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Gender</th>
+                        <th scope="col">Special Needs</th>
                         @canany(['edit-pupils', 'delete-pupils'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -163,6 +202,9 @@
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
                             <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
                             <td>{{ $pupil->gender }}</td>
+                            <td>
+                                {{ $pupil->has_special_needs ? 'Yes' : '' }}
+                            </td>
                             @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
                                 @can('edit-pupils')
@@ -176,7 +218,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '5' : '4' }}" class="empty_table_message">No pupils found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '6' : '5' }}" class="empty_table_message">No pupils found.</td>
                         </tr>
                     @endforelse
                 </tbody>

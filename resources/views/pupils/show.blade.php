@@ -54,6 +54,31 @@
                                 </div>
                             </div>                        
                             <hr>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Phone:</div>
+                                <div class="value">
+                                    <i class="fas fa-phone"></i>
+                                    {{ $pupil->phone ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-4 border_right-md">
+                                <div class="label">Email:</div>
+                                <div class="value">
+                                    <i class="fas fa-envelope"></i>
+                                    @if($pupil->email)
+                                        <a href="mailto:{{ $pupil->email }}" class="nice_link">{{ $pupil->email }}</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="item col-md-4">
+                                <div class="label">After School Job:</div>
+                                <div class="value">
+                                    {{ $pupil->after_school_job ?? 'N/A' }}
+                                </div>
+                            </div>
+                            <hr>
                             <div class="item col-md-6 border_right-md">
                                 <div class="label">Medications:</div>
                                 <div class="value">
@@ -89,6 +114,47 @@
                                 <div class="label">Drug Abuse History?</div>
                                 <div class="value">
                                     {{ $pupil->drug_abuse_history ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Special Needs:</div>
+                                <div class="value">
+                                    @if($pupil->has_special_needs)
+                                        {!! $pupil->special_needs_details ? nl2br(e($pupil->special_needs_details)) : 'Yes' !!}
+                                    @else
+                                        N/A
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Attended Special Needs School in Past:</div>
+                                <div class="value">
+                                    @if($pupil->attended_special_school)
+                                        {!! $pupil->special_school_details ? nl2br(e($pupil->special_school_details)) : 'Yes' !!}
+                                    @else
+                                        N/A
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-12">
+                                <div class="label">Parental Description of Student:</div>
+                                <div class="value">
+                                    {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : 'N/A' !!}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="item col-md-6 border_right-md">
+                                <div class="label">Social Services Involvement:</div>
+                                <div class="value">
+                                    {{ $pupil->social_services_involvement ? 'Yes' : 'No' }}
+                                </div>
+                            </div>
+                            <div class="item col-md-6">
+                                <div class="label">Visiting Probation Officer Required:</div>
+                                <div class="value">
+                                    {{ $pupil->probation_officer_required ? 'Yes' : 'No' }}
                                 </div>
                             </div>
                             <hr>
