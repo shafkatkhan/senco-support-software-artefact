@@ -15,6 +15,18 @@ class FamilyMember extends Model
         'last_name',
         'dob',
         'relation',
+        'phone',
+        'email',
+        'address_line_1',
+        'address_line_2',
+        'locality',
+        'postcode',
+        'country',
+        'marital_status',
+        'highest_education',
+        'financial_status',
+        'occupation',
+        'state_support',
     ];
 
     protected $casts = [
