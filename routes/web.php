@@ -26,6 +26,7 @@ use \App\Http\Controllers\MfaSetupController;
 use \App\Http\Controllers\MfaChallengeController;
 use \App\Http\Controllers\EmailSettingController;
 use \App\Http\Controllers\PermissionController;
+use \App\Http\Controllers\SchoolHistoryController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -81,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/family-members', [PupilController::class, 'familyMembers'])->name('pupils.family_members');
     Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
     Route::get('/pupil-details/{pupil}/diet', [PupilController::class, 'diets'])->name('pupils.diets');
+    Route::get('/pupil-details/{pupil}/school-history', [PupilController::class, 'schoolHistories'])->name('pupils.school_histories');
 
     Route::resource('pupils', PupilController::class)->except(['create', 'edit', 'show']);
 
@@ -99,6 +101,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
     
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
+
+    Route::resource('school-histories', SchoolHistoryController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
     

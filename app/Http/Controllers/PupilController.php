@@ -142,6 +142,15 @@ class PupilController extends Controller
         return view('pupils.diets', compact('pupil', 'title', 'subjects'));
     }
 
+    public function schoolHistories(Pupil $pupil)
+    {
+        Gate::authorize('view-school-histories');
+
+        $pupil->load('schoolHistories');
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s School History";
+        return view('pupils.school_histories', compact('pupil', 'title'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

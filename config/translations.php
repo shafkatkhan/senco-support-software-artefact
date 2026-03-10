@@ -34,6 +34,7 @@ return [
             'Meetings',
             'Diet',
             'Family Members',
+            'School History',
         ],
 
         'Authentication' => [

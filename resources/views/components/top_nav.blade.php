@@ -56,6 +56,11 @@
                     <a href="{{ route('pupils.family_members', $pupil->id) }}" class="{{ request()->routeIs('pupils.family_members') ? 'activenav' : '' }}">{{ __('Family Members') }}</a>
                 </li>
             @endcan
+            @can('view-school-histories')
+                <li>
+                    <a href="{{ route('pupils.school_histories', $pupil->id) }}" class="{{ request()->routeIs('pupils.school_histories') ? 'activenav' : '' }}">{{ __('School History') }}</a>
+                </li>
+            @endcan
         </ul>
     </div>
     @endif

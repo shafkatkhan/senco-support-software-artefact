@@ -81,6 +81,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Edit Events', 'slug' => 'edit-events', 'description' => 'Can edit existing events.'],
             ['name' => 'Delete Events', 'slug' => 'delete-events', 'description' => 'Can delete events.'],
 
+            // School History Management
+            ['name' => 'View School Histories', 'slug' => 'view-school-histories', 'description' => 'Can view the list of school histories and their details.'],
+            ['name' => 'Create School Histories', 'slug' => 'create-school-histories', 'description' => 'Can create new school histories.'],
+            ['name' => 'Edit School Histories', 'slug' => 'edit-school-histories', 'description' => 'Can edit existing school histories.'],
+            ['name' => 'Delete School Histories', 'slug' => 'delete-school-histories', 'description' => 'Can delete school histories.'],
+
             // Meeting Management
             ['name' => 'View Meetings', 'slug' => 'view-meetings', 'description' => 'Can view the list of meetings and their details.'],
             ['name' => 'Create Meetings', 'slug' => 'create-meetings', 'description' => 'Can create new meetings.'],
