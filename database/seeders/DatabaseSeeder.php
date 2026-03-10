@@ -21,6 +21,7 @@ use App\Models\Major;
 use App\Models\Proficiency;
 use App\Models\Diet;
 use App\Models\Permission;
+use App\Models\SchoolHistory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -254,6 +255,12 @@ class DatabaseSeeder extends Seeder
             $diagnosisCount = rand(0, 3);
             if ($diagnosisCount > 0) {
                 Diagnosis::factory($diagnosisCount)->create(['pupil_id' => $pupil->id]);
+            }
+
+            // add previous schools
+            $schoolHistoryCount = rand(0, 3);
+            if ($schoolHistoryCount > 0) {
+                SchoolHistory::factory($schoolHistoryCount)->create(['pupil_id' => $pupil->id]);
             }
         });
 
