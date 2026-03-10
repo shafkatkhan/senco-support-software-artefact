@@ -10,4 +10,9 @@ class UserGroup extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description'];
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'user_group_permissions');
+    }
 }

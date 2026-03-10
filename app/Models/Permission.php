@@ -14,4 +14,9 @@ class Permission extends Model
         'slug',
         'description',
     ];
+
+    public function userGroups()
+    {
+        return $this->belongsToMany(UserGroup::class, 'user_group_permissions');
+    }
 }
