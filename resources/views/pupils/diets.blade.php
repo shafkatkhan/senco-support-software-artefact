@@ -94,7 +94,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Subject</th>
                         <th scope="col">Proficiency</th>
-                        <th scope="col">Accommodations</th>
+                        <th scope="col" class="dt-left">Accommodations</th>
                         @canany(['edit-diets', 'delete-diets'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -106,7 +106,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diet->subject->name}}</td>
                             <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">N/A</span>' !!}</td>
-                            <td data-order="{{ $diet->accommodations->count() }}">
+                            <td data-order="{{ $diet->accommodations->count() }}" class="dt-left">
                                 @forelse($diet->accommodations as $acc)
                                     <span class="badge bg-secondary">{{ $acc->name }} ({{ $acc->pivot->status }})</span>
                                 @empty

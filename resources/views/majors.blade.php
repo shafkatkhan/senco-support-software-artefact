@@ -16,7 +16,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
-                        <th scope="col">Subjects</th>
+                        <th scope="col" class="dt-left">Subjects</th>
                         @canany(['edit-majors', 'delete-majors'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -28,7 +28,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $major->name }}</td>
                             <td>{{ $major->code }}</td>
-                            <td data-order="{{ $major->subjects->count() }}">
+                            <td data-order="{{ $major->subjects->count() }}" class="dt-left">
                                 @forelse($major->subjects as $subject)
                                     <span class="badge bg-secondary">{{ $subject->name }}</span>
                                 @empty

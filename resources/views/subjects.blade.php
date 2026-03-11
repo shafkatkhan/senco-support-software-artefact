@@ -16,8 +16,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
-                        <th scope="col">Proficiencies</th>
-                        <th scope="col">Accommodations</th>
+                        <th scope="col" class="dt-left">Proficiencies</th>
+                        <th scope="col" class="dt-left">Accommodations</th>
                         @canany(['edit-subjects', 'delete-subjects'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -29,14 +29,14 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $subject->name }}</td>
                             <td>{{ $subject->code }}</td>
-                            <td data-order="{{ $subject->proficiencies->count() }}">
+                            <td data-order="{{ $subject->proficiencies->count() }}" class="dt-left">
                                 @forelse($subject->proficiencies as $proficiency)
                                     <span class="badge bg-secondary">{{ $proficiency->name }}</span>
                                 @empty
                                     <span class="text-muted">N/A</span>
                                 @endforelse
                             </td>
-                            <td data-order="{{ $subject->accommodations->count() }}">
+                            <td data-order="{{ $subject->accommodations->count() }}" class="dt-left">
                                 @forelse($subject->accommodations as $accommodation)
                                     <span class="badge bg-secondary">{{ $accommodation->name }}</span>
                                 @empty
