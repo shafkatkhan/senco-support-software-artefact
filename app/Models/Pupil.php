@@ -34,6 +34,8 @@ class Pupil extends Model
         'parental_description',
         'social_services_involvement',
         'probation_officer_required',
+        'social_services_professional_id',
+        'probation_officer_professional_id',
     ];
 
     protected $casts = [
@@ -94,5 +96,15 @@ class Pupil extends Model
     public function schoolHistories()
     {
         return $this->hasMany(SchoolHistory::class);
+    }
+
+    public function socialServicesProfessional()
+    {
+        return $this->belongsTo(Professional::class, 'social_services_professional_id');
+    }
+
+    public function probationOfficerProfessional()
+    {
+        return $this->belongsTo(Professional::class, 'probation_officer_professional_id');
     }
 }

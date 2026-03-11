@@ -50,7 +50,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-pupils');
 
-        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType');
+        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional');
         
         // build a grouped list of professional involvements
         $grouped = [];
@@ -68,6 +68,19 @@ class PupilController extends Controller
                 $grouped[$id]['involvements'][] = $record->recordType->name . ' Record';
             }
         }
+
+        if ($pupil->socialServicesProfessional) {
+            $id = $pupil->socialServicesProfessional->id;
+            $grouped[$id]['professional'] = $pupil->socialServicesProfessional;
+            $grouped[$id]['involvements'][] = 'Social Services';
+        }
+
+        if ($pupil->probationOfficerProfessional) {
+            $id = $pupil->probationOfficerProfessional->id;
+            $grouped[$id]['professional'] = $pupil->probationOfficerProfessional;
+            $grouped[$id]['involvements'][] = 'Visiting Probation Officer';
+        }
+
         $involvements = collect(array_values($grouped));
 
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
