@@ -16,7 +16,7 @@ class InstallController extends Controller
         try {
             // check cache first
             if (Cache::get('system_installed')) {
-                return redirect()->back()->with('error', 'Error: system has already been installed.');
+                return redirect()->back()->with('error', 'System has already been installed.');
             }
 
             // redirect to login if a user exists (ie. already installed)
@@ -26,7 +26,7 @@ class InstallController extends Controller
                 }else{
                     // cache it for next time
                     Cache::forever('system_installed', true);
-                    return redirect()->back()->with('error', 'Error: system has already been installed.');
+                    return redirect()->back()->with('error', 'System has already been installed.');
                 }
             }
         } catch (\Exception $e) {
@@ -229,7 +229,7 @@ class InstallController extends Controller
     public function lang_setup_view(Request $request) {
         try {
             if(!Cache::get('lang_setup_pending')){
-                return redirect()->back()->with('error', 'Error: language has already been setup.');
+                return redirect()->back()->with('error', 'Language has already been setup.');
             }
         } catch (\Exception $e) {
             // db not configured/migrated/seeded, continue to installation
