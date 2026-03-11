@@ -927,7 +927,7 @@ div.dt-container .dt-paging .dt-paging-button.last {
 .email_settings_wrap .settings_section{
 	flex-grow: 1;
 }
-.email_settings_wrap .form-label{
+.email_settings_wrap .form-label, .onboarding_wrap .form-label{
 	font-weight: 500;
 	color: #4a5568;
 	font-size: 14px;
@@ -1032,3 +1032,74 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #36658a;
 	text-decoration: underline;
 }
+/**/
+/* onboarding form */
+.onboarding_inner_form {
+    background: #ffffff;
+	padding: 20px;
+	border: 1px solid #e2e8f0;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	position: relative;
+}
+.remove_btn_wrapper {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+/**/
+.accordion-button {
+    background-color: #fcfcfc;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #f8fafc;
+    color: #333;
+	font-weight: 600;
+}
+.accordion-button i {
+    margin-right: 12px;
+    color: #3f7cae;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+.accordion-body {
+    padding: 25px;
+}
+/* end onboarding form */
+/**/
+.settings_wrap .btn-primary {
+    background-color: #3f7cae;
+    border-color: #3f7cae;
+    padding: 12px 28px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+.settings_wrap .btn-primary:hover {
+    background-color: #346b96;
+    border-color: #346b96;
+}
+.settings_wrap .btn-outline-primary {
+    color: #3f7cae;
+    border-color: #3f7cae;
+    font-weight: 500;
+}
+.settings_wrap .btn-outline-primary:hover {
+    background-color: #3f7cae;
+    color: #fff;
+    border-color: #3f7cae;
+}
+.settings_wrap .btn-outline-danger {
+    border-radius: 6px;
+}
+.form-control, .form-select {
+    /* border-color: #ced4da; */
+    background-color: #f9f9f9;
+    /* padding: 10px; */
+}
+.form-control:focus, .form-select:focus {
+    border-color: #3f7cae;
+    box-shadow: 0 0 0 3px rgba(63, 124, 174, 0.1);
+    background-color: #fff;
+}
+/**/

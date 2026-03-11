@@ -34,6 +34,7 @@ class Pupil extends Model
         'parental_description',
         'social_services_involvement',
         'probation_officer_required',
+        'onboarded_by',
         'social_services_professional_id',
         'probation_officer_professional_id',
     ];

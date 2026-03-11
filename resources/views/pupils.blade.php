@@ -7,9 +7,9 @@
                 View More Information
             </button>
             @can('create-pupils')
-            <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+            <a href="{{ route('pupils.create') }}" class="new_button">
                 Onboard Pupil
-            </button>
+            </a>
             @endcan
         </div>
 

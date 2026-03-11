@@ -9,6 +9,12 @@ use App\Models\Professional;
 use App\Models\MeetingType;
 use App\Models\Subject;
 use App\Models\Proficiency;
+use App\Models\FamilyMember;
+use App\Models\SchoolHistory;
+use App\Models\Diagnosis;
+use App\Models\Medication;
+use App\Models\Record;
+use App\Models\Event;
 use Illuminate\Support\Facades\Gate;
 
 class PupilController extends Controller
@@ -30,7 +36,12 @@ class PupilController extends Controller
      */
     public function create()
     {
-        //
+        Gate::authorize('create-pupils');
+
+        $professionals = Professional::orderBy('last_name')->get();
+        $record_types = RecordType::orderBy('name')->get();
+        $title = "Onboard New Pupil";
+        return view('pupils.create', compact('title', 'professionals', 'record_types'));
     }
 
     /**
@@ -39,8 +50,239 @@ class PupilController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-pupils');
+
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'gender' => 'required|string|max:255',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'locality' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'after_school_job' => 'nullable|string|max:255',
+            'joined_date' => 'nullable|date',
+            'initial_tutor_group' => 'nullable|string|max:255',
+
+            'has_special_needs' => 'boolean',
+            'special_needs_details' => 'nullable|string',
+            'attended_special_school' => 'boolean',
+            'special_school_details' => 'nullable|string',
+            
+            'parental_description' => 'nullable|string',
+
+            'social_services_involvement' => 'boolean',
+            'social_worker' => 'nullable|array',
+            'social_worker.professional_id' => 'nullable|exists:professionals,id',
+            'social_worker.is_new_professional' => 'nullable|boolean',
+            'social_worker.prof_first_name' => 'nullable|string|max:255',
+            'social_worker.prof_last_name' => 'nullable|string|max:255',
+            'social_worker.prof_title' => 'nullable|string|max:255',
+            'social_worker.prof_role' => 'nullable|string|max:255',
+            'social_worker.prof_agency' => 'nullable|string|max:255',
+            'social_worker.prof_phone' => 'nullable|string|max:255',
+            'social_worker.prof_email' => 'nullable|email|max:255',
+            
+            'probation_officer_required' => 'boolean',
+            'probation_officer' => 'nullable|array',
+            'probation_officer.professional_id' => 'nullable|exists:professionals,id',
+            'probation_officer.is_new_professional' => 'nullable|boolean',
+            'probation_officer.prof_first_name' => 'nullable|string|max:255',
+            'probation_officer.prof_last_name' => 'nullable|string|max:255',
+            'probation_officer.prof_title' => 'nullable|string|max:255',
+            'probation_officer.prof_role' => 'nullable|string|max:255',
+            'probation_officer.prof_agency' => 'nullable|string|max:255',
+            'probation_officer.prof_phone' => 'nullable|string|max:255',
+            'probation_officer.prof_email' => 'nullable|email|max:255',
+
+            'family_members' => 'array',
+            'family_members.*.first_name' => 'nullable|string|max:255',
+            'family_members.*.last_name' => 'nullable|string|max:255',
+            'family_members.*.relation' => 'nullable|string|max:255',
+            'family_members.*.dob' => 'nullable|date',
+            'family_members.*.phone' => 'nullable|string|max:255',
+            'family_members.*.email' => 'nullable|email|max:255',
+            'family_members.*.marital_status' => 'nullable|string|max:255',
+            'family_members.*.highest_education' => 'nullable|string|max:255',
+            'family_members.*.financial_status' => 'nullable|string|max:255',
+            'family_members.*.occupation' => 'nullable|string|max:255',
+            'family_members.*.state_support' => 'nullable|string|max:255',
+            'family_members.*.address_line_1' => 'nullable|string|max:255',
+            'family_members.*.address_line_2' => 'nullable|string|max:255',
+            'family_members.*.locality' => 'nullable|string|max:255',
+            'family_members.*.postcode' => 'nullable|string|max:255',
+            'family_members.*.country' => 'nullable|string|max:255',
+
+            'school_histories' => 'array',
+            'school_histories.*.school_name' => 'nullable|string|max:255',
+            'school_histories.*.school_type' => 'nullable|string',
+            'school_histories.*.class_type' => 'nullable|string',
+            'school_histories.*.years_attended' => 'nullable|numeric',
+            'school_histories.*.transition_reason' => 'nullable|string',
+
+            'diagnoses' => 'array',
+            'diagnoses.*.name' => 'nullable|string|max:255',
+            'diagnoses.*.date' => 'nullable|date',
+            'diagnoses.*.professional_id' => 'nullable|exists:professionals,id',
+            'diagnoses.*.description' => 'nullable|string',
+            'diagnoses.*.recommendations' => 'nullable|string',
+            'diagnoses.*.is_new_professional' => 'nullable|boolean',
+            'diagnoses.*.prof_title' => 'nullable|string|max:255',
+            'diagnoses.*.prof_first_name' => 'nullable|string|max:255',
+            'diagnoses.*.prof_last_name' => 'nullable|string|max:255',
+            'diagnoses.*.prof_role' => 'nullable|string|max:255',
+            'diagnoses.*.prof_agency' => 'nullable|string|max:255',
+            'diagnoses.*.prof_phone' => 'nullable|string|max:255',
+            'diagnoses.*.prof_email' => 'nullable|email|max:255',
+
+            'medications' => 'array',
+            'medications.*.name' => 'nullable|string|max:255',
+            'medications.*.dosage' => 'nullable|string|max:255',
+            'medications.*.frequency' => 'nullable|string|max:255',
+            'medications.*.time_of_day' => 'nullable|string|max:255',
+            'medications.*.administration_method' => 'nullable|string|max:255',
+            'medications.*.start_date' => 'nullable|date',
+            'medications.*.end_date' => 'nullable|date',
+            'medications.*.expiry_date' => 'nullable|date',
+            'medications.*.storage_instructions' => 'nullable|string',
+            'medications.*.self_administer' => 'boolean',
+
+            'records' => 'array',
+            'records.*.record_type_id' => 'required_with:records|exists:record_types,id',
+            'records.*.title' => 'nullable|string|max:255',
+            'records.*.date' => 'nullable|date',
+            'records.*.reference_number' => 'nullable|string|max:255',
+            'records.*.professional_id' => 'nullable|exists:professionals,id',
+            'records.*.description' => 'nullable|string',
+            'records.*.outcome' => 'nullable|string',
+            'records.*.is_new_professional' => 'nullable|boolean',
+            'records.*.prof_title' => 'nullable|string|max:255',
+            'records.*.prof_first_name' => 'nullable|string|max:255',
+            'records.*.prof_last_name' => 'nullable|string|max:255',
+            'records.*.prof_role' => 'nullable|string|max:255',
+            'records.*.prof_agency' => 'nullable|string|max:255',
+            'records.*.prof_phone' => 'nullable|string|max:255',
+            'records.*.prof_email' => 'nullable|email|max:255',
+        ]);
         
-        //
+
+        // wrap in transaction for protection against data corruption and to ensure data integrity
+        \DB::beginTransaction();
+
+        try {
+            // helper to process inline professionals
+            $processInlineProfessional = function($item) {
+                if (isset($item['is_new_professional']) && $item['is_new_professional'] == '1') {
+                    $professional = Professional::create([
+                        'title' => $item['prof_title'] ?? null,
+                        'first_name' => $item['prof_first_name'],
+                        'last_name' => $item['prof_last_name'],
+                        'role' => $item['prof_role'] ?? null,
+                        'agency' => $item['prof_agency'] ?? null,
+                        'phone' => $item['prof_phone'] ?? null,
+                        'email' => $item['prof_email'] ?? null,
+                    ]);
+                    $item['professional_id'] = $professional->id;
+                }
+                return $item;
+            };
+
+            // create pupil
+            $pupilData = collect($validated)->only([
+                'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description'
+            ])->toArray();            
+            $pupilData['smoking_history'] = $request->has('smoking_history');
+            $pupilData['drug_abuse_history'] = $request->has('drug_abuse_history');
+            $pupilData['has_special_needs'] = $request->has('has_special_needs');
+            $pupilData['attended_special_school'] = $request->has('attended_special_school');
+            $pupilData['social_services_involvement'] = $request->has('social_services_involvement');
+            $pupilData['probation_officer_required'] = $request->has('probation_officer_required');
+            $pupilData['onboarded_by'] = auth()->id();
+            $pupil = Pupil::create($pupilData);
+
+            // create family members
+            $primaryFamilyMemberId = null;
+            foreach ($validated['family_members'] ?? [] as $index => $familyMemberData) {
+                $familyMemberData['pupil_id'] = $pupil->id;
+                $family_member = FamilyMember::create($familyMemberData);
+                if ($index === 0) {
+                    $primaryFamilyMemberId = $family_member->id;
+                }
+            }
+            // update primary family member
+            if ($primaryFamilyMemberId) {
+                $pupil->update(['primary_family_member_id' => $primaryFamilyMemberId]);
+            }
+
+            // create school histories
+            foreach ($validated['school_histories'] ?? [] as $schoolHistoryData) {
+                $schoolHistoryData['pupil_id'] = $pupil->id;
+                SchoolHistory::create($schoolHistoryData);
+            }
+
+            // create diagnoses
+            foreach ($validated['diagnoses'] ?? [] as $diagnosisData) {
+                $diagnosisData = $processInlineProfessional($diagnosisData);
+                $diagnosisData['pupil_id'] = $pupil->id;
+                Diagnosis::create($diagnosisData);
+            }
+
+            // create medications
+            foreach ($validated['medications'] ?? [] as $medicationData) {
+                $medicationData['pupil_id'] = $pupil->id;
+                $medicationData['self_administer'] = $medicationData['self_administer'] ?? false;
+                Medication::create($medicationData);
+            }
+
+            // create records
+            foreach ($validated['records'] ?? [] as $recordData) {
+                $recordData = $processInlineProfessional($recordData);
+                $recordData['pupil_id'] = $pupil->id;
+                Record::create($recordData);
+            }
+
+            // process social services
+            if ($pupil->social_services_involvement && !empty($validated['social_worker'])) {
+                if (empty($validated['social_worker']['prof_role'])) {
+                    $validated['social_worker']['prof_role'] = 'Social Worker';
+                }
+                $socialWorkerData = $processInlineProfessional($validated['social_worker']);
+                if (!empty($socialWorkerData['professional_id'])) {
+                    $pupil->social_services_professional_id = $socialWorkerData['professional_id'];
+                }
+            }
+
+            // process probation officer
+            if ($pupil->probation_officer_required && !empty($validated['probation_officer'])) {
+                if (empty($validated['probation_officer']['prof_role'])) {
+                    $validated['probation_officer']['prof_role'] = 'Probation Officer';
+                }
+                $probationOfficerData = $processInlineProfessional($validated['probation_officer']);
+                if (!empty($probationOfficerData['professional_id'])) {
+                    $pupil->probation_officer_professional_id = $probationOfficerData['professional_id'];
+                }
+            }
+
+            $pupil->save();
+
+            // create onboarding event
+            Event::create([
+                'pupil_id' => $pupil->id,
+                'title' => 'Pupil Onboarded',
+                'date' => now(),
+                'description' => 'Pupil profile created and onboarded into the system.'
+            ]);
+
+            \DB::commit();
+
+            return redirect()->route('pupils.show', $pupil->id)->with('success', 'Pupil successfully onboarded!');
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return back()->withInput()->withErrors(['error' => 'An error occurred during onboarding: ' . $e->getMessage()]);
+        }
     }
 
     /**
