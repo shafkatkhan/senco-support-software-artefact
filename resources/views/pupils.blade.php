@@ -56,13 +56,13 @@
                                 <div class="label">Joined Date:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
-                                    {{ $pupil->joined_date->format('d/m/Y') }}
+                                    {{ $pupil->joined_date?->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
                                 <div class="label">Initial Tutor Group:</div>
                                 <div class="value">
-                                    {{ $pupil->initial_tutor_group }}
+                                    {{ $pupil->initial_tutor_group ?? 'N/A' }}
                                 </div>
                             </div>
                             <hr>
