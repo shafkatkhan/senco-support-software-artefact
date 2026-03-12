@@ -175,6 +175,17 @@
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        <div class="file_extraction_box">
+                            <div class="upload_icon"><i class="fas fa-upload"></i></div>
+                            <div class="label">
+                                Click to upload, or drag & drop a file here for smart data extraction
+                            </div>
+                            <div class="filename"></div>
+                            <button type="button" disabled>
+                                Extract Data
+                            </button>
+                            <div class="status"></div>
+                        </div>
                         <div class="form-group mb-3">
                             <label>Name*</label>
                             <input type="text" class="form-control" name="name" required placeholder="Diagnosis Name">
@@ -262,6 +273,7 @@
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -271,6 +283,58 @@
         $('#edit_professional_id').val($(this).data('professional_id'));
         $('#edit_description').val($(this).data('description'));
         $('#edit_recommendations').val($(this).data('recommendations'));
+    });
+
+    // file extraction
+    $('.file_extraction_box button').on('click', function () {
+        if (!selectedFile) return;
+
+        var formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        var btn = $(this);
+        btn.prop('disabled', true);
+        $('.file_extraction_box .status').html('<span class="spinner-border" role="status"></span> Extracting data...').removeClass('text-danger text-success');
+
+        $.ajax({
+            url: '{{ route("diagnoses.extract-file") }}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                var d = response.data;
+                if (d.name) $('input[name="name"]').val(d.name);
+                if (d.date) $('input[name="date"]').val(d.date);
+                if (d.description) $('textarea[name="description"]').val(d.description);
+                if (d.recommendations) $('textarea[name="recommendations"]').val(d.recommendations);
+
+                // populate new professional if any professional fields detected
+                var hasProf = d.prof_first_name || d.prof_last_name || d.prof_role;
+                if (hasProf) {
+                    if ($('#is_new_professional').val() !== '1') {
+                        $('#toggle_professional_btn').click();
+                    }
+                    if (d.prof_title) $('input[name="prof_title"]').val(d.prof_title);
+                    if (d.prof_first_name) $('input[name="prof_first_name"]').val(d.prof_first_name);
+                    if (d.prof_last_name) $('input[name="prof_last_name"]').val(d.prof_last_name);
+                    if (d.prof_role) $('input[name="prof_role"]').val(d.prof_role);
+                    if (d.prof_agency) $('input[name="prof_agency"]').val(d.prof_agency);
+                    if (d.prof_phone) $('input[name="prof_phone"]').val(d.prof_phone);
+                    if (d.prof_email) $('input[name="prof_email"]').val(d.prof_email);
+                }
+
+                $('.file_extraction_box .status').text('Fields populated successfully.').addClass('text-success');
+            },
+            error: function (xhr) {
+                var msg = (xhr.responseJSON && xhr.responseJSON.error) ? xhr.responseJSON.error : 'Extraction failed.';
+                $('.file_extraction_box .status').text(msg).addClass('text-danger');
+            },
+            complete: function () {
+                btn.prop('disabled', false);
+            }
+        });
     });
 </script>
 @endpush

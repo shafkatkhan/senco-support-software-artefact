@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/diagnoses/extract-file', [DiagnosisController::class, 'extractFromFile'])->name('diagnoses.extract-file');
 
     Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
 

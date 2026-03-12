@@ -4,12 +4,63 @@ namespace App\Http\Controllers;
 
 use App\Models\Diagnosis;
 use App\Models\Professional;
+use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 
 class DiagnosisController extends Controller
 {
+    public function extractFromFile(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+
+        $file = $request->file('file');
+        $mimeType = $file->getMimeType();
+
+        $instructions = "Return a JSON object with EXACTLY these keys: " .
+            "name (the diagnosis name), date (date diagnosed, format YYYY-MM-DD), " .
+            "description (description of the diagnosis), recommendations (recommended actions), " .
+            "prof_title (professional's title e.g. Dr, Mr, Mrs), prof_first_name (professional's first name), " .
+            "prof_last_name (professional's last name), prof_role (professional's role), " .
+            "prof_agency (professional's agency/organisation), prof_phone (professional's phone), " .
+            "prof_email (professional's email). " .
+            "Do not guess. Use null if missing.";
+
+        try {
+            $transcript = null;
+            $fileName = $file->getClientOriginalName();
+            $targetDir = public_path('uploads');
+            $file->move($targetDir, $fileName);
+            $fullPath = realpath($targetDir . '/' . $fileName);
+
+            if (str_starts_with($mimeType, 'audio/')) {
+                // audio file: transcribe first, then extract from transcript
+                $transcript = LlmService::transcribeAudio($fullPath);
+                $data = LlmService::processRequest($transcript, $instructions);
+            } else {
+                // non-audio file: send file directly to the API
+                $data = LlmService::processRequest("", $instructions, $fullPath, $mimeType);
+            }
+
+            // delete file
+            // @unlink($fullPath);
+
+            return response()->json([
+                'success' => true,
+                'transcript' => $transcript,
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
     public function store(Request $request)
     {
         Gate::authorize('create-diagnoses');
