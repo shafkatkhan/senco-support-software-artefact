@@ -43,7 +43,7 @@ class LlmService
         ];
 
         $response = Http::withToken($apiKey)
-            ->timeout(60)
+            ->timeout(120)
             ->post('https://api.mistral.ai/v1/chat/completions', $payload);
 
         if ($response->failed()) {
@@ -68,7 +68,7 @@ class LlmService
      * @return array The decoded JSON response
      * @throws Exception
      */
-    public static function processJsonRequest(string $data, string $instructions = null): array
+    public static function processJsonRequest(string $data, ?string $instructions = null): array
     {
         $apiKey = config('services.mistral.key');
         if (!$apiKey) {
@@ -96,7 +96,7 @@ class LlmService
         ];
 
         $response = Http::withToken($apiKey)
-            ->timeout(60)
+            ->timeout(120)
             ->post('https://api.mistral.ai/v1/chat/completions', $payload);
 
         if ($response->failed()) {
