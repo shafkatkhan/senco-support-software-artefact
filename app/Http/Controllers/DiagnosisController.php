@@ -18,40 +18,28 @@ class DiagnosisController extends Controller
         ]);
 
         $file = $request->file('file');
-        $mimeType = $file->getMimeType();
 
-        $instructions = "Return a JSON object with EXACTLY these keys: " .
-            "name (the diagnosis name), date (date diagnosed, format YYYY-MM-DD), " .
-            "description (description of the diagnosis), recommendations (recommended actions), " .
-            "prof_title (professional's title e.g. Dr, Mr, Mrs), prof_first_name (professional's first name), " .
-            "prof_last_name (professional's last name), prof_role (professional's role), " .
-            "prof_agency (professional's agency/organisation), prof_phone (professional's phone), " .
-            "prof_email (professional's email). " .
-            "Do not guess. Use null if missing.";
+        $response_format_instructions = "
+            name (the diagnosis name),
+            date (date diagnosed, format YYYY-MM-DD), 
+            description (description of the diagnosis), 
+            recommendations (recommended actions), 
+            prof_title (professional's title e.g. Dr, Mr, Mrs), 
+            prof_first_name (professional's first name), 
+            prof_last_name (professional's last name), 
+            prof_role (professional's role), 
+            prof_agency (professional's agency/organisation), 
+            prof_phone (professional's phone), 
+            prof_email (professional's email). 
+        ";
 
         try {
-            $transcript = null;
-            $fileName = $file->getClientOriginalName();
-            $targetDir = public_path('uploads');
-            $file->move($targetDir, $fileName);
-            $fullPath = realpath($targetDir . '/' . $fileName);
-
-            if (str_starts_with($mimeType, 'audio/')) {
-                // audio file: transcribe first, then extract from transcript
-                $transcript = LlmService::transcribeAudio($fullPath);
-                $data = LlmService::processRequest($transcript, $instructions);
-            } else {
-                // non-audio file: send file directly to the API
-                $data = LlmService::processRequest("", $instructions, $fullPath, $mimeType);
-            }
-
-            // delete file
-            // @unlink($fullPath);
+            $extraction = LlmService::extractDataFromFile($file, $response_format_instructions);
 
             return response()->json([
                 'success' => true,
-                'transcript' => $transcript,
-                'data' => $data,
+                'transcript' => $extraction['transcript'],
+                'data' => $extraction['data'],
             ]);
         } catch (\Exception $e) {
             return response()->json([

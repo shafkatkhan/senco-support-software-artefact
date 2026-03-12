@@ -23,28 +23,18 @@ class TestFormController extends Controller
 
         if ($request->hasFile('audioFile')) {
             $file = $request->file('audioFile');
-            $fileName = $file->getClientOriginalName();
-            $targetDir = public_path('uploads');
-
-            // Ensure directory exists
-            if (!file_exists($targetDir)) {
-                mkdir($targetDir, 0755, true);
-            }
-
-            $targetFile = $targetDir . '/' . $fileName;
-            $file->move($targetDir, $fileName);
 
             try {
-                // transcription logic
-                $transcript = LlmService::transcribeAudio(realpath($targetFile));
-
                 // structured data extraction logic
-                $systemPrompt = "Return a JSON object with EXACTLY these keys: " .
-                    "first_name, last_name, current_date, current_city. " .
-                    "Do not guess. Use null if missing. " .
-                    "For current_date, use the format YYYY-MM-DD.";
+                $response_format_instructions = "
+                    first_name (the first name of the person),
+                    last_name (the last name of the person),
+                    current_date (the date of the recording, format YYYY-MM-DD),
+                    current_city (the city where the recording was made)
+                ";
 
-                $structuredData = LlmService::processRequest($transcript, $systemPrompt);
+                $extraction = LlmService::extractDataFromFile($file, $response_format_instructions);
+                $structuredData = $extraction['data'];
             } catch (\Exception $e) {
                 return back()->with('error', $e->getMessage());
             }

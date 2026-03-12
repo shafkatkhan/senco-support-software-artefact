@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\UploadedFile;
 use Exception;
 
 class LlmService
@@ -115,5 +116,53 @@ class LlmService
 
         $clean = preg_replace('/^```json\s*|\s*```$/', '', trim($structuredDataRaw));
         return json_decode($clean, true) ?? [];
+    }
+
+    /**
+     * Extracts structured data from an uploaded file.
+     * Handles both audio and non-audio files automatically.
+     *
+     * @param \Illuminate\Http\UploadedFile $file The uploaded file
+     * @param string $response_format_instructions Description of what data to extract
+     * @return array Array containing 'data' and optionally 'transcript'
+     * @throws Exception
+     */
+    public static function extractDataFromFile(UploadedFile $file, string $response_format_instructions): array
+    {
+        $transcript = null;
+
+        $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+        $targetDir = public_path('uploads');
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+        $file->move($targetDir, $fileName);
+        $fullPath = realpath($targetDir . '/' . $fileName);
+
+        $instructions = 
+            "Return a JSON object with EXACTLY these keys: " . 
+            $response_format_instructions . 
+            "Do not guess. Use null if missing.";
+
+        try {
+            if (str_starts_with($mimeType, 'audio/')) {
+                // audio file: transcribe first, then extract from transcript
+                $transcript = self::transcribeAudio($fullPath);
+                $data = self::processRequest($transcript, $instructions);
+            } else {
+                // non-audio file: send file directly to the API
+                $data = self::processRequest("", $instructions, $fullPath, $mimeType);
+            }
+
+            return [
+                'transcript' => $transcript,
+                'data' => $data,
+            ];
+        } catch (\Exception $e) {
+            // delete the file if the API fails
+            @unlink($fullPath);
+            throw $e;
+        }
     }
 }
