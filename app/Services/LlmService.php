@@ -98,7 +98,7 @@ class LlmService
         }
 
         $payload = [
-            "model" => $filePath ? "mistral-small-latest" : 'mistral-medium-latest', // use small for documents
+            "model" => "mistral-small-latest",
             "response_format" => ["type" => "json_object"],
             "messages" => $messages
         ];
