@@ -22,4 +22,9 @@ class Attachment extends Model
     {
         return $this->morphTo();
     }
+
+    public function transcription()
+    {
+        return $this->hasOne(AttachmentTranscription::class);
+    }
 }
