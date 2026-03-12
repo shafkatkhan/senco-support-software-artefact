@@ -27,6 +27,7 @@ use \App\Http\Controllers\MfaChallengeController;
 use \App\Http\Controllers\EmailSettingController;
 use \App\Http\Controllers\PermissionController;
 use \App\Http\Controllers\SchoolHistoryController;
+use \App\Http\Controllers\AttachmentController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -138,4 +139,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::post('/permissions', [PermissionController::class, 'update'])->name('permissions.update');
+
+    Route::get('/attachments/{attachment}', [AttachmentController::class, 'show'])->name('attachments.show');
 });
