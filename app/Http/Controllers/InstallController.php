@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use App\Services\LlmService;
 use App\Models\User;
 
 class InstallController extends Controller
@@ -131,34 +132,11 @@ class InstallController extends Controller
                 $auto_translations = [];
 
                 if ($apiKey && !empty($english_labels)) {
-                    $payload = [
-                        "model" => "mistral-small-latest",
-                        "response_format" => ["type" => "json_object"],
-                        "messages" => [
-                            [
-                                "role" => "system",
-                                "content" =>
-                                    "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". " .
-                                    "Do not change or omit any of the original english keys."
-                            ],
-                            [
-                                "role" => "user",
-                                "content" => json_encode($english_labels)
-                            ]
-                        ]
-                    ];
+                    $instructions = 
+                        "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". Do not change or omit any of the original english keys.";
 
                     try {
-                        $response = \Illuminate\Support\Facades\Http::withToken($apiKey)
-                            ->timeout(30)
-                            ->post('https://api.mistral.ai/v1/chat/completions', $payload);
-
-                        if ($response->successful()) {
-                            $result = $response->json();
-                            $rawContent = $result["choices"][0]["message"]["content"] ?? "{}";
-                            $clean = preg_replace('/^```json\s*|\s*```$/i', '', trim($rawContent));
-                            $auto_translations = json_decode($clean, true) ?: [];
-                        }
+                        $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions);
                     } catch (\Exception $e) {
                         // silently fail and fallback to empty boxes if the API drops
                     }
