@@ -68,6 +68,8 @@ class DiagnosisController extends Controller
             'prof_agency' => 'nullable|string|max:255',
             'prof_phone' => 'nullable|string|max:255',
             'prof_email' => 'nullable|email|max:255',
+            'attachment' => 'nullable|file',
+            'llm_transcript' => 'nullable|string',
         ]);
 
         if ($request->input('is_new_professional')) {
@@ -84,7 +86,25 @@ class DiagnosisController extends Controller
             $validated['professional_id'] = $professional->id;
         }
 
-        Diagnosis::create($validated);
+        $diagnosis = Diagnosis::create($validated);
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $path = $file->store('attachments', 'public');
+
+            $attachment = $diagnosis->attachments()->create([
+                'filename' => $file->getClientOriginalName(),
+                'file_path' => $path,
+                'mime_type' => $file->getClientMimeType(),
+                'size_bytes' => $file->getSize(),
+            ]);
+
+            if ($request->filled('llm_transcript')) {
+                $attachment->transcription()->create([
+                    'transcript' => $request->input('llm_transcript'),
+                ]);
+            }
+        }
 
         return back()->with('success', 'Diagnosis Added Successfully!');
     }

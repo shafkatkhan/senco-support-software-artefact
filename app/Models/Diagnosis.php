@@ -31,4 +31,9 @@ class Diagnosis extends Model
     {
         return $this->belongsTo(Professional::class);
     }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
 }

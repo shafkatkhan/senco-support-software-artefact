@@ -8,4 +8,7 @@
         Extract Data
     </button>
     <div class="status"></div>
+    <!-- hidden inputs for form submission -->
+    <input type="file" name="attachment" style="display: none;">
+    <input type="hidden" name="llm_transcript">
 </div>

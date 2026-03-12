@@ -171,7 +171,7 @@
                     <h1 class="modal-title fs-5">Add New Diagnosis</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('diagnoses.store') }}" method="post">
+                <form action="{{ route('diagnoses.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">

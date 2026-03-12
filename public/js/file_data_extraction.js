@@ -4,6 +4,11 @@ function setFile(file) {
     $('.file_extraction_box .filename').text(file.name);
     $('.file_extraction_box button').prop('disabled', false);
     $('.file_extraction_box .status').text('').removeClass('text-danger text-success');
+    
+    // pass file along when form submits
+    var dt = new DataTransfer();
+    dt.items.add(file);
+    $('.file_extraction_box input[type="file"][name="attachment"]').prop('files', dt.files);
 }
 
 // click to open file picker
@@ -54,6 +59,9 @@ function setupFileExtraction(url, token, successCallback) {
             processData: false,
             contentType: false,
             success: function (response) {
+                if (response.transcript) {
+                    btn.closest('.file_extraction_box').find('input[name="llm_transcript"]').val(response.transcript);
+                }
                 successCallback(response.data);
                 status.text('Fields populated successfully.').addClass('text-success');
             },
