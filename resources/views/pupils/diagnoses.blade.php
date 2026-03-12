@@ -175,17 +175,7 @@
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
-                        <div class="file_extraction_box">
-                            <div class="upload_icon"><i class="fas fa-upload"></i></div>
-                            <div class="label">
-                                Click to upload, or drag & drop a file here for smart data extraction
-                            </div>
-                            <div class="filename"></div>
-                            <button type="button" disabled>
-                                Extract Data
-                            </button>
-                            <div class="status"></div>
-                        </div>
+                        @include('components.file_extraction_box')
                         <div class="form-group mb-3">
                             <label>Name*</label>
                             <input type="text" class="form-control" name="name" required placeholder="Diagnosis Name">
