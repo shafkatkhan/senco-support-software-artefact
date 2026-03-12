@@ -62,13 +62,16 @@ class LlmService
 
     /**
      * Process a request and return a structured JSON response.
+     * Optionally sends a file as a base64-encoded document if $filePath is provided.
      *
-     * @param string $data The content/data to process
+     * @param string $data The content/data or prompt to process
      * @param string|null $instructions The system message/instructions to guide the response (optional)
+     * @param string|null $filePath Path to a file to extract data from (optional)
+     * @param string|null $mimeType MIME type of the file (required if $filePath is provided)
      * @return array The decoded JSON response
      * @throws Exception
      */
-    public static function processJsonRequest(string $data, ?string $instructions = null): array
+    public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null): array
     {
         $apiKey = config('services.mistral.key');
         if (!$apiKey) {
@@ -84,13 +87,35 @@ class LlmService
             ];
         }
 
-        $messages[] = [
-            "role" => "user",
-            "content" => $data
-        ];
+        if ($filePath && $mimeType) {
+            $fileBase64 = base64_encode(file_get_contents($filePath));
+            $dataUrl = "data:{$mimeType};base64,{$fileBase64}";
+
+            $content = [
+                [
+                    "type" => "document_url",
+                    "document_url" => $dataUrl,
+                ],
+            ];
+            if ($data) {
+                $content[] = [
+                    "type" => "text",
+                    "text" => $data,
+                ];
+            }
+            $messages[] = [
+                "role" => "user",
+                "content" => $content
+            ];
+        } else {
+            $messages[] = [
+                "role" => "user",
+                "content" => $data
+            ];
+        }
 
         $payload = [
-            "model" => "mistral-medium-latest",
+            "model" => $filePath ? "mistral-small-latest" : 'mistral-medium-latest', // use small for documents
             "response_format" => ["type" => "json_object"],
             "messages" => $messages
         ];

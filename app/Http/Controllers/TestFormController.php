@@ -44,7 +44,7 @@ class TestFormController extends Controller
                     "Do not guess. Use null if missing. " .
                     "For current_date, use the format YYYY-MM-DD.";
 
-                $structuredData = LlmService::processJsonRequest($transcript, $systemPrompt);
+                $structuredData = LlmService::processRequest($transcript, $systemPrompt);
             } catch (\Exception $e) {
                 return back()->with('error', $e->getMessage());
             }
