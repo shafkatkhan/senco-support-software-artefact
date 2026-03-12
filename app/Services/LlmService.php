@@ -21,37 +21,19 @@ class LlmService
             throw new Exception("MISTRAL_API_KEY is not set.");
         }
 
-        $audioBase64 = base64_encode(file_get_contents($audioPath));
-
-        $payload = [
-            "model" => "voxtral-mini-latest",
-            "messages" => [
-                [
-                    "role" => "user",
-                    "content" => [
-                        [
-                            "type" => "input_audio",
-                            "input_audio" => $audioBase64,
-                        ],
-                        [
-                            "type" => "text",
-                            "text" => "Transcribe this audio file."
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
         $response = Http::withToken($apiKey)
             ->timeout(120)
-            ->post('https://api.mistral.ai/v1/chat/completions', $payload);
+            ->attach('file', file_get_contents($audioPath), basename($audioPath))
+            ->post('https://api.mistral.ai/v1/audio/transcriptions', [
+                'model' => 'voxtral-mini-latest',
+            ]);
 
         if ($response->failed()) {
             throw new Exception('API error: ' . $response->body());
         }
 
         $result = $response->json();
-        $transcript = $result["choices"][0]["message"]["content"] ?? "";
+        $transcript = $result["text"] ?? "";
 
         if (empty($transcript)) {
             throw new Exception('No transcript text generated.');
