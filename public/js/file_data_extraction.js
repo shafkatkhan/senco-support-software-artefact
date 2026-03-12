@@ -26,3 +26,44 @@ $('.file_extraction_box').on('dragover', function (e) {
         setFile(e.originalEvent.dataTransfer.files[0]);
     }
 });
+
+/**
+ * Setup the extraction button click handler for file extraction
+ * @param {string} url - The route to send the file to
+ * @param {string} token - CSRF token
+ * @param {function} successCallback - Function to execute on successful extraction
+ */
+function setupFileExtraction(url, token, successCallback) {
+    $('.file_extraction_box button').off('click').on('click', function () {
+        if (!selectedFile) return;
+
+        var formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('_token', token);
+
+        var btn = $(this);
+        var status = btn.closest('.file_extraction_box').find('.status');
+
+        btn.prop('disabled', true);
+        status.html('<span class="spinner-border" role="status"></span> Extracting data...').removeClass('text-danger text-success');
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                successCallback(response.data);
+                status.text('Fields populated successfully.').addClass('text-success');
+            },
+            error: function (xhr) {
+                var msg = (xhr.responseJSON && xhr.responseJSON.error) ? xhr.responseJSON.error : 'Extraction failed.';
+                status.text(msg).addClass('text-danger');
+            },
+            complete: function () {
+                btn.prop('disabled', false);
+            }
+        });
+    });
+}
