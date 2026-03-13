@@ -73,11 +73,13 @@ class LlmService
         if ($filePath && $mimeType) {
             $fileBase64 = base64_encode(file_get_contents($filePath));
             $dataUrl = "data:{$mimeType};base64,{$fileBase64}";
+            
+            $isImage = str_starts_with($mimeType, 'image/');
 
             $content = [
                 [
-                    "type" => "document_url",
-                    "document_url" => $dataUrl,
+                    "type" => $isImage ? "image_url" : "document_url",
+                    $isImage ? "image_url" : "document_url" => $dataUrl,
                 ],
             ];
             if ($data) {
@@ -90,15 +92,18 @@ class LlmService
                 "role" => "user",
                 "content" => $content
             ];
+            
+            $model = $isImage ? "pixtral-12b-2409" : "mistral-small-latest";
         } else {
             $messages[] = [
                 "role" => "user",
                 "content" => $data
             ];
+            $model = "mistral-small-latest";
         }
 
         $payload = [
-            "model" => "mistral-small-latest",
+            "model" => $model,
             "response_format" => ["type" => "json_object"],
             "messages" => $messages
         ];
