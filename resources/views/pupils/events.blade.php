@@ -94,6 +94,7 @@
                                     {{ optional($event->updated_at)->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $event->attachments, 'card' => true, 'delete_permission' => 'edit-events',])
                         </div>
                     </div>
                 </div>
@@ -110,6 +111,7 @@
                         <th scope="col">Title</th>
                         <th scope="col">Date</th>
                         <th scope="col">Reference No.</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-events', 'delete-events'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -122,6 +124,9 @@
                             <td>{{ $event->title }}</td>
                             <td data-order="{{ optional($event->date)->format('Y-m-d') ?? '' }}">{{ optional($event->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $event->reference_number ?? 'N/A' }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $event->attachments])
+                            </td>
                             @canany(['edit-events', 'delete-events'])
                             <td class="icon_wrap">
                                 @can('edit-events')
@@ -153,7 +158,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-events', 'delete-events']) ? '5' : '4' }}" class="empty_table_message">No events found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-events', 'delete-events']) ? '6' : '5' }}" class="empty_table_message">No events found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -169,10 +174,11 @@
                     <h1 class="modal-title fs-5">Add New Event</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('events.store') }}" method="post">
+                <form action="{{ route('events.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-5 form-group mb-3">
                                 <label>Title*</label>
@@ -195,6 +201,7 @@
                             <label>Outcome / Next Steps</label>
                             <textarea class="form-control" name="outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -213,7 +220,7 @@
                     <h1 class="modal-title fs-5">Edit Event</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -239,6 +246,7 @@
                             <label>Outcome / Next Steps</label>
                             <textarea class="form-control" name="outcome" id="edit_outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -252,10 +260,15 @@
     @can('delete-events')
     @include('components.delete_modal', ['type' => 'Event'])
     @endcan
+
+    @can('edit-events')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -265,6 +278,15 @@
         $('#edit_reference_number').val($(this).data('reference_number'));
         $('#edit_description').val($(this).data('description'));
         $('#edit_outcome').val($(this).data('outcome'));
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("events.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.title) $('#new input[name="title"]').val(d.title);
+        if (d.date) $('#new input[name="date"]').val(d.date);
+        if (d.reference_number) $('#new input[name="reference_number"]').val(d.reference_number);
+        if (d.description) $('#new textarea[name="description"]').val(d.description);
+        if (d.outcome) $('#new textarea[name="outcome"]').val(d.outcome);
     });
 </script>
 @endpush
