@@ -15,7 +15,7 @@ class LlmService
      * @return string The transcribed text
      * @throws Exception
      */
-    public static function transcribeAudio(string $audioPath): string
+    public static function transcribeAudio(string $audioPath, string $fileName): string
     {
         $apiKey = config('services.mistral.key');
         if (!$apiKey) {
@@ -24,7 +24,7 @@ class LlmService
 
         $response = Http::withToken($apiKey)
             ->timeout(120)
-            ->attach('file', file_get_contents($audioPath), basename($audioPath))
+            ->attach('file', file_get_contents($audioPath), $fileName)
             ->post('https://api.mistral.ai/v1/audio/transcriptions', [
                 'model' => 'voxtral-mini-latest',
             ]);
@@ -133,36 +133,25 @@ class LlmService
 
         $mimeType = $file->getMimeType();
         $fileName = $file->getClientOriginalName();
-        $targetDir = public_path('uploads');
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-        $file->move($targetDir, $fileName);
-        $fullPath = realpath($targetDir . '/' . $fileName);
+        $fullPath = $file->getPathname(); // access the temporary path directly
 
         $instructions = 
             "Return a JSON object with EXACTLY these keys: " . 
             $response_format_instructions . 
             "Do not guess. Use null if missing.";
 
-        try {
-            if (str_starts_with($mimeType, 'audio/')) {
-                // audio file: transcribe first, then extract from transcript
-                $transcript = self::transcribeAudio($fullPath);
-                $data = self::processRequest($transcript, $instructions);
-            } else {
-                // non-audio file: send file directly to the API
-                $data = self::processRequest("", $instructions, $fullPath, $mimeType);
-            }
-
-            return [
-                'transcript' => $transcript,
-                'data' => $data,
-            ];
-        } catch (\Exception $e) {
-            // delete the file if the API fails
-            @unlink($fullPath);
-            throw $e;
+        if (str_starts_with($mimeType, 'audio/')) {
+            // audio file: transcribe first, then extract from transcript
+            $transcript = self::transcribeAudio($fullPath, $fileName);
+            $data = self::processRequest($transcript, $instructions);
+        } else {
+            // non-audio file: send file directly to the API
+            $data = self::processRequest("", $instructions, $fullPath, $mimeType);
         }
+
+        return [
+            'transcript' => $transcript,
+            'data' => $data,
+        ];
     }
 }
