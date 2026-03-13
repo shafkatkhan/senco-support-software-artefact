@@ -14,7 +14,7 @@ class SchoolHistoryController extends Controller
     {
         $response_format_instructions = "
             school_name (school name),
-            school_type (school type, e.g. state school, grammar school, special school, private school),
+            school_type (institution type, e.g. state school, grammar school, special school, private school, etc.),
             class_type (type of class),
             years_attended (number of years attended, format: number with optional decimal point),
             transition_reason (reason for transition).
