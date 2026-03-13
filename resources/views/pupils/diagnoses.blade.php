@@ -92,6 +92,23 @@
                                     {{ $diagnosis->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @if($diagnosis->attachments->count() > 0)
+                            <hr>
+                            <div class="item col-md-12">
+                                <div class="label">Attachments:</div>
+                                <div class="value">
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach($diagnosis->attachments as $attachment)
+                                            <li>
+                                                <a href="{{ route('attachments.show', $attachment->id) }}" target="_blank" class="text-decoration-none">
+                                                    <i class="fas fa-paperclip"></i> {{ $attachment->filename }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -110,6 +127,7 @@
                         <th scope="col">Carried Out By</th>
                         <th scope="col">Description</th>
                         <th scope="col">Recommendations</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-diagnoses', 'delete-diagnoses'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -124,6 +142,21 @@
                             <td>{{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}</td>
                             <td>{{ $diagnosis->description }}</td>
                             <td>{{ $diagnosis->recommendations }}</td>
+                            <td>
+                                @if($diagnosis->attachments->count() > 0)
+                                    <ul class="list-unstyled mb-0" style="font-size: 0.9em;">
+                                        @foreach($diagnosis->attachments as $attachment)
+                                            <li>
+                                                <a href="{{ route('attachments.show', $attachment->id) }}" target="_blank" class="text-decoration-none" title="{{ $attachment->filename }}">
+                                                    <i class="fas fa-paperclip"></i> {{ Str::limit($attachment->filename, 15) }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                             @canany(['edit-diagnoses', 'delete-diagnoses'])
                             <td class="icon_wrap">
                                 @can('edit-diagnoses')
@@ -155,7 +188,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-diagnoses', 'delete-diagnoses']) ? '7' : '6' }}" class="empty_table_message">No diagnoses found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-diagnoses', 'delete-diagnoses']) ? '8' : '7' }}" class="empty_table_message">No diagnoses found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
