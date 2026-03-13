@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAttachments;
 
 class Diagnosis extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAttachments;
     
     protected $fillable = [
         'pupil_id',
@@ -30,10 +31,5 @@ class Diagnosis extends Model
     public function professional()
     {
         return $this->belongsTo(Professional::class);
-    }
-
-    public function attachments()
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
     }
 }
