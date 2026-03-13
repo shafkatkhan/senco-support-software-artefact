@@ -341,32 +341,32 @@
     setupFileExtraction('{{ route("records.extract-file") }}', '{{ csrf_token() }}', function(d) {
         if (d.record_type) {
             var normalised_record_type = d.record_type.toString().trim().toLowerCase();
-            $('select[name="record_type_id"] option').each(function() {
+            $('#new select[name="record_type_id"] option').each(function() {
                 if ($(this).text().trim().toLowerCase() === normalised_record_type) {
-                    $('select[name="record_type_id"]').val($(this).val());
+                    $('#new select[name="record_type_id"]').val($(this).val());
                     return false;
                 }
             });
         }
-        if (d.title) $('input[name="title"]').val(d.title);
-        if (d.date) $('input[name="date"]').val(d.date);
-        if (d.reference_number) $('input[name="reference_number"]').val(d.reference_number);
-        if (d.description) $('textarea[name="description"]').val(d.description);
-        if (d.outcome) $('textarea[name="outcome"]').val(d.outcome);
+        if (d.title) $('#new input[name="title"]').val(d.title);
+        if (d.date) $('#new input[name="date"]').val(d.date);
+        if (d.reference_number) $('#new input[name="reference_number"]').val(d.reference_number);
+        if (d.description) $('#new textarea[name="description"]').val(d.description);
+        if (d.outcome) $('#new textarea[name="outcome"]').val(d.outcome);
 
         // populate new professional if any professional fields detected
         var hasProf = d.prof_first_name || d.prof_last_name || d.prof_role;
         if (hasProf) {
-            if ($('#is_new_professional').val() !== '1') {
-                $('#toggle_professional_btn').click();
+            if ($('#new #is_new_professional').val() !== '1') {
+                $('#new #toggle_professional_btn').click();
             }
-            if (d.prof_title) $('input[name="prof_title"]').val(d.prof_title);
-            if (d.prof_first_name) $('input[name="prof_first_name"]').val(d.prof_first_name);
-            if (d.prof_last_name) $('input[name="prof_last_name"]').val(d.prof_last_name);
-            if (d.prof_role) $('input[name="prof_role"]').val(d.prof_role);
-            if (d.prof_agency) $('input[name="prof_agency"]').val(d.prof_agency);
-            if (d.prof_phone) $('input[name="prof_phone"]').val(d.prof_phone);
-            if (d.prof_email) $('input[name="prof_email"]').val(d.prof_email);
+            if (d.prof_title) $('#new input[name="prof_title"]').val(d.prof_title);
+            if (d.prof_first_name) $('#new input[name="prof_first_name"]').val(d.prof_first_name);
+            if (d.prof_last_name) $('#new input[name="prof_last_name"]').val(d.prof_last_name);
+            if (d.prof_role) $('#new input[name="prof_role"]').val(d.prof_role);
+            if (d.prof_agency) $('#new input[name="prof_agency"]').val(d.prof_agency);
+            if (d.prof_phone) $('#new input[name="prof_phone"]').val(d.prof_phone);
+            if (d.prof_email) $('#new input[name="prof_email"]').val(d.prof_email);
         }
     });
 </script>

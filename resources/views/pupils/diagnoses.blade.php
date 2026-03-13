@@ -290,24 +290,24 @@
 
     // setup file extraction
     setupFileExtraction('{{ route("diagnoses.extract-file") }}', '{{ csrf_token() }}', function(d) {
-        if (d.name) $('input[name="name"]').val(d.name);
-        if (d.date) $('input[name="date"]').val(d.date);
-        if (d.description) $('textarea[name="description"]').val(d.description);
-        if (d.recommendations) $('textarea[name="recommendations"]').val(d.recommendations);
+        if (d.name) $('#new input[name="name"]').val(d.name);
+        if (d.date) $('#new input[name="date"]').val(d.date);
+        if (d.description) $('#new textarea[name="description"]').val(d.description);
+        if (d.recommendations) $('#new textarea[name="recommendations"]').val(d.recommendations);
 
         // populate new professional if any professional fields detected
         var hasProf = d.prof_first_name || d.prof_last_name || d.prof_role;
         if (hasProf) {
-            if ($('#is_new_professional').val() !== '1') {
-                $('#toggle_professional_btn').click();
+            if ($('#new #is_new_professional').val() !== '1') {
+                $('#new #toggle_professional_btn').click();
             }
-            if (d.prof_title) $('input[name="prof_title"]').val(d.prof_title);
-            if (d.prof_first_name) $('input[name="prof_first_name"]').val(d.prof_first_name);
-            if (d.prof_last_name) $('input[name="prof_last_name"]').val(d.prof_last_name);
-            if (d.prof_role) $('input[name="prof_role"]').val(d.prof_role);
-            if (d.prof_agency) $('input[name="prof_agency"]').val(d.prof_agency);
-            if (d.prof_phone) $('input[name="prof_phone"]').val(d.prof_phone);
-            if (d.prof_email) $('input[name="prof_email"]').val(d.prof_email);
+            if (d.prof_title) $('#new input[name="prof_title"]').val(d.prof_title);
+            if (d.prof_first_name) $('#new input[name="prof_first_name"]').val(d.prof_first_name);
+            if (d.prof_last_name) $('#new input[name="prof_last_name"]').val(d.prof_last_name);
+            if (d.prof_role) $('#new input[name="prof_role"]').val(d.prof_role);
+            if (d.prof_agency) $('#new input[name="prof_agency"]').val(d.prof_agency);
+            if (d.prof_phone) $('#new input[name="prof_phone"]').val(d.prof_phone);
+            if (d.prof_email) $('#new input[name="prof_email"]').val(d.prof_email);
         }
     });
 </script>

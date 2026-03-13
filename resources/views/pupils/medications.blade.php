@@ -395,17 +395,17 @@
 
     // setup file extraction
     setupFileExtraction('{{ route("medications.extract-file") }}', '{{ csrf_token() }}', function(d) {
-        if (d.name) $('input[name="name"]').val(d.name);
-        if (d.dosage) $('input[name="dosage"]').val(d.dosage);
-        if (d.frequency) $('input[name="frequency"]').val(d.frequency);
-        if (d.time_of_day) $('input[name="time_of_day"]').val(d.time_of_day);
-        if (d.administration_method) $('input[name="administration_method"]').val(d.administration_method);
-        if (d.start_date) $('input[name="start_date"]').val(d.start_date);
-        if (d.end_date) $('input[name="end_date"]').val(d.end_date);
-        if (d.expiry_date) $('input[name="expiry_date"]').val(d.expiry_date);
-        if (d.storage_instructions) $('textarea[name="storage_instructions"]').val(d.storage_instructions);
+        if (d.name) $('#new input[name="name"]').val(d.name);
+        if (d.dosage) $('#new input[name="dosage"]').val(d.dosage);
+        if (d.frequency) $('#new input[name="frequency"]').val(d.frequency);
+        if (d.time_of_day) $('#new input[name="time_of_day"]').val(d.time_of_day);
+        if (d.administration_method) $('#new input[name="administration_method"]').val(d.administration_method);
+        if (d.start_date) $('#new input[name="start_date"]').val(d.start_date);
+        if (d.end_date) $('#new input[name="end_date"]').val(d.end_date);
+        if (d.expiry_date) $('#new input[name="expiry_date"]').val(d.expiry_date);
+        if (d.storage_instructions) $('#new textarea[name="storage_instructions"]').val(d.storage_instructions);
         if (d.self_administer !== undefined) {
-            $('#create_self_administer').prop('checked', d.self_administer == true || d.self_administer == 1 || d.self_administer == 'true');
+            $('#new #create_self_administer').prop('checked', d.self_administer == true || d.self_administer == 1 || d.self_administer == 'true');
         }
     });
 </script>
