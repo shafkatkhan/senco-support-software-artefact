@@ -108,17 +108,7 @@ class DiagnosisController extends Controller
             }
         }
 
-        if ($request->hasFile('additional_attachments')) {
-            foreach ($request->file('additional_attachments') as $file) {
-                $path = $file->store('attachments');
-                $diagnosis->attachments()->create([
-                    'filename' => $file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'mime_type' => $file->getClientMimeType(),
-                    'size_bytes' => $file->getSize(),
-                ]);
-            }
-        }
+        $diagnosis->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Diagnosis Added Successfully!');
     }
@@ -137,17 +127,7 @@ class DiagnosisController extends Controller
             'additional_attachments.*' => 'file',
         ]));
         
-        if ($request->hasFile('additional_attachments')) {
-            foreach ($request->file('additional_attachments') as $file) {
-                $path = $file->store('attachments');
-                $diagnosis->attachments()->create([
-                    'filename' => $file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'mime_type' => $file->getClientMimeType(),
-                    'size_bytes' => $file->getSize(),
-                ]);
-            }
-        }
+        $diagnosis->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Diagnosis Updated Successfully!');
     }
