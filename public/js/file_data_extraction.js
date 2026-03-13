@@ -48,6 +48,10 @@ function setupFileExtraction(url, token, successCallback) {
 
         var btn = $(this);
         var status = btn.closest('.file_extraction_box').find('.status');
+        var transcript_wrapper = btn.closest('.file_extraction_box').next('.transcript_wrapper');
+        transcript_wrapper.find('.show_transcript_btn').hide();
+        transcript_wrapper.find('.transcript_container').hide();
+        transcript_wrapper.find('textarea[name="llm_transcript"]').val('');
 
         btn.prop('disabled', true);
         status.html('<span class="spinner-border" role="status"></span> Extracting data...').removeClass('text-danger text-success');
@@ -60,7 +64,6 @@ function setupFileExtraction(url, token, successCallback) {
             contentType: false,
             success: function (response) {
                 if (response.transcript) {
-                    var transcript_wrapper = btn.closest('.file_extraction_box').next('.transcript_wrapper');
                     transcript_wrapper.find('textarea[name="llm_transcript"]').val(response.transcript);
                     transcript_wrapper.find('.transcript_container').hide();
                     transcript_wrapper.find('.show_transcript_btn').show();
