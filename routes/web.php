@@ -102,6 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/events/extract-file', [EventController::class, 'extractFromFile'])->name('events.extract-file');
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/family-members/extract-file', [FamilyMemberController::class, 'extractFromFile'])->name('family-members.extract-file');
 
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
     Route::post('/meetings/extract-file', [MeetingController::class, 'extractFromFile'])->name('meetings.extract-file');

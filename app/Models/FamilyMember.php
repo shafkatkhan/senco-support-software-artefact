@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FamilyMember extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAttachments;
 
     protected $fillable = [
         'pupil_id',

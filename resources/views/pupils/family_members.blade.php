@@ -143,6 +143,7 @@
                                     {{ $familyMember->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $familyMember->attachments, 'card' => true, 'delete_permission' => 'edit-family-members',])
                         </div>
                     </div>
                 </div>
@@ -160,6 +161,7 @@
                         <th scope="col">Relation</th>
                         <th scope="col">DOB</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-family-members', 'delete-family-members'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -178,6 +180,9 @@
                             <td>{{ $familyMember->relation }}</td>
                             <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $familyMember->phone ?? 'N/A' }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $familyMember->attachments])
+                            </td>
                             @canany(['edit-family-members', 'delete-family-members'])
                             <td class="icon_wrap">
                                 @can('edit-family-members')
@@ -221,7 +226,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-family-members', 'delete-family-members']) ? '5' : '4' }}" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-family-members', 'delete-family-members']) ? '6' : '5' }}" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -237,10 +242,11 @@
                     <h1 class="modal-title fs-5">Add New Family Member</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('family-members.store') }}" method="post">
+                <form action="{{ route('family-members.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                          <div class="row">
                             <div class="col-md-4 form-group mb-3">
                                 <label>First Name*</label>
@@ -329,6 +335,7 @@
                                 </label>
                             </div>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -347,7 +354,7 @@
                     <h1 class="modal-title fs-5">Edit Family Member</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -439,6 +446,7 @@
                                 </label>
                             </div>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -452,10 +460,15 @@
     @can('delete-family-members')
     @include('components.delete_modal', ['type' => 'Family Member'])
     @endcan
+
+    @can('edit-family-members')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -479,6 +492,29 @@
 
         var isPrimary = $(this).data('is_primary');
         $('#edit_next_of_kin').prop('checked', isPrimary == 1);
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("family-members.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.first_name) $('#new input[name="first_name"]').val(d.first_name);
+        if (d.last_name) $('#new input[name="last_name"]').val(d.last_name);
+        if (d.dob) $('#new input[name="dob"]').val(d.dob);
+        if (d.relation) $('#new input[name="relation"]').val(d.relation);
+        if (d.phone) $('#new input[name="phone"]').val(d.phone);
+        if (d.email) $('#new input[name="email"]').val(d.email);
+        if (d.address_line_1) $('#new input[name="address_line_1"]').val(d.address_line_1);
+        if (d.address_line_2) $('#new input[name="address_line_2"]').val(d.address_line_2);
+        if (d.locality) $('#new input[name="locality"]').val(d.locality);
+        if (d.postcode) $('#new input[name="postcode"]').val(d.postcode);
+        if (d.country) $('#new input[name="country"]').val(d.country);
+        if (d.marital_status) $('#new input[name="marital_status"]').val(d.marital_status);
+        if (d.highest_education) $('#new input[name="highest_education"]').val(d.highest_education);
+        if (d.financial_status) $('#new input[name="financial_status"]').val(d.financial_status);
+        if (d.occupation) $('#new input[name="occupation"]').val(d.occupation);
+        if (d.state_support) $('#new input[name="state_support"]').val(d.state_support);
+        if (d.next_of_kin !== undefined) {
+            $('#new #new_next_of_kin').prop('checked', d.next_of_kin == true || d.next_of_kin == 1 || d.next_of_kin == 'true');
+        }
     });
 </script>
 @endpush

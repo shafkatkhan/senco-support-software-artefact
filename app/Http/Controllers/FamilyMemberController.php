@@ -3,12 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\FamilyMember;
+use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 
 class FamilyMemberController extends Controller
 {
+    public function extractFromFile(Request $request)
+    {
+        $response_format_instructions = "
+            first_name (family member first name),
+            last_name (family member last name),
+            dob (date of birth, format YYYY-MM-DD),
+            relation (relationship to the pupil),
+            phone (phone number),
+            email (email address),
+            address_line_1 (address line 1),
+            address_line_2 (address line 2),
+            locality (town or city),
+            postcode (postcode),
+            country (country),
+            marital_status (marital status),
+            highest_education (highest level of education),
+            financial_status (financial status),
+            occupation (occupation or job title),
+            state_support (state support or benefits, e.g. jobseeker's allowance, disability benefits, universal credit, etc.),
+            next_of_kin (boolean, true if this is the pupil's next of kin).
+        ";
+
+        return LlmService::extractAndRespond($request, $response_format_instructions);
+    }
+
     public function store(Request $request)
     {
         Gate::authorize('create-family-members');
@@ -31,7 +57,14 @@ class FamilyMemberController extends Controller
             'financial_status' => 'nullable|string|max:255',
             'occupation' => 'nullable|string|max:255',
             'state_support' => 'nullable|string|max:255',
+            'llm_attachment' => 'nullable|file',
+            'llm_transcript' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+
+        $familyMember->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
+        $familyMember->saveAttachments($request->file('additional_attachments'));
 
         if ($request->has('next_of_kin') && $request->next_of_kin) {
             $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
@@ -61,7 +94,11 @@ class FamilyMemberController extends Controller
             'financial_status' => 'nullable|string|max:255',
             'occupation' => 'nullable|string|max:255',
             'state_support' => 'nullable|string|max:255',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+
+        $family_member->saveAttachments($request->file('additional_attachments'));
 
         if ($request->input('next_of_kin') == '1') {
             // set as primary family member
