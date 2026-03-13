@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('school-histories', SchoolHistoryController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/school-histories/extract-file', [SchoolHistoryController::class, 'extractFromFile'])->name('school-histories.extract-file');
 
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
     

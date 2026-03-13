@@ -81,6 +81,7 @@
                                     {{ $history->transition_reason ?? 'N/A' }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $history->attachments, 'card' => true, 'delete_permission' => 'edit-school-histories'])
                         </div>
                     </div>
                 </div>
@@ -98,6 +99,7 @@
                         <th scope="col">School Type</th>
                         <th scope="col">Class Type</th>
                         <th scope="col">Years Attended</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-school-histories', 'delete-school-histories'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -111,6 +113,9 @@
                             <td>{{ Str::limit($history->school_type, 50) }}</td>
                             <td>{{ Str::limit($history->class_type, 50) }}</td>
                             <td>{{ number_format((float)$history->years_attended, 1) }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $history->attachments])
+                            </td>
                             @canany(['edit-school-histories', 'delete-school-histories'])
                             <td class="icon_wrap">
                                 @can('edit-school-histories')
@@ -142,7 +147,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-school-histories', 'delete-school-histories']) ? '6' : '5' }}" class="empty_table_message">No school history found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-school-histories', 'delete-school-histories']) ? '7' : '6' }}" class="empty_table_message">No school history found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -158,10 +163,11 @@
                     <h1 class="modal-title fs-5">Add School History</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('school-histories.store') }}" method="post">
+                <form action="{{ route('school-histories.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
                                 <label>School Name*</label>
@@ -186,6 +192,7 @@
                             <label>Reason for Transition</label>
                              <textarea class="form-control" name="transition_reason" rows="3" placeholder="e.g. Change of location, move to secondary..."></textarea>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -204,7 +211,7 @@
                     <h1 class="modal-title fs-5">Edit School History</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -232,6 +239,7 @@
                             <label>Reason for Transition</label>
                              <textarea class="form-control" name="transition_reason" id="edit_transition_reason" rows="3" placeholder="e.g. Change of location, move to secondary..."></textarea>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -245,10 +253,15 @@
     @can('delete-school-histories')
     @include('components.delete_modal', ['type' => 'Previous School'])
     @endcan
+
+    @can('edit-school-histories')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -258,6 +271,15 @@
         $('#edit_class_type').val($(this).data('class_type'));
         $('#edit_years_attended').val($(this).data('years_attended'));
         $('#edit_transition_reason').val($(this).data('transition_reason'));
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("school-histories.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.school_name) $('#new input[name="school_name"]').val(d.school_name);
+        if (d.school_type) $('#new input[name="school_type"]').val(d.school_type);
+        if (d.class_type) $('#new input[name="class_type"]').val(d.class_type);
+        if (d.years_attended) $('#new input[name="years_attended"]').val(d.years_attended);
+        if (d.transition_reason) $('#new textarea[name="transition_reason"]').val(d.transition_reason);
     });
 </script>
 @endpush
