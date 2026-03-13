@@ -253,7 +253,7 @@
                     <h1 class="modal-title fs-5">Edit Diagnosis</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -283,6 +283,11 @@
                          <div class="form-group mb-3">
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="Recommended actions..."></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Add Additional Attachments</label>
+                            <input type="file" class="form-control" name="additional_attachments[]" multiple>
+                            <small class="form-text text-muted">Upload more files.</small>
                         </div>
                     </div>
                     <div class="modal-footer">

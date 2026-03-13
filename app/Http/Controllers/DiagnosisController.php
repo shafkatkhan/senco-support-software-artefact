@@ -133,7 +133,21 @@ class DiagnosisController extends Controller
             'professional_id' => 'nullable|exists:professionals,id',
             'description' => 'nullable|string',
             'recommendations' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+        
+        if ($request->hasFile('additional_attachments')) {
+            foreach ($request->file('additional_attachments') as $file) {
+                $path = $file->store('attachments');
+                $diagnosis->attachments()->create([
+                    'filename' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'mime_type' => $file->getClientMimeType(),
+                    'size_bytes' => $file->getSize(),
+                ]);
+            }
+        }
 
         return back()->with('success', 'Diagnosis Updated Successfully!');
     }
