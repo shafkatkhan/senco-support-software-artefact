@@ -100,6 +100,7 @@
                                     {{ $meeting->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $meeting->attachments, 'card' => true, 'delete_permission' => 'edit-meetings',])
                         </div>
                     </div>
                 </div>
@@ -118,6 +119,7 @@
                         <th scope="col">Date</th>
                         <th scope="col">Participants</th>
                         <th scope="col">Discussion</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-meetings', 'delete-meetings'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -132,6 +134,9 @@
                             <td data-order="{{ optional($meeting->date)->format('Y-m-d') ?? '' }}">{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ Str::limit($meeting->participants, 30) }}</td>
                             <td>{{ Str::limit($meeting->discussion, 50) }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $meeting->attachments])
+                            </td>
                             @canany(['edit-meetings', 'delete-meetings'])
                             <td class="icon_wrap">
                                 @can('edit-meetings')
@@ -164,7 +169,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-meetings', 'delete-meetings']) ? '7' : '6' }}" class="empty_table_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-meetings', 'delete-meetings']) ? '8' : '7' }}" class="empty_table_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -180,10 +185,11 @@
                     <h1 class="modal-title fs-5">Add New Meeting</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('meetings.store') }}" method="post">
+                <form action="{{ route('meetings.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
                                 <label>Meeting Type</label>
@@ -215,6 +221,7 @@
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" rows="3" placeholder="Agreed actions or recommendations..."></textarea>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -233,7 +240,7 @@
                     <h1 class="modal-title fs-5">Edit Meeting</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -268,6 +275,7 @@
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="Agreed actions or recommendations..."></textarea>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -281,10 +289,15 @@
     @can('delete-meetings')
     @include('components.delete_modal', ['type' => 'Meeting'])
     @endcan
+
+    @can('edit-meetings')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -295,6 +308,24 @@
         $('#edit_participants').val($(this).data('participants'));
         $('#edit_discussion').val($(this).data('discussion'));
         $('#edit_recommendations').val($(this).data('recommendations'));
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("meetings.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.meeting_type) {
+            var normalised_meeting_type = d.meeting_type.toString().trim().toLowerCase();
+            $('#new select[name="meeting_type_id"] option').each(function() {
+                if ($(this).text().trim().toLowerCase() === normalised_meeting_type) {
+                    $('#new select[name="meeting_type_id"]').val($(this).val());
+                    return false;
+                }
+            });
+        }
+        if (d.date) $('#new input[name="date"]').val(d.date);
+        if (d.title) $('#new input[name="title"]').val(d.title);
+        if (d.participants) $('#new textarea[name="participants"]').val(d.participants);
+        if (d.discussion) $('#new textarea[name="discussion"]').val(d.discussion);
+        if (d.recommendations) $('#new textarea[name="recommendations"]').val(d.recommendations);
     });
 </script>
 @endpush

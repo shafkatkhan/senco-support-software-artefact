@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/meetings/extract-file', [MeetingController::class, 'extractFromFile'])->name('meetings.extract-file');
     
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
 
