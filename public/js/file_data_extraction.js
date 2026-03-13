@@ -60,7 +60,10 @@ function setupFileExtraction(url, token, successCallback) {
             contentType: false,
             success: function (response) {
                 if (response.transcript) {
-                    btn.closest('.file_extraction_box').find('input[name="llm_transcript"]').val(response.transcript);
+                    var transcript_wrapper = btn.closest('.file_extraction_box').next('.transcript_wrapper');
+                    transcript_wrapper.find('textarea[name="llm_transcript"]').val(response.transcript);
+                    transcript_wrapper.find('.transcript_container').hide();
+                    transcript_wrapper.find('.show_transcript_btn').show();
                 }
                 successCallback(response.data);
                 status.text('Fields populated successfully.').addClass('text-success');
@@ -75,3 +78,11 @@ function setupFileExtraction(url, token, successCallback) {
         });
     });
 }
+
+// toggle transcript visibility
+$(document).on('click', '.transcript_wrapper button', function(e) {
+    e.preventDefault();
+    var transcript_wrapper = $(this).closest('.transcript_wrapper');
+    transcript_wrapper.find('.transcript_container').toggle();
+    transcript_wrapper.find('.show_transcript_btn').toggle();
+});

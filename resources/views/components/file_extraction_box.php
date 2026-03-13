@@ -10,5 +10,19 @@
     <div class="status"></div>
     <!-- hidden inputs for form submission -->
     <input type="file" name="attachment" style="display: none;">
-    <input type="hidden" name="llm_transcript">
+</div>
+
+<div class="transcript_wrapper">
+    <div class="transcript_container mt-3" style="display: none;">
+        <label class="d-flex justify-content-between align-items-center">
+            AI-Extracted Transcript
+            <button type="button" class="btn btn-sm btn-link text-decoration-none toggle_transcript_btn">Hide Transcript</button>
+        </label>
+        <textarea name="llm_transcript" class="form-control" rows="5" placeholder="AI-Extracted Transcript"></textarea>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-sm btn-outline-primary show_transcript_btn" style="display: none;">
+            Show/Edit Transcript
+        </button>
+    </div>
 </div>

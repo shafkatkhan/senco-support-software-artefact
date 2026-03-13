@@ -1079,12 +1079,12 @@ div.dt-container .dt-paging .dt-paging-button.last {
     background-color: #346b96;
     border-color: #346b96;
 }
-.settings_wrap .btn-outline-primary {
+.btn-outline-primary {
     color: #3f7cae;
     border-color: #3f7cae;
     font-weight: 500;
 }
-.settings_wrap .btn-outline-primary:hover {
+.btn-outline-primary:hover {
     background-color: #3f7cae;
     color: #fff;
     border-color: #3f7cae;
@@ -1164,5 +1164,11 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	height: 1rem;
 	border-width: 0.18em;
 	margin-right: 7px;
+}
+/**/
+.transcript_container{
+	border-bottom: 1px solid rgb(222, 226, 230);
+	padding-bottom: 25px;
+	margin-bottom: 25px;
 }
 /**/
