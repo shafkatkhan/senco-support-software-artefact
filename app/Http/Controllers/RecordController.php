@@ -4,12 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Record;
 use App\Models\Professional;
+use App\Models\RecordType;
+use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 
 class RecordController extends Controller
 {
+    public function extractFromFile(Request $request)
+    {
+        $recordTypes = RecordType::pluck('name')->implode(', ');
+
+        $response_format_instructions = "
+            record_type (type of the record, choose one of the following that best fits the record: [{$recordTypes}], or return null if none fit),
+            title (record title),
+            date (record date, format YYYY-MM-DD),
+            reference_number (record reference number),
+            description (record description),
+            outcome (outcome or next steps),
+            prof_title (professional's title e.g. Dr, Mr, Mrs),
+            prof_first_name (professional's first name),
+            prof_last_name (professional's last name),
+            prof_role (professional's role),
+            prof_agency (professional's agency/organisation),
+            prof_phone (professional's phone),
+            prof_email (professional's email).
+        ";
+        return LlmService::extractAndRespond($request, $response_format_instructions);
+    }
+
     public function store(Request $request)
     {
         Gate::authorize('create-records');
@@ -31,6 +55,10 @@ class RecordController extends Controller
             'prof_agency' => 'nullable|string|max:255',
             'prof_phone' => 'nullable|string|max:255',
             'prof_email' => 'nullable|email|max:255',
+            'llm_attachment' => 'nullable|file',
+            'llm_transcript' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]);
 
         if ($request->input('is_new_professional')) {
@@ -47,7 +75,10 @@ class RecordController extends Controller
             $validated['professional_id'] = $professional->id;
         }
 
-        Record::create($validated);
+        $record = Record::create($validated);
+
+        $record->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
+        $record->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Record Added Successfully!');
     }
@@ -64,7 +95,11 @@ class RecordController extends Controller
             'reference_number' => 'nullable|string|max:255',
             'description' => 'required|string',
             'outcome' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+
+        $record->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Record Updated Successfully!');
     }

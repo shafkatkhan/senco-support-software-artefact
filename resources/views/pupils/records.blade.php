@@ -109,6 +109,7 @@
                                     {{ $record->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $record->attachments, 'card' => true, 'delete_permission' => 'edit-records'])
                         </div>
                     </div>
                 </div>
@@ -127,6 +128,7 @@
                         <th scope="col">Date</th>
                         <th scope="col">Professional</th>
                         <th scope="col">Reference No.</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-records', 'delete-records'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -141,6 +143,9 @@
                             <td data-order="{{ optional($record->date)->format('Y-m-d') ?? '' }}">{{ optional($record->date)->format('d/m/Y') ?? 'N/A' }}</td>
                             <td>{{ $record->professional ? $record->professional->title . ' ' . $record->professional->first_name . ' ' . $record->professional->last_name : 'N/A' }}</td>
                             <td>{{ $record->reference_number ?? 'N/A' }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $record->attachments])
+                            </td>
                             @canany(['edit-records', 'delete-records'])
                             <td class="icon_wrap">
                                 @can('edit-records')
@@ -174,7 +179,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-records', 'delete-records']) ? '7' : '6' }}" class="empty_table_message">No records found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-records', 'delete-records']) ? '8' : '7' }}" class="empty_table_message">No records found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -190,10 +195,11 @@
                     <h1 class="modal-title fs-5">Add New Record</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('records.store') }}" method="post">
+                <form action="{{ route('records.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
                                 <label>Record Type*</label>
@@ -230,6 +236,7 @@
                             <label>Outcome / Next Steps</label>
                             <textarea class="form-control" name="outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -248,7 +255,7 @@
                     <h1 class="modal-title fs-5">Edit Record</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -294,6 +301,7 @@
                             <label>Outcome / Next Steps</label>
                             <textarea class="form-control" name="outcome" id="edit_outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -307,10 +315,15 @@
     @can('delete-records')
     @include('components.delete_modal', ['type' => 'Record'])
     @endcan
+
+    @can('edit-records')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -322,6 +335,39 @@
         $('#edit_reference_number').val($(this).data('reference_number'));
         $('#edit_description').val($(this).data('description'));
         $('#edit_outcome').val($(this).data('outcome'));
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("records.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.record_type) {
+            var normalised_record_type = d.record_type.toString().trim().toLowerCase();
+            $('select[name="record_type_id"] option').each(function() {
+                if ($(this).text().trim().toLowerCase() === normalised_record_type) {
+                    $('select[name="record_type_id"]').val($(this).val());
+                    return false;
+                }
+            });
+        }
+        if (d.title) $('input[name="title"]').val(d.title);
+        if (d.date) $('input[name="date"]').val(d.date);
+        if (d.reference_number) $('input[name="reference_number"]').val(d.reference_number);
+        if (d.description) $('textarea[name="description"]').val(d.description);
+        if (d.outcome) $('textarea[name="outcome"]').val(d.outcome);
+
+        // populate new professional if any professional fields detected
+        var hasProf = d.prof_first_name || d.prof_last_name || d.prof_role;
+        if (hasProf) {
+            if ($('#is_new_professional').val() !== '1') {
+                $('#toggle_professional_btn').click();
+            }
+            if (d.prof_title) $('input[name="prof_title"]').val(d.prof_title);
+            if (d.prof_first_name) $('input[name="prof_first_name"]').val(d.prof_first_name);
+            if (d.prof_last_name) $('input[name="prof_last_name"]').val(d.prof_last_name);
+            if (d.prof_role) $('input[name="prof_role"]').val(d.prof_role);
+            if (d.prof_agency) $('input[name="prof_agency"]').val(d.prof_agency);
+            if (d.prof_phone) $('input[name="prof_phone"]').val(d.prof_phone);
+            if (d.prof_email) $('input[name="prof_email"]').val(d.prof_email);
+        }
     });
 </script>
 @endpush

@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/diagnoses/extract-file', [DiagnosisController::class, 'extractFromFile'])->name('diagnoses.extract-file');
 
     Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/records/extract-file', [RecordController::class, 'extractFromFile'])->name('records.extract-file');
 
     Route::resource('events', EventController::class)->only(['store', 'update', 'destroy']);
 
