@@ -13,12 +13,6 @@ class DiagnosisController extends Controller
 {
     public function extractFromFile(Request $request)
     {
-        $request->validate([
-            'file' => 'required|file',
-        ]);
-
-        $file = $request->file('file');
-
         $response_format_instructions = "
             name (the diagnosis name),
             date (date diagnosed, format YYYY-MM-DD), 
@@ -33,20 +27,7 @@ class DiagnosisController extends Controller
             prof_email (professional's email). 
         ";
 
-        try {
-            $extraction = LlmService::extractDataFromFile($file, $response_format_instructions);
-
-            return response()->json([
-                'success' => true,
-                'transcript' => $extraction['transcript'],
-                'data' => $extraction['data'],
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage(),
-            ], 422);
-        }
+        return LlmService::extractAndRespond($request, $response_format_instructions);
     }
 
     public function store(Request $request)

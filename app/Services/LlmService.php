@@ -154,4 +154,36 @@ class LlmService
             'data' => $data,
         ];
     }
+
+    /**
+     * Extracts structured data from an uploaded file and returns a JSON response.
+     * Standardises the controller extraction process for different types of data.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param string $response_format_instructions
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function extractAndRespond(\Illuminate\Http\Request $request, string $response_format_instructions)
+    {
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            $extraction = self::extractDataFromFile($file, $response_format_instructions);
+
+            return response()->json([
+                'success' => true,
+                'transcript' => $extraction['transcript'],
+                'data' => $extraction['data'],
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 422);
+        }
+    }
 }
