@@ -92,33 +92,7 @@
                                     {{ $diagnosis->updated_at->format('H:i') }}
                                 </div>
                             </div>
-                            @if($diagnosis->attachments->count() > 0)
-                            <hr>
-                            <div class="item col-md-12">
-                                <div class="label">Attachments:</div>
-                                <div class="value">
-                                    <ul class="list-unstyled mb-0 attachments_list">
-                                        @foreach($diagnosis->attachments as $attachment)
-                                            <li>
-                                                <a href="{{ route('attachments.show', $attachment->id) }}" target="_blank" class="text-decoration-none">
-                                                    <i class="fas fa-paperclip"></i> {{ $attachment->filename }}
-                                                </a>
-                                                @can('edit-diagnoses')
-                                                    <button type="button" class="delete_attachment_icon" 
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#deleteAttachment" 
-                                                        data-url="{{ route('attachments.destroy', $attachment->id) }}" 
-                                                        data-name="{{ $attachment->filename }}"
-                                                    >
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>
-                                                @endcan
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            @endif
+                            @include('components.attachments_list', ['attachments' => $diagnosis->attachments, 'card' => true])
                         </div>
                     </div>
                 </div>
@@ -153,19 +127,7 @@
                             <td>{{ $diagnosis->description }}</td>
                             <td>{{ $diagnosis->recommendations }}</td>
                             <td>
-                                @if($diagnosis->attachments->count() > 0)
-                                    <ul class="list-unstyled mb-0" style="font-size: 0.9em;">
-                                        @foreach($diagnosis->attachments as $attachment)
-                                            <li>
-                                                <a href="{{ route('attachments.show', $attachment->id) }}" target="_blank" class="text-decoration-none" title="{{ $attachment->filename }}">
-                                                    <i class="fas fa-paperclip"></i> {{ Str::limit($attachment->filename, 15) }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    N/A
-                                @endif
+                                @include('components.attachments_list', ['attachments' => $diagnosis->attachments])
                             </td>
                             @canany(['edit-diagnoses', 'delete-diagnoses'])
                             <td class="icon_wrap">
@@ -240,11 +202,9 @@
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" rows="3" placeholder="Recommended actions..."></textarea>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Additional Attachments</label>
-                            <input type="file" class="form-control" name="additional_attachments[]" multiple>
-                            <small class="form-text text-muted">You can select multiple files. Any files uploaded to the file extraction box will also be saved.</small>
-                        </div>
+                        @include('components.attachments_input', [
+                            'for_create' => true
+                        ])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -294,11 +254,7 @@
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="Recommended actions..."></textarea>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Add Additional Attachments</label>
-                            <input type="file" class="form-control" name="additional_attachments[]" multiple>
-                            <small class="form-text text-muted">Upload more files.</small>
-                        </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
