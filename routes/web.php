@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
+    Route::post('/medications/extract-file', [MedicationController::class, 'extractFromFile'])->name('medications.extract-file');
 
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
     Route::post('/diagnoses/extract-file', [DiagnosisController::class, 'extractFromFile'])->name('diagnoses.extract-file');

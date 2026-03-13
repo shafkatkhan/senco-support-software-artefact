@@ -3,17 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medication;
+use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 
 class MedicationController extends Controller
 {
+    public function extractFromFile(Request $request)
+    {
+        $response_format_instructions = "
+            name (the medication name),
+            dosage (e.g. 50mg, 5ml), 
+            frequency (e.g. Twice Daily, As Needed), 
+            time_of_day (e.g. Morning, Night, 1:30pm), 
+            administration_method (e.g. Oral, Injection), 
+            start_date (date started, format YYYY-MM-DD), 
+            end_date (date to end, format YYYY-MM-DD), 
+            expiry_date (expiry date, format YYYY-MM-DD), 
+            storage_instructions (any specific storage requirements), 
+            self_administer (boolean, true if the pupil self-administers). 
+        ";
+        return LlmService::extractAndRespond($request, $response_format_instructions);
+    }
+
     public function store(Request $request)
     {
         Gate::authorize('create-medications');
 
-        Medication::create($request->validate([
+        $medication = Medication::create($request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'name' => 'required|string|max:255',
             'dosage' => 'nullable|string|max:255',
@@ -25,7 +43,14 @@ class MedicationController extends Controller
             'expiry_date' => 'nullable|date',
             'storage_instructions' => 'nullable|string',
             'self_administer' => 'boolean',
+            'llm_attachment' => 'nullable|file',
+            'llm_transcript' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+
+        $medication->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
+        $medication->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Medication Added Successfully!');
     }
@@ -45,7 +70,11 @@ class MedicationController extends Controller
             'expiry_date' => 'nullable|date',
             'storage_instructions' => 'nullable|string',
             'self_administer' => 'boolean',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]));
+
+        $medication->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Medication Updated Successfully!');
     }

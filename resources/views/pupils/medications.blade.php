@@ -131,6 +131,7 @@
                                     {{ $medication->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $medication->attachments, 'card' => true])
                         </div>
                     </div>
                 </div>
@@ -154,6 +155,7 @@
                         <th scope="col">Expiry Date</th>
                         <th scope="col">Storage Instructions</th>
                         <th scope="col">Self Administer?</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-medications', 'delete-medications'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -173,6 +175,9 @@
                             <td data-order="{{ optional($medication->expiry_date)->format('Y-m-d') ?? '' }}">{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}</td>
                             <td>{{ $medication->storage_instructions }}</td>
                             <td>{{ $medication->self_administer ? 'Yes' : 'No' }}</td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $medication->attachments])
+                            </td>
                             @canany(['edit-medications', 'delete-medications'])
                             <td class="icon_wrap">
                                 @can('edit-medications')
@@ -225,10 +230,11 @@
                     <h1 class="modal-title fs-5">Add New Medication</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('medications.store') }}" method="post">
+                <form action="{{ route('medications.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
+                        @include('components.file_extraction_box')
                         <div class="form-group mb-3">
                             <label>Name*</label>
                             <input type="text" class="form-control" name="name" required placeholder="Medication Name">
@@ -276,6 +282,7 @@
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="create_self_administer">
                             <label class="form-check-label" for="create_self_administer">Self Administer?</label>
                         </div>
+                        @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -294,7 +301,7 @@
                     <h1 class="modal-title fs-5">Edit Medication</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editForm" method="post">
+                <form id="editForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -345,6 +352,7 @@
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="edit_self_administer">
                             <label class="form-check-label" for="edit_self_administer">Self Administer?</label>
                         </div>
+                        @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>
@@ -358,10 +366,15 @@
     @can('delete-medications')
     @include('components.delete_modal', ['type' => 'Medication'])
     @endcan
+
+    @can('edit-medications')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
 
 @push('scripts')
 <script>
+    // edit modal population
     $(document).on('click', '.edit_icon', function () {
         var url = $(this).data('url');
         $('#editForm').attr('action', url);
@@ -378,6 +391,22 @@
         
         var selfAdmin = $(this).data('self_administer');
         $('#edit_self_administer').prop('checked', selfAdmin == 1);
+    });
+
+    // setup file extraction
+    setupFileExtraction('{{ route("medications.extract-file") }}', '{{ csrf_token() }}', function(d) {
+        if (d.name) $('input[name="name"]').val(d.name);
+        if (d.dosage) $('input[name="dosage"]').val(d.dosage);
+        if (d.frequency) $('input[name="frequency"]').val(d.frequency);
+        if (d.time_of_day) $('input[name="time_of_day"]').val(d.time_of_day);
+        if (d.administration_method) $('input[name="administration_method"]').val(d.administration_method);
+        if (d.start_date) $('input[name="start_date"]').val(d.start_date);
+        if (d.end_date) $('input[name="end_date"]').val(d.end_date);
+        if (d.expiry_date) $('input[name="expiry_date"]').val(d.expiry_date);
+        if (d.storage_instructions) $('textarea[name="storage_instructions"]').val(d.storage_instructions);
+        if (d.self_administer !== undefined) {
+            $('#create_self_administer').prop('checked', d.self_administer == true || d.self_administer == 1 || d.self_administer == 'true');
+        }
     });
 </script>
 @endpush
