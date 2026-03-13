@@ -31,7 +31,7 @@ class MedicationController extends Controller
     {
         Gate::authorize('create-medications');
 
-        $medication = Medication::create($request->validate([
+        $validated = $request->validate([
             'pupil_id' => 'required|exists:pupils,id',
             'name' => 'required|string|max:255',
             'dosage' => 'nullable|string|max:255',
@@ -47,7 +47,9 @@ class MedicationController extends Controller
             'llm_transcript' => 'nullable|string',
             'additional_attachments' => 'nullable|array',
             'additional_attachments.*' => 'file',
-        ]));
+        ]);
+
+        $medication = Medication::create($validated);
 
         $medication->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $medication->saveAttachments($request->file('additional_attachments'));

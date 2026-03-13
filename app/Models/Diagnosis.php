@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasAttachments;
 
 class Diagnosis extends Model
 {
