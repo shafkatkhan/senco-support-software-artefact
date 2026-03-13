@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 
 class AttachmentController extends Controller
 {
@@ -28,5 +29,15 @@ class AttachmentController extends Controller
         }
 
         return Storage::response($attachment->file_path, $attachment->filename, $headers);
+    }
+
+    public function destroy(Attachment $attachment)
+    {
+        try {
+            $attachment->delete();
+            return back()->with('success', 'Attachment deleted successfully!');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 }

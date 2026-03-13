@@ -515,6 +515,7 @@ table{
 	display: flex;
 	align-items: center;
 	color: #444;
+	width: 100%;
 }
 .sen_cards .sen_card .bottom .item .value.students div{
 	font-family: 'Cabin', sans-serif;
@@ -560,6 +561,33 @@ table{
 [dir="rtl"] .sen_cards .sen_card .bottom .item i{
 	margin-left: 8px;
 	margin-right: 0px;
+}
+.attachments_list{
+	width: 100%;
+	gap: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.attachments_list li{
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	justify-content: space-between;
+}
+.attachments_list .delete_attachment_icon{
+	background-color: #8a1212;
+	font-size: 14px;
+	margin-right: 5px;
+	border-radius: 5px;
+	width: 28px;
+	height: 28px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+}
+.attachments_list .delete_attachment_icon i{
+	margin-right: 0px !important;
 }
 /**/
 .sen_icon_wrap{

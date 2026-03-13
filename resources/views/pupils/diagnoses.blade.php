@@ -97,12 +97,22 @@
                             <div class="item col-md-12">
                                 <div class="label">Attachments:</div>
                                 <div class="value">
-                                    <ul class="list-unstyled mb-0">
+                                    <ul class="list-unstyled mb-0 attachments_list">
                                         @foreach($diagnosis->attachments as $attachment)
                                             <li>
                                                 <a href="{{ route('attachments.show', $attachment->id) }}" target="_blank" class="text-decoration-none">
                                                     <i class="fas fa-paperclip"></i> {{ $attachment->filename }}
                                                 </a>
+                                                @can('edit-diagnoses')
+                                                    <button type="button" class="delete_attachment_icon" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteAttachment" 
+                                                        data-url="{{ route('attachments.destroy', $attachment->id) }}" 
+                                                        data-name="{{ $attachment->filename }}"
+                                                    >
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                @endcan
                                             </li>
                                         @endforeach
                                     </ul>
@@ -301,6 +311,10 @@
 
     @can('delete-diagnoses')
     @include('components.delete_modal', ['type' => 'Diagnosis'])
+    @endcan
+
+    @can('edit-diagnoses')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 

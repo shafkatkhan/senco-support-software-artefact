@@ -141,4 +141,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
     Route::get('/attachments/{attachment}', [AttachmentController::class, 'show'])->name('attachments.show');
+    Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 });

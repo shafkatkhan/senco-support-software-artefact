@@ -5,6 +5,13 @@ $(document).on('click', '.delete_icon', function () {
     $('#deleteForm').attr('action', url);
 });
 
+// delete attachment modal population
+$(document).on('click', '.delete_attachment_icon', function () {
+    var url = $(this).data('url');
+    var name = $(this).data('name');
+    $('#deleteAttachment_modal_name').text(name);
+    $('#deleteAttachmentForm').attr('action', url);
+});
 
 $(document).ready(function() {
     $('.new_button').addClass('button_styled');
