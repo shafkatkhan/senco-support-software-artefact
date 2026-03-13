@@ -71,24 +71,7 @@ class DiagnosisController extends Controller
 
         $diagnosis = Diagnosis::create($validated);
 
-        if ($request->hasFile('llm_attachment')) {
-            $file = $request->file('llm_attachment');
-            $path = $file->store('attachments');
-
-            $attachment = $diagnosis->attachments()->create([
-                'filename' => $file->getClientOriginalName(),
-                'file_path' => $path,
-                'mime_type' => $file->getClientMimeType(),
-                'size_bytes' => $file->getSize(),
-            ]);
-
-            if ($request->filled('llm_transcript')) {
-                $attachment->transcription()->create([
-                    'transcript' => $request->input('llm_transcript'),
-                ]);
-            }
-        }
-
+        $diagnosis->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $diagnosis->saveAttachments($request->file('additional_attachments'));
 
         return back()->with('success', 'Diagnosis Added Successfully!');

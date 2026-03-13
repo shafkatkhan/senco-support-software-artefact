@@ -23,9 +23,10 @@ trait HasAttachments
      * Save multiple files as attachments for this model.
      *
      * @param array|\Illuminate\Http\UploadedFile|null $files
+     * @param string|null $transcript Optional transcript for AI-extracted files
      * @return void
      */
-    public function saveAttachments($files)
+    public function saveAttachments($files, $transcript = null)
     {
         if (!$files) {
             return;
@@ -35,12 +36,31 @@ trait HasAttachments
 
         foreach ($files as $file) {
             $path = $file->store('attachments');
-            $this->attachments()->create([
+            $attachment = $this->attachments()->create([
                 'filename' => $file->getClientOriginalName(),
                 'file_path' => $path,
                 'mime_type' => $file->getClientMimeType(),
                 'size_bytes' => $file->getSize(),
             ]);
+
+            // link transcript to this attachment if a transcript is provided
+            if ($transcript) {
+                $attachment->transcription()->create([
+                    'transcript' => $transcript,
+                ]);
+            }
         }
+    }
+
+    /**
+     * Save an LLM attachment for this model.
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $transcript Transcript for AI-extracted files
+     * @return void
+     */
+    public function saveLlmAttachment($file, $transcript)
+    {
+        $this->saveAttachments($file, $transcript);
     }
 }
