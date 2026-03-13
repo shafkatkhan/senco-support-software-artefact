@@ -197,6 +197,11 @@
                             <label>Recommendations</label>
                             <textarea class="form-control" name="recommendations" rows="3" placeholder="Recommended actions..."></textarea>
                         </div>
+                        <div class="form-group mb-3">
+                            <label>Additional Attachments</label>
+                            <input type="file" class="form-control" name="additional_attachments[]" multiple>
+                            <small class="form-text text-muted">You can select multiple files. Any files uploaded to the file extraction box will also be saved.</small>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
