@@ -327,13 +327,11 @@
                                 <input type="text" class="form-control" name="state_support" placeholder="e.g. Universal Credit">
                             </div>
                         </div>
-                        <div class="form-group mt-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="new_next_of_kin">
-                                <label class="form-check-label" for="new_next_of_kin">
-                                    Pupil's next of kin?
-                                </label>
-                            </div>
+                        <div class="form-check mt-2 mb-4">
+                            <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="new_next_of_kin">
+                            <label class="form-check-label" for="new_next_of_kin">
+                                Pupil's next of kin?
+                            </label>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
@@ -438,13 +436,11 @@
                                 <input type="text" class="form-control" name="state_support" id="edit_state_support" placeholder="e.g. Universal Credit">
                             </div>
                         </div>
-                        <div class="form-group mt-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="edit_next_of_kin">
-                                <label class="form-check-label" for="edit_next_of_kin">
-                                    Pupil's next of kin?
-                                </label>
-                            </div>
+                        <div class="form-check mt-2 mb-4">
+                            <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="edit_next_of_kin">
+                            <label class="form-check-label" for="edit_next_of_kin">
+                                Pupil's next of kin?
+                            </label>
                         </div>
                         @include('components.attachments_input')
                     </div>

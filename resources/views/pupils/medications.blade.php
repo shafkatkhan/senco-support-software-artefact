@@ -273,11 +273,13 @@
                                 <input type="date" class="form-control" name="expiry_date">
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Storage Instructions</label>
-                            <textarea class="form-control" name="storage_instructions" rows="2"></textarea>
+                        <div class="row">
+                            <div class="form-group mb-3">
+                                <label>Storage Instructions</label>
+                                <textarea class="form-control" name="storage_instructions" rows="2"></textarea>
+                            </div>
                         </div>
-                        <div class="form-check mb-3">
+                        <div class="form-check mt-2 mb-4">
                             <input type="hidden" name="self_administer" value="0">
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="create_self_administer">
                             <label class="form-check-label" for="create_self_administer">Self Administer?</label>
@@ -343,11 +345,13 @@
                                 <input type="date" class="form-control" name="expiry_date" id="edit_expiry_date">
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Storage Instructions</label>
-                            <textarea class="form-control" name="storage_instructions" id="edit_storage_instructions" rows="2"></textarea>
+                        <div class="row">
+                            <div class="form-group mb-3">
+                                <label>Storage Instructions</label>
+                                <textarea class="form-control" name="storage_instructions" id="edit_storage_instructions" rows="2"></textarea>
+                            </div>
                         </div>
-                        <div class="form-check mb-3">
+                        <div class="form-check mt-2 mb-4">
                             <input type="hidden" name="self_administer" value="0">
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="edit_self_administer">
                             <label class="form-check-label" for="edit_self_administer">Self Administer?</label>
