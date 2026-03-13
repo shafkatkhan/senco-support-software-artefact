@@ -19,6 +19,7 @@ class EventController extends Controller
             description (event description),
             outcome (outcome or next steps).
         ";
+        
         return LlmService::extractAndRespond($request, $response_format_instructions);
     }
 

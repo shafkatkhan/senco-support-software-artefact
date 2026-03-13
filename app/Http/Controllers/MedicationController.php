@@ -24,6 +24,7 @@ class MedicationController extends Controller
             storage_instructions (any specific storage requirements), 
             self_administer (boolean, true if the pupil self-administers). 
         ";
+        
         return LlmService::extractAndRespond($request, $response_format_instructions);
     }
 

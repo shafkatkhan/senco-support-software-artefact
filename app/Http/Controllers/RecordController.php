@@ -31,6 +31,7 @@ class RecordController extends Controller
             prof_phone (professional's phone),
             prof_email (professional's email).
         ";
+        
         return LlmService::extractAndRespond($request, $response_format_instructions);
     }
 
