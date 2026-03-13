@@ -49,7 +49,7 @@ class DiagnosisController extends Controller
             'prof_agency' => 'nullable|string|max:255',
             'prof_phone' => 'nullable|string|max:255',
             'prof_email' => 'nullable|email|max:255',
-            'attachment' => 'nullable|file', // from AI box
+            'llm_attachment' => 'nullable|file', // from AI box
             'llm_transcript' => 'nullable|string',
             'additional_attachments' => 'nullable|array',
             'additional_attachments.*' => 'file',
@@ -71,8 +71,8 @@ class DiagnosisController extends Controller
 
         $diagnosis = Diagnosis::create($validated);
 
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
+        if ($request->hasFile('llm_attachment')) {
+            $file = $request->file('llm_attachment');
             $path = $file->store('attachments');
 
             $attachment = $diagnosis->attachments()->create([
