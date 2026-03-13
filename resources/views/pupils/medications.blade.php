@@ -131,7 +131,7 @@
                                     {{ $medication->updated_at->format('H:i') }}
                                 </div>
                             </div>
-                            @include('components.attachments_list', ['attachments' => $medication->attachments, 'card' => true])
+                            @include('components.attachments_list', ['attachments' => $medication->attachments, 'card' => true, 'delete_permission' => 'edit-medications'])
                         </div>
                     </div>
                 </div>

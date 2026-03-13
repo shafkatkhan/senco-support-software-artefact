@@ -12,7 +12,7 @@
                                 <i class="fas fa-paperclip"></i> {{ !isset($card) ? Str::limit($attachment->filename, 15) : $attachment->filename }}
                             </a>
                             @if(isset($card))
-                                @can('edit-diagnoses')
+                                @can($delete_permission)
                                     <button type="button" class="delete_attachment_icon" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#deleteAttachment" 

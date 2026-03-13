@@ -92,7 +92,7 @@
                                     {{ $diagnosis->updated_at->format('H:i') }}
                                 </div>
                             </div>
-                            @include('components.attachments_list', ['attachments' => $diagnosis->attachments, 'card' => true])
+                            @include('components.attachments_list', ['attachments' => $diagnosis->attachments, 'card' => true, 'delete_permission' => 'edit-diagnoses'])
                         </div>
                     </div>
                 </div>
