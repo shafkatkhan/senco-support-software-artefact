@@ -258,9 +258,9 @@
                     </div>
                     <div class="sen_icon_wrap">
                         @can('edit-pupils')
-                        <button class="sen_icon sen_edit_icon button_styled">
+                        <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         @endcan
                         @can('delete-pupils')
                         <button class="sen_icon sen_delete_icon delete_icon button_styled"

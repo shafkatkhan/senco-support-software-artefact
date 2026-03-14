@@ -18,6 +18,7 @@ use App\Models\Event;
 use App\Services\LlmService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class PupilController extends Controller
 {
@@ -546,19 +547,91 @@ class PupilController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Pupil $pupil)
     {
-        //
+        Gate::authorize('edit-pupils');
+
+        $pupil->load('familyMembers');
+        $professionals = Professional::orderBy('last_name')->get();
+        $title = 'Edit ' . $pupil->first_name . ' ' . $pupil->last_name;
+
+        return view('pupils.edit', compact('pupil', 'professionals', 'title'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Pupil $pupil)
     {
         Gate::authorize('edit-pupils');
 
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'gender' => 'required|string|max:255',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'locality' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'after_school_job' => 'nullable|string|max:255',
+            'joined_date' => 'nullable|date',
+            'initial_tutor_group' => 'nullable|string|max:255',
+            'primary_family_member_id' => [
+                'nullable',
+                Rule::exists('family_members', 'id')->where('pupil_id', $pupil->id)
+            ],
+            'parental_description' => 'nullable|string',
+
+            'has_special_needs' => 'boolean',
+            'special_needs_details' => 'nullable|string',
+            'attended_special_school' => 'boolean',
+            'special_school_details' => 'nullable|string',
+            'smoking_history' => 'boolean',
+            'drug_abuse_history' => 'boolean',
+
+            'social_services_involvement' => 'boolean',
+            'social_services_professional_id' => 'nullable|exists:professionals,id',
+            'probation_officer_required' => 'boolean',
+            'probation_officer_professional_id' => 'nullable|exists:professionals,id',
+        ]);
+
+        $data = collect($validated)->only([
+            'first_name',
+            'last_name',
+            'dob',
+            'gender',
+            'joined_date',
+            'initial_tutor_group',
+            'phone',
+            'email',
+            'after_school_job',
+            'primary_family_member_id',
+            'address_line_1',
+            'address_line_2',
+            'locality',
+            'postcode',
+            'country',
+            'parental_description',
+        ])->toArray();
+
+        $data['smoking_history'] = $request->boolean('smoking_history');
+        $data['drug_abuse_history'] = $request->boolean('drug_abuse_history');
+        $data['has_special_needs'] = $request->boolean('has_special_needs');
+        $data['special_needs_details'] = $data['has_special_needs'] ? ($validated['special_needs_details'] ?? null) : null;
+        $data['attended_special_school'] = $request->boolean('attended_special_school');
+        $data['special_school_details'] = $data['attended_special_school'] ? ($validated['special_school_details'] ?? null) : null;
+        $data['social_services_involvement'] = $request->boolean('social_services_involvement');
+        $data['social_services_professional_id'] = $data['social_services_involvement'] ? ($validated['social_services_professional_id'] ?? null) : null;
+        $data['probation_officer_required'] = $request->boolean('probation_officer_required');
+        $data['probation_officer_professional_id'] = $data['probation_officer_required'] ? ($validated['probation_officer_professional_id'] ?? null) : null;
+
+        $pupil->update($data);
+
+        return redirect()->route('pupils.show', $pupil->id)->with('success', 'Pupil Updated Successfully!');
     }
 
     /**

@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)->except(['create', 'edit']);
 
     Route::get('/pupil-details/{pupil}/summary', [PupilController::class, 'show'])->name('pupils.show');
+    Route::get('/pupil-details/{pupil}/edit', [PupilController::class, 'edit'])->name('pupils.edit');
     Route::get('/pupil-details/{pupil}/medications', [PupilController::class, 'medications'])->name('pupils.medications');
     Route::get('/pupil-details/{pupil}/diagnoses', [PupilController::class, 'diagnoses'])->name('pupils.diagnoses');
     Route::get('/pupil-details/{pupil}/records', [PupilController::class, 'records'])->name('pupils.records');

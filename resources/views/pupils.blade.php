@@ -25,9 +25,9 @@
                                 More Details
                             </a>
                             @can('edit-pupils')
-                            <button class="sen_icon sen_edit_icon button_styled">
+                            <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled">
                                 <i class="far fa-edit"></i>
-                            </button>
+                            </a>
                             @endcan
                             @can('delete-pupils')
                             <button class="sen_icon sen_delete_icon delete_icon button_styled"
@@ -217,7 +217,7 @@
                             @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
                                 @can('edit-pupils')
-                                <button class="icon edit_icon"><i class="fa fa-edit"></i></button>
+                                <a href="{{ route('pupils.edit', $pupil->id) }}" class="icon edit_icon"><i class="fa fa-edit"></i></a>
                                 @endcan
                                 @can('delete-pupils')
                                 <button class="icon delete_icon"
