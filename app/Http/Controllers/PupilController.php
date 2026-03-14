@@ -16,6 +16,7 @@ use App\Models\Medication;
 use App\Models\Record;
 use App\Models\Event;
 use App\Services\LlmService;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 
 class PupilController extends Controller
@@ -563,10 +564,15 @@ class PupilController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Pupil $pupil)
     {
         Gate::authorize('delete-pupils');
-        
-        //
+
+        try {
+            $pupil->delete();
+            return redirect()->route('pupils.index')->with('success', 'Pupil Deleted Successfully!');
+        } catch (QueryException $e) {
+            return redirect()->route('pupils.index')->with('error', 'Something went wrong.');
+        }
     }
 }

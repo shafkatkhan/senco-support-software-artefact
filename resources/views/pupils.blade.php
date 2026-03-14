@@ -30,7 +30,11 @@
                             </button>
                             @endcan
                             @can('delete-pupils')
-                            <button class="sen_icon sen_delete_icon button_styled">
+                            <button class="sen_icon sen_delete_icon delete_icon button_styled"
+                                data-bs-toggle="modal"
+                                data-bs-target="#delete"
+                                data-url="{{ route('pupils.destroy', $pupil->id) }}"
+                                data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                             @endcan
@@ -216,7 +220,13 @@
                                 <button class="icon edit_icon"><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-pupils')
-                                <button class="icon delete_icon"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#delete"
+                                    data-url="{{ route('pupils.destroy', $pupil->id) }}"
+                                    data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}">
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
                                 @endcan
                             </td>
                             @endcanany
@@ -230,6 +240,10 @@
             </table>
         </div>
     </section>
+
+    @can('delete-pupils')
+    @include('components.delete_modal', ['type' => 'Pupil'])
+    @endcan
 
     @can('edit-pupils')
     @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
