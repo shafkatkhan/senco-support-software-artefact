@@ -199,6 +199,26 @@
                             {{ $pupil->social_services_involvement ? 'Yes' : 'No' }}
                         </div>
                     </div>
+                    @if($pupil->social_services_involvement)
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="fa-solid fa-user-group"></i>
+                            Social Worker:
+                        </div>
+                        <div class="value">
+                            @if($pupil->socialServicesProfessional)
+                                {{ collect([
+                                    $pupil->socialServicesProfessional->title,
+                                    $pupil->socialServicesProfessional->first_name,
+                                    $pupil->socialServicesProfessional->last_name,
+                                ])->filter()->implode(' ') }}
+                            @else
+                                <span class="text-muted">N/A</span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
@@ -209,6 +229,26 @@
                             {{ $pupil->probation_officer_required ? 'Yes' : 'No' }}
                         </div>
                     </div>
+                    @if($pupil->probation_officer_required)
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="fa-solid fa-user-tie"></i>
+                            Probation Officer:
+                        </div>
+                        <div class="value">
+                            @if($pupil->probationOfficerProfessional)
+                                {{ collect([
+                                    $pupil->probationOfficerProfessional->title,
+                                    $pupil->probationOfficerProfessional->first_name,
+                                    $pupil->probationOfficerProfessional->last_name,
+                                ])->filter()->implode(' ') }}
+                            @else
+                                <span class="text-muted">N/A</span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="col-md-7 d-flex flex-column dashboard_section">
