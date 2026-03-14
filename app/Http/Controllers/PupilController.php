@@ -116,7 +116,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-pupils');
         
-        $pupils = Pupil::with('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->get();
+        $pupils = Pupil::with('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->get();
         $title = "Pupils";
         return view('pupils', compact('pupils', 'title'));
     }
@@ -390,7 +390,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-pupils');
 
-        $pupil->load('medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional');
+        $pupil->load('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional');
         
         // build a grouped list of professional involvements
         $grouped = [];
@@ -431,7 +431,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-medications');
 
-        $pupil->load('medications');
+        $pupil->load('medications.attachments');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Medications";
         return view('pupils.medications', compact('pupil', 'title'));
     }
@@ -440,7 +440,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-diagnoses');
 
-        $pupil->load('diagnoses.professional');
+        $pupil->load('diagnoses.professional', 'diagnoses.attachments');
         $professionals = Professional::orderBy('last_name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
         return view('pupils.diagnoses', compact('pupil', 'title', 'professionals'));
@@ -450,7 +450,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-records');
 
-        $pupil->load(['records.recordType', 'records.professional']);
+        $pupil->load(['records.recordType', 'records.professional', 'records.attachments']);
         $record_types = RecordType::all();
         $professionals = Professional::orderBy('last_name')->get();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Records";
@@ -461,7 +461,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-events');
 
-        $pupil->load('events');
+        $pupil->load('events.attachments');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Events";
         return view('pupils.events', compact('pupil', 'title'));
     }
@@ -470,7 +470,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-family-members');
 
-        $pupil->load('familyMembers');
+        $pupil->load('familyMembers.attachments');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
         return view('pupils.family_members', compact('pupil', 'title'));
     }
@@ -479,7 +479,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-meetings');
 
-        $pupil->load(['meetings.meetingType']);
+        $pupil->load(['meetings.meetingType', 'meetings.attachments']);
         $meeting_types = MeetingType::all();
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Meetings";
         return view('pupils.meetings', compact('pupil', 'title', 'meeting_types'));
@@ -499,7 +499,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-school-histories');
 
-        $pupil->load('schoolHistories');
+        $pupil->load('schoolHistories.attachments');
         $title = $pupil->first_name . " " . $pupil->last_name . "'s School History";
         return view('pupils.school_histories', compact('pupil', 'title'));
     }
