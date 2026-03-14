@@ -163,6 +163,8 @@ class PupilController extends Controller
             'special_needs_details' => 'nullable|string',
             'attended_special_school' => 'boolean',
             'special_school_details' => 'nullable|string',
+            'smoking_history' => 'boolean',
+            'drug_abuse_history' => 'boolean',
             
             'parental_description' => 'nullable|string',
 
