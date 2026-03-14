@@ -27,6 +27,7 @@ class PupilController extends Controller
         $recordTypes = RecordType::pluck('name')->implode(', ');
 
         $response_format_instructions = "
+            pupil_number (pupil's student number),
             first_name (pupil's first name),
             last_name (pupil's last name),
             dob (pupil's date of birth, format YYYY-MM-DD),
@@ -144,6 +145,7 @@ class PupilController extends Controller
         Gate::authorize('create-pupils');
 
         $validated = $request->validate([
+            'pupil_number' => 'required|string|max:255|unique:pupils,pupil_number',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
@@ -291,7 +293,7 @@ class PupilController extends Controller
 
             // create pupil
             $pupilData = collect($validated)->only([
-                'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description'
+                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description'
             ])->toArray();            
             $pupilData['smoking_history'] = $request->has('smoking_history');
             $pupilData['drug_abuse_history'] = $request->has('drug_abuse_history');
@@ -568,6 +570,7 @@ class PupilController extends Controller
         Gate::authorize('edit-pupils');
 
         $validated = $request->validate([
+            'pupil_number' => 'required|string|max:255|unique:pupils,pupil_number,' . $pupil->id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
@@ -603,6 +606,7 @@ class PupilController extends Controller
 
         $data = collect($validated)->only([
             'first_name',
+            'pupil_number',
             'last_name',
             'dob',
             'gender',

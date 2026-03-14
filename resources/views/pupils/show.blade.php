@@ -17,10 +17,10 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-id-badge"></i>
-                            Pupil ID:
+                            Pupil No.:
                         </div>
                         <div class="value">
-                            {{ $pupil->id }}
+                            {{ $pupil->pupil_number }}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>

@@ -26,6 +26,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
+                                <label class="form-label">Pupil Number <span class="text-danger">*</span></label>
+                                <input type="text" name="pupil_number" class="form-control" value="{{ old('pupil_number') }}" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">First Name <span class="text-danger">*</span></label>
                                 <input type="text" name="first_name" class="form-control" value="{{ old('first_name') }}" required>
                             </div>
@@ -62,7 +66,7 @@
                                 <label class="form-label">Email Address</label>
                                 <input type="email" name="email" class="form-control" value="{{ old('email') }}">
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label class="form-label">After School Job</label>
                                 <input type="text" name="after_school_job" class="form-control" value="{{ old('after_school_job') }}">
                             </div>
@@ -306,6 +310,7 @@
     <script>
         setupFileExtraction('{{ route("pupils.extract-file") }}', '{{ csrf_token() }}', function(d) {
             // core
+            if (d.pupil_number) $('input[name="pupil_number"]').val(d.pupil_number);
             if (d.first_name) $('input[name="first_name"]').val(d.first_name);
             if (d.last_name) $('input[name="last_name"]').val(d.last_name);
             if (d.dob) $('input[name="dob"]').val(d.dob);

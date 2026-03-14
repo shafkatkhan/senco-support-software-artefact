@@ -233,6 +233,11 @@ class DatabaseSeeder extends Seeder
 
         // create pupils
         Pupil::factory(20)->create()->each(function ($pupil) {
+            // update pupil number
+            $pupil->update([
+                'pupil_number' => 'PUP-' . str_pad($pupil->id, 6, '0', STR_PAD_LEFT),
+            ]);
+
             // add onboarded event
             Event::create([
                 'pupil_id' => $pupil->id,

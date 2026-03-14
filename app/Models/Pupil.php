@@ -11,6 +11,7 @@ class Pupil extends Model
     use HasFactory, HasAttachments;
 
     protected $fillable = [
+        'pupil_number',
         'first_name',
         'last_name',
         'dob',
