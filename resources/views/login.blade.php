@@ -16,7 +16,7 @@
         <button id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit">{{ __('Login') }}</button>
     </form>
     <div class="alert alert-danger alert-dismissible fade" role="alert" style="display:none;">
-        {{ __('Username or password is incorrect.') }} <strong style="font-weight:500;">{{ __('Please try again.') }}</strong>
+        <span id="login_error_message"></span>
         <button type="button" class="close" onclick="$(this).parent().hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -46,7 +46,12 @@ $(document).ready(function(){
                     window.location.href = "{{ url('/') }}";
                 }
             },
-            error: function() {
+            error: function(xhr) {
+                var message = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'There was an error logging in.';
+                var message2 = xhr.responseJSON && xhr.responseJSON.message2 ? xhr.responseJSON.message2 : 'Please try again.';
+
+                $('#login_error_message').html(message + ' <strong style="font-weight:500;">' + message2 + '</strong>');
+
                 $('.alert').show().addClass('show');
                 setTimeout(function(){ 
                     $('.alert').hide().removeClass('show');

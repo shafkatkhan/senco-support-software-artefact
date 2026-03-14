@@ -47,6 +47,9 @@ return [
             'please login',
             'Username or password is incorrect.',
             'Please try again.',
+            'There was an error logging in.',
+            'This user account has expired.',
+            'Please contact your administrator.',
         ],
 
         'Test Form' => [

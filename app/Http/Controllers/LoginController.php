@@ -15,12 +15,26 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->expiry_date?->isPast()) {
+                Auth::logout();
+
+                return response()->json([
+                    'message' => __('This user account has expired.'),
+                    'message2' => __('Please contact your administrator.'),
+                ], 403);
+            }
+
             $request->session()->regenerate();
 
             return response()->json('success');
         }
 
-        return response()->json('error', 401);
+        return response()->json([
+            'message' => __('Username or password is incorrect.'),
+            'message2' => __('Please try again.'),
+        ], 401);
     }
 
     public function logout(Request $request)
