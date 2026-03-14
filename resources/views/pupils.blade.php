@@ -19,6 +19,9 @@
                     <div class="top">
                         <div class="label">
                             {{ $pupil->first_name }} {{ $pupil->last_name }}
+                            <div class="sub_label">
+                                {{ $pupil->pupil_number }}
+                            </div>
                         </div>
                         <div class="sen_icon_wrap">
                             <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details button_styled">
@@ -204,7 +207,7 @@
                 <tbody>
                     @forelse($pupils as $pupil)
                         <tr>
-                            <th scope="row">{{ $pupil->id }}</th>
+                            <th scope="row">{{ $pupil->pupil_number }}</th>
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
                             <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
                             <td>{{ $pupil->gender }}</td>
