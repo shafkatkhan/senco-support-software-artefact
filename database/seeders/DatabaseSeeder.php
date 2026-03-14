@@ -148,6 +148,9 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Edit Professionals', 'slug' => 'edit-professionals', 'description' => 'Can edit existing professionals.'],
             ['name' => 'Delete Professionals', 'slug' => 'delete-professionals', 'description' => 'Can delete professionals.'],
 
+            // Attachment Management
+            ['name' => 'Manage Attachments', 'slug' => 'manage-attachments', 'description' => 'Can view, edit and delete attachments in dedicated attachments page.'],
+
             // User Group Management
             ['name' => 'View User Groups', 'slug' => 'view-user-groups', 'description' => 'Can view the list of user groups and their details.'],
             ['name' => 'Create User Groups', 'slug' => 'create-user-groups', 'description' => 'Can create new user groups.'],

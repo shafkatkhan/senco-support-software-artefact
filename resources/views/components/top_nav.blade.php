@@ -61,6 +61,11 @@
                     <a href="{{ route('pupils.school_histories', $pupil->id) }}" class="{{ request()->routeIs('pupils.school_histories') ? 'activenav' : '' }}">{{ __('School History') }}</a>
                 </li>
             @endcan
+            @can('manage-attachments')
+                <li>
+                    <a href="{{ route('pupils.attachments', $pupil->id) }}" class="{{ request()->routeIs('pupils.attachments') ? 'activenav' : '' }}">{{ __('Attachments') }}</a>
+                </li>
+            @endcan
         </ul>
     </div>
     @endif

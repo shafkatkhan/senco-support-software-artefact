@@ -31,6 +31,21 @@ class AttachmentController extends Controller
         return Storage::response($attachment->file_path, $attachment->filename, $headers);
     }
 
+    public function updateTranscript(Request $request, Attachment $attachment)
+    {
+        $request->validate([
+            'transcript' => 'required|string'
+        ]);
+
+        if ($attachment->transcription) {
+            $attachment->transcription->update([
+                'transcript' => $request->input('transcript')
+            ]);
+        }
+
+        return back()->with('success', 'Transcript updated successfully!');
+    }
+
     public function destroy(Attachment $attachment)
     {
         try {

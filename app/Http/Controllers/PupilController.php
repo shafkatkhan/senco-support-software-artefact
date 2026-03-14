@@ -504,6 +504,44 @@ class PupilController extends Controller
         return view('pupils.school_histories', compact('pupil', 'title'));
     }
 
+    public function attachments(Pupil $pupil)
+    {
+        Gate::authorize('manage-attachments');
+
+        $pupil->load([
+            'attachments.transcription',
+            'attachments.attachable',
+            'medications.attachments.transcription',
+            'medications.attachments.attachable',
+            'diagnoses.attachments.transcription',
+            'diagnoses.attachments.attachable',
+            'records.recordType',
+            'records.attachments.transcription',
+            'records.attachments.attachable',
+            'events.attachments.transcription',
+            'events.attachments.attachable',
+            'familyMembers.attachments.transcription',
+            'familyMembers.attachments.attachable',
+            'meetings.attachments.transcription',
+            'meetings.attachments.attachable',
+            'schoolHistories.attachments.transcription',
+            'schoolHistories.attachments.attachable'
+        ]);
+
+        $allAttachments = collect()
+            ->concat($pupil->attachments)
+            ->concat($pupil->medications->flatMap->attachments)
+            ->concat($pupil->diagnoses->flatMap->attachments)
+            ->concat($pupil->records->flatMap->attachments)
+            ->concat($pupil->events->flatMap->attachments)
+            ->concat($pupil->familyMembers->flatMap->attachments)
+            ->concat($pupil->meetings->flatMap->attachments)
+            ->concat($pupil->schoolHistories->flatMap->attachments);
+
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Attachments";
+        return view('pupils.attachments', compact('pupil', 'title', 'allAttachments'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

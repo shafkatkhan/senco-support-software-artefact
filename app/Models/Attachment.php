@@ -38,4 +38,23 @@ class Attachment extends Model
     {
         return $this->hasOne(AttachmentTranscription::class);
     }
+
+    public function getSourceNameAttribute()
+    {
+        if ($this->attachable) {
+            $type = class_basename($this->attachable_type);
+            $model = $this->attachable;
+            return match ($type) {
+                'Medication' => 'Medication: ' . $model->name,
+                'Diagnosis' => 'Diagnosis: ' . $model->name,
+                'Event' => 'Event: ' . $model->title,
+                'Meeting' => 'Meeting: ' . $model->title,
+                'FamilyMember' => 'Family Member: ' . $model->first_name . ' ' . $model->last_name,
+                'SchoolHistory' => 'School History: ' . $model->school_name,
+                'Record' => 'Record: ' . ($model->title ?? $model->recordType->name . ' Record'),
+                default => 'Pupil Profile',
+            };
+        }
+        return 'Unknown Source';
+    }
 }

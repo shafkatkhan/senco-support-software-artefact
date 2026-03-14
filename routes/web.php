@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/meetings', [PupilController::class, 'meetings'])->name('pupils.meetings');
     Route::get('/pupil-details/{pupil}/diet', [PupilController::class, 'diets'])->name('pupils.diets');
     Route::get('/pupil-details/{pupil}/school-history', [PupilController::class, 'schoolHistories'])->name('pupils.school_histories');
+    Route::get('/pupil-details/{pupil}/attachments', [PupilController::class, 'attachments'])->name('pupils.attachments')->middleware('can:manage-attachments');
 
     Route::resource('pupils', PupilController::class)->except(['edit', 'show']);
     Route::post('/pupils/extract-file', [PupilController::class, 'extractFromFile'])->name('pupils.extract-file');
@@ -112,6 +113,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('school-histories', SchoolHistoryController::class)->only(['store', 'update', 'destroy']);
     Route::post('/school-histories/extract-file', [SchoolHistoryController::class, 'extractFromFile'])->name('school-histories.extract-file');
+
+    Route::put('/attachments/{attachment}/transcript', [AttachmentController::class, 'updateTranscript'])->name('attachments.update_transcript')->middleware('can:manage-attachments');
 
     Route::resource('record-types', RecordTypeController::class)->except(['create', 'show', 'edit']);
     
