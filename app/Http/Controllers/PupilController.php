@@ -15,10 +15,100 @@ use App\Models\Diagnosis;
 use App\Models\Medication;
 use App\Models\Record;
 use App\Models\Event;
+use App\Services\LlmService;
 use Illuminate\Support\Facades\Gate;
 
 class PupilController extends Controller
 {
+    public function extractFromFile(Request $request)
+    {
+        $recordTypes = RecordType::pluck('name')->implode(', ');
+
+        $response_format_instructions = "
+            first_name (pupil's first name),
+            last_name (pupil's last name),
+            dob (pupil's date of birth, format YYYY-MM-DD),
+            gender (pupil's gender, Male, Female, Other),
+            joined_date (date pupil joined the school, format YYYY-MM-DD),
+            initial_tutor_group (pupil's initial tutor group),
+            phone (pupil's phone number),
+            email (pupil's email address),
+            after_school_job (pupil's after school job),
+            address_line_1 (pupil's address line 1),
+            address_line_2 (pupil's address line 2),
+            locality (pupil's town/city),
+            postcode (pupil's postcode),
+            country (pupil's country),
+            sen_and_background (object with exact keys: 
+                parental_description (description of student by parents),
+                has_special_needs (boolean, true if pupil has special needs), 
+                special_needs_details (details of the special needs), 
+                attended_special_school (boolean, true if pupil has attended a special school), 
+                special_school_details (details of the special school), 
+                smoking_history (boolean, true if pupil has smoking history), 
+                drug_abuse_history (boolean, true if pupil has drug abuse history)
+            ),
+            safeguarding_and_probation (object with exact keys: 
+                social_services_involvement (boolean, true if social services are involved with the pupil), 
+                probation_officer_required (boolean, true if a probation officer is required for the pupil)
+            ),
+            family_members (array of objects with exact keys: 
+                first_name (family member's first name), 
+                last_name (family member's last name), 
+                relation (family member's relationship to the pupil), 
+                dob (family member's date of birth, format YYYY-MM-DD), 
+                phone (family member's phone number), 
+                email (family member's email address), 
+                address_line_1 (family member's address line 1), 
+                address_line_2 (family member's address line 2), 
+                locality (family member's town/city), 
+                postcode (family member's postcode), 
+                country (family member's country), 
+                marital_status (family member's marital status), 
+                highest_education (family member's highest level of education), 
+                financial_status (family member's financial status), 
+                occupation (family member's occupation or job title), 
+                state_support (family member's state support or benefits, e.g. jobseeker's allowance, disability benefits, universal credit, etc.), 
+                next_of_kin (boolean, true if this is the pupil's next of kin)
+            ),
+            school_histories (array of objects with exact keys: 
+                school_name (school name),
+                school_type (institution type, e.g. state school, grammar school, special school, private school, etc.),
+                class_type (type of class),
+                years_attended (number of years attended, format: number with optional decimal point),
+                transition_reason (reason for transition)
+            ),
+            diagnoses (array of objects with exact keys: 
+                name (the diagnosis name),
+                date (date diagnosed, format YYYY-MM-DD), 
+                description (description of the diagnosis), 
+                recommendations (recommended actions)
+            ),
+            medications (array of objects with exact keys: 
+                name (the medication name),
+                dosage (e.g. 50mg, 5ml), 
+                frequency (e.g. Twice Daily, As Needed), 
+                time_of_day (e.g. Morning, Night, 1:30pm), 
+                administration_method (e.g. Oral, Injection), 
+                start_date (date started, format YYYY-MM-DD), 
+                end_date (date to end, format YYYY-MM-DD), 
+                expiry_date (expiry date, format YYYY-MM-DD), 
+                storage_instructions (any specific storage requirements), 
+                self_administer (boolean, true if the pupil self-administers)
+            ),
+            records (array of objects with exact keys: 
+                record_type (type of the record, choose one of the following that best fits the record: [{$recordTypes}], or return null if none fit),
+                title (record title),
+                date (record date, format YYYY-MM-DD),
+                reference_number (record reference number),
+                description (record description),
+                outcome (outcome or next steps)
+            ).
+        ";
+
+        return LlmService::extractAndRespond($request, $response_format_instructions);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -166,6 +256,11 @@ class PupilController extends Controller
             'records.*.prof_agency' => 'nullable|string|max:255',
             'records.*.prof_phone' => 'nullable|string|max:255',
             'records.*.prof_email' => 'nullable|email|max:255',
+
+            'llm_attachment' => 'nullable|file',
+            'llm_transcript' => 'nullable|string',
+            'additional_attachments' => 'nullable|array',
+            'additional_attachments.*' => 'file',
         ]);
         
 
@@ -275,6 +370,9 @@ class PupilController extends Controller
                 'date' => now(),
                 'description' => 'Pupil profile created and onboarded into the system.'
             ]);
+
+            $pupil->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
+            $pupil->saveAttachments($request->file('additional_attachments'));
 
             \DB::commit();
 

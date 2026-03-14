@@ -15,8 +15,9 @@
                         Please fill in the comprehensive pupil information below.
                     </div>
                     <hr>
-                    <form action="{{ route('pupils.store') }}" method="POST">
+                    <form action="{{ route('pupils.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @include('components.file_extraction_box')
                         <div class="title">
                             <i class="fas fa-id-card me-2"></i>Core Pupil Information
                         </div>
@@ -96,7 +97,7 @@
                         <div class="description">
                             Attach related family members, medical details, and other records to the pupil's profile.
                         </div>
-                        <div id="onboardingAccordion" class="accordion" >
+                        <div id="onboardingAccordion" class="accordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingFamilyMembers">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFamilyMembers">
@@ -252,6 +253,8 @@
                                 </div>
                             </div>
                         </div>                        
+                        <hr>
+                        @include('components.attachments_input', ['for_create' => true])
                         <div class="settings_actions">
                             <button type="submit" class="btn btn-success">
                                 Onboard Pupil
@@ -300,4 +303,164 @@
         window.recordTypeOptions = `@foreach($record_types as $type)<option value="{{ $type->id }}">{{ $type->name }}</option>@endforeach`;
     </script>
     <script src="{{ asset('js/onboarding.js') }}"></script>
+    <script>
+        setupFileExtraction('{{ route("pupils.extract-file") }}', '{{ csrf_token() }}', function(d) {
+            // core
+            if (d.first_name) $('input[name="first_name"]').val(d.first_name);
+            if (d.last_name) $('input[name="last_name"]').val(d.last_name);
+            if (d.dob) $('input[name="dob"]').val(d.dob);
+            if (d.joined_date) $('input[name="joined_date"]').val(d.joined_date);
+            if (d.initial_tutor_group) $('input[name="initial_tutor_group"]').val(d.initial_tutor_group);
+            if (d.phone) $('input[name="phone"]').val(d.phone);
+            if (d.email) $('input[name="email"]').val(d.email);
+            if (d.after_school_job) $('input[name="after_school_job"]').val(d.after_school_job);
+
+            if (d.gender) {
+                var normalised_gender = d.gender.toString().trim().toLowerCase();
+                $('select[name="gender"] option').each(function() {
+                    if ($(this).text().trim().toLowerCase() == normalised_gender) {
+                        $('select[name="gender"]').val($(this).val());
+                        return false;
+                    }
+                });
+            }
+
+            // address
+            if (d.address_line_1) $('input[name="address_line_1"]').val(d.address_line_1);
+            if (d.address_line_2) $('input[name="address_line_2"]').val(d.address_line_2);
+            if (d.locality) $('input[name="locality"]').val(d.locality);
+            if (d.postcode) $('input[name="postcode"]').val(d.postcode);
+            if (d.country) $('input[name="country"]').val(d.country);
+            
+            // updates checkboxes and triggers change event for checkboxes that open up other fields
+            function checkAndToggle(id, value) {
+                if (value !== undefined) {
+                    let checked = value == true || value == 1 || value == 'true';
+                    let element = $('#' + id);
+                    if (element.prop('checked') !== checked) {
+                        element.prop('checked', checked).trigger('change');
+                    }
+                }
+            }
+
+            // Family members
+            if (Array.isArray(d.family_members) && d.family_members.length > 0) {
+                $('#collapseFamilyMembers').collapse('show');
+                d.family_members.forEach(item => {
+                    addFamilyMemberRow();
+                    let idx = familyMemberIdx - 1;
+                    if (item.first_name) $(`input[name="family_members[${idx}][first_name]"]`).val(item.first_name);
+                    if (item.last_name) $(`input[name="family_members[${idx}][last_name]"]`).val(item.last_name);
+                    if (item.relation) $(`input[name="family_members[${idx}][relation]"]`).val(item.relation);
+                    if (item.dob) $(`input[name="family_members[${idx}][dob]"]`).val(item.dob);
+                    if (item.phone) $(`input[name="family_members[${idx}][phone]"]`).val(item.phone);
+                    if (item.email) $(`input[name="family_members[${idx}][email]"]`).val(item.email);
+                    if (item.address_line_1) $(`input[name="family_members[${idx}][address_line_1]"]`).val(item.address_line_1);
+                    if (item.address_line_2) $(`input[name="family_members[${idx}][address_line_2]"]`).val(item.address_line_2);
+                    if (item.locality) $(`input[name="family_members[${idx}][locality]"]`).val(item.locality);
+                    if (item.postcode) $(`input[name="family_members[${idx}][postcode]"]`).val(item.postcode);
+                    if (item.country) $(`input[name="family_members[${idx}][country]"]`).val(item.country);
+                    if (item.marital_status) $(`input[name="family_members[${idx}][marital_status]"]`).val(item.marital_status);
+                    if (item.highest_education) $(`input[name="family_members[${idx}][highest_education]"]`).val(item.highest_education);
+                    if (item.financial_status) $(`input[name="family_members[${idx}][financial_status]"]`).val(item.financial_status);
+                    if (item.occupation) $(`input[name="family_members[${idx}][occupation]"]`).val(item.occupation);
+                    if (item.state_support) $(`input[name="family_members[${idx}][state_support]"]`).val(item.state_support);
+                });
+            }
+
+            // School Histories
+            if (Array.isArray(d.school_histories) && d.school_histories.length > 0) {
+                $('#collapseSchools').collapse('show');
+                d.school_histories.forEach(item => {
+                    addSchoolRow();
+                    let idx = schoolIdx - 1;
+                    if (item.school_name) $(`input[name="school_histories[${idx}][school_name]"]`).val(item.school_name);
+                    if (item.school_type) $(`input[name="school_histories[${idx}][school_type]"]`).val(item.school_type);
+                    if (item.class_type) $(`input[name="school_histories[${idx}][class_type]"]`).val(item.class_type);
+                    if (item.years_attended) $(`input[name="school_histories[${idx}][years_attended]"]`).val(item.years_attended);
+                    if (item.transition_reason) $(`input[name="school_histories[${idx}][transition_reason]"]`).val(item.transition_reason);
+                });
+            }
+
+            // SEN & Background
+            if (Object.values(d.sen_and_background || {}).some(v => v)) {
+                $('#collapseBackground').collapse('show');
+
+                if (d.sen_and_background.parental_description) $('textarea[name="parental_description"]').val(d.sen_and_background.parental_description);
+
+                checkAndToggle('has_special_needs', d.sen_and_background.has_special_needs);
+                if (d.sen_and_background.special_needs_details) $('textarea[name="special_needs_details"]').val(d.sen_and_background.special_needs_details);
+    
+                checkAndToggle('attended_special_school', d.sen_and_background.attended_special_school);
+                if (d.sen_and_background.special_school_details) $('textarea[name="special_school_details"]').val(d.sen_and_background.special_school_details);
+
+                checkAndToggle('smoking_history', d.sen_and_background.smoking_history);
+
+                checkAndToggle('drug_abuse_history', d.sen_and_background.drug_abuse_history);
+            }
+
+            // Diagnoses
+            if (Array.isArray(d.diagnoses) && d.diagnoses.length > 0) {
+                $('#collapseDiagnoses').collapse('show');
+                d.diagnoses.forEach(item => {
+                    addDiagnosisRow();
+                    let idx = diagnosisIdx - 1;
+                    if (item.name) $(`input[name="diagnoses[${idx}][name]"]`).val(item.name);
+                    if (item.date) $(`input[name="diagnoses[${idx}][date]"]`).val(item.date);
+                    if (item.description) $(`textarea[name="diagnoses[${idx}][description]"]`).val(item.description);
+                    if (item.recommendations) $(`textarea[name="diagnoses[${idx}][recommendations]"]`).val(item.recommendations);
+                });
+            }
+
+            // Medications
+            if (Array.isArray(d.medications) && d.medications.length > 0) {
+                $('#collapseMedications').collapse('show');
+                d.medications.forEach(item => {
+                    addMedicationRow();
+                    let idx = medicationIdx - 1;
+                    if (item.name) $(`input[name="medications[${idx}][name]"]`).val(item.name);
+                    if (item.dosage) $(`input[name="medications[${idx}][dosage]"]`).val(item.dosage);
+                    if (item.frequency) $(`input[name="medications[${idx}][frequency]"]`).val(item.frequency);
+                    if (item.time_of_day) $(`input[name="medications[${idx}][time_of_day]"]`).val(item.time_of_day);
+                    if (item.administration_method) $(`input[name="medications[${idx}][administration_method]"]`).val(item.administration_method);
+                    if (item.start_date) $(`input[name="medications[${idx}][start_date]"]`).val(item.start_date);
+                    if (item.end_date) $(`input[name="medications[${idx}][end_date]"]`).val(item.end_date);
+                    if (item.expiry_date) $(`input[name="medications[${idx}][expiry_date]"]`).val(item.expiry_date);
+                    if (item.storage_instructions) $(`textarea[name="medications[${idx}][storage_instructions]"]`).val(item.storage_instructions);
+                    checkAndToggle(`self_administer_${idx}`, item.self_administer);
+                });
+            }
+
+            // Records
+            if (Array.isArray(d.records) && d.records.length > 0) {
+                $('#collapseRecords').collapse('show');
+                d.records.forEach(item => {
+                    addRecordRow();
+                    let idx = recordIdx - 1;
+                    if (item.title) $(`input[name="records[${idx}][title]"]`).val(item.title);
+                    if (item.date) $(`input[name="records[${idx}][date]"]`).val(item.date);
+                    if (item.reference_number) $(`input[name="records[${idx}][reference_number]"]`).val(item.reference_number);
+                    if (item.description) $(`textarea[name="records[${idx}][description]"]`).val(item.description);
+                    if (item.outcome) $(`input[name="records[${idx}][outcome]"]`).val(item.outcome);
+                    if (item.record_type) {
+                        var normalisedType = item.record_type.toString().trim().toLowerCase();
+                        $(`select[name="records[${idx}][record_type_id]"] option`).each(function() {
+                            if ($(this).text().trim().toLowerCase() === normalisedType) {
+                                $(`select[name="records[${idx}][record_type_id]"]`).val($(this).val());
+                                return false;
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Safeguarding & Probation
+            if (Object.values(d.safeguarding_and_probation || {}).some(v => v)) {
+                $('#collapseSafeguardingProbation').collapse('show');
+
+                checkAndToggle('social_services_involvement', d.safeguarding_and_probation.social_services_involvement);
+                checkAndToggle('probation_officer_required', d.safeguarding_and_probation.probation_officer_required);
+            }
+        });
+    </script>
 @endpush

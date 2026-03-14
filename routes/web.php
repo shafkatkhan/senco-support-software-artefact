@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/school-history', [PupilController::class, 'schoolHistories'])->name('pupils.school_histories');
 
     Route::resource('pupils', PupilController::class)->except(['edit', 'show']);
+    Route::post('/pupils/extract-file', [PupilController::class, 'extractFromFile'])->name('pupils.extract-file');
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
