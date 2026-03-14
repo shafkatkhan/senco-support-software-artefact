@@ -188,6 +188,7 @@
                                     {{ $pupil->updated_at->format('H:i') }}
                                 </div>
                             </div>                        
+                            @include('components.attachments_list', ['attachments' => $pupil->attachments, 'card' => true, 'delete_permission' => 'edit-pupils',])
                         </div>
                     </div>
                 </div>
@@ -231,4 +232,8 @@
             </div>
 		</div>
     </section>
+
+    @can('edit-pupils')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection

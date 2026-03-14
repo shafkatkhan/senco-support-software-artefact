@@ -173,6 +173,7 @@
                                     {{ $pupil->updated_at->format('H:i') }}
                                 </div>
                             </div>
+                            @include('components.attachments_list', ['attachments' => $pupil->attachments, 'card' => true, 'delete_permission' => 'edit-pupils',])
                         </div>
                     </div>
                 </div>
@@ -190,6 +191,7 @@
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Gender</th>
                         <th scope="col">Special Needs</th>
+                        <th scope="col">Attachments</th>
                         @canany(['edit-pupils', 'delete-pupils'])
                         <th scope="col">Actions</th>
                         @endcanany
@@ -205,6 +207,9 @@
                             <td>
                                 {{ $pupil->has_special_needs ? 'Yes' : '' }}
                             </td>
+                            <td>
+                                @include('components.attachments_list', ['attachments' => $pupil->attachments])
+                            </td>
                             @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
                                 @can('edit-pupils')
@@ -218,11 +223,15 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '6' : '5' }}" class="empty_table_message">No pupils found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '7' : '6' }}" class="empty_table_message">No pupils found.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-    </section>    
+    </section>
+
+    @can('edit-pupils')
+    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @endcan
 @endsection
