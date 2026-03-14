@@ -187,7 +187,7 @@ class DatabaseSeeder extends Seeder
         // assign permissions to Standard Group (all non-delete, non-settings)
         $standardGroup->permissions()->attach(
             $createdPermissions
-                ->reject(fn ($permission) => str_contains($permission->slug, 'delete') || str_contains($permission->slug, 'settings') || str_contains($permission->slug, 'permissions') || str_contains($permission->slug, 'backups'))
+                ->reject(fn ($permission) => str_contains($permission->slug, 'delete') || str_contains($permission->slug, 'settings') || str_contains($permission->slug, 'permissions') || str_contains($permission->slug, 'backups') || str_contains($permission->slug, 'user'))
                 ->pluck('id')
                 ->all()
         );
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
         // assign permissions to Read-Only Group (only view permissions)
         $readOnlyGroup->permissions()->attach(
             $createdPermissions
-                ->filter(fn ($permission) => str_contains($permission->slug, 'view') && !str_contains($permission->slug, 'backups'))
+                ->filter(fn ($permission) => str_contains($permission->slug, 'view') && !str_contains($permission->slug, 'backups') && !str_contains($permission->slug, 'user'))
                 ->pluck('id')
                 ->all()
         );
