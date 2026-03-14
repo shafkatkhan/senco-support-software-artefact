@@ -23,15 +23,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $joined = fake()->dateTimeBetween('-10 years', 'now');
+
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
-            'user_group_id' => \App\Models\UserGroup::factory(), // Automatically create a group
             'mobile' => fake()->phoneNumber(),
             'position' => fake()->jobTitle(),
-            'joined_date' => fake()->date(),
+            'joined_date' => $joined->format('Y-m-d'),
+            'expiry_date' => $joined->modify('+5 years')->format('Y-m-d'),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
