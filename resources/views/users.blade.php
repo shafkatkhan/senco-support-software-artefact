@@ -127,6 +127,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date" />
+                                <div class="form-text text-muted">{{ __('When date is reached, user will be deactivated. Leave blank for no expiry.') }}</div>
                             </div>
                         </div>
                         <div class="form-group mb-3">
@@ -202,6 +203,7 @@
                             <div class="col-md-6 form-group mb-3">
                                 <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date" id="edit_expiry_date" />
+                                <div class="form-text text-muted">{{ __('When date is reached, user will be deactivated. Leave blank for no expiry.') }}</div>
                             </div>
                         </div>
                     </div>

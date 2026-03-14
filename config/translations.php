@@ -61,6 +61,7 @@ return [
             'Added By',
             'Joined Date',
             'Expiry Date',
+            'When date is reached, user will be deactivated. Leave blank for no expiry.',
             'Group',
             'User Group',
             'Choose Group',
