@@ -8,7 +8,7 @@ function setFile(file) {
     // pass file along when form submits
     var dt = new DataTransfer();
     dt.items.add(file);
-    $('.file_extraction_box input[type="file"][name="llm_attachment"]').prop('files', dt.files);
+    $('.file_extraction_box input[type="file"][name="llm_attachment"]').prop('files', dt.files).trigger('change');
 }
 
 // click to open file picker

@@ -220,3 +220,30 @@ $(document).ready(function() {
 $(function() {
     $('.nav_disabled a').removeAttr('href');
 });
+
+// update attachment consent state based on file uploads
+$(document).on('change', 'input[name="llm_attachment"], input[name="additional_attachments[]"]', function () {
+    var $form = $(this).closest('form');
+    if (!$form.length) return;
+
+    var hasAudioVideo = false;
+
+    $form.find('input[name="llm_attachment"], input[name="additional_attachments[]"]').each(function () {
+        if (!this.files) return;
+
+        for (var i = 0; i < this.files.length; i++) {
+            var type = this.files[i].type;
+
+            if (type.startsWith('audio/') || type.startsWith('video/')) {
+                hasAudioVideo = true;
+                return false; // break loop if audio/video file is found
+            }
+        }
+    });
+
+    $('.attachment_consent_checkbox').prop('disabled', !hasAudioVideo).prop('required', hasAudioVideo);
+    
+    if (!hasAudioVideo) {
+        $('.attachment_consent_checkbox').prop('checked', false);
+    }
+});
