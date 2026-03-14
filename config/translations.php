@@ -7,7 +7,6 @@ return [
     'groups' => [
         'Side Navigation' => [
             'Test Form',
-            'Page 1',
             'SEND Pupils',
             'Accommodations',
             'Majors',
