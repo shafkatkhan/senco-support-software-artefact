@@ -90,3 +90,30 @@ body{
 .translation_top span {
     font-weight: 600;
 }
+/**/
+#install-processing-container {
+    display: none;
+}
+#install-processing-container .spinner-grow {
+    width: 65px;
+    height: 65px;
+    color: #3f7cae;
+}
+.loading-container {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+#loading_status {
+    margin-top: 25px;
+    font-size: 18px;
+    font-weight: 500;
+}
+#loading_status_description {
+    color: #4a5568;
+    font-size: 14px;
+    margin-top: 15px;
+}
