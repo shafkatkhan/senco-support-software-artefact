@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class InstallState
 {
@@ -10,7 +11,20 @@ class InstallState
 
     public static function isInstalled(): bool
     {
-        return static::store()->get('system_installed', false);
+        try {
+            if (!static::store()->get('system_installed', false)) {
+                return false;
+            }
+
+            if (!Schema::hasTable('users')) {
+                static::reset();
+                return false;
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public static function markInstalled(): void
@@ -20,6 +34,11 @@ class InstallState
 
     public static function isLanguageSetupPending(): bool
     {
+        // if users table does not exist, reset and redirect to install
+        if(!Schema::hasTable('users')) {
+            static::reset();
+            return false;
+        }
         return static::store()->get('lang_setup_pending', false);
     }
 

@@ -25,22 +25,11 @@ class EnsureSystemInstalled
         try {
             // check if language setup is pending
             if (InstallState::isLanguageSetupPending()) {
-                // if users table does not exist, reset and redirect to install
-                if (!Schema::hasTable('users')) {
-                    InstallState::reset();
-                    return redirect()->route('install.index');
-                }
                 return redirect(route('install.lang_setup_view'));
             }
 
             // check if system is installed
             if (InstallState::isInstalled()) {
-                // if users table does not exist, reset and redirect to install
-                if (!Schema::hasTable('users')) {
-                    InstallState::reset();
-                    return redirect()->route('install.index');
-                }
-
                 return $next($request);
             }
 

@@ -209,12 +209,6 @@ class InstallController extends Controller
 
                 return redirect(route('install.index'));
             }
-
-            // if users table does not exist, reset and redirect to install
-            if (!Schema::hasTable('users')) {
-                InstallState::reset();
-                return redirect()->route('install.index');
-            }
         } catch (\Exception $e) {
             // db not configured/migrated/seeded, continue to installation
             return redirect(route('install.index'));
