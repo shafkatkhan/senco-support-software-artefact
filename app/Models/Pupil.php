@@ -110,4 +110,40 @@ class Pupil extends Model
     {
         return $this->belongsTo(Professional::class, 'probation_officer_professional_id');
     }
+
+    /**
+     * Get grouped list of professional involvements.
+     */
+    public function getInvolvementsAttribute()
+    {
+        $grouped = [];
+        foreach ($this->diagnoses as $diagnosis) {
+            if ($diagnosis->professional) {
+                $id = $diagnosis->professional->id;
+                $grouped[$id]['professional'] = $diagnosis->professional;
+                $grouped[$id]['involvements'][] = $diagnosis->name . ' Diagnosis';
+            }
+        }
+        foreach ($this->records as $record) {
+            if ($record->professional) {
+                $id = $record->professional->id;
+                $grouped[$id]['professional'] = $record->professional;
+                $grouped[$id]['involvements'][] = $record->recordType->name . ' Record';
+            }
+        }
+
+        if ($this->socialServicesProfessional) {
+            $id = $this->socialServicesProfessional->id;
+            $grouped[$id]['professional'] = $this->socialServicesProfessional;
+            $grouped[$id]['involvements'][] = 'Social Services';
+        }
+
+        if ($this->probationOfficerProfessional) {
+            $id = $this->probationOfficerProfessional->id;
+            $grouped[$id]['professional'] = $this->probationOfficerProfessional;
+            $grouped[$id]['involvements'][] = 'Visiting Probation Officer';
+        }
+
+        return collect(array_values($grouped));
+    }
 }

@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Create Pupils', 'slug' => 'create-pupils', 'description' => 'Can add new pupils.'],
             ['name' => 'Edit Pupils', 'slug' => 'edit-pupils', 'description' => 'Can edit existing pupils.'],
             ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],
+            ['name' => 'Export Pupil Data', 'slug' => 'export-pupil-data', 'description' => 'Can export an individual pupil\'s data.'],
 
             // Medication Management
             ['name' => 'View Medications', 'slug' => 'view-medications', 'description' => 'Can view a pupil\'s list of medications and their details.'],
@@ -187,7 +188,7 @@ class DatabaseSeeder extends Seeder
         // assign permissions to Standard Group (all non-delete, non-settings)
         $standardGroup->permissions()->attach(
             $createdPermissions
-                ->reject(fn ($permission) => str_contains($permission->slug, 'delete') || str_contains($permission->slug, 'settings') || str_contains($permission->slug, 'permissions') || str_contains($permission->slug, 'backups') || str_contains($permission->slug, 'user'))
+                ->reject(fn ($permission) => str_contains($permission->slug, 'delete') || str_contains($permission->slug, 'settings') || str_contains($permission->slug, 'permissions') || str_contains($permission->slug, 'backups') || str_contains($permission->slug, 'user') || str_contains($permission->slug, 'export'))
                 ->pluck('id')
                 ->all()
         );

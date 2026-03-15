@@ -19,6 +19,7 @@ use App\Services\LlmService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PupilController extends Controller
 {
@@ -398,36 +399,7 @@ class PupilController extends Controller
 
         $pupil->load('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional');
         
-        // build a grouped list of professional involvements
-        $grouped = [];
-        foreach ($pupil->diagnoses as $diagnosis) {
-            if ($diagnosis->professional) {
-                $id = $diagnosis->professional->id;
-                $grouped[$id]['professional'] = $diagnosis->professional;
-                $grouped[$id]['involvements'][] = $diagnosis->name . ' Diagnosis';
-            }
-        }
-        foreach ($pupil->records as $record) {
-            if ($record->professional) {
-                $id = $record->professional->id;
-                $grouped[$id]['professional'] = $record->professional;
-                $grouped[$id]['involvements'][] = $record->recordType->name . ' Record';
-            }
-        }
-
-        if ($pupil->socialServicesProfessional) {
-            $id = $pupil->socialServicesProfessional->id;
-            $grouped[$id]['professional'] = $pupil->socialServicesProfessional;
-            $grouped[$id]['involvements'][] = 'Social Services';
-        }
-
-        if ($pupil->probationOfficerProfessional) {
-            $id = $pupil->probationOfficerProfessional->id;
-            $grouped[$id]['professional'] = $pupil->probationOfficerProfessional;
-            $grouped[$id]['involvements'][] = 'Visiting Probation Officer';
-        }
-
-        $involvements = collect(array_values($grouped));
+        $involvements = $pupil->involvements;
 
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
         return view('pupils.show', compact('pupil', 'title', 'involvements'));
@@ -653,5 +625,33 @@ class PupilController extends Controller
         } catch (QueryException $e) {
             return redirect()->route('pupils.index')->with('error', 'Something went wrong.');
         }
+    }
+
+    /**
+     * Export the specified pupil's data to a PDF.
+     */
+    public function export(Pupil $pupil)
+    {
+        Gate::authorize('export-pupil-data');
+
+        $pupil->load([
+            'primaryFamilyMember', 
+            'socialServicesProfessional',
+            'probationOfficerProfessional',
+            'onboardedBy',
+            'medications',
+            'diagnoses.professional',
+            'records.professional',
+            'records.recordType',
+            'diets.subject'
+        ]);
+
+        $involvements = $pupil->involvements;
+
+        $title = 'Pupil Profile Summary - ' . $pupil->first_name . ' ' . $pupil->last_name . ' (' . $pupil->pupil_number . ')';
+        $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements'));
+        $filename = str_replace(' ', '-', $pupil->pupil_number . '-' . $pupil->first_name . '-' . $pupil->last_name) . '-Profile-Summary.pdf';
+
+        return $pdf->download($filename);
     }
 }

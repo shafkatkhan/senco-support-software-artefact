@@ -257,6 +257,12 @@
                         <i class="fa-solid fa-gear"></i>{{ __('Actions') }}
                     </div>
                     <div class="sen_icon_wrap">
+                        @can('export-pupil-data')
+                        <a href="{{ route('pupils.export', $pupil->id) }}" class="sen_icon download_icon button_styled" style="width: auto; padding: 10px 15px;">
+                            <i class="fa-solid fa-download" style="margin-right: 10px;"></i>
+                            Export
+                        </a>
+                        @endcan
                         @can('edit-pupils')
                         <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled">
                             <i class="far fa-edit"></i>
