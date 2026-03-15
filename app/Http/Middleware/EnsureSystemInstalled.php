@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Cache;
-use App\Models\User;
+use App\Support\InstallState;
 
 class EnsureSystemInstalled
 {
@@ -17,33 +17,46 @@ class EnsureSystemInstalled
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // whitelist installation routes and static assets
+        // whitelist installation routes
         if ($request->is('install') || $request->is('install/*')) {
             return $next($request);
         }
 
         try {
-            // check cache first to avoid DB query on every request
-            if (Cache::get('system_installed')) {
-                return $next($request);
-            }
-
             // check if language setup is pending
-            if(Cache::get('lang_setup_pending')) {
+            if (InstallState::isLanguageSetupPending()) {
+                // if users table does not exist, reset and redirect to install
+                if (!Schema::hasTable('users')) {
+                    InstallState::reset();
+                    return redirect()->route('install.index');
+                }
                 return redirect(route('install.lang_setup_view'));
             }
 
-            // verify against DB if not in cache
-            if (User::exists()) {
-                // cache it for next time
-                Cache::forever('system_installed', true);
+            // check if system is installed
+            if (InstallState::isInstalled()) {
+                // if users table does not exist, reset and redirect to install
+                if (!Schema::hasTable('users')) {
+                    InstallState::reset();
+                    return redirect()->route('install.index');
+                }
+
                 return $next($request);
             }
 
+            // if system is not marked as installed (in case of cache clear), but users table exists, mark as installed (to restore the cache)
+            if (Schema::hasTable('users')) {
+                InstallState::markInstalled();
+                return $next($request);
+            }
+
+            // if system is not marked as installed, and users table does not exist, reset and redirect to install
+            InstallState::reset();
             return redirect()->route('install.index');
 
         } catch (\Throwable $e) {
-            // database not configured or migrated
+            // database not configured or migrated yet; continue to installation.
+            InstallState::reset();
             return redirect()->route('install.index');
         }
     }

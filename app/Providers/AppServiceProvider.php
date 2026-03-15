@@ -24,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
     {
         // override mail config
         try {
+            if (Schema::hasTable('settings')) {
+                config([
+                    'app.language_direction' => Setting::get('app_language_direction', config('app.language_direction')),
+                ]);
+            }
+
             if (Schema::hasTable('settings') && Setting::get('mail_host')) { // only run config overrides if the settings table actually exists and has a mail host set
                 config([
                     'mail.default' => 'smtp',

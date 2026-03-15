@@ -6,29 +6,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use App\Services\LlmService;
+use App\Models\Setting;
 use App\Models\User;
+use App\Support\InstallState;
 
 class InstallController extends Controller
 {
     public function index() {
         try {
-            // check cache first
-            if (Cache::get('system_installed')) {
-                return redirect()->back()->with('error', 'System has already been installed.');
+            if (InstallState::isInstalled()) {
+                return redirect()->route('login')->with('error', 'System has already been installed.');
             }
 
-            // redirect to login if a user exists (ie. already installed)
-            if (User::exists()) {
-                if(Cache::get('lang_setup_pending')) { // redirect to lang setup if a user exists (ie. db is installed but language not configured)
+            if (Schema::hasTable('users')) {
+                if (InstallState::isLanguageSetupPending()) {
                     return redirect(route('install.lang_setup_view'));
-                }else{
-                    // cache it for next time
-                    Cache::forever('system_installed', true);
-                    return redirect()->back()->with('error', 'System has already been installed.');
                 }
+
+                // restore cache state (in case it was cleared)
+                InstallState::markInstalled();
+                return redirect()->route('login')->with('error', 'System has already been installed.');
             }
         } catch (\Exception $e) {
             // db not configured/migrated/seeded, continue to installation
@@ -118,9 +118,8 @@ class InstallController extends Controller
             // bypass translation setup and mark system as installed if locale is english
             $english_language = Str::startsWith($request->app_locale, 'en');
             if ($english_language) {
-                Cache::forever('system_installed', true); 
+                InstallState::markInstalled();
             }else{
-            #
                 // LLM Translation
                 $translation_schema = config('translations.groups');
                 $english_labels = [];
@@ -143,12 +142,9 @@ class InstallController extends Controller
                 }
                 // ---------------------------------------------
 
-                Cache::forever('auto_translations', $auto_translations);
-            
-            #
-            
-                Cache::forever('locale_name', $locale_name);
-                Cache::forever('lang_setup_pending', true);
+                InstallState::put('auto_translations', $auto_translations);
+                InstallState::put('locale_name', $locale_name);
+                InstallState::markLanguageSetupPending();
             }
 
             // update .env (triggers artisan serve restart)
@@ -206,8 +202,18 @@ class InstallController extends Controller
 
     public function lang_setup_view(Request $request) {
         try {
-            if(!Cache::get('lang_setup_pending')){
-                return redirect()->back()->with('error', 'Language has already been setup.');
+            if (!InstallState::isLanguageSetupPending()) {
+                if (InstallState::isInstalled()) {
+                    return redirect()->route('login')->with('error', 'Language has already been setup.');
+                }
+
+                return redirect(route('install.index'));
+            }
+
+            // if users table does not exist, reset and redirect to install
+            if (!Schema::hasTable('users')) {
+                InstallState::reset();
+                return redirect()->route('install.index');
             }
         } catch (\Exception $e) {
             // db not configured/migrated/seeded, continue to installation
@@ -215,11 +221,11 @@ class InstallController extends Controller
         }
 
         $locale = env('APP_LOCALE');
-        $locale_name = Cache::get('locale_name', $locale); // fallback to locale code if name isn't found
+        $locale_name = InstallState::get('locale_name', $locale); // fallback to locale code if name isn't found
         $app_direction = in_array($locale, ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
 
         $translation_schema = config('translations.groups');
-        $auto_translations = Cache::get('auto_translations', []);
+        $auto_translations = InstallState::get('auto_translations', []);
         
         return view('lang_setup', [
             'translation_schema' => $translation_schema,
@@ -250,15 +256,12 @@ class InstallController extends Controller
             $json_path = base_path("lang/{$locale}.json");
             File::put($json_path, json_encode($processed_translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-            // update .env direction
-            $this->updateEnv([
-                'APP_LANGUAGE_DIRECTION' => $request->app_direction,
-            ]);
-            Artisan::call('config:clear');
+            // mark system as fully installed in cache once translations are done (before updating .env, to avoid a server restart crashing the app)
+            InstallState::markInstalled();
+            InstallState::clearLanguageSetupPending();
 
-            // mark system as fully installed in cache once translations are done
-            Cache::forever('system_installed', true);
-            Cache::forget('lang_setup_pending');
+            Setting::set('app_language_direction', $request->app_direction);
+            config(['app.language_direction' => $request->app_direction]);
 
             return redirect(route('login'))->with('success', 'Installation and Language setup successful! Please login.');
 
