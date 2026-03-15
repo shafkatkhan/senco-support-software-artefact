@@ -148,7 +148,7 @@ class InstallController extends Controller
             }
 
             // update .env (triggers artisan serve restart)
-            $this->updateEnv([
+            $environment_updates = [
                 'APP_URL' => $request->app_url,
                 'APP_LOCALE' => $request->app_locale,
                 'DB_CONNECTION' => 'mysql',
@@ -157,13 +157,11 @@ class InstallController extends Controller
                 'DB_DATABASE' => $request->db_name,
                 'DB_USERNAME' => $request->db_username,
                 'DB_PASSWORD' => $request->db_password,
-            ]);
+            ];
             if ($english_language) {
-                $this->updateEnv([
-                    'APP_LANGUAGE_DIRECTION' => 'ltr',
-                ]);
+                $environment_updates['APP_LANGUAGE_DIRECTION'] = 'ltr';
             }
-            Artisan::call('config:clear');
+            $this->updateEnv($environment_updates);
 
             if ($english_language) {
                 return redirect(route('login'))->with('success', 'Installation successful! Please login.');
@@ -176,28 +174,28 @@ class InstallController extends Controller
         }
     }
 
-    private function updateEnv($data = [])
+    private function updateEnv(array $data = []): void
     {
         $path = base_path('.env');
-        if (File::exists($path)) {
-            $file_content = File::get($path);
-            foreach ($data as $key => $value) {
-                $value = $value ?? ''; // set null value to empty string
-                $value = '"' . $value . '"';
-                
-                // regex to find the key and replace value
-                $pattern = "/^" . preg_quote($key) . "=(.*)$/m";
-                
-                if (preg_match($pattern, $file_content)) {
-                    $file_content = preg_replace_callback($pattern, function () use ($key, $value) {
-                         return "$key=$value";
-                    }, $file_content);
-                } else {
-                    $file_content .= "\n$key=$value"; // append it if not existing
-                }
-            }
-            File::put($path, $file_content);
+        if (!File::exists($path)) {
+            return;
         }
+        $content = File::get($path);
+
+        foreach ($data as $key => $value) {
+            $value = $value ?? '';
+            $value = '"' . addcslashes($value, '"\\') . '"';
+            $pattern = "/^" . preg_quote($key, '/') . "=.*/m";
+            if (preg_match($pattern, $content)) {
+                $content = preg_replace($pattern, "{$key}={$value}", $content);
+            } else {
+                $content .= PHP_EOL . "{$key}={$value}";
+            }
+        }
+        
+        $tempPath = $path . '.tmp';
+        File::put($tempPath, $content);
+        rename($tempPath, $path);
     }
 
     public function lang_setup_view(Request $request) {
