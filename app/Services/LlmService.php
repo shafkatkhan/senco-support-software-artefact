@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\UploadedFile;
+use App\Models\Setting;
 use Exception;
 
 class LlmService
@@ -17,16 +18,25 @@ class LlmService
      */
     public static function transcribeAudio(string $audioPath, string $fileName): string
     {
-        $apiKey = config('services.mistral.key');
+        $provider = Setting::get('llm_provider', 'mistral');
+
+        if ($provider == 'openai') {
+            $apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
+            $model = 'whisper-1';
+        } else {
+            $apiUrl = 'https://api.mistral.ai/v1/audio/transcriptions';
+            $model = 'voxtral-mini-latest';
+        }
+        $apiKey = config('services.' . $provider . '.key');
         if (!$apiKey) {
-            throw new Exception("MISTRAL_API_KEY is not set.");
+            throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }
 
         $response = Http::withToken($apiKey)
             ->timeout(120)
             ->attach('file', file_get_contents($audioPath), $fileName)
-            ->post('https://api.mistral.ai/v1/audio/transcriptions', [
-                'model' => 'voxtral-mini-latest',
+            ->post($apiUrl, [
+                'model' => $model,
             ]);
 
         if ($response->failed()) {
@@ -56,9 +66,17 @@ class LlmService
      */
     public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null): array
     {
-        $apiKey = config('services.mistral.key');
+        $provider = Setting::get('llm_provider', 'mistral');
+        $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
+
+        if ($provider == 'openai') {
+            $apiUrl = 'https://api.openai.com/v1/chat/completions';
+        } else {
+            $apiUrl = 'https://api.mistral.ai/v1/chat/completions';
+        }
+        $apiKey = config('services.' . $provider . '.key');
         if (!$apiKey) {
-            throw new Exception("MISTRAL_API_KEY is not set.");
+            throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }
 
         $messages = [];
@@ -74,14 +92,34 @@ class LlmService
             $fileBase64 = base64_encode(file_get_contents($filePath));
             $dataUrl = "data:{$mimeType};base64,{$fileBase64}";
             
-            $isImage = str_starts_with($mimeType, 'image/');
-
-            $content = [
-                [
+            $content = [];
+            
+            if ($provider == 'openai') {
+                if ($isImage) {
+                    $content[] = [
+                        "type" => "image_url",
+                        "image_url" => [
+                            "url" => $dataUrl
+                        ],
+                    ];
+                } else {
+                    $content[] = [
+                        "type" => "file",
+                        "file" => [
+                            "filename" => basename($filePath),
+                            "file_data" => $dataUrl
+                        ]
+                    ];
+                }
+                $model = "gpt-4.1-nano";
+            } else {
+                $content[] = [
                     "type" => $isImage ? "image_url" : "document_url",
                     $isImage ? "image_url" : "document_url" => $dataUrl,
-                ],
-            ];
+                ];
+                $model = $isImage ? "pixtral-12b-2409" : "mistral-small-latest";
+            }
+
             if ($data) {
                 $content[] = [
                     "type" => "text",
@@ -93,13 +131,12 @@ class LlmService
                 "content" => $content
             ];
             
-            $model = $isImage ? "pixtral-12b-2409" : "mistral-small-latest";
         } else {
             $messages[] = [
                 "role" => "user",
                 "content" => $data
             ];
-            $model = "mistral-small-latest";
+            $model = $provider == 'openai' ? "gpt-4.1-nano" : "mistral-small-latest";
         }
 
         $payload = [
@@ -110,7 +147,7 @@ class LlmService
 
         $response = Http::withToken($apiKey)
             ->timeout(120)
-            ->post('https://api.mistral.ai/v1/chat/completions', $payload);
+            ->post($apiUrl, $payload);
 
         if ($response->failed()) {
             throw new Exception('API error: ' . $response->body());
@@ -119,8 +156,7 @@ class LlmService
         $result = $response->json();
         $structuredDataRaw = $result["choices"][0]["message"]["content"] ?? "{}";
 
-        $clean = preg_replace('/^```json\s*|\s*```$/', '', trim($structuredDataRaw));
-        return json_decode($clean, true) ?? [];
+        return json_decode($structuredDataRaw, true) ?? [];
     }
 
     /**
