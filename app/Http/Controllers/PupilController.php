@@ -54,7 +54,25 @@ class PupilController extends Controller
             ),
             safeguarding_and_probation (object with exact keys: 
                 social_services_involvement (boolean, true if social services are involved with the pupil), 
-                probation_officer_required (boolean, true if a probation officer is required for the pupil)
+                social_worker (object with exact keys:
+                    prof_title (professional's title e.g. Dr, Mr, Mrs),
+                    prof_first_name (professional's first name),
+                    prof_last_name (professional's last name),
+                    prof_role (professional's role),
+                    prof_agency (professional's agency/organisation),
+                    prof_phone (professional's phone),
+                    prof_email (professional's email)
+                ),
+                probation_officer_required (boolean, true if a probation officer is required for the pupil),
+                probation_officer (object with exact keys:
+                    prof_title (professional's title e.g. Dr, Mr, Mrs),
+                    prof_first_name (professional's first name),
+                    prof_last_name (professional's last name),
+                    prof_role (professional's role),
+                    prof_agency (professional's agency/organisation),
+                    prof_phone (professional's phone),
+                    prof_email (professional's email)
+                )
             ),
             family_members (array of objects with exact keys: 
                 first_name (family member's first name), 
@@ -85,6 +103,15 @@ class PupilController extends Controller
             diagnoses (array of objects with exact keys: 
                 name (the diagnosis name),
                 date (date diagnosed, format YYYY-MM-DD), 
+                professional (object with exact keys:
+                    prof_title (professional's title e.g. Dr, Mr, Mrs),
+                    prof_first_name (professional's first name),
+                    prof_last_name (professional's last name),
+                    prof_role (professional's role),
+                    prof_agency (professional's agency/organisation),
+                    prof_phone (professional's phone),
+                    prof_email (professional's email)
+                ),
                 description (description of the diagnosis), 
                 recommendations (recommended actions)
             ),
@@ -105,6 +132,15 @@ class PupilController extends Controller
                 title (record title),
                 date (record date, format YYYY-MM-DD),
                 reference_number (record reference number),
+                professional (object with exact keys:
+                    prof_title (professional's title e.g. Dr, Mr, Mrs),
+                    prof_first_name (professional's first name),
+                    prof_last_name (professional's last name),
+                    prof_role (professional's role),
+                    prof_agency (professional's agency/organisation),
+                    prof_phone (professional's phone),
+                    prof_email (professional's email)
+                ),
                 description (record description),
                 outcome (outcome or next steps)
             ).

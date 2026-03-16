@@ -309,6 +309,46 @@
     <script src="{{ asset('js/onboarding.js') }}"></script>
     <script>
         setupFileExtraction('{{ route("pupils.extract-file") }}', '{{ csrf_token() }}', function(d) {
+            function getProfessionalPayload(item) {
+                if (!item || typeof item !== 'object') {
+                    return null;
+                }
+                if (item.prof_first_name || item.prof_last_name || item.prof_role || item.prof_agency || item.prof_phone || item.prof_email || item.prof_title) {
+                    return item;
+                }
+                if (item.professional && typeof item.professional === 'object') {
+                    return item.professional;
+                }
+                return null;
+            }
+
+            function fillInlineProfessional(prefix, professional) {
+                const payload = getProfessionalPayload(professional);
+                if (!payload) {
+                    return;
+                }
+
+                const firstName = payload.prof_first_name || '';
+                const lastName = payload.prof_last_name || '';
+
+                const toggleButton = $(`[name="${prefix}[professional_id]"]`).closest('.onboarding_inner_form').find('.toggle_professional_btn').first();
+
+                if (toggleButton.length && !$(`[name="${prefix}[is_new_professional]"]`).length) {
+                    toggleButton.trigger('click');
+                } else if (toggleButton.length && $(`[name="${prefix}[is_new_professional]"]`).val() !== '1') {
+                    toggleButton.trigger('click');
+                }
+
+                $(`[name="${prefix}[prof_title]"]`).val(payload.prof_title || '');
+                $(`[name="${prefix}[prof_first_name]"]`).val(firstName);
+                $(`[name="${prefix}[prof_last_name]"]`).val(lastName);
+                $(`[name="${prefix}[prof_role]"]`).val(payload.prof_role || '');
+                $(`[name="${prefix}[prof_agency]"]`).val(payload.prof_agency || '');
+                $(`[name="${prefix}[prof_phone]"]`).val(payload.prof_phone || '');
+                $(`[name="${prefix}[prof_email]"]`).val(payload.prof_email || '');
+                $(`[name="${prefix}[is_new_professional]"]`).val('1');
+            }
+
             // core
             if (d.pupil_number) $('input[name="pupil_number"]').val(d.pupil_number);
             if (d.first_name) $('input[name="first_name"]').val(d.first_name);
@@ -412,6 +452,7 @@
                     let idx = diagnosisIdx - 1;
                     if (item.name) $(`input[name="diagnoses[${idx}][name]"]`).val(item.name);
                     if (item.date) $(`input[name="diagnoses[${idx}][date]"]`).val(item.date);
+                    fillInlineProfessional(`diagnoses[${idx}]`, item);
                     if (item.description) $(`textarea[name="diagnoses[${idx}][description]"]`).val(item.description);
                     if (item.recommendations) $(`textarea[name="diagnoses[${idx}][recommendations]"]`).val(item.recommendations);
                 });
@@ -445,6 +486,7 @@
                     if (item.title) $(`input[name="records[${idx}][title]"]`).val(item.title);
                     if (item.date) $(`input[name="records[${idx}][date]"]`).val(item.date);
                     if (item.reference_number) $(`input[name="records[${idx}][reference_number]"]`).val(item.reference_number);
+                    fillInlineProfessional(`records[${idx}]`, item);
                     if (item.description) $(`textarea[name="records[${idx}][description]"]`).val(item.description);
                     if (item.outcome) $(`input[name="records[${idx}][outcome]"]`).val(item.outcome);
                     if (item.record_type) {
@@ -465,6 +507,8 @@
 
                 checkAndToggle('social_services_involvement', d.safeguarding_and_probation.social_services_involvement);
                 checkAndToggle('probation_officer_required', d.safeguarding_and_probation.probation_officer_required);
+                fillInlineProfessional('social_worker', d.safeguarding_and_probation.social_worker || d.social_worker);
+                fillInlineProfessional('probation_officer', d.safeguarding_and_probation.probation_officer || d.probation_officer);
             }
         });
     </script>
