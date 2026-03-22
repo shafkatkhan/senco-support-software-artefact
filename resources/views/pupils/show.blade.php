@@ -250,6 +250,54 @@
                     </div>
                     @endif
                 </div>
+                <div class="settings_section">
+                    <div class="title">
+                        <i class="fas fa-envelope"></i>{{ __('Administrative Information') }}
+                    </div>
+                    <div class="description">
+                        {{ __('Administrative information for the pupil.') }}
+                    </div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="far fa-calendar-alt"></i>
+                            Joined Date:
+                        </div>
+                        <div class="value">
+                            {{ $pupil->joined_date?->format('d/m/Y') }}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="fa-solid fa-user-group"></i>
+                            Initial Tutor Group:
+                        </div>
+                        <div class="value">
+                            {!! $pupil->initial_tutor_group ?? '<span class="text-muted">N/A</span>' !!}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="far fa-user-circle"></i>
+                            Onboarded by:
+                        </div>
+                        <div class="value">
+                            {{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="far fa-clock"></i>
+                            Last Edited:
+                        </div>
+                        <div class="value">
+                            {{ $pupil->updated_at->format('d/m/Y') }},                             
+                            {{ $pupil->updated_at->format('H:i') }}
+                        </div>
+                    </div>  
+                </div>
             </div>
             <div class="col-md-7 d-flex flex-column dashboard_section">
                 <div class="settings_section" style="display: flex; align-items: center; justify-content: space-between;">
@@ -381,64 +429,60 @@
                         </div>
                     </div>
                 </div>
-                <div class="settings_section">
-                    <div class="title">
-                        <i class="fas fa-envelope"></i>{{ __('Administrative Information') }}
-                    </div>
-                    <div class="description">
-                        {{ __('Administrative information for the pupil.') }}
-                    </div>
-                    <div class="item">
-                        <div class="label">
-                            <i class="far fa-calendar-alt"></i>
-                            Joined Date:
+                <div class="settings_section" style="display: block;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div class="title">
+                                <i class="fas fa-notes-medical"></i>{{ __('Treatment Plan') }}
+                            </div>
+                            <div class="description">
+                                {{ __('The pupil\'s treatment plan, together with any follow-up updates.') }}
+                            </div>
                         </div>
-                        <div class="value">
-                            {{ $pupil->joined_date?->format('d/m/Y') }}
-                        </div>
-                    </div>
-                    <div class="dashboard_item_divider"></div>
-                    <div class="item">
-                        <div class="label">
-                            <i class="fa-solid fa-user-group"></i>
-                            Initial Tutor Group:
-                        </div>
-                        <div class="value">
-                            {!! $pupil->initial_tutor_group ?? '<span class="text-muted">N/A</span>' !!}
-                        </div>
-                    </div>
-                    <div class="dashboard_item_divider"></div>
-                    <div class="item">
-                        <div class="label">
-                            <i class="far fa-user-circle"></i>
-                            Onboarded by:
-                        </div>
-                        <div class="value">
-                            {{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}
-                        </div>
-                    </div>
-                    <div class="dashboard_item_divider"></div>
-                    <div class="item">
-                        <div class="label">
-                            <i class="far fa-clock"></i>
-                            Last Edited:
-                        </div>
-                        <div class="value">
-                            {{ $pupil->updated_at->format('d/m/Y') }},                             
-                            {{ $pupil->updated_at->format('H:i') }}
-                        </div>
-                    </div>  
-                </div>
-                <div class="settings_section">
-                    <div class="title">
-                        <i class="fas fa-envelope"></i>{{ __('Treatment Plan') }}
-                    </div>
-                    <div class="description">
-                        {{ __('Treatment plan for the pupil, including updates.') }}
+                        @can('edit-pupils')
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addTreatmentPlanUpdateModal">
+                            <i class="fas fa-plus"></i> {{ __('Add Update') }}
+                        </button>
+                        @endcan
                     </div>
                     <div class="big_text">
-                        {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : '<span class="text-muted">N/A</span>' !!}
+                        {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : '<span class="text-muted">No primary treatment plan specified.</span>' !!}
                     </div>
+                    @if($pupil->treatmentPlanUpdates->isNotEmpty())
+                        <div class="dashboard_item_divider" style="margin: 15px 0px;"></div>
+                        <div class="title_label">
+                            {{ __('Updates:') }}
+                        </div>                        
+                        <div class="treatment_plan_updates">
+                            @foreach($pupil->treatmentPlanUpdates as $update)
+                                @if($loop->iteration == 4)
+                                    <div id="hidden_treatment_plan_updates">
+                                        <div class="fade"></div>
+                                @endif
+                                
+                                <div class="treatment_plan_update {{ $loop->iteration > 3 ? 'hidden_update' : '' }}">
+                                    <div class="meta">
+                                        <div><i class="far fa-calendar-alt"></i> {{ $update->date->format('d/m/Y') }}</div>
+                                        <div><i class="far fa-user"></i> {{ $update->user->first_name . ' ' . $update->user->last_name }}</div>
+                                    </div>
+                                    <div class="content">
+                                        {!! nl2br(e($update->description)) !!}
+                                    </div>
+                                </div>
+                                
+                                @if($loop->last && $pupil->treatmentPlanUpdates->count() > 3)
+                                    </div>
+                                @endif
+                            @endforeach
+                            @if($pupil->treatmentPlanUpdates->count() > 3)
+                                <input type="hidden" id="treatment_plan_updates_count" value="{{ $pupil->treatmentPlanUpdates->count() }}">
+                                <button type="button" class="btn btn-link p-0 mt-2" id="toggle_treatment_plan_updates_btn" style="text-decoration: none; font-size: 14px; font-weight: 500;">
+                                    {{ __('See all :count updates', ['count' => $pupil->treatmentPlanUpdates->count()]) }} 
+                                    <i class="fas fa-chevron-down ms-1"></i>
+                                </button>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>            
 		</div>
@@ -450,5 +494,32 @@
 
     @can('edit-pupils')
     @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+
+    <div class="modal fade" id="addTreatmentPlanUpdateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="{{ route('pupils.treatment_plan_updates.store', $pupil->id) }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">{{ __('Add Treatment Plan Update') }}</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label>{{ __('Date') }}</label>
+                            <input type="date" class="form-control" id="update_date" name="date" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>{{ __('Update Content') }}</label>
+                            <textarea class="form-control" id="update_description" name="description" rows="5" placeholder="{{ __('Add follow up details...') }}" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">{{ __('Add Update') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @endcan
 @endsection

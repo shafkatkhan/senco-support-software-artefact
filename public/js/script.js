@@ -247,3 +247,30 @@ $(document).on('change', 'input[name="llm_attachment"], input[name="additional_a
         $('.attachment_consent_checkbox').prop('checked', false);
     }
 });
+
+$(document).on('click', '#toggle_treatment_plan_updates_btn', function() {
+    const $container = $('#hidden_treatment_plan_updates');
+    const $fade = $('#hidden_treatment_plan_updates .fade');
+    const $btn = $(this);
+    const $hiddenUpdates = $('.hidden_update');
+
+    if ($container.css('max-height') == '65px') {
+        $container.css('max-height', $container[0].scrollHeight + 'px');
+        $fade.css('opacity', '0');
+        $hiddenUpdates.css('opacity', '1');
+        $btn.html('Show fewer updates <i class="fas fa-chevron-up ms-1"></i>');
+
+        setTimeout(function () {
+            if ($container.css('max-height') != '65px') {
+                $container.css('max-height', 'none');
+            }
+        }, 300);
+    } else {
+        $container.css('max-height', $container[0].scrollHeight + 'px');
+        $container[0].offsetWidth;
+        $container.css('max-height', '65px');
+        $fade.css('opacity', '1');
+        $hiddenUpdates.css('opacity', '0.4');
+        $btn.html('See all ' + $('#treatment_plan_updates_count').val() + ' updates <i class="fas fa-chevron-down ms-1"></i>');
+    }
+});

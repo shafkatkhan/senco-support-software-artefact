@@ -435,7 +435,7 @@ class PupilController extends Controller
     {
         Gate::authorize('view-pupils');
 
-        $pupil->load('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional');
+        $pupil->load('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses.professional', 'records.professional', 'records.recordType', 'socialServicesProfessional', 'probationOfficerProfessional', 'treatmentPlanUpdates.user');
         
         $involvements = $pupil->involvements;
 
@@ -650,6 +650,27 @@ class PupilController extends Controller
         $pupil->update($data);
 
         return redirect()->route('pupils.show', $pupil->id)->with('success', 'Pupil Updated Successfully!');
+    }
+
+    /**
+     * Store a new treatment plan update for the pupil.
+     */
+    public function updateTreatmentPlan(Request $request, Pupil $pupil)
+    {
+        Gate::authorize('edit-pupils');
+
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'description' => 'required|string',
+        ]);
+
+        $pupil->treatmentPlanUpdates()->create([
+            'user_id' => auth()->id(),
+            'date' => $validated['date'],
+            'description' => $validated['description'],
+        ]);
+
+        return back()->with('success', 'Treatment plan update added successfully!');
     }
 
     /**

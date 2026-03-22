@@ -147,4 +147,9 @@ class Pupil extends Model
 
         return collect(array_values($grouped));
     }
+
+    public function treatmentPlanUpdates()
+    {
+        return $this->hasMany(TreatmentPlanUpdate::class)->orderBy('date', 'desc')->orderBy('id', 'desc');
+    }
 }

@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pupils', PupilController::class)->except(['edit', 'show']);
     Route::get('/pupils/{pupil}/export', [PupilController::class, 'export'])->name('pupils.export')->middleware('can:export-pupil-data');
     Route::post('/pupils/extract-file', [PupilController::class, 'extractFromFile'])->name('pupils.extract-file');
+    Route::post('/pupils/{pupil}/treatment-plan-updates', [PupilController::class, 'updateTreatmentPlan'])->name('pupils.treatment_plan_updates.store');
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
