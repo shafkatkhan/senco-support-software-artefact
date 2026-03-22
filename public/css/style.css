@@ -1264,3 +1264,46 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	margin-bottom: 25px;
 }
 /**/
+.sen_large_checkbox {
+	position: relative;
+	display: inline-block;
+	width: 26px;
+	height: 26px;
+	vertical-align: middle;
+}
+.sen_large_checkbox input {
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+}
+.checkbox_indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #fff;
+	border: 2px solid #bbb;
+	border-radius: 2px;
+	transition: background 0.2s ease, border-color 0.2s ease;
+	cursor: pointer;
+}
+.sen_large_checkbox input:checked ~ .checkbox_indicator {
+	background: #4179a9;
+	border-color: #2f608b;
+}
+.checkbox_indicator:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+.sen_large_checkbox input:checked ~ .checkbox_indicator:after {
+	display: block;
+	left: 7px;
+	top: 2px;
+	width: 7px;
+	height: 14px;
+	border: solid #fff;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg);
+}
