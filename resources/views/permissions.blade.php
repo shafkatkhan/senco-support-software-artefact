@@ -25,7 +25,7 @@
                                     @php
                                         $hasPermission = $userGroup->permissions->contains($permission->id);
                                     @endphp
-                                    <td class="text-center align-middle">
+                                    <td class="text-center align-middle" data-order="{{ $hasPermission ? 1 : 0 }}">
                                         <label class="sen_large_checkbox">
                                             <input type="checkbox" name="permissions[{{ $userGroup->id }}][]" value="{{ $permission->id }}" {{ $hasPermission ? 'checked' : '' }} />
                                             <div class="checkbox_indicator"></div>
