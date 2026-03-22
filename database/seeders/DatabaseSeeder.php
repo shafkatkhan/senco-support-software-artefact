@@ -22,6 +22,7 @@ use App\Models\Proficiency;
 use App\Models\Diet;
 use App\Models\Permission;
 use App\Models\SchoolHistory;
+use App\Models\TreatmentPlanUpdate;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -270,6 +271,19 @@ class DatabaseSeeder extends Seeder
             $schoolHistoryCount = rand(0, 3);
             if ($schoolHistoryCount > 0) {
                 SchoolHistory::factory($schoolHistoryCount)->create(['pupil_id' => $pupil->id]);
+            }
+
+            // add treatment plan updates
+            if ($pupil->treatment_plan) {
+                $updateCount = rand(0, 6);
+                for ($i = 0; $i < $updateCount; $i++) {
+                    TreatmentPlanUpdate::create([
+                        'pupil_id' => $pupil->id,
+                        'user_id' => User::inRandomOrder()->first()->id,
+                        'date' => fake()->dateTimeBetween($pupil->joined_date, 'now')->format('Y-m-d'),
+                        'description' => fake()->paragraph(),
+                    ]);
+                }
             }
         });
 

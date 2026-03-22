@@ -40,6 +40,7 @@ class PupilFactory extends Factory
             'attended_special_school' => $attendedSpecialSchool = fake()->boolean(20),
             'special_school_details' => $attendedSpecialSchool ? fake()->sentence() : null,
             'parental_description' => fake()->boolean(70) ? fake()->paragraph() : null,
+            'treatment_plan' => fake()->boolean(70) ? fake()->paragraph() : null,
             'social_services_involvement' => fake()->boolean(15),
             'probation_officer_required' => fake()->boolean(15),
         ];
