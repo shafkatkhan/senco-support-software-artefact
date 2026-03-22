@@ -39,6 +39,7 @@ class Pupil extends Model
         'onboarded_by',
         'social_services_professional_id',
         'probation_officer_professional_id',
+        'treatment_plan',
     ];
 
     protected $casts = [

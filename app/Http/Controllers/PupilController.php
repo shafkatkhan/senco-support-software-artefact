@@ -45,6 +45,7 @@ class PupilController extends Controller
             country (pupil's country),
             sen_and_background (object with exact keys: 
                 parental_description (description of student by parents),
+                treatment_plan (treatment plan for the pupil),
                 has_special_needs (boolean, true if pupil has special needs), 
                 special_needs_details (details of the special needs), 
                 attended_special_school (boolean, true if pupil has attended a special school), 
@@ -206,6 +207,7 @@ class PupilController extends Controller
             'drug_abuse_history' => 'boolean',
             
             'parental_description' => 'nullable|string',
+            'treatment_plan' => 'nullable|string',
 
             'social_services_involvement' => 'boolean',
             'social_worker' => 'nullable|array',
@@ -330,7 +332,7 @@ class PupilController extends Controller
 
             // create pupil
             $pupilData = collect($validated)->only([
-                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description'
+                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description', 'treatment_plan'
             ])->toArray();            
             $pupilData['smoking_history'] = $request->has('smoking_history');
             $pupilData['drug_abuse_history'] = $request->has('drug_abuse_history');
@@ -598,6 +600,7 @@ class PupilController extends Controller
                 Rule::exists('family_members', 'id')->where('pupil_id', $pupil->id)
             ],
             'parental_description' => 'nullable|string',
+            'treatment_plan' => 'nullable|string',
 
             'has_special_needs' => 'boolean',
             'special_needs_details' => 'nullable|string',
@@ -630,6 +633,7 @@ class PupilController extends Controller
             'postcode',
             'country',
             'parental_description',
+            'treatment_plan',
         ])->toArray();
 
         $data['smoking_history'] = $request->boolean('smoking_history');

@@ -322,7 +322,7 @@
                     <div class="description">
                         {{ __('Description of the pupil provided by their parents or legal guardians.') }}
                     </div>
-                    <div class="parental_description">
+                    <div class="big_text">
                         {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : '<span class="text-muted">N/A</span>' !!}
                     </div>
                 </div>
@@ -428,6 +428,17 @@
                             {{ $pupil->updated_at->format('H:i') }}
                         </div>
                     </div>  
+                </div>
+                <div class="settings_section">
+                    <div class="title">
+                        <i class="fas fa-envelope"></i>{{ __('Treatment Plan') }}
+                    </div>
+                    <div class="description">
+                        {{ __('Treatment plan for the pupil, including updates.') }}
+                    </div>
+                    <div class="big_text">
+                        {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : '<span class="text-muted">N/A</span>' !!}
+                    </div>
                 </div>
             </div>            
 		</div>

@@ -143,6 +143,10 @@
                                 <label class="form-check-label" for="drug_abuse_history">Does the pupil have a drug abuse history?</label>
                             </div>
                         </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Treatment Plan</label>
+                            <textarea name="treatment_plan" class="form-control" rows="4">{{ old('treatment_plan', $pupil->treatment_plan) }}</textarea>
+                        </div>
                     </div>
                     <hr>
                     <div class="title" style="margin-bottom: 25px;">

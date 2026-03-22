@@ -173,6 +173,10 @@
                                                     <label class="form-check-label" for="drug_abuse_history">Does the pupil have a drug abuse history?</label>
                                                 </div>
                                             </div>
+                                            <div class="col-12 mb-3">
+                                                <label class="form-label">Treatment Plan</label>
+                                                <textarea name="treatment_plan" class="form-control" rows="4"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -432,6 +436,7 @@
                 $('#collapseBackground').collapse('show');
 
                 if (d.sen_and_background.parental_description) $('textarea[name="parental_description"]').val(d.sen_and_background.parental_description);
+                if (d.sen_and_background.treatment_plan) $('textarea[name="treatment_plan"]').val(d.sen_and_background.treatment_plan);
 
                 checkAndToggle('has_special_needs', d.sen_and_background.has_special_needs);
                 if (d.sen_and_background.special_needs_details) $('textarea[name="special_needs_details"]').val(d.sen_and_background.special_needs_details);

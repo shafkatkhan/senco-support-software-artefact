@@ -842,7 +842,7 @@ div.dt-container .dt-paging .dt-paging-button.last {
 }
 .dashboard .settings_section .title,
 .dashboard .settings_section .description,
-.dashboard .settings_section .parental_description {
+.dashboard .settings_section .big_text {
 	grid-column: span 2;
 }
 .dashboard .settings_section .title i{
@@ -875,7 +875,7 @@ div.dt-container .dt-paging .dt-paging-button.last {
 .dashboard .item .label_cards div{
 	padding: 5px 12px;
 }
-.dashboard .parental_description{
+.dashboard .big_text{
 	padding-top: 15px;
 	border-top: 1px solid #f3f3f3;
 }

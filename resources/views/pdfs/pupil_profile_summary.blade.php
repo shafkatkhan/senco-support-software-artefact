@@ -236,6 +236,13 @@
     </div>
 
     <div class="section">
+        <div class="section_title">Treatment Plan</div>
+        <div style="padding: 0 12px;">
+            {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : 'N/A' !!}
+        </div>
+    </div>
+
+    <div class="section">
         <div class="section_title">Administrative Information</div>
         <table class="inline">
             <tr>
