@@ -28,7 +28,7 @@ class PupilFactory extends Factory
             'postcode' => fake()->postcode(),
             'country' => 'United Kingdom',
             'joined_date' => fake()->dateTimeBetween('-6 years', 'now')->format('Y-m-d'),
-            'initial_tutor_group' => fake()->bothify('#?'),
+            'auto_progression' => true,
             'onboarded_by' => User::inRandomOrder()->first()->id ?? User::factory(),
             'smoking_history' => fake()->boolean(10),
             'drug_abuse_history' => fake()->boolean(5),

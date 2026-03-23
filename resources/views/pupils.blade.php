@@ -67,9 +67,9 @@
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Initial Tutor Group:</div>
+                                <div class="label">Tutor Group:</div>
                                 <div class="value">
-                                    {{ $pupil->initial_tutor_group ?? 'N/A' }}
+                                    {{ $pupil->current_tutor_group ?? 'N/A' }}
                                 </div>
                             </div>
                             <hr>

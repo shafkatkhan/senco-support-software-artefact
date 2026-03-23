@@ -15,11 +15,14 @@ use App\Models\Diagnosis;
 use App\Models\Medication;
 use App\Models\Record;
 use App\Models\Event;
+use App\Models\Setting;
+use App\Models\PupilProgression;
 use App\Services\LlmService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class PupilController extends Controller
 {
@@ -34,7 +37,8 @@ class PupilController extends Controller
             dob (pupil's date of birth, format YYYY-MM-DD),
             gender (pupil's gender, Male, Female, Other),
             joined_date (date pupil joined the school, format YYYY-MM-DD),
-            initial_tutor_group (pupil's initial tutor group),
+            year_group (pupil's year group, e.g. 7, 8, 9, 10, 11),
+            tutor_group (pupil's tutor group / form class),
             phone (pupil's phone number),
             email (pupil's email address),
             after_school_job (pupil's after school job),
@@ -197,7 +201,8 @@ class PupilController extends Controller
             'email' => 'nullable|email|max:255',
             'after_school_job' => 'nullable|string|max:255',
             'joined_date' => 'nullable|date',
-            'initial_tutor_group' => 'nullable|string|max:255',
+            'year_group' => 'required|integer',
+            'tutor_group' => 'nullable|string|max:255',
 
             'has_special_needs' => 'boolean',
             'special_needs_details' => 'nullable|string',
@@ -332,7 +337,7 @@ class PupilController extends Controller
 
             // create pupil
             $pupilData = collect($validated)->only([
-                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'initial_tutor_group', 'special_needs_details', 'special_school_details', 'parental_description', 'treatment_plan'
+                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'special_needs_details', 'special_school_details', 'parental_description', 'treatment_plan'
             ])->toArray();            
             $pupilData['smoking_history'] = $request->has('smoking_history');
             $pupilData['drug_abuse_history'] = $request->has('drug_abuse_history');
@@ -341,7 +346,22 @@ class PupilController extends Controller
             $pupilData['social_services_involvement'] = $request->has('social_services_involvement');
             $pupilData['probation_officer_required'] = $request->has('probation_officer_required');
             $pupilData['onboarded_by'] = auth()->id();
+            
+            // set to auto progression if progression is configured
+            $progression_configured = Setting::get('progression_update_date') && Setting::exists('progression_min_year_group') && Setting::exists('progression_max_year_group');
+            $pupilData['auto_progression'] = $progression_configured;
+            
             $pupil = Pupil::create($pupilData);
+
+            $currentYearInt = (int)date('Y');
+            $academicYear = $currentYearInt . '/' . ($currentYearInt + 1);
+            PupilProgression::create([
+                'pupil_id' => $pupil->id,
+                'academic_year' => $academicYear,
+                'year_group' => $validated['year_group'],
+                'tutor_group' => $validated['tutor_group'] ?? null,
+                'type' => 'initial'
+            ]);
 
             // create family members
             $primaryFamilyMemberId = null;
@@ -441,6 +461,23 @@ class PupilController extends Controller
 
         $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
         return view('pupils.show', compact('pupil', 'title', 'involvements'));
+    }
+
+    public function progressions(Pupil $pupil)
+    {
+        Gate::authorize('view-pupils');
+
+        $pupil->load('progressions');
+
+        $progression_update_date = '';
+        $progression_update_date_setting = Setting::get('progression_update_date');
+        if($progression_update_date_setting){
+            $progression_update_date = Carbon::createFromFormat('m-d', $progression_update_date_setting)->format('jS F');
+        }
+        $progression_configured = $progression_update_date_setting && Setting::exists('progression_min_year_group') && Setting::exists('progression_max_year_group');
+
+        $title = $pupil->first_name . " " . $pupil->last_name . "'s Progressions";
+        return view('pupils.progressions', compact('pupil', 'title', 'progression_update_date', 'progression_configured'));
     }
 
     public function medications(Pupil $pupil)
@@ -594,7 +631,6 @@ class PupilController extends Controller
             'email' => 'nullable|email|max:255',
             'after_school_job' => 'nullable|string|max:255',
             'joined_date' => 'nullable|date',
-            'initial_tutor_group' => 'nullable|string|max:255',
             'primary_family_member_id' => [
                 'nullable',
                 Rule::exists('family_members', 'id')->where('pupil_id', $pupil->id)
@@ -622,7 +658,6 @@ class PupilController extends Controller
             'dob',
             'gender',
             'joined_date',
-            'initial_tutor_group',
             'phone',
             'email',
             'after_school_job',

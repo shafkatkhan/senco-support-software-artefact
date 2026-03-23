@@ -51,6 +51,9 @@
                 @can('view-download-backups')
                     <li class="sub_nav_item"><a href="{{ route('backups.index') }}" class="{{ request()->routeIs('backups.*') ? 'activenav' : '' }}">{{ __('System Backups') }}</a></li>
                 @endcan
+                @can('manage-school-progression-settings')
+                    <li class="sub_nav_item"><a href="{{ route('progression-settings.index') }}" class="{{ request()->routeIs('progression-settings.*') ? 'activenav' : '' }}">{{ __('Progression Settings') }}</a></li>
+                @endcan
             </div>
         </div>
     </ul>

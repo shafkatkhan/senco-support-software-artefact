@@ -23,7 +23,7 @@ class Pupil extends Model
         'postcode',
         'country',
         'joined_date',
-        'initial_tutor_group',
+        'auto_progression',
         'smoking_history',
         'drug_abuse_history',
         'phone',
@@ -51,6 +51,7 @@ class Pupil extends Model
         'attended_special_school' => 'boolean',
         'social_services_involvement' => 'boolean',
         'probation_officer_required' => 'boolean',
+        'auto_progression' => 'boolean',
     ];
     public function medications()
     {
@@ -151,5 +152,25 @@ class Pupil extends Model
     public function treatmentPlanUpdates()
     {
         return $this->hasMany(TreatmentPlanUpdate::class)->orderBy('date', 'desc')->orderBy('id', 'desc');
+    }
+
+    public function progressions()
+    {
+        return $this->hasMany(PupilProgression::class);
+    }
+
+    public function getInitialTutorGroupAttribute()
+    {
+        return $this->progressions()->first()->tutor_group ?? 'N/A';
+    }
+
+    public function getCurrentTutorGroupAttribute()
+    {
+        return $this->progressions()->latest('id')->first()->tutor_group ?? 'N/A';
+    }
+
+    public function getCurrentYearGroupAttribute()
+    {
+        return $this->progressions()->latest('id')->first()->year_group ?? 'N/A';
     }
 }

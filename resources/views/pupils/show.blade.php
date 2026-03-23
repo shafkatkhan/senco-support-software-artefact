@@ -279,6 +279,26 @@
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
+                            <i class="fa-solid fa-people-group"></i>
+                            Current Year Group:
+                        </div>
+                        <div class="value">
+                            {!! $pupil->current_year_group ?? '<span class="text-muted">N/A</span>' !!}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
+                            <i class="fa-solid fa-user-group"></i>
+                            Current Tutor Group:
+                        </div>
+                        <div class="value">
+                            {!! $pupil->current_tutor_group ?? '<span class="text-muted">N/A</span>' !!}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
                             <i class="far fa-user-circle"></i>
                             Onboarded by:
                         </div>

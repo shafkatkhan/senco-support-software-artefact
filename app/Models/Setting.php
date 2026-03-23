@@ -29,4 +29,12 @@ class Setting extends Model
             ['value' => $value]
         );
     }
+
+    /**
+     * Check if a setting exists by key.
+     */
+    public static function exists(string $key): bool
+    {
+        return static::where('key', $key)->exists();
+    }
 }

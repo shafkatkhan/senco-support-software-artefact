@@ -23,8 +23,11 @@ use App\Models\Diet;
 use App\Models\Permission;
 use App\Models\SchoolHistory;
 use App\Models\TreatmentPlanUpdate;
+use App\Models\PupilProgression;
+use App\Models\Setting;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -59,6 +62,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Edit Pupils', 'slug' => 'edit-pupils', 'description' => 'Can edit existing pupils.'],
             ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],
             ['name' => 'Export Pupil Data', 'slug' => 'export-pupil-data', 'description' => 'Can export an individual pupil\'s data.'],
+
+            // Attachment Management
+            ['name' => 'Manage Attachments', 'slug' => 'manage-attachments', 'description' => 'Can view, edit and delete attachments in dedicated attachments page.'],
+
+            // Pupil Progression Management
+            ['name' => 'Manage Pupil Progressions', 'slug' => 'manage-pupil-progressions', 'description' => 'Can view, edit and delete pupil progressions, and toggle auto/manual progression.'],
 
             // Medication Management
             ['name' => 'View Medications', 'slug' => 'view-medications', 'description' => 'Can view a pupil\'s list of medications and their details.'],
@@ -150,9 +159,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Edit Professionals', 'slug' => 'edit-professionals', 'description' => 'Can edit existing professionals.'],
             ['name' => 'Delete Professionals', 'slug' => 'delete-professionals', 'description' => 'Can delete professionals.'],
 
-            // Attachment Management
-            ['name' => 'Manage Attachments', 'slug' => 'manage-attachments', 'description' => 'Can view, edit and delete attachments in dedicated attachments page.'],
-
             // User Group Management
             ['name' => 'View User Groups', 'slug' => 'view-user-groups', 'description' => 'Can view the list of user groups and their details.'],
             ['name' => 'Create User Groups', 'slug' => 'create-user-groups', 'description' => 'Can create new user groups.'],
@@ -169,6 +175,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Manage Email Settings', 'slug' => 'manage-email-settings', 'description' => 'Can view and modify email settings.'],
             ['name' => 'Manage MFA Settings', 'slug' => 'manage-mfa-settings', 'description' => 'Can view and modify MFA settings.'],
             ['name' => 'Manage Permissions', 'slug' => 'manage-permissions', 'description' => 'Can view and modify permissions.'],
+            ['name' => 'Manage School Progression Settings', 'slug' => 'manage-school-progression-settings', 'description' => 'Can view and modify school progression settings.'],
 
             // Backup Management
             ['name' => 'View & Download Backups', 'slug' => 'view-download-backups', 'description' => 'Can view and download backups.'],
@@ -201,6 +208,11 @@ class DatabaseSeeder extends Seeder
                 ->pluck('id')
                 ->all()
         );
+
+        // seed progression settings
+        Setting::set('progression_update_date', '09-01');
+        Setting::set('progression_min_year_group', '7');
+        Setting::set('progression_max_year_group', '11');
 
         // create admin user
         $adminUser = User::create([
@@ -284,6 +296,34 @@ class DatabaseSeeder extends Seeder
                         'description' => fake()->paragraph(),
                     ]);
                 }
+            }
+
+            // add progressions
+            $joinedYear = (int) Carbon::parse($pupil->joined_date)->format('Y');
+            $currentYear = (int) date('Y');
+            
+            $baseYearGroup = rand(7, 9);
+            $baseTutorGroup = fake()->bothify($baseYearGroup . '?');
+            
+            PupilProgression::create([
+                'pupil_id' => $pupil->id,
+                'academic_year' => $joinedYear . '/' . ($joinedYear + 1),
+                'year_group' => $baseYearGroup,
+                'tutor_group' => $baseTutorGroup,
+                'type' => 'initial'
+            ]);
+
+            $yearsPassed = $currentYear - $joinedYear;
+            
+            for ($i = 1; $i <= $yearsPassed; $i++) {
+                $progYear = $joinedYear + $i;
+                PupilProgression::create([
+                    'pupil_id' => $pupil->id,
+                    'academic_year' => $progYear . '/' . ($progYear + 1),
+                    'year_group' => $baseYearGroup + $i,
+                    'tutor_group' => fake()->bothify(($baseYearGroup + $i) . '?'),
+                    'type' => 'auto'
+                ]);
             }
         });
 

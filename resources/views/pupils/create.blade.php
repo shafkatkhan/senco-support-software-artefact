@@ -54,9 +54,13 @@
                                 <label class="form-label">Joined Date</label>
                                 <input type="date" name="joined_date" class="form-control" value="{{ old('joined_date', date('Y-m-d')) }}">
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Initial Tutor Group</label>
-                                <input type="text" name="initial_tutor_group" class="form-control" value="{{ old('initial_tutor_group') }}">
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label">Year Group <span class="text-danger">*</span></label>
+                                <input type="number" name="year_group" class="form-control" value="{{ old('year_group') }}" min="1" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label">Tutor Group</label>
+                                <input type="text" name="tutor_group" class="form-control" value="{{ old('tutor_group') }}">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Phone Number</label>
@@ -359,7 +363,8 @@
             if (d.last_name) $('input[name="last_name"]').val(d.last_name);
             if (d.dob) $('input[name="dob"]').val(d.dob);
             if (d.joined_date) $('input[name="joined_date"]').val(d.joined_date);
-            if (d.initial_tutor_group) $('input[name="initial_tutor_group"]').val(d.initial_tutor_group);
+            if (d.year_group) $('input[name="year_group"]').val(d.year_group);
+            if (d.tutor_group) $('input[name="tutor_group"]').val(d.tutor_group);
             if (d.phone) $('input[name="phone"]').val(d.phone);
             if (d.email) $('input[name="email"]').val(d.email);
             if (d.after_school_job) $('input[name="after_school_job"]').val(d.after_school_job);

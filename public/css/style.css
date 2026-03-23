@@ -1052,7 +1052,7 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #777;
 	line-height: 1.4;
 }
-.mfa_option.disabled_option{
+.mfa_option.disabled_option, .settings_wrap.disabled_option{
 	opacity: 0.5;
 	cursor: not-allowed;
 }
@@ -1355,4 +1355,22 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	border: solid #fff;
 	border-width: 0 3px 3px 0;
 	transform: rotate(45deg);
+}
+/**/
+.auto_progression_wrap{
+	width: 50%;
+	margin: 0;
+	position: relative;
+	margin-bottom: 30px;
+}
+.auto_progression_wrap form{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.auto_progression_wrap .badge{
+	font-size: 0.75rem;
+	position: absolute;
+	right: 30px;
+	top: 30px;
 }

@@ -28,6 +28,8 @@ use \App\Http\Controllers\EmailSettingController;
 use \App\Http\Controllers\PermissionController;
 use \App\Http\Controllers\SchoolHistoryController;
 use \App\Http\Controllers\AttachmentController;
+use \App\Http\Controllers\PupilProgressionController;
+use \App\Http\Controllers\ProgressionSettingController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -73,11 +75,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/diet', [PupilController::class, 'diets'])->name('pupils.diets');
     Route::get('/pupil-details/{pupil}/school-history', [PupilController::class, 'schoolHistories'])->name('pupils.school_histories');
     Route::get('/pupil-details/{pupil}/attachments', [PupilController::class, 'attachments'])->name('pupils.attachments')->middleware('can:manage-attachments');
+    Route::get('/pupil-details/{pupil}/progressions', [PupilController::class, 'progressions'])->name('pupils.progressions');
 
     Route::resource('pupils', PupilController::class)->except(['edit', 'show']);
     Route::get('/pupils/{pupil}/export', [PupilController::class, 'export'])->name('pupils.export')->middleware('can:export-pupil-data');
     Route::post('/pupils/extract-file', [PupilController::class, 'extractFromFile'])->name('pupils.extract-file');
     Route::post('/pupils/{pupil}/treatment-plan-updates', [PupilController::class, 'updateTreatmentPlan'])->name('pupils.treatment_plan_updates.store');
+    
+    Route::resource('pupil-progressions', PupilProgressionController::class)->only(['store', 'update', 'destroy'])->middleware('can:manage-pupil-progressions');
+    Route::put('/pupils/{pupil}/toggle-auto-progression', [PupilProgressionController::class, 'toggleAutoProgression'])->name('pupils.toggle-auto-progression')->middleware('can:manage-pupil-progressions');
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 
@@ -142,4 +148,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attachments/{attachment}', [AttachmentController::class, 'show'])->name('attachments.show');
     Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
+
+    Route::get('/progression-settings', [ProgressionSettingController::class, 'index'])->name('progression-settings.index')->middleware('can:manage-school-progression-settings');
+    Route::put('/progression-settings', [ProgressionSettingController::class, 'update'])->name('progression-settings.update')->middleware('can:manage-school-progression-settings');
 });

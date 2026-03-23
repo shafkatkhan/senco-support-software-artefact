@@ -2,7 +2,7 @@
     <div class="top_nav_header">
         <div style="display: flex; align-items: center; padding: 0px 15px;">
             <a href="#" id="toggleNavBtn"><i class="fas fa-bars"></i></a>
-            <div class="page_title">{{ __($title) ?? 'MySencoSupportSoftware' }}</div>
+            <div class="page_title">{{ isset($title) ? __($title) : 'MySencoSupportSoftware' }}</div>
         </div>
         <div class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -59,6 +59,11 @@
             @can('view-school-histories')
                 <li>
                     <a href="{{ route('pupils.school_histories', $pupil->id) }}" class="{{ request()->routeIs('pupils.school_histories') ? 'activenav' : '' }}">{{ __('School History') }}</a>
+                </li>
+            @endcan
+            @can('manage-pupil-progressions')
+                <li>
+                    <a href="{{ route('pupils.progressions', $pupil->id) }}" class="{{ request()->routeIs('pupils.progressions') ? 'activenav' : '' }}">{{ __('Progressions') }}</a>
                 </li>
             @endcan
             @can('manage-attachments')

@@ -54,10 +54,6 @@
                             <input type="date" name="joined_date" class="form-control" value="{{ old('joined_date', optional($pupil->joined_date)->format('Y-m-d')) }}">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">Initial Tutor Group</label>
-                            <input type="text" name="initial_tutor_group" class="form-control" value="{{ old('initial_tutor_group', $pupil->initial_tutor_group) }}">
-                        </div>
-                        <div class="col-md-4 mb-3">
                             <label class="form-label">Phone Number</label>
                             <input type="text" name="phone" class="form-control" value="{{ old('phone', $pupil->phone) }}">
                         </div>

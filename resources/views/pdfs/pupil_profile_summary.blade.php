@@ -254,6 +254,14 @@
                 <td>{{ $pupil->initial_tutor_group ?? 'N/A' }}</td>
             </tr>
             <tr>
+                <th>Current Year Group</th>
+                <td>{{ $pupil->current_year_group ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <th>Current Tutor Group</th>
+                <td>{{ $pupil->current_tutor_group ?? 'N/A' }}</td>
+            </tr>
+            <tr>
                 <th>Onboarded by</th>
                 <td>{{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}</td>
             </tr>
