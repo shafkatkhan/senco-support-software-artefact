@@ -210,7 +210,7 @@
                             <th scope="row">{{ $pupil->pupil_number }}</th>
                             <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
                             <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
-                            <td>{{ $pupil->gender }}</td>
+                            <td>{{ __($pupil->gender) }}</td>
                             <td>
                                 {{ $pupil->has_special_needs ? __('Yes') : '' }}
                             </td>

@@ -45,9 +45,9 @@
                                 <label class="form-label">{{ __('Gender') }} <span class="text-danger">*</span></label>
                                 <select name="gender" class="form-select" required>
                                     <option value="" selected disabled></option>
-                                    <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                                    <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                                    <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+                                    <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>{{ __('Male') }}</option>
+                                    <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>{{ __('Female') }}</option>
+                                    <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>{{ __('Other') }}</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
