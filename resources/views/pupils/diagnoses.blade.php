@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-diagnoses')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Diagnosis
+                    {{ __('Add New Diagnosis') }}
                 </button> 
                 @endcan
             </div>            
@@ -55,35 +55,35 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Date Diagnosed:</div>
+                                <div class="label">{{ __('Date Diagnosed') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ optional($diagnosis->date)->format('d/m/Y') ?? 'N/A' }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Carried Out By:</div>
+                                <div class="label">{{ __('Carried Out By') }}:</div>
                                 <div class="value">
                                     {{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Description:</div>
+                                <div class="label">{{ __('Description') }}:</div>
                                 <div class="value">
                                     {{ $diagnosis->description ?? 'N/A' }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Recommendations:</div>
+                                <div class="label">{{ __('Recommendations') }}:</div>
                                 <div class="value">
                                     {{ $diagnosis->recommendations ?? 'N/A' }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $diagnosis->updated_at->format('d/m/Y') }}
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No diagnoses found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No diagnoses found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -106,14 +106,14 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date Diagnosed</th>
-                        <th scope="col">Carried Out By</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Recommendations</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Date Diagnosed') }}</th>
+                        <th scope="col">{{ __('Carried Out By') }}</th>
+                        <th scope="col">{{ __('Description') }}</th>
+                        <th scope="col">{{ __('Recommendations') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-diagnoses', 'delete-diagnoses'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -123,7 +123,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diagnosis->name }}</td>
                             <td data-order="{{ optional($diagnosis->date)->format('Y-m-d') ?? '' }}">{{ optional($diagnosis->date)->format('d/m/Y') }}</td>
-                            <td>{{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : 'N/A' }}</td>
+                            <td>{{ $diagnosis->professional ? $diagnosis->professional->title . ' ' . $diagnosis->professional->first_name . ' ' . $diagnosis->professional->last_name : __('N/A') }}</td>
                             <td>{{ $diagnosis->description }}</td>
                             <td>{{ $diagnosis->recommendations }}</td>
                             <td>
@@ -160,7 +160,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-diagnoses', 'delete-diagnoses']) ? '8' : '7' }}" class="empty_table_message">No diagnoses found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-diagnoses', 'delete-diagnoses']) ? '8' : '7' }}" class="empty_table_message">{{ __('No diagnoses found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -173,7 +173,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Diagnosis</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Diagnosis') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('diagnoses.store') }}" method="post" enctype="multipart/form-data">
@@ -182,12 +182,12 @@
                     <div class="modal-body">
                         @include('components.file_extraction_box')
                         <div class="form-group mb-3">
-                            <label>Name*</label>
-                            <input type="text" class="form-control" name="name" required placeholder="Diagnosis Name">
+                            <label>{{ __('Name') }}*</label>
+                            <input type="text" class="form-control" name="name" required placeholder="{{ __('Diagnosis Name') }}">
                         </div>
                          <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date Diagnosed</label>
+                                <label>{{ __('Date Diagnosed') }}</label>
                                 <input type="date" class="form-control" name="date">
                             </div>
                             <div class="col-md-6 form-group mb-3">
@@ -195,19 +195,19 @@
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                             <textarea class="form-control" name="description" rows="3" placeholder="Description of the diagnosis..."></textarea>
+                            <label>{{ __('Description') }}</label>
+                             <textarea class="form-control" name="description" rows="3" placeholder="{{ __('Description of the diagnosis...') }}"></textarea>
                         </div>
                          <div class="form-group mb-3">
-                            <label>Recommendations</label>
-                            <textarea class="form-control" name="recommendations" rows="3" placeholder="Recommended actions..."></textarea>
+                            <label>{{ __('Recommendations') }}</label>
+                            <textarea class="form-control" name="recommendations" rows="3" placeholder="{{ __('Recommended actions...') }}"></textarea>
                         </div>
                         @include('components.attachments_input', [
                             'for_create' => true
                         ])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -220,7 +220,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Diagnosis</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Diagnosis') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -228,18 +228,18 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name*</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" required placeholder="Diagnosis Name">
+                            <label>{{ __('Name') }}*</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" required placeholder="{{ __('Diagnosis Name') }}">
                         </div>
                          <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date</label>
+                                <label>{{ __('Date Diagnosed') }}</label>
                                 <input type="date" class="form-control" name="date" id="edit_date">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Carried Out By (Professional)</label>
+                                <label>{{ __('Carried Out By (Professional)') }}</label>
                                 <select class="form-select" name="professional_id" id="edit_professional_id">
-                                    <option value="">None / Not Applicable</option>
+                                    <option value="">{{ __('None / Not Applicable') }}</option>
                                     @foreach($professionals as $prof)
                                         <option value="{{ $prof->id }}">{{ $prof->title }} {{ $prof->first_name }} {{ $prof->last_name }}{{ $prof->role ? ' (' . $prof->role . ')' : '' }}</option>
                                     @endforeach
@@ -247,17 +247,17 @@
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                             <textarea class="form-control" name="description" id="edit_description" rows="3" placeholder="Description of the diagnosis..."></textarea>
+                            <label>{{ __('Description') }}</label>
+                             <textarea class="form-control" name="description" id="edit_description" rows="3" placeholder="{{ __('Description of the diagnosis...') }}"></textarea>
                         </div>
                          <div class="form-group mb-3">
-                            <label>Recommendations</label>
-                            <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="Recommended actions..."></textarea>
+                            <label>{{ __('Recommendations') }}</label>
+                            <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="{{ __('Recommended actions...') }}"></textarea>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -266,11 +266,11 @@
     @endcan
 
     @can('delete-diagnoses')
-    @include('components.delete_modal', ['type' => 'Diagnosis'])
+    @include('components.delete_modal', ['type' => __('Diagnosis')])
     @endcan
 
     @can('edit-diagnoses')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 

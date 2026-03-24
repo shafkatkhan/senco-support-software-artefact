@@ -202,9 +202,15 @@ return [
         ],
 
         'Diagnoses' => [
+            'Add New Diagnosis',
             'Diagnosis Name',
-            'Date Diagnosised',
-            'Recommendations'
+            'Date Diagnosed',
+            'Recommendations',
+            'Carried Out By',
+            'No diagnoses found for :name.',
+            'Description of the diagnosis...',
+            'Recommended actions...',
+            'Diagnosis',
         ],
 
         'Medications' => [
