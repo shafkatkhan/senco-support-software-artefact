@@ -210,6 +210,7 @@ return [
             'No diagnoses found for :name.',
             'Description of the diagnosis...',
             'Recommended actions...',
+            'Edit Diagnosis',
             'Diagnosis',
         ],
 
@@ -232,6 +233,7 @@ return [
             'e.g. Twice Daily, As Needed',
             'e.g. Morning, Night, 1:30pm',
             'e.g. Oral, Injection',
+            'Edit Medication',
             'Medication',
         ],
 
@@ -247,6 +249,7 @@ return [
             'No records found for :name.',
             'Description of the record...',
             'Outcomes or future actions...',
+            'Edit Record',
         ],
 
         'Events' => [
@@ -255,6 +258,7 @@ return [
             'Event Title',
             'Description of the event...',
             'Outcomes or future actions...',
+            'Edit Event',
             'Event',
         ],
 
@@ -267,6 +271,7 @@ return [
             'List of attendees...',
             'Minutes or notes from the discussion...',
             'Agreed actions or recommendations...',
+            'Edit Meeting',
             'Meeting',
         ],
 
