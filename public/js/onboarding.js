@@ -35,7 +35,7 @@ function getInlineProfessionalForm(prefix, uid) {
         </div>
         <div id="existing_professional_box_${uid}">
             <select class="form-select" name="${prefix}[professional_id]">
-                <option value="">None / Not Applicable</option>
+                <option value="" selected disabled>None / Not Applicable</option>
                 ${window.professionalOptions}
             </select>
         </div>
@@ -313,7 +313,7 @@ function addRecordRow() {
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Record Type <span class="text-danger">*</span></label>
                     <select name="records[${recordIdx}][record_type_id]" class="form-select" required>
-                        <option value="">-- Select --</option>
+                        <option value="" selected disabled>-- Select --</option>
                         ${window.recordTypeOptions}
                     </select>
                 </div>
