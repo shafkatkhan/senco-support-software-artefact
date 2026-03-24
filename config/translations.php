@@ -178,8 +178,6 @@ return [
             'Professional',
             'None / Not Applicable',
             'Title',
-            'First Name',
-            'Last Name',
             'Role',
             'Agency',
             'Add New Professional',

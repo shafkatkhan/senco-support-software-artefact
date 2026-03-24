@@ -79,7 +79,7 @@ $('#toggle_professional_btn').click(function() {
         $('#new_professional_box').hide();
         $('#existing_professional_box').show();
         $('#is_new_professional').val('0');
-        $(this).text('+ Add New Professional');
+        $(this).text('+' + __('Add New Professional')).removeClass('text-danger');
         
         // remove required attributes
         $('input[name="prof_first_name"]').removeAttr('required');
@@ -90,7 +90,7 @@ $('#toggle_professional_btn').click(function() {
         $('#new_professional_box').show();
         $('#is_new_professional').val('1');
         $('#professional_id').val('');
-        $(this).text('Cancel New Professional');
+        $(this).text(__('Cancel')).addClass('text-danger');
         
         // add required attributes
         $('input[name="prof_first_name"]').attr('required', true);
