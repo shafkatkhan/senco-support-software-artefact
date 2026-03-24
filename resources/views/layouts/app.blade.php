@@ -48,6 +48,20 @@
 
 @yield('content')
 
+<script>
+    // get the current locale's JSON file contents, or an empty object if it doesn't exist
+    window.translations = @json(
+        file_exists(base_path('lang/' . app()->getLocale() . '.json')) 
+            ? json_decode(file_get_contents(base_path('lang/' . app()->getLocale() . '.json')), true) 
+            : []
+    );
+
+    // function to get the translation in same way as laravel
+    window.__ = function(key) {
+        return window.translations[key] || key;
+    };
+</script>
+
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
