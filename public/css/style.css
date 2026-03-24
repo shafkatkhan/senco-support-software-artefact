@@ -520,7 +520,7 @@ table{
 .sen_cards .sen_card .bottom .item .value.students div{
 	font-family: 'Cabin', sans-serif;
 }
-.sen_cards .sen_card .bottom .item .value span{
+.sen_cards .sen_card .bottom .item .value span:not(.text-muted){
 	font-family: 'Cabin', sans-serif;
 	font-weight: 600;
 }

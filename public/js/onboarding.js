@@ -326,7 +326,7 @@ function addRecordRow() {
                     <input type="date" name="records[${recordIdx}][date]" class="form-control">
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">${__('Reference #')}</label>
+                    <label class="form-label">${__('Reference No.')}</label>
                     <input type="text" name="records[${recordIdx}][reference_number]" class="form-control">
                 </div>
                 <div class="col-md-12 mb-3">

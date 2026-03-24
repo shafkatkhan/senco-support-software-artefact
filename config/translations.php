@@ -236,12 +236,17 @@ return [
         ],
 
         'Records' => [
+            'Add New Record',
+            'Record',
             'Record Type',
             'Record Title',
             'Date',
-            'Reference #',
+            'Reference No.',
             'Outcome / Next Steps',
             'Choose Type',
+            'No records found for :name.',
+            'Description of the record...',
+            'Outcomes or future actions...',
         ],
 
         'Attachments' => [
@@ -395,6 +400,7 @@ return [
             'Last Name',
             'Phone',
             'Email',
+            'Type',
             'Description',
             'Save',
             'Update',
