@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">
         <div class="section_title">
-            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
         <div class="row settings_wrap dashboard">
             <div class="col-md-5 d-flex flex-column dashboard_section">
@@ -17,7 +17,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-id-badge"></i>
-                            Pupil No.:
+                            {{ __('Pupil No.') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->pupil_number }}
@@ -27,7 +27,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="far fa-calendar-alt"></i>
-                            Date of Birth:
+                            {{ __('Date of Birth') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->dob->format('d/m/Y') }}
@@ -37,7 +37,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-regular fa-user"></i>
-                            Gender:
+                            {{ __('Gender') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->gender }}
@@ -47,20 +47,20 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-briefcase"></i>
-                            After School Job:
+                            {{ __('After School Job') }}:
                         </div>
                         <div class="value">
-                            {{ $pupil->after_school_job ?? 'N/A' }}
+                            {!! $pupil->after_school_job ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-house-chimney-user"></i>
-                            Next of Kin:
+                            {{ __('Next of Kin') }}:
                         </div>
                         <div class="value">
-                            {{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : 'N/A' }}
+                            {!! $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                 </div>
@@ -74,23 +74,23 @@
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-phone"></i>
-                            Phone:
+                            {{ __('Phone') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->phone ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->phone ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-envelope"></i>
-                            Email:
+                            {{ __('Email') }}:
                         </div>
                         <div class="value">
                             @if($pupil->email)
                                 <a href="mailto:{{ $pupil->email }}" class="nice_link">{{ $pupil->email }}</a>
                             @else
-                                <span class="text-muted">N/A</span>
+                                <span class="text-muted">{{ __('N/A') }}</span>
                             @endif
                         </div>
                     </div>
@@ -98,40 +98,40 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-map-location-dot"></i>
-                            Address:
+                            {{ __('Address') }}:
                         </div>
                         <div class="value">
-                            {!! collect([$pupil->address_line_1, $pupil->address_line_2])->filter()->implode(', <br>') ?: 'N/A' !!}
+                            {!! collect([$pupil->address_line_1, $pupil->address_line_2])->filter()->implode(', <br>') ?: '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-city"></i>
-                            Town/City:
+                            {{ __('Town/City') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->locality ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->locality ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-map-marker-alt"></i>
-                            Postcode:
+                            {{ __('Postcode') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->postcode ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->postcode ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-earth-europe"></i>
-                            Country:
+                            {{ __('Country') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->country ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->country ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                 </div>
@@ -145,33 +145,33 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-smoking"></i>
-                            Smoking History?
+                            {{ __('Smoking History?') }}
                         </div>
                         <div class="value">
-                            {{ $pupil->smoking_history ? 'Yes' : 'No' }}
+                            {{ $pupil->smoking_history ? __('Yes') : __('No') }}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-cannabis"></i>
-                            Drug Abuse History?
+                            {{ __('Drug Abuse History?') }}
                         </div>
                         <div class="value">
-                            {{ $pupil->drug_abuse_history ? 'Yes' : 'No' }}
+                            {{ $pupil->drug_abuse_history ? __('Yes') : __('No') }}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-wheelchair"></i>
-                            Special Needs:
+                            {{ __('Special Needs') }}:
                         </div>
                         <div class="value">
                             @if($pupil->has_special_needs)
-                                {!! $pupil->special_needs_details ? nl2br(e($pupil->special_needs_details)) : 'Yes' !!}
+                                {!! $pupil->special_needs_details ? nl2br(e($pupil->special_needs_details)) : __('Yes') !!}
                             @else
-                                N/A
+                                <span class="text-muted">{{ __('N/A') }}</span>
                             @endif
                         </div>
                     </div>
@@ -179,13 +179,13 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-school"></i>
-                            Attended Special Needs School in Past:
+                            {{ __('Attended Special Needs School in Past') }}:
                         </div>
                         <div class="value">
                             @if($pupil->attended_special_school)
-                                {!! $pupil->special_school_details ? nl2br(e($pupil->special_school_details)) : 'Yes' !!}
+                                {!! $pupil->special_school_details ? nl2br(e($pupil->special_school_details)) : __('Yes') !!}
                             @else
-                                N/A
+                                <span class="text-muted">{{ __('N/A') }}</span>
                             @endif
                         </div>
                     </div>
@@ -193,10 +193,10 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-users"></i>
-                            Social Services Involvement:
+                            {{ __('Social Services Involvement') }}:
                         </div>
                         <div class="value">
-                            {{ $pupil->social_services_involvement ? 'Yes' : 'No' }}
+                            {{ $pupil->social_services_involvement ? __('Yes') : __('No') }}
                         </div>
                     </div>
                     @if($pupil->social_services_involvement)
@@ -204,7 +204,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-user-group"></i>
-                            Social Worker:
+                            {{ __('Social Worker') }}:
                         </div>
                         <div class="value">
                             @if($pupil->socialServicesProfessional)
@@ -214,7 +214,7 @@
                                     $pupil->socialServicesProfessional->last_name,
                                 ])->filter()->implode(' ') }}
                             @else
-                                <span class="text-muted">N/A</span>
+                                <span class="text-muted">{{ __('N/A') }}</span>
                             @endif
                         </div>
                     </div>
@@ -223,10 +223,10 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-user-shield"></i>
-                            Visiting Probation Officer Required:
+                            {{ __('Visiting Probation Officer Required') }}:
                         </div>
                         <div class="value">
-                            {{ $pupil->probation_officer_required ? 'Yes' : 'No' }}
+                            {{ $pupil->probation_officer_required ? __('Yes') : __('No') }}
                         </div>
                     </div>
                     @if($pupil->probation_officer_required)
@@ -234,7 +234,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-user-tie"></i>
-                            Probation Officer:
+                            {{ __('Probation Officer') }}:
                         </div>
                         <div class="value">
                             @if($pupil->probationOfficerProfessional)
@@ -244,7 +244,7 @@
                                     $pupil->probationOfficerProfessional->last_name,
                                 ])->filter()->implode(' ') }}
                             @else
-                                <span class="text-muted">N/A</span>
+                                <span class="text-muted">{{ __('N/A') }}</span>
                             @endif
                         </div>
                     </div>
@@ -260,7 +260,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="far fa-calendar-alt"></i>
-                            Joined Date:
+                            {{ __('Joined Date') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->joined_date?->format('d/m/Y') }}
@@ -270,37 +270,37 @@
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-user-group"></i>
-                            Initial Tutor Group:
+                            {{ __('Initial Tutor Group') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->initial_tutor_group ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->initial_tutor_group ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-people-group"></i>
-                            Current Year Group:
+                            {{ __('Current Year Group') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->current_year_group ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->current_year_group ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="fa-solid fa-user-group"></i>
-                            Current Tutor Group:
+                            {{ __('Current Tutor Group') }}:
                         </div>
                         <div class="value">
-                            {!! $pupil->current_tutor_group ?? '<span class="text-muted">N/A</span>' !!}
+                            {!! $pupil->current_tutor_group ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                         </div>
                     </div>
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
                             <i class="far fa-user-circle"></i>
-                            Onboarded by:
+                            {{ __('Onboarded by') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}
@@ -310,7 +310,7 @@
                     <div class="item">
                         <div class="label">
                             <i class="far fa-clock"></i>
-                            Last Edited:
+                            {{ __('Last Edited') }}:
                         </div>
                         <div class="value">
                             {{ $pupil->updated_at->format('d/m/Y') }},                             
@@ -328,7 +328,7 @@
                         @can('export-pupil-data')
                         <a href="{{ route('pupils.export', $pupil->id) }}" class="sen_icon download_icon button_styled" style="width: auto; padding: 10px 15px;">
                             <i class="fa-solid fa-download" style="margin-right: 10px;"></i>
-                            Export
+                            {{ __('Export') }}
                         </a>
                         @endcan
                         @can('edit-pupils')
@@ -349,15 +349,15 @@
                 </div>
                 <div class="related_professionals">
                     <div class="table_title">
-                        Related Professionals
+                        {{ __('Related Professionals') }}
                     </div>
                     <table class="table sen_table-striped no-datatable-filters">
                         <thead class="thead-light">
                             <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Involvement</th>
-                                <th>Contact</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Role') }}</th>
+                                <th>{{ __('Involvement') }}</th>
+                                <th>{{ __('Contact') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -377,7 +377,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="empty_table_message">No related professionals found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                                    <td colspan="4" class="empty_table_message">{{ __('No related professionals found for :name', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -391,7 +391,7 @@
                         {{ __('Description of the pupil provided by their parents or legal guardians.') }}
                     </div>
                     <div class="big_text">
-                        {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : '<span class="text-muted">N/A</span>' !!}
+                        {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : '<span class="text-muted">'.__('N/A').'</span>' !!}
                     </div>
                 </div>
                 <div class="settings_section">
@@ -404,14 +404,14 @@
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-pills"></i>
-                            Medications:
+                            {{ __('Medications') }}:
                         </div>
                         <div class="value">
                             <div class="label_cards">
                                 @forelse ($pupil->medications as $medication)
                                     <div>{{ $medication->name }}</div>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </div>
                         </div>
@@ -420,14 +420,14 @@
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-diagnoses"></i>
-                            Diagnoses:
+                            {{ __('Diagnoses') }}:
                         </div>
                         <div class="value">
                             <div class="label_cards">
                                 @forelse ($pupil->diagnoses as $diagnosis)
                                     <div>{{ $diagnosis->name }}</div>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </div>
                         </div>
@@ -436,14 +436,14 @@
                     <div class="item">
                         <div class="label">
                             <i class="fas fa-book"></i>
-                            Subjects:
+                            {{ __('Subjects') }}:
                         </div>
                         <div class="value">
                             <div class="label_cards">
                                 @forelse ($pupil->diets as $diet)
                                     <div>{{ $diet->subject->name }}</div>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </div>
                         </div>
@@ -466,12 +466,12 @@
                         @endcan
                     </div>
                     <div class="big_text">
-                        {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : '<span class="text-muted">No primary treatment plan specified.</span>' !!}
+                        {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : '<span class="text-muted">'.__('No primary treatment plan specified.').'</span>' !!}
                     </div>
                     @if($pupil->treatmentPlanUpdates->isNotEmpty())
                         <div class="dashboard_item_divider" style="margin: 15px 0px;"></div>
                         <div class="title_label">
-                            {{ __('Updates:') }}
+                            {{ __('Updates') }}:
                         </div>                        
                         <div class="treatment_plan_updates">
                             @foreach($pupil->treatmentPlanUpdates as $update)
