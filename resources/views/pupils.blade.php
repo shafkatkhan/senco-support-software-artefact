@@ -4,11 +4,11 @@
     <section id="content">
         <div class="content_top_buttons">
             <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                View More Information
+                {{ __('View More Information') }}
             </button>
             @can('create-pupils')
             <a href="{{ route('pupils.create') }}" class="new_button">
-                Onboard Pupil
+                {{ __('Onboard Pupil') }}
             </a>
             @endcan
         </div>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="sen_icon_wrap">
                             <a href="{{ route('pupils.show', $pupil->id) }}" class="more_details button_styled">
-                                More Details
+                                {{ __('More Details') }}
                             </a>
                             @can('edit-pupils')
                             <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled">
@@ -46,35 +46,35 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">DOB:</div>
+                                <div class="label">{{ __('Date of Birth') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $pupil->dob->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Gender:</div>
+                                <div class="label">{{ __('Gender') }}:</div>
                                 <div class="value">
                                     {{ $pupil->gender }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Joined Date:</div>
+                                <div class="label">{{ __('Joined Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $pupil->joined_date?->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Tutor Group:</div>
+                                <div class="label">{{ __('Tutor Group') }}:</div>
                                 <div class="value">
-                                    {{ $pupil->current_tutor_group ?? 'N/A' }}
+                                    {{ $pupil->current_tutor_group ?? __('N/A') }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-12">
-                                <div class="label">Medications:</div>
+                                <div class="label">{{ __('Medications') }}:</div>
                                 <div class="value">
                                     <div class="label_cards">
                                         @forelse ($pupil->medications as $medication)
@@ -87,7 +87,7 @@
                             </div>
                             <hr>
                             <div class="item col-12">
-                                <div class="label">Diagnoses:</div>
+                                <div class="label">{{ __('Diagnoses') }}:</div>
                                 <div class="value">
                                     <div class="label_cards">
                                         @forelse ($pupil->diagnoses as $diagnosis)
@@ -100,78 +100,78 @@
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Smoking History?</div>
+                                <div class="label">{{ __('Smoking History?') }}</div>
                                 <div class="value">
-                                    {{ $pupil->smoking_history ? 'Yes' : 'No' }}
+                                    {{ $pupil->smoking_history ? __('Yes') : __('No') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Drug Abuse History?</div>
+                                <div class="label">{{ __('Drug Abuse History?') }}</div>
                                 <div class="value">
-                                    {{ $pupil->drug_abuse_history ? 'Yes' : 'No' }}
+                                    {{ $pupil->drug_abuse_history ? __('Yes') : __('No') }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Phone:</div>
+                                <div class="label">{{ __('Phone') }}:</div>
                                 <div class="value">
                                     <i class="fas fa-phone"></i>
-                                    {{ $pupil->phone ?? 'N/A' }}
+                                    {{ $pupil->phone ?? __('N/A') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Email:</div>
+                                <div class="label">{{ __('Email') }}:</div>
                                 <div class="value">
                                     <i class="fas fa-envelope"></i>
                                     @if($pupil->email)
                                         <a href="mailto:{{ $pupil->email }}" class="nice_link">{{ $pupil->email }}</a>
                                     @else
-                                        N/A
+                                        {{ __('N/A') }}
                                     @endif
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-4 border_right-md">
-                                <div class="label">Special Needs?</div>
+                                <div class="label">{{ __('Special Needs?') }}</div>
                                 <div class="value">
-                                    {{ $pupil->has_special_needs ? 'Yes' : 'No' }}
+                                    {{ $pupil->has_special_needs ? __('Yes') : __('No') }}
                                 </div>
                             </div>
                             <div class="item col-md-4 border_right-md">
-                                <div class="label">Social Services?</div>
+                                <div class="label">{{ __('Social Services?') }}</div>
                                 <div class="value">
-                                    {{ $pupil->social_services_involvement ? 'Yes' : 'No' }}
+                                    {{ $pupil->social_services_involvement ? __('Yes') : __('No') }}
                                 </div>
                             </div>
                             <div class="item col-md-4">
-                                <div class="label">Visiting Probation Officer Required?</div>
+                                <div class="label">{{ __('Visiting Probation Officer Required?') }}</div>
                                 <div class="value">
-                                    {{ $pupil->probation_officer_required ? 'Yes' : 'No' }}
+                                    {{ $pupil->probation_officer_required ? __('Yes') : __('No') }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Next of Kin:</div>
+                                <div class="label">{{ __('Next of Kin') }}:</div>
                                 <div class="value">
-                                    {{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : 'N/A' }}
+                                    {{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : __('N/A') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Address:</div>
+                                <div class="label">{{ __('Address') }}:</div>
                                 <div class="value">
-                                    {!! collect([$pupil->address_line_1, $pupil->address_line_2, $pupil->locality, $pupil->postcode, $pupil->country])->filter()->implode(', <br>') ?: 'N/A' !!}
+                                    {!! collect([$pupil->address_line_1, $pupil->address_line_2, $pupil->locality, $pupil->postcode, $pupil->country])->filter()->implode(', <br>') ?: __('N/A') !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Onboarded by:</div>
+                                <div class="label">{{ __('Onboarded by') }}:</div>
                                 <div class="value">
                                     <i class="far fa-user-circle"></i>
                                     {{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $pupil->updated_at->format('d/m/Y') }}
@@ -185,7 +185,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No pupils found.</div>
+                <div class="empty_grid_message">{{ __('No pupils found.') }}</div>
             @endforelse
         </div>
 
@@ -194,13 +194,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date of Birth</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Special Needs</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Date of Birth') }}</th>
+                        <th scope="col">{{ __('Gender') }}</th>
+                        <th scope="col">{{ __('Special Needs?') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-pupils', 'delete-pupils'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -212,7 +212,7 @@
                             <td data-order="{{ optional($pupil->dob)->format('Y-m-d') ?? '' }}">{{ $pupil->dob->format('d/m/Y') }}</td>
                             <td>{{ $pupil->gender }}</td>
                             <td>
-                                {{ $pupil->has_special_needs ? 'Yes' : '' }}
+                                {{ $pupil->has_special_needs ? __('Yes') : '' }}
                             </td>
                             <td>
                                 @include('components.attachments_list', ['attachments' => $pupil->attachments])
@@ -236,7 +236,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '7' : '6' }}" class="empty_table_message">No pupils found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-pupils', 'delete-pupils']) ? '7' : '6' }}" class="empty_table_message">{{ __('No pupils found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -245,10 +245,10 @@
     </section>
 
     @can('delete-pupils')
-    @include('components.delete_modal', ['type' => 'Pupil'])
+    @include('components.delete_modal', ['type' => __('Pupil')])
     @endcan
 
     @can('edit-pupils')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection

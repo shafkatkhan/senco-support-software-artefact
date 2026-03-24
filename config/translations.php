@@ -51,6 +51,32 @@ return [
             'Please contact your administrator.',
         ],
 
+        'Pupils' => [
+            'View More Information',
+            'View Less Information',
+            'Onboard Pupil',
+            'More Details',
+            'Date of Birth',
+            'Gender',
+            'Joined Date',
+            'Tutor Group',
+            'Medications',
+            'Diagnoses',
+            'Smoking History?',
+            'Drug Abuse History?',
+            'Phone',
+            'Email',
+            'Special Needs?',
+            'Social Services?',
+            'Visiting Probation Officer Required?',
+            'Next of Kin',
+            'Address',
+            'Onboarded by',
+            'Last Edited',
+            'No Pupils Found.',
+        ],
+            
+
         'Test Form' => [
             'Test',
         ],
@@ -184,12 +210,18 @@ return [
         ],
 
         'Misc/General' => [
+            'Toggle Table View',
+            'Toggle Card View',
             'Actions',
+            'Name',
             'First Name',
             'Last Name',
             'Save',
             'Update',
             'Save Changes',
+            'N/A',
+            'Yes',
+            'No',
         ],
     ],
 

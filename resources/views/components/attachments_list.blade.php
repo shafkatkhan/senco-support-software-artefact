@@ -32,6 +32,6 @@
     @endif
 @else
     @if(!isset($card))
-        N/A
+        {{ __('N/A') }}
     @endif
 @endif

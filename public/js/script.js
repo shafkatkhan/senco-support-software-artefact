@@ -58,15 +58,15 @@ $(document).ready(function() {
 
         if (pref == 'card') {
             if ($('#pupilsGrid').length) {
-                $btn.text('View Less Information');
+                $btn.text(__('View Less Information'));
             } else {
-                $btn.text('Toggle Table View');
+                $btn.text(__('Toggle Table View'));
             }
         } else {
             if ($('#pupilsGrid').length) {
-                $btn.text('View More Information');
+                $btn.text(__('View More Information'));
             } else {
-                $btn.text('Toggle Card View');
+                $btn.text(__('Toggle Card View'));
             }
         }
     }
