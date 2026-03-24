@@ -2,7 +2,7 @@
     @if(isset($card))
         <hr>
         <div class="item col-md-12">
-            <div class="label">Attachments:</div>
+            <div class="label">{{ __('Attachments') }}:</div>
             <div class="value">
     @endif
                 <ul class="list-unstyled mb-0 {{ isset($card) ? 'attachments_list' : '' }}" style="{{ !isset($card) ? 'font-size: 0.9rem;' : '' }}">

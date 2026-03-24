@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-medications')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Medication
+                    {{ __('Add New Medication') }}
                 </button> 
                 @endcan
             </div>            
@@ -60,40 +60,40 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Dosage:</div>
+                                <div class="label">{{ __('Dosage') }}:</div>
                                 <div class="value">
                                     {{ $medication->dosage }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Frequency:</div>
+                                <div class="label">{{ __('Frequency') }}:</div>
                                 <div class="value">
                                     {{ $medication->frequency }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Time of Day:</div>
+                                <div class="label">{{ __('Time of Day') }}:</div>
                                 <div class="value">
                                     {{ $medication->time_of_day }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Administration Method:</div>
+                                <div class="label">{{ __('Method of Administration') }}:</div>
                                 <div class="value">
                                     {{ $medication->administration_method }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Start Date:</div>
+                                <div class="label">{{ __('Start Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $medication->start_date->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">End Date:</div>
+                                <div class="label">{{ __('End Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $medication->end_date ? $medication->end_date->format('d/m/Y') : 'N/A'}}
@@ -101,28 +101,28 @@
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Expiry Date:</div>
+                                <div class="label">{{ __('Expiry Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Self Adminster?</div>
+                                <div class="label">{{ __('Self Administer?') }}</div>
                                 <div class="value">
                                     {{ $medication->self_adminster ? 'Yes' : 'No' }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Storage Instructions:</div>
+                                <div class="label">{{ __('Storage Instructions') }}:</div>
                                 <div class="value">
                                     {{ $medication->storage_instructions ?? 'N/A' }}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $medication->updated_at->format('d/m/Y') }}
@@ -136,7 +136,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No medications found for :name', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -145,19 +145,19 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Dosage</th>
-                        <th scope="col">Frequency</th>
-                        <th scope="col">Time of Day</th>
-                        <th scope="col">Administration Method</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Expiry Date</th>
-                        <th scope="col">Storage Instructions</th>
-                        <th scope="col">Self Administer?</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Dosage') }}</th>
+                        <th scope="col">{{ __('Frequency') }}</th>
+                        <th scope="col">{{ __('Time of Day') }}</th>
+                        <th scope="col">{{ __('Method of Administration') }}</th>
+                        <th scope="col">{{ __('Start Date') }}</th>
+                        <th scope="col">{{ __('End Date') }}</th>
+                        <th scope="col">{{ __('Expiry Date') }}</th>
+                        <th scope="col">{{ __('Storage Instructions') }}</th>
+                        <th scope="col">{{ __('Self Administer?') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-medications', 'delete-medications'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -171,10 +171,10 @@
                             <td>{{ $medication->time_of_day }}</td>
                             <td>{{ $medication->administration_method }}</td>
                             <td data-order="{{ optional($medication->start_date)->format('Y-m-d') ?? '' }}">{{ $medication->start_date->format('d/m/Y') }}</td>
-                            <td data-order="{{ optional($medication->end_date)->format('Y-m-d') ?? '' }}">{{ $medication->end_date ? $medication->end_date->format('d/m/Y') : 'N/A'}}</td>
-                            <td data-order="{{ optional($medication->expiry_date)->format('Y-m-d') ?? '' }}">{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : 'N/A'}}</td>
+                            <td data-order="{{ optional($medication->end_date)->format('Y-m-d') ?? '' }}">{{ $medication->end_date ? $medication->end_date->format('d/m/Y') : __('N/A')}}</td>
+                            <td data-order="{{ optional($medication->expiry_date)->format('Y-m-d') ?? '' }}">{{ $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : __('N/A')}}</td>
                             <td>{{ $medication->storage_instructions }}</td>
-                            <td>{{ $medication->self_administer ? 'Yes' : 'No' }}</td>
+                            <td>{{ $medication->self_administer ? __('Yes') : __('No') }}</td>
                             <td>
                                 @include('components.attachments_list', ['attachments' => $medication->attachments])
                             </td>
@@ -214,7 +214,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-medications', 'delete-medications']) ? '12' : '11' }}" class="empty_table_message">No medications found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-medications', 'delete-medications']) ? '12' : '11' }}" class="empty_table_message">{{ __('No medications found for :name', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -227,7 +227,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Medication</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Medication') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('medications.store') }}" method="post" enctype="multipart/form-data">
@@ -236,58 +236,58 @@
                     <div class="modal-body">
                         @include('components.file_extraction_box')
                         <div class="form-group mb-3">
-                            <label>Name*</label>
-                            <input type="text" class="form-control" name="name" required placeholder="Medication Name">
+                            <label>{{ __('Name') }}*</label>
+                            <input type="text" class="form-control" name="name" required placeholder="{{ __('Medication Name') }}">
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Dosage</label>
-                                <input type="text" class="form-control" name="dosage" placeholder="e.g. 50mg">
+                                <label>{{ __('Dosage') }}</label>
+                                <input type="text" class="form-control" name="dosage" placeholder="{{ __('e.g. 50mg') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Frequency*</label>
-                                <input type="text" class="form-control" name="frequency" required placeholder="e.g. Twice Daily, As Needed">
+                                <label>{{ __('Frequency') }}*</label>
+                                <input type="text" class="form-control" name="frequency" required placeholder="{{ __('e.g. Twice Daily, As Needed') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Time of Day</label>
-                                <input type="text" class="form-control" name="time_of_day" placeholder="e.g. Morning, Night, 1:30pm">
+                                <label>{{ __('Time of Day') }}</label>
+                                <input type="text" class="form-control" name="time_of_day" placeholder="{{ __('e.g. Morning, Night, 1:30pm') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Method</label>
-                                <input type="text" class="form-control" name="administration_method" placeholder="e.g. Oral, Injection">
+                                <label>{{ __('Method of Administration') }}</label>
+                                <input type="text" class="form-control" name="administration_method" placeholder="{{ __('e.g. Oral, Injection') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Start Date*</label>
+                                <label>{{ __('Start Date') }}*</label>
                                 <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-d') }}" required>
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>End Date</label>
+                                <label>{{ __('End Date') }}</label>
                                 <input type="date" class="form-control" name="end_date">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Expiry Date</label>
+                                <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group mb-3">
-                                <label>Storage Instructions</label>
+                                <label>{{ __('Storage Instructions') }}</label>
                                 <textarea class="form-control" name="storage_instructions" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="form-check mt-2 mb-4">
                             <input type="hidden" name="self_administer" value="0">
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="create_self_administer">
-                            <label class="form-check-label" for="create_self_administer">Self Administer?</label>
+                            <label class="form-check-label" for="create_self_administer">{{ __('Self Administer?') }}</label>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -300,7 +300,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Medication</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Medication') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -308,58 +308,58 @@
                     @method('PUT')
                     <div class="modal-body">
                          <div class="form-group mb-3">
-                            <label>Name*</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" required>
+                            <label>{{ __('Name') }}*</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" required placeholder="{{ __('Medication Name') }}">
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Dosage</label>
-                                <input type="text" class="form-control" name="dosage" id="edit_dosage">
+                                <label>{{ __('Dosage') }}</label>
+                                <input type="text" class="form-control" name="dosage" id="edit_dosage" placeholder="{{ __('e.g. 50mg') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Frequency*</label>
-                                <input type="text" class="form-control" name="frequency" id="edit_frequency" required>
+                                <label>{{ __('Frequency') }}*</label>
+                                <input type="text" class="form-control" name="frequency" id="edit_frequency" required placeholder="{{ __('e.g. Twice Daily, As Needed') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Time of Day</label>
-                                <input type="text" class="form-control" name="time_of_day" id="edit_time_of_day">
+                                <label>{{ __('Time of Day') }}</label>
+                                <input type="text" class="form-control" name="time_of_day" id="edit_time_of_day" placeholder="{{ __('e.g. Morning, Night, 1:30pm') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Method</label>
-                                <input type="text" class="form-control" name="administration_method" id="edit_administration_method">
+                                <label>{{ __('Method of Administration') }}</label>
+                                <input type="text" class="form-control" name="administration_method" id="edit_administration_method" placeholder="{{ __('e.g. Oral, Injection') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Start Date*</label>
+                                <label>{{ __('Start Date') }}*</label>
                                 <input type="date" class="form-control" name="start_date" id="edit_start_date" required>
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>End Date</label>
+                                <label>{{ __('End Date') }}</label>
                                 <input type="date" class="form-control" name="end_date" id="edit_end_date">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Expiry Date</label>
+                                <label>{{ __('Expiry Date') }}</label>
                                 <input type="date" class="form-control" name="expiry_date" id="edit_expiry_date">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group mb-3">
-                                <label>Storage Instructions</label>
+                                <label>{{ __('Storage Instructions') }}</label>
                                 <textarea class="form-control" name="storage_instructions" id="edit_storage_instructions" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="form-check mt-2 mb-4">
                             <input type="hidden" name="self_administer" value="0">
                             <input type="checkbox" class="form-check-input" name="self_administer" value="1" id="edit_self_administer">
-                            <label class="form-check-label" for="edit_self_administer">Self Administer?</label>
+                            <label class="form-check-label" for="edit_self_administer">{{ __('Self Administer?') }}</label>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -368,11 +368,11 @@
     @endcan
 
     @can('delete-medications')
-    @include('components.delete_modal', ['type' => 'Medication'])
+    @include('components.delete_modal', ['type' => __('Medication')])
     @endcan
 
     @can('edit-medications')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 

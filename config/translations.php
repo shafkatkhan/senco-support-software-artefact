@@ -136,64 +136,6 @@ return [
             'You must explicitly click the "+ Add" buttons to reveal the form fields for any optional subsections.',
         ],
 
-        'Professionals' => [
-            'Professional',
-            'None / Not Applicable',
-            'Title',
-            'First Name',
-            'Last Name',
-            'Role',
-            'Agency',
-            'Add New Professional',
-            'Cancel',
-        ],
-
-        'Family Members' => [
-            'Relation',
-            'Marital Status',
-            'Highest Education',
-            'Financial Status',
-            'Occupation',
-            'State Support/Benefits',
-        ],
-
-        'School History' => [
-            'School Name',
-            'School Type',
-            'Type of Class',
-            'Years Attended',
-            'Reason for Transition',
-        ],
-
-        'Diagnoses' => [
-            'Diagnosis Name',
-            'Date Diagnosised',
-            'Recommendations'
-        ],
-
-        'Medications' => [
-            'Medication Name',
-            'Dosage',
-            'Frequency',
-            'Time of Day',
-            'Method of Administration',
-            'e.g. oral, inhalation, etc.',
-            'Start Date',
-            'End Date',
-            'Expiry Date',
-            'Storage Instructions',
-            'Pupil can self-administer?',
-        ],
-
-        'Records' => [
-            'Record Type',
-            'Record Title',
-            'Date',
-            'Reference #',
-            'Outcome / Next Steps',
-            'Choose Type',
-        ],
-
         'Pupil Dashboard' => [
             'Pupil No.',
             'Personal Details',
@@ -230,6 +172,70 @@ return [
             'Update Content',
             'Add follow up details...',
             'Add Update',
+        ],
+
+        'Professionals' => [
+            'Professional',
+            'None / Not Applicable',
+            'Title',
+            'First Name',
+            'Last Name',
+            'Role',
+            'Agency',
+            'Add New Professional',
+            'Cancel',
+        ],
+
+        'Family Members' => [
+            'Relation',
+            'Marital Status',
+            'Highest Education',
+            'Financial Status',
+            'Occupation',
+            'State Support/Benefits',
+        ],
+
+        'School History' => [
+            'School Name',
+            'School Type',
+            'Type of Class',
+            'Years Attended',
+            'Reason for Transition',
+        ],
+
+        'Diagnoses' => [
+            'Diagnosis Name',
+            'Date Diagnosised',
+            'Recommendations'
+        ],
+
+        'Medications' => [
+            'Add New Medication',
+            'Medication Name',
+            'Dosage',
+            'Frequency',
+            'Time of Day',
+            'Method of Administration',
+            'e.g. oral, inhalation, etc.',
+            'Start Date',
+            'End Date',
+            'Expiry Date',
+            'Storage Instructions',
+            'Pupil can self-administer?',
+            'Self Administer?',
+            'e.g. 50mg',
+            'e.g. Twice Daily, As Needed',
+            'e.g. Morning, Night, 1:30pm',
+            'e.g. Oral, Injection',
+        ],
+
+        'Records' => [
+            'Record Type',
+            'Record Title',
+            'Date',
+            'Reference #',
+            'Outcome / Next Steps',
+            'Choose Type',
         ],
             
 
