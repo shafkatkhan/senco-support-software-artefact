@@ -249,6 +249,15 @@ return [
             'Outcomes or future actions...',
         ],
 
+        'Events' => [
+            'Add New Event',
+            'No events found for :pupil.',
+            'Event Title',
+            'Description of the event...',
+            'Outcomes or future actions...',
+            'Event',
+        ],
+
         'Attachments' => [
             'Attachment',
         ],

@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-events')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Event
+                    {{ __('Add New Event') }}
                 </button> 
                 @endcan
             </div>            
@@ -55,37 +55,37 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Date:</div>
+                                <div class="label">{{ __('Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
-                                    {{ optional($event->date)->format('d/m/Y') ?? 'N/A' }}
+                                    {!! optional($event->date)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Reference No.:</div>
+                                <div class="label">{{ __('Reference No.') }}:</div>
                                 <div class="value">
-                                    {{ $event->reference_number ?? 'N/A' }}
+                                    {!! $event->reference_number ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Description:</div>
+                                <div class="label">{{ __('Description') }}:</div>
                                 <div class="value">
-                                    {{ $event->description ?? 'N/A' }}
+                                    {!! $event->description ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             @if($event->outcome)
                                 <hr>
                                 <div class="item col-md-12">
-                                    <div class="label">Outcome:</div>
+                                    <div class="label">{{ __('Outcome / Next Steps') }}:</div>
                                     <div class="value">
-                                        {{ $event->outcome ?? 'N/A' }}
+                                        {!! $event->outcome ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                     </div>
                                 </div>
                             @endif
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ optional($event->updated_at)->format('d/m/Y') }}
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No events found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No events found for :pupil.', ['pupil' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -108,12 +108,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Reference No.</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Title') }}</th>
+                        <th scope="col">{{ __('Date') }}</th>
+                        <th scope="col">{{ __('Reference No.') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-events', 'delete-events'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -122,8 +122,8 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $event->title }}</td>
-                            <td data-order="{{ optional($event->date)->format('Y-m-d') ?? '' }}">{{ optional($event->date)->format('d/m/Y') ?? 'N/A' }}</td>
-                            <td>{{ $event->reference_number ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($event->date)->format('Y-m-d') ?? '' }}">{!! optional($event->date)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
+                            <td>{!! $event->reference_number ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td>
                                 @include('components.attachments_list', ['attachments' => $event->attachments])
                             </td>
@@ -158,7 +158,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-events', 'delete-events']) ? '6' : '5' }}" class="empty_table_message">No events found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-events', 'delete-events']) ? '6' : '5' }}" class="empty_table_message">{!! __('No events found for :pupil.', ['pupil' => $pupil->first_name.' '.$pupil->last_name]) !!}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -171,7 +171,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Event</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Event') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('events.store') }}" method="post" enctype="multipart/form-data">
@@ -181,30 +181,30 @@
                         @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-5 form-group mb-3">
-                                <label>Title*</label>
-                                <input type="text" class="form-control" name="title" required placeholder="Event Title">
+                                <label>{{ __('Title') }}*</label>
+                                <input type="text" class="form-control" name="title" required placeholder="{{ __('Event Title') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Date</label>
+                                <label>{{ __('Date') }}</label>
                                 <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}">
                             </div>
                             <div class="col-md-3 form-group mb-3">
-                                <label>Reference No.</label>
+                                <label>{{ __('Reference No.') }}</label>
                                 <input type="text" class="form-control" name="reference_number" placeholder="#123ABC">
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                             <textarea class="form-control" name="description" rows="3" placeholder="Description of the event..."></textarea>
+                            <label>{{ __('Description') }}</label>
+                             <textarea class="form-control" name="description" rows="3" placeholder="{{ __('Description of the event...') }}"></textarea>
                         </div>
                          <div class="form-group mb-3">
-                            <label>Outcome / Next Steps</label>
-                            <textarea class="form-control" name="outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
+                            <label>{{ __('Outcome / Next Steps') }}</label>
+                            <textarea class="form-control" name="outcome" rows="3" placeholder="{{ __('Outcomes or future actions...') }}"></textarea>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -217,7 +217,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Event</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Event') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -226,30 +226,30 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-5 form-group mb-3">
-                                <label>Title*</label>
-                                <input type="text" class="form-control" name="title" id="edit_title" required placeholder="Event Title">
+                                <label>{{ __('Title') }}*</label>
+                                <input type="text" class="form-control" name="title" id="edit_title" required placeholder="{{ __('Event Title') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Date</label>
+                                <label>{{ __('Date') }}</label>
                                 <input type="date" class="form-control" name="date" id="edit_date">
                             </div>
                             <div class="col-md-3 form-group mb-3">
-                                <label>Reference No.</label>
+                                <label>{{ __('Reference No.') }}</label>
                                 <input type="text" class="form-control" name="reference_number" id="edit_reference_number" placeholder="#123ABC">
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                             <textarea class="form-control" name="description" id="edit_description" rows="3" placeholder="Description of the event..."></textarea>
+                            <label>{{ __('Description') }}</label>
+                             <textarea class="form-control" name="description" id="edit_description" rows="3" placeholder="{{ __('Description of the event...') }}"></textarea>
                         </div>
                          <div class="form-group mb-3">
-                            <label>Outcome / Next Steps</label>
-                            <textarea class="form-control" name="outcome" id="edit_outcome" rows="3" placeholder="Outcomes or future actions..."></textarea>
+                            <label>{{ __('Outcome / Next Steps') }}</label>
+                            <textarea class="form-control" name="outcome" id="edit_outcome" rows="3" placeholder="{{ __('Outcomes or future actions...') }}"></textarea>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -258,11 +258,11 @@
     @endcan
 
     @can('delete-events')
-    @include('components.delete_modal', ['type' => 'Event'])
+    @include('components.delete_modal', ['type' => __('Event')] )
     @endcan
 
     @can('edit-events')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 
