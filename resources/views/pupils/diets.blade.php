@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
             <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('add-to-diets')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add Subject to Diet
+                    {{ __('Add Subject to Diet') }}
                 </button>
                 @endcan
             </div>
@@ -53,21 +53,21 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-12">
-                                <div class="label">Proficiency:</div>
+                                <div class="label">{{ __('Proficiency') }}:</div>
                                 <div class="value">
-                                    {{ $diet->proficiency?->name ?? 'N/A' }}
+                                    {!! $diet->proficiency?->name ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Accommodations:</div>
+                                <div class="label">{{ __('Accommodations') }}:</div>
                                 <div class="value diet_acc_list">
                                     @forelse($diet->accommodations as $acc)
                                         <div class="diet_acc_row">
                                             <div class="diet_acc_main">
                                                 <div class="diet_acc_name">{{ $acc->name }}</div>
                                                 <span class="badge {{ $acc->pivot->status === 'Approved' ? 'bg-success' : 'bg-warning text-dark' }}">
-                                                    {{ $acc->pivot->status }}
+                                                    {{ __($acc->pivot->status) }}
                                                 </span>
                                             </div>
                                             @if($acc->pivot->details)
@@ -75,7 +75,7 @@
                                             @endif
                                         </div>
                                     @empty
-                                        N/A
+                                        <span class="text-muted">{{ __('N/A') }}</span>
                                     @endforelse
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No diet entries found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -92,11 +92,11 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Proficiency</th>
-                        <th scope="col" class="dt-left">Accommodations</th>
+                        <th scope="col">{{ __('Subject') }}</th>
+                        <th scope="col">{{ __('Proficiency') }}</th>
+                        <th scope="col" class="dt-left">{{ __('Accommodations') }}</th>
                         @canany(['edit-diets', 'delete-diets'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -105,12 +105,12 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $diet->subject->name}}</td>
-                            <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">N/A</span>' !!}</td>
+                            <td>{!! $diet->proficiency?->name ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td data-order="{{ $diet->accommodations->count() }}" class="dt-left">
                                 @forelse($diet->accommodations as $acc)
-                                    <span class="badge bg-secondary">{{ $acc->name }} ({{ $acc->pivot->status }})</span>
+                                    <span class="badge bg-secondary">{{ $acc->name }} ({{ __($acc->pivot->status) }})</span>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </td>
                             @canany(['edit-diets', 'delete-diets'])
@@ -140,7 +140,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-diets', 'delete-diets']) ? '5' : '4' }}" class="empty_table_message">No diet entries found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-diets', 'delete-diets']) ? '5' : '4' }}" class="empty_table_message">{{ __('No diet entries found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -153,7 +153,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add Diet Entry</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add Diet Entry') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('diets.store') }}" method="post">
@@ -161,29 +161,29 @@
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Subject*</label>
+                            <label>{{ __('Subject') }}*</label>
                             <select name="subject_id" id="new_subject_id" class="form-control" required>
-                                <option value="" disabled selected>--- Choose Subject ---</option>
+                                <option value="" disabled selected>--- {{ __('Choose Subject') }} ---</option>
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group mb-3" id="new_proficiency_group" style="display: none;">
-                            <label>Proficiency*</label>
+                            <label>{{ __('Proficiency') }}*</label>
                             <select name="proficiency_id" id="new_proficiency_id" class="form-control">
                             </select>
                         </div>
                         <div class="form-group mb-3" id="new_accommodations_wrapper" style="display: none;">
-                            <label>Accommodations</label>
+                            <label>{{ __('Accommodations') }}</label>
                             <div id="new_accommodations_container"></div>
                             <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addAccommodationRow('new')">
-                                <i class="fa fa-plus"></i> Add Accommodation
+                                <i class="fa fa-plus"></i> {{ __('Add Accommodation') }}
                             </button>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -196,7 +196,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Diet Entry</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Diet Entry') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post">
@@ -204,29 +204,29 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Subject*</label>
+                            <label>{{ __('Subject') }}*</label>
                             <select name="subject_id" id="edit_subject_id" class="form-control" required>
-                                <option value="" disabled>--- Choose Subject ---</option>
+                                <option value="" disabled>--- {{ __('Choose Subject') }} ---</option>
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group mb-3" id="edit_proficiency_group" style="display: none;">
-                            <label>Proficiency*</label>
+                            <label>{{ __('Proficiency') }}*</label>
                             <select name="proficiency_id" id="edit_proficiency_id" class="form-control">
                             </select>
                         </div>
                         <div class="form-group mb-3" id="edit_accommodations_wrapper" style="display: none;">
-                            <label>Accommodations</label>
+                            <label>{{ __('Accommodations') }}</label>
                             <div id="edit_accommodations_container"></div>
                             <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addAccommodationRow('edit')">
-                                <i class="fa fa-plus"></i> Add Accommodation
+                                <i class="fa fa-plus"></i> {{ __('Add Accommodation') }}
                             </button>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -235,7 +235,7 @@
     @endcan
 
     @can('delete-diets')
-    @include('components.delete_modal', ['type' => 'Diet Entry'])
+    @include('components.delete_modal', ['type' => __('Diet Entry')])
     @endcan
 @endsection
 
@@ -256,7 +256,7 @@
         // update proficiencies
         const hasProficiencies = subject && subject.proficiencies.length > 0;
         if (hasProficiencies) {
-            $profSelect.empty().append('<option value="" disabled selected>--- Choose Proficiency ---</option>');
+            $profSelect.empty().append('<option value="" disabled selected>--- ' + __('Choose Proficiency') + ' ---</option>');
             subject.proficiencies.forEach(p => {
                 $profSelect.append(`<option value="${p.id}" ${p.id == currentProficiencyId ? 'selected' : ''}>${p.name}</option>`);
             });
@@ -294,7 +294,7 @@
 
         if (availableAccommodations.length === 0) return;
 
-        let options = '<option value="" disabled selected>--- Choose Accommodation ---</option>';
+        let options = '<option value="" disabled selected>--- ' + __('Choose Accommodation') + ' ---</option>';
         availableAccommodations.forEach(a => {
             options += `<option value="${a.id}" ${a.id == selectedId ? 'selected' : ''}>${a.name}</option>`;
         });
@@ -311,12 +311,12 @@
                 </div>
                 <div class="col-md-3 mb-2 mb-md-0">
                     <select name="accommodations[${accommodationRowIndex}][status]" class="form-control" required>
-                        <option value="Recommended" ${statusRecommended}>Recommended</option>
-                        <option value="Approved" ${statusApproved}>Approved</option>
+                        <option value="Recommended" ${statusRecommended}>${__('Recommended')}</option>
+                        <option value="Approved" ${statusApproved}>${__('Approved')}</option>
                     </select>
                 </div>
                 <div class="col-md-4 mb-2 mb-md-0">
-                    <textarea name="accommodations[${accommodationRowIndex}][details]" class="form-control" rows="1" placeholder="Details (Optional)">${details || ''}</textarea>
+                    <textarea name="accommodations[${accommodationRowIndex}][details]" class="form-control" rows="1" placeholder="${__('Details (Optional)')}">${details || ''}</textarea>
                 </div>
                 <div class="col-md-1">
                     <button type="button" class="btn btn-danger btn-sm w-100" onclick="$(this).closest('.acc-row').remove()"><i class="fa fa-times"></i></button>

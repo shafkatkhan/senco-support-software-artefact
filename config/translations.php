@@ -270,6 +270,23 @@ return [
             'Meeting',
         ],
 
+        'Diets' => [
+            'Add Subject to Diet',
+            'Proficiency',
+            'No diet entries found for :name.',
+            'Subject',
+            'Add Diet Entry',
+            'Choose Subject',
+            'Add Accommodation',
+            'Edit Diet Entry',
+            'Diet Entry',
+            'Choose Proficiency',
+            'Choose Accommodation',
+            'Recommended',
+            'Approved',
+            'Details (Optional)',
+        ],
+
         'Attachments' => [
             'Attachment',
         ],
