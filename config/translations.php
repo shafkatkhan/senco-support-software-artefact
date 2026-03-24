@@ -185,12 +185,24 @@ return [
         ],
 
         'Family Members' => [
+            'Add New Family Member',
+            'Government/State Support',
+            'No family members found for :name.',
             'Relation',
+            'e.g. Mother, Guardian',
+            'Demographics & Other Info',
             'Marital Status',
+            'e.g. Married, Single',
             'Highest Education',
+            'e.g. Bachelors Degree',
             'Financial Status',
             'Occupation',
+            'Current profession',
             'State Support/Benefits',
+            'e.g. Universal Credit',
+            "Pupil's next of kin?",
+            'Edit Family Member',
+            'Family Member',            
         ],
 
         'School History' => [

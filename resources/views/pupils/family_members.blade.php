@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
             <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-family-members')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Family Member
+                    {{ __('Add New Family Member') }}
                 </button> 
                 @endcan
             </div>            
@@ -26,7 +26,7 @@
                             {{ $familyMember->first_name }} {{ $familyMember->last_name }}
                             @if ($pupil->primary_family_member_id == $familyMember->id)
                                 <div class="sub_label" style="color: #aa1b1b;font-weight:600;">
-                                    Next of Kin
+                                    {{ __('Next of Kin') }}
                                 </div>
                             @endif
                         </div>
@@ -72,69 +72,69 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Relation:</div>
+                                <div class="label">{{ __('Relation') }}:</div>
                                 <div class="value">
-                                    {{ $familyMember->relation ?? 'N/A' }}
+                                    {!! $familyMember->relation ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Date of Birth:</div>
+                                <div class="label">{{ __('Date of Birth') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
-                                    {{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}
+                                    {!! optional($familyMember->dob)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Phone:</div>
+                                <div class="label">{{ __('Phone') }}:</div>
                                 <div class="value">
                                     <i class="fas fa-phone"></i>
-                                    {{ $familyMember->phone ?? 'N/A' }}
+                                    {!! $familyMember->phone ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Email:</div>
+                                <div class="label">{{ __('Email') }}:</div>
                                 <div class="value">
                                     <i class="fas fa-envelope"></i>
                                     @if($familyMember->email)
                                         <a class="nice_link" href="mailto:{{ $familyMember->email }}">{{ $familyMember->email }}</a>
                                     @else
-                                        N/A
+                                        <span class="text-muted">{{ __('N/A') }}</span>
                                     @endif
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12 mb-2">
-                                <div class="label">Address:</div>
+                                <div class="label">{{ __('Address') }}:</div>
                                 <div class="value">
-                                    {!! collect([$familyMember->address_line_1, $familyMember->address_line_2, $familyMember->locality, $familyMember->postcode, $familyMember->country])->filter()->implode(', <br>') ?: 'N/A' !!}
+                                    {!! collect([$familyMember->address_line_1, $familyMember->address_line_2, $familyMember->locality, $familyMember->postcode, $familyMember->country])->filter()->implode(', <br>') ?: '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-4 border_right-md">
-                                <div class="label">Marital Status:</div>
-                                <div class="value">{{ $familyMember->marital_status ?? 'N/A' }}</div>
+                                <div class="label">{{ __('Marital Status') }}:</div>
+                                <div class="value">{!! $familyMember->marital_status ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</div>
                             </div>
                             <div class="item col-md-4 border_right-md">
-                                <div class="label">Highest Education:</div>
-                                <div class="value">{{ $familyMember->highest_education ?? 'N/A' }}</div>
+                                <div class="label">{{ __('Highest Education') }}:</div>
+                                <div class="value">{!! $familyMember->highest_education ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</div>
                             </div>
                             <div class="item col-md-4">
-                                <div class="label">Occupation:</div>
-                                <div class="value">{{ $familyMember->occupation ?? 'N/A' }}</div>
+                                <div class="label">{{ __('Occupation') }}:</div>
+                                <div class="value">{!! $familyMember->occupation ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</div>
                             </div>
                             <hr>
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Financial Status:</div>
-                                <div class="value">{{ $familyMember->financial_status ?? 'N/A' }}</div>
+                                <div class="label">{{ __('Financial Status') }}:</div>
+                                <div class="value">{!! $familyMember->financial_status ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Government/State Support:</div>
-                                <div class="value">{{ $familyMember->state_support ?? 'N/A' }}</div>
+                                <div class="label">{{ __('Government/State Support') }}:</div>
+                                <div class="value">{!! $familyMember->state_support ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $familyMember->updated_at->format('d/m/Y') }}
@@ -148,7 +148,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No family members found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -157,13 +157,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Relation</th>
-                        <th scope="col">DOB</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Relation') }}</th>
+                        <th scope="col">{{ __('Date of Birth') }}</th>
+                        <th scope="col">{{ __('Phone') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-family-members', 'delete-family-members'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -174,12 +174,12 @@
                             <td>
                                 {{ $familyMember->first_name }} {{ $familyMember->last_name }}
                                 @if ($pupil->primary_family_member_id == $familyMember->id)
-                                    <span class="badge" style="background-color: #aa1b1b; margin-left:10px;">Next of Kin</span>
+                                    <span class="badge" style="background-color: #aa1b1b; margin-left:10px;">{{ __('Next of Kin') }}</span>
                                 @endif
                             </td>
                             <td>{{ $familyMember->relation }}</td>
-                            <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{{ optional($familyMember->dob)->format('d/m/Y') ?? 'N/A' }}</td>
-                            <td>{{ $familyMember->phone ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($familyMember->dob)->format('Y-m-d') ?? '' }}">{!! optional($familyMember->dob)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
+                            <td>{!! $familyMember->phone ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td>
                                 @include('components.attachments_list', ['attachments' => $familyMember->attachments])
                             </td>
@@ -226,7 +226,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-family-members', 'delete-family-members']) ? '6' : '5' }}" class="empty_table_message">No family members found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-family-members', 'delete-family-members']) ? '6' : '5' }}" class="empty_table_message">{{ __('No family members found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -239,7 +239,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Family Member</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Family Member') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('family-members.store') }}" method="post" enctype="multipart/form-data">
@@ -249,94 +249,94 @@
                         @include('components.file_extraction_box')
                          <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>First Name*</label>
-                                <input type="text" class="form-control" name="first_name" required placeholder="First Name">
+                                <label>{{ __('First Name') }}*</label>
+                                <input type="text" class="form-control" name="first_name" required placeholder="{{ __('First Name') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Last Name*</label>
-                                <input type="text" class="form-control" name="last_name" required placeholder="Last Name">
+                                <label>{{ __('Last Name') }}*</label>
+                                <input type="text" class="form-control" name="last_name" required placeholder="{{ __('Last Name') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Relation</label>
-                                <input type="text" class="form-control" name="relation" placeholder="e.g. Mother, Guardian">
+                                <label>{{ __('Relation') }}</label>
+                                <input type="text" class="form-control" name="relation" placeholder="{{ __('e.g. Mother, Guardian') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Date of Birth</label>
+                                <label>{{ __('Date of Birth') }}</label>
                                 <input type="date" class="form-control" name="dob">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                                <label>{{ __('Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" placeholder="{{ __('Phone') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email">
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}">
                             </div>
                         </div>
                         <hr>
-                        <div class="form_sub_title">Address</div>
+                        <div class="form_sub_title">{{ __('Address') }}</div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Address Line 1</label>
-                                <input type="text" class="form-control" name="address_line_1" placeholder="Address Line 1">
+                                <label>{{ __('Address Line 1') }}</label>
+                                <input type="text" class="form-control" name="address_line_1" placeholder="{{ __('Address Line 1') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Address Line 2</label>
-                                <input type="text" class="form-control" name="address_line_2" placeholder="Address Line 2">
+                                <label>{{ __('Address Line 2') }}</label>
+                                <input type="text" class="form-control" name="address_line_2" placeholder="{{ __('Address Line 2') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Town/City</label>
-                                <input type="text" class="form-control" name="locality" placeholder="Town/City">
+                                <label>{{ __('Town/City') }}</label>
+                                <input type="text" class="form-control" name="locality" placeholder="{{ __('Town/City') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Postcode</label>
-                                <input type="text" class="form-control" name="postcode" placeholder="Postcode">
+                                <label>{{ __('Postcode') }}</label>
+                                <input type="text" class="form-control" name="postcode" placeholder="{{ __('Postcode') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Country</label>
-                                <input type="text" class="form-control" name="country" placeholder="Country">
+                                <label>{{ __('Country') }}</label>
+                                <input type="text" class="form-control" name="country" placeholder="{{ __('Country') }}">
                             </div>
                         </div>
                         <hr>
-                        <div class="form_sub_title">Demographics & Other info</div>
+                        <div class="form_sub_title">{{ __('Demographics & Other Info') }}</div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Marital Status</label>
-                                <input type="text" class="form-control" name="marital_status" placeholder="e.g. Married, Single">
+                                <label>{{ __('Marital Status') }}</label>
+                                <input type="text" class="form-control" name="marital_status" placeholder="{{ __('e.g. Married, Single') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Highest Education</label>
-                                <input type="text" class="form-control" name="highest_education" placeholder="e.g. Bachelors Degree">
+                                <label>{{ __('Highest Education') }}</label>
+                                <input type="text" class="form-control" name="highest_education" placeholder="{{ __('e.g. Bachelors Degree') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Financial Status</label>
+                                <label>{{ __('Financial Status') }}</label>
                                 <input type="text" class="form-control" name="financial_status">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Occupation</label>
-                                <input type="text" class="form-control" name="occupation" placeholder="Current profession">
+                                <label>{{ __('Occupation') }}</label>
+                                <input type="text" class="form-control" name="occupation" placeholder="{{ __('Current profession') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>State Support/Benefits</label>
-                                <input type="text" class="form-control" name="state_support" placeholder="e.g. Universal Credit">
+                                <label>{{ __('State Support/Benefits') }}</label>
+                                <input type="text" class="form-control" name="state_support" placeholder="{{ __('e.g. Universal Credit') }}">
                             </div>
                         </div>
                         <div class="form-check mt-2 mb-4">
                             <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="new_next_of_kin">
                             <label class="form-check-label" for="new_next_of_kin">
-                                Pupil's next of kin?
+                                {{ __("Pupil's next of kin?") }}
                             </label>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -349,7 +349,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Family Member</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Family Member') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -358,94 +358,94 @@
                     <div class="modal-body">
                          <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>First Name*</label>
-                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="First Name" required>
+                                <label>{{ __('First Name') }}*</label>
+                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="{{ __('First Name') }}" required>
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Last Name*</label>
-                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="Last Name" required>
+                                <label>{{ __('Last Name') }}*</label>
+                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="{{ __('Last Name') }}" required>
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Relation</label>
-                                <input type="text" class="form-control" name="relation" id="edit_relation" placeholder="e.g. Mother, Guardian">
+                                <label>{{ __('Relation') }}</label>
+                                <input type="text" class="form-control" name="relation" id="edit_relation" placeholder="{{ __('e.g. Mother, Guardian') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Date of Birth</label>
+                                <label>{{ __('Date of Birth') }}</label>
                                 <input type="date" class="form-control" name="dob" id="edit_dob">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="Phone">
+                                <label>{{ __('Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="{{ __('Phone') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="Email">
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="{{ __('Email') }}">
                             </div>
                         </div>
                         <hr>
-                        <div class="form_sub_title">Address Details</div>
+                        <div class="form_sub_title">{{ __('Address Details') }}</div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Address Line 1</label>
-                                <input type="text" class="form-control" name="address_line_1" id="edit_address_line_1" placeholder="Address Line 1">
+                                <label>{{ __('Address Line 1') }}</label>
+                                <input type="text" class="form-control" name="address_line_1" id="edit_address_line_1" placeholder="{{ __('Address Line 1') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Address Line 2</label>
-                                <input type="text" class="form-control" name="address_line_2" id="edit_address_line_2" placeholder="Address Line 2">
+                                <label>{{ __('Address Line 2') }}</label>
+                                <input type="text" class="form-control" name="address_line_2" id="edit_address_line_2" placeholder="{{ __('Address Line 2') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Town/City</label>
-                                <input type="text" class="form-control" name="locality" id="edit_locality" placeholder="Town/City">
+                                <label>{{ __('Town/City') }}</label>
+                                <input type="text" class="form-control" name="locality" id="edit_locality" placeholder="{{ __('Town/City') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Postcode</label>
-                                <input type="text" class="form-control" name="postcode" id="edit_postcode" placeholder="Postcode">
+                                <label>{{ __('Postcode') }}</label>
+                                <input type="text" class="form-control" name="postcode" id="edit_postcode" placeholder="{{ __('Postcode') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Country</label>
-                                <input type="text" class="form-control" name="country" id="edit_country" placeholder="Country">
+                                <label>{{ __('Country') }}</label>
+                                <input type="text" class="form-control" name="country" id="edit_country" placeholder="{{ __('Country') }}">
                             </div>
                         </div>
                         <hr>
-                        <div class="form_sub_title">Demographics & Other info</div>
+                        <div class="form_sub_title">{{ __('Demographics & Other Info') }}</div>
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
-                                <label>Marital Status</label>
-                                <input type="text" class="form-control" name="marital_status" id="edit_marital_status" placeholder="e.g. Married, Single">
+                                <label>{{ __('Marital Status') }}</label>
+                                <input type="text" class="form-control" name="marital_status" id="edit_marital_status" placeholder="{{ __('e.g. Married, Single') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Highest Education</label>
-                                <input type="text" class="form-control" name="highest_education" id="edit_highest_education" placeholder="e.g. Bachelors Degree">
+                                <label>{{ __('Highest Education') }}</label>
+                                <input type="text" class="form-control" name="highest_education" id="edit_highest_education" placeholder="{{ __('e.g. Bachelors Degree') }}">
                             </div>
                             <div class="col-md-4 form-group mb-3">
-                                <label>Financial Status</label>
+                                <label>{{ __('Financial Status') }}</label>
                                 <input type="text" class="form-control" name="financial_status" id="edit_financial_status">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Occupation</label>
-                                <input type="text" class="form-control" name="occupation" id="edit_occupation" placeholder="Current profession">
+                                <label>{{ __('Occupation') }}</label>
+                                <input type="text" class="form-control" name="occupation" id="edit_occupation" placeholder="{{ __('Current profession') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>State Support/Benefits</label>
-                                <input type="text" class="form-control" name="state_support" id="edit_state_support" placeholder="e.g. Universal Credit">
+                                <label>{{ __('State Support/Benefits') }}</label>
+                                <input type="text" class="form-control" name="state_support" id="edit_state_support" placeholder="{{ __('e.g. Universal Credit') }}">
                             </div>
                         </div>
                         <div class="form-check mt-2 mb-4">
                             <input class="form-check-input" type="checkbox" name="next_of_kin" value="1" id="edit_next_of_kin">
                             <label class="form-check-label" for="edit_next_of_kin">
-                                Pupil's next of kin?
+                                {{ __("Pupil's next of kin?") }}
                             </label>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -454,11 +454,11 @@
     @endcan
 
     @can('delete-family-members')
-    @include('components.delete_modal', ['type' => 'Family Member'])
+    @include('components.delete_modal', ['type' => __('Family Member')])
     @endcan
 
     @can('edit-family-members')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 
