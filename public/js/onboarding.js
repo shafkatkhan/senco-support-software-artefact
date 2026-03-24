@@ -273,7 +273,7 @@ function addMedicationRow() {
                 <div class="col-md-6 mb-3">
                     <label class="form-label">${__('Method of Administration')}</label>
                     <input type="text" name="medications[${medicationIdx}][administration_method]" class="form-control">
-                    <div class="form-text text-muted">e.g. oral, inhalation, etc.</div>
+                    <div class="form-text text-muted">${__('e.g. oral, inhalation, etc.')}</div>
                 </div>
                 <div class="col-md-4 mb-3">
                 <label class="form-label">${__('Start Date')} <span class="text-danger">*</span></label>

@@ -177,6 +177,7 @@ return [
             'Frequency',
             'Time of Day',
             'Method of Administration',
+            'e.g. oral, inhalation, etc.',
             'Start Date',
             'End Date',
             'Expiry Date',
