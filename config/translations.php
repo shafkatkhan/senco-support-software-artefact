@@ -226,6 +226,7 @@ return [
             'e.g. Twice Daily, As Needed',
             'e.g. Morning, Night, 1:30pm',
             'e.g. Oral, Injection',
+            'Medication',
         ],
 
         'Records' => [
@@ -235,6 +236,10 @@ return [
             'Reference #',
             'Outcome / Next Steps',
             'Choose Type',
+        ],
+
+        'Attachments' => [
+            'Attachment',
         ],
             
 
