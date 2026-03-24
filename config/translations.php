@@ -368,6 +368,12 @@ return [
             'Permissions updated successfully!',
         ],
 
+        'Delete Confirmation' => [
+            'Delete',
+            'delete',
+            'Are you sure you want to :action this :type?',
+        ],
+
         'Misc/General' => [
             'Return back to pupils',
             'Toggle Table View',

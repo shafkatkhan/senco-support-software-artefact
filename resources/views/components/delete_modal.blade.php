@@ -5,14 +5,14 @@
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">{{ $action ?? 'Delete' }} {{ ucwords($type) }}: <span id="{{ ($id ?? 'delete') . '_modal_name' }}"></span></h1>
+                    <h1 class="modal-title fs-5">{{ $action ?? __('Delete') }} {{ ucwords($type) }}: <span id="{{ ($id ?? 'delete') . '_modal_name' }}"></span></h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to {{ strtolower($action ?? 'delete') }} this {{ strtolower($type) }}?
+                    {{ __('Are you sure you want to :action this :type?', ['action' => strtolower($action ?? __('delete')), 'type' => strtolower($type)]) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">{{ $action ?? 'Delete' }}</button>
+                    <button type="submit" class="btn btn-danger">{{ $action ?? __('Delete') }}</button>
                 </div>
             </form>
         </div>
