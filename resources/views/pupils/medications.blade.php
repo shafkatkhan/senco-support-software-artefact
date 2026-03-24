@@ -136,7 +136,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">{{ __('No medications found for :name', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
+                <div class="empty_grid_message">{{ __('No medications found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -214,7 +214,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-medications', 'delete-medications']) ? '12' : '11' }}" class="empty_table_message">{{ __('No medications found for :name', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-medications', 'delete-medications']) ? '12' : '11' }}" class="empty_table_message">{{ __('No medications found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
