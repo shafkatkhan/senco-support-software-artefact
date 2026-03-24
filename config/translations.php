@@ -258,6 +258,18 @@ return [
             'Event',
         ],
 
+        'Meetings' => [
+            'Add New Meeting',
+            'Participants',
+            'Discussion Notes',
+            'No meetings found for :name.',
+            'Meeting Title',
+            'List of attendees...',
+            'Minutes or notes from the discussion...',
+            'Agreed actions or recommendations...',
+            'Meeting',
+        ],
+
         'Attachments' => [
             'Attachment',
         ],

@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-meetings')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Meeting
+                    {{ __('Add New Meeting') }}
                 </button> 
                 @endcan
             </div>            
@@ -56,42 +56,42 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-6 border_right-md">
-                                <div class="label">Type:</div>
+                                <div class="label">{{ __('Type') }}:</div>
                                 <div class="value">
                                     <span class="badge bg-secondary">{{ $meeting->meetingType->name }}</span>
                                 </div>
                             </div>
                             <div class="item col-md-6">
-                                <div class="label">Date:</div>
+                                <div class="label">{{ __('Date') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
-                                    {{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}
+                                    {!! optional($meeting->date)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Participants:</div>
+                                <div class="label">{{ __('Participants') }}:</div>
                                 <div class="value">
-                                    {{ $meeting->participants ?? 'N/A' }}
+                                    {!! $meeting->participants ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Discussion:</div>
+                                <div class="label">{{ __('Discussion Notes') }}:</div>
                                 <div class="value">
-                                    {{ $meeting->discussion ?? 'N/A' }}
+                                    {!! $meeting->discussion ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Recommendations:</div>
+                                <div class="label">{{ __('Recommendations') }}:</div>
                                 <div class="value">
-                                    {{ $meeting->recommendations ?? 'N/A' }}
+                                    {!! $meeting->recommendations ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Last Edited:</div>
+                                <div class="label">{{ __('Last Edited') }}:</div>
                                 <div class="value">
                                     <i class="far fa-calendar-alt"></i>
                                     {{ $meeting->updated_at->format('d/m/Y') }}
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No meetings found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -114,14 +114,14 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Participants</th>
-                        <th scope="col">Discussion</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Title') }}</th>
+                        <th scope="col">{{ __('Type') }}</th>
+                        <th scope="col">{{ __('Date') }}</th>
+                        <th scope="col">{{ __('Participants') }}</th>
+                        <th scope="col">{{ __('Discussion Notes') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-meetings', 'delete-meetings'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -131,7 +131,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $meeting->title }}</td>
                             <td><span class="badge bg-secondary">{{ $meeting->meetingType->name }}</span></td>
-                            <td data-order="{{ optional($meeting->date)->format('Y-m-d') ?? '' }}">{{ optional($meeting->date)->format('d/m/Y') ?? 'N/A' }}</td>
+                            <td data-order="{{ optional($meeting->date)->format('Y-m-d') ?? '' }}">{!! optional($meeting->date)->format('d/m/Y') ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td>{{ Str::limit($meeting->participants, 30) }}</td>
                             <td>{{ Str::limit($meeting->discussion, 50) }}</td>
                             <td>
@@ -169,7 +169,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-meetings', 'delete-meetings']) ? '8' : '7' }}" class="empty_table_message">No meetings found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-meetings', 'delete-meetings']) ? '8' : '7' }}" class="empty_table_message">{{ __('No meetings found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -182,7 +182,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Meeting</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Meeting') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('meetings.store') }}" method="post" enctype="multipart/form-data">
@@ -192,39 +192,39 @@
                         @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Meeting Type</label>
+                                <label>{{ __('Meeting Type') }}</label>
                                 <select class="form-select" name="meeting_type_id" required>
-                                    <option value="" selected disabled>--- Choose Type ---</option>
+                                    <option value="" selected disabled>--- {{ __('Choose Type') }} ---</option>
                                     @foreach($meeting_types as $type)
                                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date</label>
+                                <label>{{ __('Date') }}</label>
                                 <input type="date" class="form-control" name="date">
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Meeting Title" required>
+                            <label>{{ __('Title') }}</label>
+                            <input type="text" class="form-control" name="title" placeholder="{{ __('Meeting Title') }}" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Participants</label>
-                            <textarea class="form-control" name="participants" rows="2" placeholder="List of attendees..."></textarea>
+                            <label>{{ __('Participants') }}</label>
+                            <textarea class="form-control" name="participants" rows="2" placeholder="{{ __('List of attendees...') }}"></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Discussion Notes</label>
-                            <textarea class="form-control" name="discussion" rows="4" placeholder="Minutes or notes from the discussion..."></textarea>
+                            <label>{{ __('Discussion Notes') }}</label>
+                            <textarea class="form-control" name="discussion" rows="4" placeholder="{{ __('Minutes or notes from the discussion...') }}"></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Recommendations</label>
-                            <textarea class="form-control" name="recommendations" rows="3" placeholder="Agreed actions or recommendations..."></textarea>
+                            <label>{{ __('Recommendations') }}</label>
+                            <textarea class="form-control" name="recommendations" rows="3" placeholder="{{ __('Agreed actions or recommendations...') }}"></textarea>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -237,7 +237,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Meeting</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Meeting') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -246,39 +246,39 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Meeting Type</label>
+                                <label>{{ __('Meeting Type') }}</label>
                                 <select class="form-select" name="meeting_type_id" id="edit_meeting_type_id" required>
-                                    <option value="" disabled>--- Choose Type ---</option>
+                                    <option value="" disabled>--- {{ __('Choose Type') }} ---</option>
                                     @foreach($meeting_types as $type)
                                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Date</label>
+                                <label>{{ __('Date') }}</label>
                                 <input type="date" class="form-control" name="date" id="edit_date">
                             </div>
                         </div>                        
                         <div class="form-group mb-3">
-                            <label>Title</label>
-                            <input type="text" class="form-control" name="title" id="edit_title" placeholder="Meeting Title" required>
+                            <label>{{ __('Title') }}</label>
+                            <input type="text" class="form-control" name="title" id="edit_title" placeholder="{{ __('Meeting Title') }}" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Participants</label>
-                            <textarea class="form-control" name="participants" id="edit_participants" rows="2" placeholder="List of attendees..."></textarea>
+                            <label>{{ __('Participants') }}</label>
+                            <textarea class="form-control" name="participants" id="edit_participants" rows="2" placeholder="{{ __('List of attendees...') }}"></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Discussion Notes</label>
-                             <textarea class="form-control" name="discussion" id="edit_discussion" rows="4" placeholder="Minutes or notes from the discussion..."></textarea>
+                            <label>{{ __('Discussion Notes') }}</label>
+                             <textarea class="form-control" name="discussion" id="edit_discussion" rows="4" placeholder="{{ __('Minutes or notes from the discussion...') }}"></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Recommendations</label>
-                            <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="Agreed actions or recommendations..."></textarea>
+                            <label>{{ __('Recommendations') }}</label>
+                            <textarea class="form-control" name="recommendations" id="edit_recommendations" rows="3" placeholder="{{ __('Agreed actions or recommendations...') }}"></textarea>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -287,11 +287,11 @@
     @endcan
 
     @can('delete-meetings')
-    @include('components.delete_modal', ['type' => 'Meeting'])
+    @include('components.delete_modal', ['type' => __('Meeting')] )
     @endcan
 
     @can('edit-meetings')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 
