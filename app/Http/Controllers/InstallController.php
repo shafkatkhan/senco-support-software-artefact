@@ -132,7 +132,7 @@ class InstallController extends Controller
 
                 if ($apiKey && !empty($english_labels)) {
                     $instructions = 
-                        "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". Do not change or omit any of the original english keys.";
+                        "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". Do not change or omit any of the original english keys. Preserve all Laravel-style placeholders exactly as written, such as :name, :count, :date, :time, etc. Do not translate, remove, rename, or alter these placeholders in any way.";
 
                     try {
                         $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions);
