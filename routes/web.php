@@ -35,10 +35,6 @@ Route::get('/debug-session', function () {
     return response()->json(session()->all());
 });
 
-Route::get('/laravel_welcome', function () {
-    return view('welcome');
-});
-
 Route::get('/install', [InstallController::class, 'index'])->name('install.index');
 Route::post('/install/process', [InstallController::class, 'process'])->name('install.process');
 Route::get('/install/lang_setup', [InstallController::class, 'lang_setup_view'])->name('install.lang_setup_view');
