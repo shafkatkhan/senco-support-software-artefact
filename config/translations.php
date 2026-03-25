@@ -34,6 +34,7 @@ return [
             'Diet',
             'Family Members',
             'School History',
+            'Progressions',
             'Attachments',
         ],
 
@@ -311,6 +312,24 @@ return [
             'Recommended',
             'Approved',
             'Details (Optional)',
+        ],
+
+        'Progressions' => [
+            'Add New Progression',
+            'Automatic Progression',
+            'Progression Settings Not Configured',
+            'When enabled, this pupil\'s year group will automatically increment during the next annual rollover date: :date.',
+            'System progression settings must be configured before auto-progression can be enabled.',
+            'Academic Year',
+            'Year :year',
+            'Initial',
+            'Auto',
+            'Manual',
+            'No progression history found for :name.',
+            'e.g. 11',
+            'e.g. 11C',
+            'Edit Progression',
+            'Progression History',
         ],
 
         'Attachments' => [

@@ -4,11 +4,11 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
             <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add New Progression
+                    {{ __('Add New Progression') }}
                 </button> 
             </div>            
         </div>
@@ -21,16 +21,16 @@
                         @method('PUT')
                         <div>
                             <strong>
-                                Automatic Progression
+                                {{ __('Automatic Progression') }}
                                 @if(!$progression_configured)
-                                    <span class="badge bg-danger">Progression Settings Not Configured</span>
+                                    <span class="badge bg-danger">{{ __('Progression Settings Not Configured') }}</span>
                                 @endif
                             </strong>
                             <div class="text-muted" style="font-size: 0.85rem; @if(!$progression_configured) margin-top: 10px; @endif">
                                 @if($progression_configured)
-                                    When enabled, this pupil's year group will automatically increment during the next annual rollover date: {{ $progression_update_date }}.
+                                    {{ __('When enabled, this pupil\'s year group will automatically increment during the next annual rollover date: :date.', ['date' => $progression_update_date]) }}
                                 @else
-                                    System progression settings must be configured before auto-progression can be enabled.
+                                    {{ __('System progression settings must be configured before auto-progression can be enabled.') }}
                                 @endif
                             </div>
                         </div>
@@ -44,12 +44,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Academic Year</th>
-                        <th scope="col">Year Group</th>
-                        <th scope="col">Tutor Group</th>
-                        <th scope="col">Type</th>
+                        <th scope="col">{{ __('Academic Year') }}</th>
+                        <th scope="col">{{ __('Year Group') }}</th>
+                        <th scope="col">{{ __('Tutor Group') }}</th>
+                        <th scope="col">{{ __('Type') }}</th>
                         @can('edit-pupils')
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcan
                     </tr>
                 </thead>
@@ -58,15 +58,15 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $progression->academic_year }}</td>
-                            <td>Year {{ $progression->year_group }}</td>
-                            <td>{{ $progression->tutor_group ?? 'N/A' }}</td>
+                            <td>{{ __('Year :year', ['year' => $progression->year_group]) }}</td>
+                            <td>{!! $progression->tutor_group ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td>
                                 @if($progression->type == 'initial')
-                                    <span class="badge bg-secondary">Initial</span>
+                                    <span class="badge bg-secondary">{{ __('Initial') }}</span>
                                 @elseif($progression->type == 'auto')
-                                    <span class="badge bg-success">Auto</span>
+                                    <span class="badge bg-success">{{ __('Auto') }}</span>
                                 @else
-                                    <span class="badge bg-info text-dark">Manual</span>
+                                    <span class="badge bg-info text-dark">{{ __('Manual') }}</span>
                                 @endif
                             </td>
                             <td class="icon_wrap">
@@ -92,7 +92,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty_table_message">No progression history found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="5" class="empty_table_message">{{ __('No progression history found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -104,7 +104,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add New Progression</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add New Progression') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('pupil-progressions.store') }}" method="post">
@@ -112,20 +112,28 @@
                     <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Academic Year*</label>
-                            <input type="text" class="form-control" name="academic_year" required pattern="\d{4}/\d{4}" title="Please enter in YYYY/YYYY format (e.g. @php echo date('Y') . '/' . (date('Y') + 1); @endphp)" placeholder="e.g. @php echo date('Y') . '/' . (date('Y') + 1); @endphp">
+                            <label>{{ __('Academic Year') }}*</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="academic_year"
+                                required
+                                pattern="\d{4}/\d{4}"
+                                title="{{ __('Please enter in YYYY/YYYY format (e.g. :example)', ['example' => date('Y') . '/' . (date('Y') + 1)]) }}"
+                                placeholder="{{ __('e.g. :example', ['example' => date('Y') . '/' . (date('Y') + 1)]) }}"
+                            >
                         </div>
                         <div class="form-group mb-3">
-                            <label>Year Group*</label>
-                            <input type="number" class="form-control" name="year_group" required min="1" placeholder="e.g. 11">
+                            <label>{{ __('Year Group') }}*</label>
+                            <input type="number" class="form-control" name="year_group" required min="1" placeholder="{{ __('e.g. 11') }}">
                         </div>
                         <div class="form-group mb-3">
-                            <label>Tutor Group</label>
-                            <input type="text" class="form-control" name="tutor_group" placeholder="e.g. 11C">
+                            <label>{{ __('Tutor Group') }}</label>
+                            <input type="text" class="form-control" name="tutor_group" placeholder="{{ __('e.g. 11C') }}">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -136,7 +144,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Progression</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Progression') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post">
@@ -144,27 +152,36 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Academic Year*</label>
-                            <input type="text" class="form-control" name="academic_year" id="edit_academic_year" required pattern="\d{4}/\d{4}" title="Please enter in YYYY/YYYY format (e.g. @php echo date('Y') . '/' . (date('Y') + 1); @endphp)" placeholder="e.g. @php echo date('Y') . '/' . (date('Y') + 1); @endphp">
+                            <label>{{ __('Academic Year') }}*</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="academic_year"
+                                id="edit_academic_year"
+                                required
+                                pattern="\d{4}/\d{4}"
+                                title="{{ __('Please enter in YYYY/YYYY format (e.g. :example)', ['example' => date('Y') . '/' . (date('Y') + 1)]) }}"
+                                placeholder="{{ __('e.g. :example', ['example' => date('Y') . '/' . (date('Y') + 1)]) }}"
+                            >
                         </div>
                         <div class="form-group mb-3">
-                            <label>Year Group*</label>
-                            <input type="number" class="form-control" name="year_group" id="edit_year_group" required min="1" placeholder="e.g. 11">
+                            <label>{{ __('Year Group') }}*</label>
+                            <input type="number" class="form-control" name="year_group" id="edit_year_group" required min="1" placeholder="{{ __('e.g. 11') }}">
                         </div>
                         <div class="form-group mb-3">
-                            <label>Tutor Group</label>
-                            <input type="text" class="form-control" name="tutor_group" id="edit_tutor_group" placeholder="e.g. 11C">
+                            <label>{{ __('Tutor Group') }}</label>
+                            <input type="text" class="form-control" name="tutor_group" id="edit_tutor_group" placeholder="{{ __('e.g. 11C') }}">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    @include('components.delete_modal', ['type' => 'Progression History'])
+    @include('components.delete_modal', ['type' => __('Progression History')])
 @endsection
 
 @push('scripts')
