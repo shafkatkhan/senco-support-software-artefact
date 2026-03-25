@@ -17,7 +17,7 @@
                         <div class="row mb-3">
                             <div class="col-md-8">
                                 <label class="form-label">{{ __('SMTP Host') }} <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="mail_host" value="{{ $settings['mail_host'] }}" required placeholder="e.g. smtp.mailgun.org">
+                                <input type="text" class="form-control" name="mail_host" value="{{ $settings['mail_host'] }}" required placeholder="{{ __('e.g. smtp.mailgun.org') }}">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('SMTP Port') }} <span class="text-danger">*</span></label>
@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('Encryption') }}</label>
                                 <select class="form-select" name="mail_encryption">
-                                    <option value="" {{ empty($settings['mail_encryption']) ? 'selected' : '' }}>None</option>
+                                    <option value="" {{ empty($settings['mail_encryption']) ? 'selected' : '' }}>{{ __('None') }}</option>
                                     <option value="tls" {{ $settings['mail_encryption'] == 'tls' ? 'selected' : '' }}>TLS</option>
                                     <option value="ssl" {{ $settings['mail_encryption'] == 'ssl' ? 'selected' : '' }}>SSL</option>
                                 </select>
