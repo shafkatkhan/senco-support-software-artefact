@@ -258,7 +258,7 @@ $(document).on('click', '#toggle_treatment_plan_updates_btn', function() {
         $container.css('max-height', $container[0].scrollHeight + 'px');
         $fade.css('opacity', '0');
         $hiddenUpdates.css('opacity', '1');
-        $btn.html('Show fewer updates <i class="fas fa-chevron-up ms-1"></i>');
+        $btn.html(__('Show fewer updates') + ' <i class="fas fa-chevron-up ms-1"></i>');
 
         setTimeout(function () {
             if ($container.css('max-height') != '65px') {
@@ -271,6 +271,6 @@ $(document).on('click', '#toggle_treatment_plan_updates_btn', function() {
         $container.css('max-height', '65px');
         $fade.css('opacity', '1');
         $hiddenUpdates.css('opacity', '0.4');
-        $btn.html('See all ' + $('#treatment_plan_updates_count').val() + ' updates <i class="fas fa-chevron-down ms-1"></i>');
+        $btn.html(__('See all :count updates').replace(':count', $('#treatment_plan_updates_count').val()) + ' <i class="fas fa-chevron-down ms-1"></i>');
     }
 });

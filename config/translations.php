@@ -176,6 +176,7 @@ return [
             'No primary treatment plan specified.',
             'Updates',
             'See all :count updates',
+            'Show fewer updates',
             'Add Treatment Plan Update',
             'Update Content',
             'Add follow up details...',
