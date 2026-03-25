@@ -357,6 +357,15 @@ return [
             'Accommodation',
         ],
 
+        'Majors' => [
+            'Create Major',
+            'Code',
+            'No majors found.',
+            'Select subjects',
+            'Edit Major',
+            'Major',
+        ],
+
         'Users' => [
             'Create User',
             'Mobile',

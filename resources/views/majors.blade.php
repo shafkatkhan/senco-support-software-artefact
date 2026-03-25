@@ -5,7 +5,7 @@
         <div class="content_top_buttons">
             @can('create-majors')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                Create Major
+                {{ __('Create Major') }}
             </button>
             @endcan
         </div>
@@ -14,11 +14,11 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col" class="dt-left">Subjects</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Code') }}</th>
+                        <th scope="col" class="dt-left">{{ __('Subjects') }}</th>
                         @canany(['edit-majors', 'delete-majors'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -32,7 +32,7 @@
                                 @forelse($major->subjects as $subject)
                                     <span class="badge bg-secondary">{{ $subject->name }}</span>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </td>
                             @canany(['edit-majors', 'delete-majors'])
@@ -48,7 +48,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-majors', 'delete-majors']) ? '5' : '4' }}" class="empty_table_message">No majors found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-majors', 'delete-majors']) ? '5' : '4' }}" class="empty_table_message">{{ __('No majors found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -63,21 +63,21 @@
                 <form action="{{ route('majors.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Create Major</h1>
+                        <h1 class="modal-title fs-5">{{ __('Create Major') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Code</label>
-                            <input type="text" class="form-control" name="code" placeholder="Code" />
+                            <label>{{ __('Code') }}</label>
+                            <input type="text" class="form-control" name="code" placeholder="{{ __('Code') }}" />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Subjects</label>
-                            <select class="form-control select2_multi_select" name="subject_ids[]" id="new_subject_ids" multiple data-placeholder="Select subjects" data-dropdown_parent="new">
+                            <label>{{ __('Subjects') }}</label>
+                            <select class="form-control select2_multi_select" name="subject_ids[]" id="new_subject_ids" multiple data-placeholder="{{ __('Select subjects') }}" data-dropdown_parent="new">
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -101,21 +101,21 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Edit Major</h1>
+                        <h1 class="modal-title fs-5">{{ __('Edit Major') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Code</label>
-                            <input type="text" class="form-control" name="code" id="edit_code" placeholder="Code" />
+                            <label>{{ __('Code') }}</label>
+                            <input type="text" class="form-control" name="code" id="edit_code" placeholder="{{ __('Code') }}" />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Subjects</label>
-                            <select class="form-control select2_multi_select" name="subject_ids[]" id="edit_subject_ids" multiple data-placeholder="Select subjects" data-dropdown_parent="edit">
+                            <label>{{ __('Subjects') }}</label>
+                            <select class="form-control select2_multi_select" name="subject_ids[]" id="edit_subject_ids" multiple data-placeholder="{{ __('Select subjects') }}" data-dropdown_parent="edit">
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -132,7 +132,7 @@
     @endcan
 
     @can('delete-majors')
-    @include('components.delete_modal', ['type' => 'Major'])
+    @include('components.delete_modal', ['type' => __('Major')])
     @endcan
 @endsection
 
