@@ -23,7 +23,7 @@
                                             $num = str_pad($i, 2, '0', STR_PAD_LEFT);
                                             $name = date('F', mktime(0, 0, 0, $i, 10));
                                         @endphp
-                                        <option value="{{ $num }}" {{ $currentMonth == $num ? 'selected' : '' }}>{{ $name }}</option>
+                                        <option value="{{ $num }}" {{ $currentMonth == $num ? 'selected' : '' }}>{{ __($name) }}</option>
                                     @endfor
                                 </select>
                                 <select name="progression_update_day" class="form-select" required style="width: auto; min-width: 150px;">

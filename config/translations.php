@@ -23,6 +23,7 @@ return [
             'MFA Setup',
             'Permissions',
             'System Backups',
+            'Progression Settings',
         ],
 
         'Top Navigation' => [
@@ -694,6 +695,34 @@ return [
             'Last Modified',
             'No backups found.',
             'Backup',
+        ],
+
+        'Months' => [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ],
+
+        'Progression Settings' => [
+            'Pupil Progression Settings',
+            'Configure the parameters for automatic pupil progression.',
+            'Annual Update Date',
+            'Month',
+            'Day',
+            'The date when the system will automatically progress all eligible pupils to the next year group.',
+            'Min Year Group',
+            'The lowest year group at this school.',
+            'Max Year Group',
+            'The highest year group at this school. Pupils in this year group will not be progressed further automatically.',
         ],
 
         'Delete Confirmation' => [
