@@ -293,6 +293,7 @@ return [
             'Participants',
             'Discussion Notes',
             'No meetings found for :name.',
+            'Meeting Type',
             'Meeting Title',
             'List of attendees...',
             'Minutes or notes from the discussion...',
@@ -384,6 +385,12 @@ return [
             'Create Record Type',
             'No record types found.',
             'Edit Record Type',
+        ],
+
+        'Meeting Types' => [
+            'Create Meeting Type',
+            'No meeting types found.',
+            'Edit Meeting Type',
         ],
 
         'Users' => [
