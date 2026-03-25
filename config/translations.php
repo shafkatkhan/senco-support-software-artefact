@@ -52,6 +52,10 @@ return [
             'Please contact your administrator.',
         ],
 
+        'Test Form' => [
+            'Test',
+        ],
+
         'File Extraction' => [
             'Click to upload, or drag & drop a file here for smart data extraction',
             'Extract Data',
@@ -345,10 +349,12 @@ return [
             'Update Transcript',
             'Attachment',
         ],
-            
 
-        'Test Form' => [
-            'Test',
+        'Accommodations' => [
+            'Create Accommodation',
+            'No accommodations found.',
+            'Edit Accommodation',
+            'Accommodation',
         ],
 
         'Users' => [
