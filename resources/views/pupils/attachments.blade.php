@@ -56,7 +56,7 @@
                                 @endif
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
-                                    data-bs-target="#deleteAttachment" 
+                                    data-bs-target="#delete" 
                                     data-url="{{ route('attachments.destroy', $attachment->id) }}" 
                                     data-name="{{ $attachment->filename }}"
                                     title="{{ __('Delete Attachment') }}"
@@ -99,7 +99,7 @@
         </div>
     </div>
 
-    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'delete'])
 @endsection
 
 @push('scripts')
