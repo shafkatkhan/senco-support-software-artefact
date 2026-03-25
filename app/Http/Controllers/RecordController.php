@@ -81,7 +81,7 @@ class RecordController extends Controller
         $record->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $record->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Record Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Record'), 'name' => $record->title ?? Str::limit($record->description, 30)]));
     }
 
     public function update(Request $request, Record $record)
@@ -102,7 +102,7 @@ class RecordController extends Controller
 
         $record->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Record Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Record'), 'name' => $record->title ?? Str::limit($record->description, 30)]));
     }
 
     public function destroy(Record $record)
@@ -111,9 +111,9 @@ class RecordController extends Controller
         
         try {
             $record->delete();
-            return back()->with('success', 'Record Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Record'), 'name' => $record->title ?? Str::limit($record->description, 30)]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

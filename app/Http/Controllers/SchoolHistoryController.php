@@ -43,7 +43,7 @@ class SchoolHistoryController extends Controller
         $schoolHistory->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $schoolHistory->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Previous School Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Previous School'), 'name' => $schoolHistory->school_name]));
     }
 
     public function update(Request $request, SchoolHistory $school_history)
@@ -62,7 +62,7 @@ class SchoolHistoryController extends Controller
 
         $school_history->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Previous School Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Previous School'), 'name' => $school_history->school_name]));
     }
 
     public function destroy(SchoolHistory $school_history)
@@ -71,9 +71,9 @@ class SchoolHistoryController extends Controller
         
         try {
             $school_history->delete();
-            return back()->with('success', 'Previous School Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Previous School'), 'name' => $school_history->school_name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

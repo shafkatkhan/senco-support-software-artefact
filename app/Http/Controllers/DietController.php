@@ -38,7 +38,7 @@ class DietController extends Controller
             'accommodations.*.status' => 'required|in:Recommended,Approved',
             'accommodations.*.details' => 'nullable|string'
         ], [
-            'subject_id.unique' => 'This subject is already in the pupil\'s diet.'
+            'subject_id.unique' => __('This subject is already in the pupil\'s diet.')
         ]);
 
         $diet = Diet::create([
@@ -58,7 +58,7 @@ class DietController extends Controller
 
         $diet->accommodations()->sync($syncData);
 
-        return back()->with('success', 'Diet Entry Added Successfully!');
+        return back()->with('success', __('Successfully added ":name" to diet!', ['name' => $diet->subject->name]));
     }
 
     public function update(Request $request, Diet $diet)
@@ -87,7 +87,7 @@ class DietController extends Controller
             'accommodations.*.status' => 'required|in:Recommended,Approved',
             'accommodations.*.details' => 'nullable|string'
         ], [
-            'subject_id.unique' => 'This subject is already in the pupil\'s diet.'
+            'subject_id.unique' => __('This subject is already in the pupil\'s diet.')
         ]);
 
         $diet->update([
@@ -106,7 +106,7 @@ class DietController extends Controller
 
         $diet->accommodations()->sync($syncData);
 
-        return back()->with('success', 'Diet Entry Updated Successfully!');
+        return back()->with('success', __('Successfully updated diet entry for ":name"!', ['name' => $diet->subject->name]));
     }
 
     public function destroy(Diet $diet)
@@ -115,9 +115,9 @@ class DietController extends Controller
         
         try {
             $diet->delete();
-            return back()->with('success', 'Diet Entry Deleted Successfully!');
+            return back()->with('success', __('Successfully removed ":name" from diet!', ['name' => $diet->subject->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

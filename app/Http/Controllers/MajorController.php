@@ -16,7 +16,7 @@ class MajorController extends Controller
 
         $majors = Major::with('subjects:id,name')->get();
         $subjects = Subject::orderBy('name')->get(['id', 'name']);
-        $title = "Majors";
+        $title = __('Majors');
         return view('majors', compact('majors', 'subjects', 'title'));
     }
 
@@ -37,7 +37,7 @@ class MajorController extends Controller
         ]);
         $major->subjects()->sync($validated['subject_ids'] ?? []);
 
-        return back()->with('success', 'Major Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('Major'), 'name' => $major->name]));
     }
 
     public function update(Request $request, Major $major)
@@ -57,7 +57,7 @@ class MajorController extends Controller
         ]);
         $major->subjects()->sync($validated['subject_ids'] ?? []);
 
-        return back()->with('success', 'Major Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Major'), 'name' => $major->name]));
     }
 
     public function destroy(Major $major)
@@ -66,9 +66,9 @@ class MajorController extends Controller
 
         try {
             $major->delete();
-            return back()->with('success', 'Major Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Major'), 'name' => $major->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

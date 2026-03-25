@@ -45,7 +45,7 @@ class EventController extends Controller
         $event->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $event->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Event Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Event'), 'name' => $event->title]));
     }
 
     public function update(Request $request, Event $event)
@@ -64,7 +64,7 @@ class EventController extends Controller
 
         $event->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Event Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Event'), 'name' => $event->title]));
     }
 
     public function destroy(Event $event)
@@ -73,9 +73,9 @@ class EventController extends Controller
         
         try {
             $event->delete();
-            return back()->with('success', 'Event Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Event'), 'name' => $event->title]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

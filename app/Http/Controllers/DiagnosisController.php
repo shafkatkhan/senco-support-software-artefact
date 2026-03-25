@@ -74,7 +74,7 @@ class DiagnosisController extends Controller
         $diagnosis->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $diagnosis->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Diagnosis Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Diagnosis'), 'name' => $diagnosis->name]));
     }
 
     public function update(Request $request, Diagnosis $diagnosis)
@@ -93,7 +93,7 @@ class DiagnosisController extends Controller
         
         $diagnosis->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Diagnosis Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Diagnosis'), 'name' => $diagnosis->name]));
     }
 
     public function destroy(Diagnosis $diagnosis)
@@ -102,9 +102,9 @@ class DiagnosisController extends Controller
 
         try {
             $diagnosis->delete();
-            return back()->with('success', 'Diagnosis Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Diagnosis'), 'name' => $diagnosis->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

@@ -15,7 +15,7 @@ class AttachmentController extends Controller
     public function show(Request $request, Attachment $attachment)
     {
         if (!Storage::exists($attachment->file_path)) {
-            abort(404, 'File not found.');
+            abort(404, __('File not found.'));
         }
 
         $headers = [];
@@ -43,16 +43,16 @@ class AttachmentController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Transcript updated successfully!');
+        return back()->with('success', __(':item for ":name" updated successfully!', ['item' => __('Transcript'), 'name' => $attachment->filename]));
     }
 
     public function destroy(Attachment $attachment)
     {
         try {
             $attachment->delete();
-            return back()->with('success', 'Attachment deleted successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Attachment'), 'name' => $attachment->filename]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

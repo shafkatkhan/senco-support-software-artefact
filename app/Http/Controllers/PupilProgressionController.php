@@ -23,7 +23,7 @@ class PupilProgressionController extends Controller
 
         PupilProgression::create($validated);
 
-        return back()->with('success', 'Progression added successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Progression'), 'name' => $validated['academic_year']]));
     }
 
     public function update(Request $request, PupilProgression $pupilProgression)
@@ -36,16 +36,16 @@ class PupilProgressionController extends Controller
 
         $pupilProgression->update($validated);
 
-        return back()->with('success', 'Progression updated successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Progression'), 'name' => $validated['academic_year']]));
     }
 
     public function destroy(PupilProgression $pupilProgression)
     {
         try {
             $pupilProgression->delete();
-            return back()->with('success', 'Progression deleted successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Progression'), 'name' => $pupilProgression->academic_year]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 
@@ -55,6 +55,6 @@ class PupilProgressionController extends Controller
             'auto_progression' => $request->has('auto_progression')
         ]);
 
-        return back()->with('success', 'Auto-progression turned ' . ($request->has('auto_progression') ? 'on' : 'off') . ' successfully!');
+        return back()->with('success', __('Auto-progression turned :status successfully!', ['status' => $request->has('auto_progression') ? __('on') : __('off')]));
     }
 }

@@ -18,7 +18,7 @@ class SubjectController extends Controller
         $subjects = Subject::with(['accommodations:id,name', 'proficiencies:id,name'])->get();
         $accommodations = Accommodation::orderBy('name')->get(['id', 'name']);
         $proficiencies = Proficiency::orderBy('name')->get(['id', 'name']);
-        $title = "Subjects";
+        $title = __('Subjects');
         return view('subjects', compact('subjects', 'accommodations', 'proficiencies', 'title'));
     }
 
@@ -42,7 +42,7 @@ class SubjectController extends Controller
         $subject->accommodations()->sync($validated['accommodation_ids'] ?? []);
         $subject->proficiencies()->sync($validated['proficiency_ids'] ?? []);
 
-        return back()->with('success', 'Subject Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('Subject'), 'name' => $subject->name]));
     }
 
     public function update(Request $request, Subject $subject)
@@ -66,7 +66,7 @@ class SubjectController extends Controller
         $subject->accommodations()->sync($validated['accommodation_ids'] ?? []);
         $subject->proficiencies()->sync($validated['proficiency_ids'] ?? []);
 
-        return back()->with('success', 'Subject Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Subject'), 'name' => $subject->name]));
     }
 
     public function destroy(Subject $subject)
@@ -75,9 +75,9 @@ class SubjectController extends Controller
         
         try {
             $subject->delete();
-            return back()->with('success', 'Subject Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Subject'), 'name' => $subject->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

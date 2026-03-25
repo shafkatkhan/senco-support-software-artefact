@@ -19,7 +19,7 @@ class ProgressionSettingController extends Controller
         $currentMonth = $currentDate ? explode('-', $currentDate)[0] : '';
         $currentDay = $currentDate ? explode('-', $currentDate)[1] : '';
 
-        $title = 'Progression Settings';
+        $title = __('Progression Settings');
         return view('progression_settings', compact('settings', 'title', 'currentMonth', 'currentDay'));
     }
 
@@ -33,7 +33,7 @@ class ProgressionSettingController extends Controller
                 'size:2',
                 function ($attribute, $value, $fail) use ($request) {
                     if (!checkdate((int) $request->progression_update_month, (int) $value, 2026)) {
-                        $fail('The selected date is invalid.');
+                        $fail(__('The selected date is invalid.'));
                     }
                 },
             ],
@@ -47,6 +47,6 @@ class ProgressionSettingController extends Controller
         Setting::set('progression_min_year_group', $validated['progression_min_year_group']);
         Setting::set('progression_max_year_group', $validated['progression_max_year_group']);
 
-        return redirect()->back()->with('success', 'Progression settings updated successfully!');
+        return redirect()->back()->with('success', __(':type settings updated successfully!', ['type' => __('Progression')]));
     }
 }

@@ -27,7 +27,7 @@ class MeetingTypeController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Meeting Type Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('Meeting Type'), 'name' => $meeting_type->name]));
     }
 
     public function update(Request $request, MeetingType $meeting_type)
@@ -39,7 +39,7 @@ class MeetingTypeController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Meeting Type Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Meeting Type'), 'name' => $meeting_type->name]));
     }
 
     public function destroy(MeetingType $meeting_type)
@@ -48,12 +48,12 @@ class MeetingTypeController extends Controller
         
         try {
             $meeting_type->delete();
-            return back()->with('success', 'Meeting Type Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Meeting Type'), 'name' => $meeting_type->name]));
         } catch (QueryException $e) {
             if ($e->getCode() == "23000") {
-                return back()->with('error', 'Cannot delete this type because meetings are assigned to it.');
+                return back()->with('error', __('Cannot delete this type because meetings are assigned to it.'));
             }
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

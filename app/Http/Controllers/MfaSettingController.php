@@ -13,7 +13,7 @@ class MfaSettingController extends Controller
     {
         Gate::authorize('manage-mfa-settings');
 
-        $title = 'MFA Settings';
+        $title = __('MFA Settings');
         $mfa_method = Setting::get('mfa_method', 'none');
         $smtp_configured = Setting::get('mail_host');
         return view('mfa_settings', compact('title', 'mfa_method', 'smtp_configured'));
@@ -44,6 +44,6 @@ class MfaSettingController extends Controller
             ]);
         }
 
-        return redirect()->route('mfa-settings.index')->with('success', 'MFA settings updated successfully!');
+        return redirect()->route('mfa-settings.index')->with('success', __(':type settings updated successfully!', ['type' => 'MFA']));
     }
 }

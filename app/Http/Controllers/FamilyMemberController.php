@@ -70,7 +70,7 @@ class FamilyMemberController extends Controller
             $familyMember->pupil->update(['primary_family_member_id' => $familyMember->id]);
         }
 
-        return back()->with('success', 'Family Member Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Family Member'), 'name' => $familyMember->first_name.' '.$familyMember->last_name]));
     }
 
     public function update(Request $request, FamilyMember $family_member)
@@ -108,7 +108,7 @@ class FamilyMemberController extends Controller
             $family_member->pupil->update(['primary_family_member_id' => null]);
         }
 
-        return back()->with('success', 'Family Member Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Family Member'), 'name' => $family_member->first_name.' '.$family_member->last_name]));
     }
 
     public function destroy(FamilyMember $family_member)
@@ -117,9 +117,9 @@ class FamilyMemberController extends Controller
         
         try {
             $family_member->delete();
-            return back()->with('success', 'Family Member Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Family Member'), 'name' => $family_member->first_name.' '.$family_member->last_name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

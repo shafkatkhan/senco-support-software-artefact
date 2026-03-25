@@ -162,7 +162,7 @@ class PupilController extends Controller
         Gate::authorize('view-pupils');
         
         $pupils = Pupil::with('attachments', 'medications', 'onboardedBy', 'primaryFamilyMember', 'diagnoses')->get();
-        $title = "Pupils";
+        $title = __('SEND Pupils');
         return view('pupils', compact('pupils', 'title'));
     }
 
@@ -175,7 +175,7 @@ class PupilController extends Controller
 
         $professionals = Professional::orderBy('last_name')->get();
         $record_types = RecordType::orderBy('name')->get();
-        $title = "Onboard New Pupil";
+        $title = __('Onboard New Pupil');
         return view('pupils.create', compact('title', 'professionals', 'record_types'));
     }
 
@@ -407,7 +407,7 @@ class PupilController extends Controller
             // process social services
             if ($pupil->social_services_involvement && !empty($validated['social_worker'])) {
                 if (empty($validated['social_worker']['prof_role'])) {
-                    $validated['social_worker']['prof_role'] = 'Social Worker';
+                    $validated['social_worker']['prof_role'] = __('Social Worker');
                 }
                 $socialWorkerData = $processInlineProfessional($validated['social_worker']);
                 if (!empty($socialWorkerData['professional_id'])) {
@@ -418,7 +418,7 @@ class PupilController extends Controller
             // process probation officer
             if ($pupil->probation_officer_required && !empty($validated['probation_officer'])) {
                 if (empty($validated['probation_officer']['prof_role'])) {
-                    $validated['probation_officer']['prof_role'] = 'Probation Officer';
+                    $validated['probation_officer']['prof_role'] = __('Probation Officer');
                 }
                 $probationOfficerData = $processInlineProfessional($validated['probation_officer']);
                 if (!empty($probationOfficerData['professional_id'])) {
@@ -431,9 +431,9 @@ class PupilController extends Controller
             // create onboarding event
             Event::create([
                 'pupil_id' => $pupil->id,
-                'title' => 'Pupil Onboarded',
+                'title' => __('Pupil Onboarded'),
                 'date' => now(),
-                'description' => 'Pupil profile created and onboarded into the system.'
+                'description' => __('Pupil profile created and onboarded into the system.')
             ]);
 
             $pupil->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
@@ -441,10 +441,10 @@ class PupilController extends Controller
 
             \DB::commit();
 
-            return redirect()->route('pupils.show', $pupil->id)->with('success', 'Pupil successfully onboarded!');
+            return redirect()->route('pupils.show', $pupil->id)->with('success', __('Pupil successfully onboarded!'));
         } catch (\Exception $e) {
             \DB::rollBack();
-            return back()->withInput()->withErrors(['error' => 'An error occurred during onboarding: ' . $e->getMessage()]);
+            return back()->withInput()->withErrors(['error' => __('An error occurred during onboarding: :error', ['error' => $e->getMessage()])]);
         }
     }
 
@@ -459,7 +459,7 @@ class PupilController extends Controller
         
         $involvements = $pupil->involvements;
 
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Details";
+        $title = __('Dashboard for :name', ['name' => $pupil->full_name]);
         return view('pupils.show', compact('pupil', 'title', 'involvements'));
     }
 
@@ -476,7 +476,7 @@ class PupilController extends Controller
         }
         $progression_configured = $progression_update_date_setting && Setting::exists('progression_min_year_group') && Setting::exists('progression_max_year_group');
 
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Progressions";
+        $title = __('Progressions for :name', ['name' => $pupil->full_name]);
         return view('pupils.progressions', compact('pupil', 'title', 'progression_update_date', 'progression_configured'));
     }
 
@@ -485,7 +485,7 @@ class PupilController extends Controller
         Gate::authorize('view-medications');
 
         $pupil->load('medications.attachments');
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Medications";
+        $title = __('Medications for :name', ['name' => $pupil->full_name]);
         return view('pupils.medications', compact('pupil', 'title'));
     }
 
@@ -495,7 +495,7 @@ class PupilController extends Controller
 
         $pupil->load('diagnoses.professional', 'diagnoses.attachments');
         $professionals = Professional::orderBy('last_name')->get();
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Diagnoses";
+        $title = __('Diagnoses for :name', ['name' => $pupil->full_name]);
         return view('pupils.diagnoses', compact('pupil', 'title', 'professionals'));
     }
 
@@ -506,7 +506,7 @@ class PupilController extends Controller
         $pupil->load(['records.recordType', 'records.professional', 'records.attachments']);
         $record_types = RecordType::all();
         $professionals = Professional::orderBy('last_name')->get();
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Records";
+        $title = __('Records for :name', ['name' => $pupil->full_name]);
         return view('pupils.records', compact('pupil', 'title', 'record_types', 'professionals'));
     }
 
@@ -515,7 +515,7 @@ class PupilController extends Controller
         Gate::authorize('view-events');
 
         $pupil->load('events.attachments');
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Events";
+        $title = __('Events for :name', ['name' => $pupil->full_name]);
         return view('pupils.events', compact('pupil', 'title'));
     }
 
@@ -524,7 +524,7 @@ class PupilController extends Controller
         Gate::authorize('view-family-members');
 
         $pupil->load('familyMembers.attachments');
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Family Members";
+        $title = __('Family Members for :name', ['name' => $pupil->full_name]);
         return view('pupils.family_members', compact('pupil', 'title'));
     }
 
@@ -534,7 +534,7 @@ class PupilController extends Controller
 
         $pupil->load(['meetings.meetingType', 'meetings.attachments']);
         $meeting_types = MeetingType::all();
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Meetings";
+        $title = __('Meetings for :name', ['name' => $pupil->full_name]);
         return view('pupils.meetings', compact('pupil', 'title', 'meeting_types'));
     }
 
@@ -544,7 +544,7 @@ class PupilController extends Controller
 
         $pupil->load(['diets.subject', 'diets.proficiency', 'diets.accommodations']);
         $subjects = Subject::with(['proficiencies', 'accommodations'])->orderBy('name')->get();
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Diet";
+        $title = __('Subject Diet for :name', ['name' => $pupil->full_name]);
         return view('pupils.diets', compact('pupil', 'title', 'subjects'));
     }
 
@@ -553,7 +553,7 @@ class PupilController extends Controller
         Gate::authorize('view-school-histories');
 
         $pupil->load('schoolHistories.attachments');
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s School History";
+        $title = __('School History for :name', ['name' => $pupil->full_name]);
         return view('pupils.school_histories', compact('pupil', 'title'));
     }
 
@@ -591,7 +591,7 @@ class PupilController extends Controller
             ->concat($pupil->meetings->flatMap->attachments)
             ->concat($pupil->schoolHistories->flatMap->attachments);
 
-        $title = $pupil->first_name . " " . $pupil->last_name . "'s Attachments";
+        $title = __('Attachments for :name', ['name' => $pupil->full_name]);
         return view('pupils.attachments', compact('pupil', 'title', 'allAttachments'));
     }
 
@@ -604,7 +604,7 @@ class PupilController extends Controller
 
         $pupil->load('familyMembers');
         $professionals = Professional::orderBy('last_name')->get();
-        $title = 'Edit ' . $pupil->first_name . ' ' . $pupil->last_name;
+        $title = __('Edit information for :name', ['name' => $pupil->full_name]);
 
         return view('pupils.edit', compact('pupil', 'professionals', 'title'));
     }
@@ -684,7 +684,7 @@ class PupilController extends Controller
 
         $pupil->update($data);
 
-        return redirect()->route('pupils.show', $pupil->id)->with('success', 'Pupil Updated Successfully!');
+        return redirect()->route('pupils.show', $pupil->id)->with('success', __(':item ":name" updated successfully!', ['item' => 'Pupil', 'name' => $pupil->full_name]));
     }
 
     /**
@@ -705,7 +705,7 @@ class PupilController extends Controller
             'description' => $validated['description'],
         ]);
 
-        return back()->with('success', 'Treatment plan update added successfully!');
+        return back()->with('success', __('Treatment plan update added successfully!'));
     }
 
     /**
@@ -717,9 +717,9 @@ class PupilController extends Controller
 
         try {
             $pupil->delete();
-            return redirect()->route('pupils.index')->with('success', 'Pupil Deleted Successfully!');
+            return redirect()->route('pupils.index')->with('success', __(':item ":name" deleted successfully!', ['item' => 'Pupil', 'name' => $pupil->full_name]));
         } catch (QueryException $e) {
-            return redirect()->route('pupils.index')->with('error', 'Something went wrong.');
+            return redirect()->route('pupils.index')->with('error', __('Something went wrong.'));
         }
     }
 
@@ -744,7 +744,7 @@ class PupilController extends Controller
 
         $involvements = $pupil->involvements;
 
-        $title = 'Pupil Profile Summary - ' . $pupil->first_name . ' ' . $pupil->last_name . ' (' . $pupil->pupil_number . ')';
+        $title = __('Pupil Profile Summary - :name (:pupil_number)', ['name' => $pupil->full_name, 'pupil_number' => $pupil->pupil_number]);
 
         // --- font translation ---
         // map locale prefixes to the correct Noto Sans Google Fonts variant

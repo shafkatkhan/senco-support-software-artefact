@@ -14,7 +14,7 @@ class AccommodationController extends Controller
         Gate::authorize('view-accommodations');
 
         $accommodations = Accommodation::all();
-        $title = "Accommodations";
+        $title = __('Accommodations');
         return view('accommodations', compact('accommodations', 'title'));
     }
     
@@ -27,7 +27,7 @@ class AccommodationController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Accommodation Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('Accommodation'), 'name' => $request->name]));
     }
 
     public function update(Request $request, Accommodation $accommodation)
@@ -39,7 +39,7 @@ class AccommodationController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Accommodation Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Accommodation'), 'name' => $request->name]));
     }
 
     public function destroy(Accommodation $accommodation)
@@ -48,9 +48,9 @@ class AccommodationController extends Controller
         
         try {
             $accommodation->delete();
-            return back()->with('success', 'Accommodation Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Accommodation'), 'name' => $accommodation->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

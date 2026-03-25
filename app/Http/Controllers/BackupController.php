@@ -32,7 +32,7 @@ class BackupController extends Controller
             }
         }
 
-        $title = 'System Backups';
+        $title = __('System Backups');
         return view('backups', compact('backups', 'title'));
     }
 
@@ -62,9 +62,9 @@ class BackupController extends Controller
             $dump = new IMysqldump\Mysqldump($database_connection, $db['username'], $db['password']);
             $dump->start($path);
 
-            return redirect()->route('backups.index')->with('success', 'Backup created successfully!');
+            return redirect()->route('backups.index')->with('success',  __(':item ":name" created successfully!', ['item' => __('Backup'), 'name' => $fileName]));
         } catch (\Exception $e) {
-            return redirect()->route('backups.index')->with('error', 'Backup failed: ' . $e->getMessage());
+            return redirect()->route('backups.index')->with('error', __('Backup failed: :message', ['message' => $e->getMessage()]));
         }
     }
 
@@ -82,7 +82,7 @@ class BackupController extends Controller
             return response()->download($disk->path($file));
         }
 
-        return redirect()->route('backups.index')->with('error', 'Backup file not found.');
+        return redirect()->route('backups.index')->with('error', __('Backup file not found.'));
     }
 
     /**
@@ -93,13 +93,14 @@ class BackupController extends Controller
         Gate::authorize('delete-backups');
 
         $file = urldecode($file_path);
+        $fileName = basename($file);
         $disk = Storage::disk('local');
 
         if ($disk->exists($file)) {
             $disk->delete($file);
-            return redirect()->route('backups.index')->with('success', 'Backup deleted successfully!');
+            return redirect()->route('backups.index')->with('success', __(':item ":name" deleted successfully!', ['item' => __('Backup'), 'name' => $fileName]));
         }
 
-        return redirect()->route('backups.index')->with('error', 'Backup file not found.');
+        return redirect()->route('backups.index')->with('error', __('Backup file not found.'));
     }
 }

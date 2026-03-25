@@ -14,7 +14,7 @@ class ProfessionalController extends Controller
         Gate::authorize('view-professionals');
 
         $professionals = Professional::all();
-        $title = "Professionals";
+        $title = __('Professionals');
         return view('professionals', compact('professionals', 'title'));
     }
 
@@ -32,7 +32,7 @@ class ProfessionalController extends Controller
             'email' => 'nullable|email|max:255',
         ]));
 
-        return back()->with('success', 'Professional Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Professional'), 'name' => $professional->first_name.' '.$professional->last_name]));
     }
 
     public function update(Request $request, Professional $professional)
@@ -49,7 +49,7 @@ class ProfessionalController extends Controller
             'email' => 'nullable|email|max:255',
         ]));
 
-        return back()->with('success', 'Professional Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Professional'), 'name' => $professional->first_name.' '.$professional->last_name]));
     }
 
     public function destroy(Professional $professional)
@@ -58,12 +58,12 @@ class ProfessionalController extends Controller
         
         try {
             $professional->delete();
-            return back()->with('success', 'Professional Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Professional'), 'name' => $professional->first_name.' '.$professional->last_name]));
         } catch (QueryException $e) {
             if ($e->getCode() == "23000") {
-                return back()->with('error', 'Cannot delete this professional as they are linked to existing records.');
+                return back()->with('error', __('Cannot delete this professional as they are linked to existing records.'));
             }
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

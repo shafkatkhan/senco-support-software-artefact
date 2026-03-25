@@ -14,7 +14,7 @@ class RecordTypeController extends Controller
         Gate::authorize('view-record-types');
 
         $record_types = RecordType::all();
-        $title = "Record Types";
+        $title = __('Record Types');
         return view('record_types', compact('record_types', 'title'));
     }
 
@@ -27,7 +27,7 @@ class RecordTypeController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Record Type Created Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Record Type'), 'name' => $record_type->name]));
     }
 
     public function update(Request $request, RecordType $record_type)
@@ -39,7 +39,7 @@ class RecordTypeController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Record Type Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Record Type'), 'name' => $record_type->name]));
     }
 
     public function destroy(RecordType $record_type)
@@ -48,12 +48,12 @@ class RecordTypeController extends Controller
         
         try {
             $record_type->delete();
-            return back()->with('success', 'Record Type Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Record Type'), 'name' => $record_type->name]));
         } catch (QueryException $e) {
             if ($e->getCode() == "23000") {
-                return back()->with('error', 'Cannot delete this type because records are assigned to it.');
+                return back()->with('error', __('Cannot delete this type because records are assigned to it.'));
             }
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

@@ -15,7 +15,7 @@ class EmailSettingController extends Controller
     {
         Gate::authorize('manage-email-settings');
 
-        $title = 'Email Settings';
+        $title = __('Email Settings');
         
         $settings = [
             'mail_host' => Setting::get('mail_host'),
@@ -52,7 +52,7 @@ class EmailSettingController extends Controller
         Setting::set('mail_from_address', $request->mail_from_address);
         Setting::set('mail_from_name', $request->mail_from_name);
 
-        return redirect()->back()->with('success', __('Email settings updated successfully.'));
+        return redirect()->back()->with('success', __(':type settings updated successfully!', ['type' => __('Email')]));
     }
 
     public function test(Request $request)
@@ -65,9 +65,9 @@ class EmailSettingController extends Controller
 
         try {
             Mail::to($request->test_email_address)->send(new TestEmail());
-            return redirect()->back()->with('success', __('Test email sent successfully to') . ' ' . $request->test_email_address);
+            return redirect()->back()->with('success', __('Test email sent successfully to :email!', ['email' => $request->test_email_address]));
         } catch (Exception $e) {
-            return redirect()->back()->with('error', __('Failed to send test email:') . ' ' . $e->getMessage());
+            return redirect()->back()->with('error', __('Failed to send test email: :error.', ['error' => $e->getMessage()]));
         }
     }
 }

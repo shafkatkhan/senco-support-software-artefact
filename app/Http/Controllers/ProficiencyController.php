@@ -14,7 +14,7 @@ class ProficiencyController extends Controller
         Gate::authorize('view-proficiencies');
 
         $proficiencies = Proficiency::all();
-        $title = "Proficiencies";
+        $title = __('Proficiencies');
         return view('proficiencies', compact('proficiencies', 'title'));
     }
 
@@ -27,7 +27,7 @@ class ProficiencyController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Proficiency Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('Proficiency'), 'name' => $proficiency->name]));
     }
 
     public function update(Request $request, Proficiency $proficiency)
@@ -39,7 +39,7 @@ class ProficiencyController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'Proficiency Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Proficiency'), 'name' => $proficiency->name]));
     }
 
     public function destroy(Proficiency $proficiency)
@@ -48,9 +48,9 @@ class ProficiencyController extends Controller
         
         try {
             $proficiency->delete();
-            return back()->with('success', 'Proficiency Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Proficiency'), 'name' => $proficiency->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

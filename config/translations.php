@@ -144,6 +144,7 @@ return [
         ],
 
         'Pupil Dashboard' => [
+            'Dashboard for :name',
             'Pupil No.',
             'Personal Details',
             'Basic information of the pupil.',
@@ -179,9 +180,15 @@ return [
             'Update Content',
             'Add follow up details...',
             'Add Update',
+            'Treatment plan update added successfully!',
+        ],
+
+        'Edit Pupil' => [
+            'Edit information for :name',
         ],
 
         'Pupil Summary PDF Export' => [
+            'Pupil Profile Summary - :name (:pupil_number)',
             'Pupil Profile Summary',
             'Date: :date',
             'Personal Details',
@@ -207,9 +214,17 @@ return [
             'e.g. Speech Therapist',
             'e.g. NHS',
             'Edit Professional',
+            'Cannot delete this professional as they are linked to existing records.',
+            'Social Worker',
+            'Probation Officer',
+            'Pupil Onboarded',
+            'Pupil profile created and onboarded into the system.',
+            'Pupil successfully onboarded!',
+            'An error occurred during onboarding: :error',
         ],
 
         'Family Members' => [
+            'Family Members for :name',
             'Add New Family Member',
             'Government/State Support',
             'No family members found for :name.',
@@ -231,6 +246,7 @@ return [
         ],
 
         'School History' => [
+            'School History for :name',
             'School Type',
             'e.g. State School, Grammar School, Special School...',
             'Class Type',
@@ -248,6 +264,7 @@ return [
         ],
 
         'Diagnoses' => [
+            'Diagnoses for :name',
             'Add New Diagnosis',
             'Diagnosis Name',
             'Date Diagnosed',
@@ -261,6 +278,7 @@ return [
         ],
 
         'Medications' => [
+            'Medications for :name',
             'Add New Medication',
             'Medication Name',
             'Dosage',
@@ -284,6 +302,7 @@ return [
         ],
 
         'Records' => [
+            'Records for :name',
             'Add New Record',
             'Record',
             'Record Type',
@@ -299,6 +318,7 @@ return [
         ],
 
         'Events' => [
+            'Events for :name',
             'Add New Event',
             'No events found for :pupil.',
             'Event Title',
@@ -309,6 +329,7 @@ return [
         ],
 
         'Meetings' => [
+            'Meetings for :name',
             'Add New Meeting',
             'Participants',
             'Discussion Notes',
@@ -320,9 +341,11 @@ return [
             'Agreed actions or recommendations...',
             'Edit Meeting',
             'Meeting',
+            'Cannot delete this type because meetings are assigned to it.',
         ],
 
         'Diets' => [
+            'Subject Diet for :name',
             'Add Subject to Diet',
             'No diet entries found for :name.',
             'Add Diet Entry',
@@ -335,9 +358,14 @@ return [
             'Recommended',
             'Approved',
             'Details (Optional)',
+            'This subject is already in the pupil\'s diet.',
+            'Successfully added ":name" to diet!',
+            'Successfully updated diet entry for ":name"!',
+            'Successfully removed ":name" from diet!'
         ],
 
         'Progressions' => [
+            'Progressions for :name',
             'Add New Progression',
             'Automatic Progression',
             'Progression Settings Not Configured',
@@ -353,9 +381,13 @@ return [
             'e.g. 11C',
             'Edit Progression',
             'Progression History',
+            'Auto-progression turned :status successfully!',
+            'on',
+            'off',
         ],
 
         'Attachments' => [
+            'Attachments for :name',
             'File Name',
             'Source / Name',
             'Date Uploaded',
@@ -405,6 +437,7 @@ return [
             'Create Record Type',
             'No record types found.',
             'Edit Record Type',
+            'Cannot delete this type because records are assigned to it.',
         ],
 
         'Meeting Types' => [
@@ -416,7 +449,8 @@ return [
         'User Groups' => [
             'Create User Group',
             'Edit User Group',
-            'User Group'
+            'User Group',
+            'Cannot delete this group because users are assigned to it.',
         ],
 
         'Users' => [
@@ -453,13 +487,12 @@ return [
             'Often your email address, or an API key username.',
             'Your email password, an App Password, or an API secret.',
             'TLS is recommended for port 587, SSL for port 465.',
-            'Email settings updated successfully.',
             'Send Test Email',
             'Make sure to save your settings before sending a test email.',
             'Destination Email',
             'Send Test',
-            'Test email sent successfully to',
-            'Failed to send test email:',
+            'Test email sent successfully to :email!',
+            'Failed to send test email: :error.',
             'Test Email',
             'This is a test email sent from your MySencoSupportSoftware.',
             'Hello,',
@@ -708,6 +741,8 @@ return [
             'Last Modified',
             'No backups found.',
             'Backup',
+            'Backup failed: :message',
+            'Backup file not found.',
         ],
 
         'Months' => [
@@ -736,6 +771,8 @@ return [
             'The lowest year group at this school.',
             'Max Year Group',
             'The highest year group at this school. Pupils in this year group will not be progressed further automatically.',
+            'The selected date is invalid.',
+            'Progression',
         ],
 
         'Delete Confirmation' => [
@@ -764,6 +801,14 @@ return [
             'N/A',
             'Yes',
             'No',
+            ':item ":name" created successfully!',
+            ':item ":name" updated successfully!',
+            ':item ":name" deleted successfully!',
+            'Something went wrong.',
+            'File not found.',
+            ':item for ":name" updated successfully!',
+            ':item ":name" added successfully!',
+            ':type settings updated successfully!',
         ],
     ],
 

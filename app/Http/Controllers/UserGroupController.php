@@ -14,7 +14,7 @@ class UserGroupController extends Controller
         Gate::authorize('view-user-groups');
 
         $user_groups = UserGroup::all();
-        $title = "User Groups";
+        $title = __('User Groups');
         return view('user_groups', compact('user_groups', 'title'));
     }
 
@@ -27,7 +27,7 @@ class UserGroupController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'User Group Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('User Group'), 'name' => $user_group->name]));
     }
 
     public function update(Request $request, UserGroup $user_group)
@@ -39,7 +39,7 @@ class UserGroupController extends Controller
             'description' => 'nullable|string',
         ]));
 
-        return back()->with('success', 'User Group Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('User Group'), 'name' => $user_group->name]));
     }
 
     public function destroy(UserGroup $user_group)
@@ -48,12 +48,12 @@ class UserGroupController extends Controller
         
         try {
             $user_group->delete();
-            return back()->with('success', 'User Group Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('User Group'), 'name' => $user_group->name]));
         } catch (QueryException $e) {
             if ($e->getCode() == "23000") { // error code for integrity constraint violation (foreign key constraint)
-                return back()->with('error', 'Cannot delete this group because users are assigned to it.');
+                return back()->with('error', __('Cannot delete this group because users are assigned to it.'));
             }
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

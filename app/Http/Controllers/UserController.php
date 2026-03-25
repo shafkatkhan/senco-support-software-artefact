@@ -18,7 +18,7 @@ class UserController extends Controller
 
         $users = User::with(['group', 'addedBy'])->get();
         $user_groups = UserGroup::all();
-        $title = "Users";
+        $title = __('Users');
         return view('users', compact('users', 'user_groups', 'title'));
     }
 
@@ -60,7 +60,7 @@ class UserController extends Controller
             'expiry_date' => $request->expiry_date,
         ]);
         
-        return back()->with('success', 'User Created Successfully!');
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('User'), 'name' => $user->full_name]));
     }
 
     public function update(Request $request, User $user)
@@ -98,7 +98,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return back()->with('success', 'User Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('User'), 'name' => $user->full_name]));
     }
 
     public function destroy(User $user)
@@ -107,9 +107,9 @@ class UserController extends Controller
         
         try {
             $user->delete();
-            return back()->with('success', 'User Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('User'), 'name' => $user->full_name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

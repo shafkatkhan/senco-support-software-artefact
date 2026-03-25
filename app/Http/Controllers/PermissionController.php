@@ -15,7 +15,7 @@ class PermissionController extends Controller
 
         $permissions = Permission::all();
         $userGroups = UserGroup::with('permissions')->get();
-        $title = 'Roles & Permissions';
+        $title = __('Roles & Permissions');
         return view('permissions', compact('permissions', 'userGroups', 'title'));
     }
 
@@ -35,6 +35,6 @@ class PermissionController extends Controller
             $userGroup->permissions()->sync($groupPermissions);
         }
 
-        return back()->with('success', __('Permissions updated successfully!'));
+        return back()->with('success', __(':type settings updated successfully!', ['type' => __('Permissions')]));
     }
 }

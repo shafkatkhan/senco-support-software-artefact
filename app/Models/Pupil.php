@@ -173,4 +173,9 @@ class Pupil extends Model
     {
         return $this->progressions()->latest('id')->first()->year_group ?? 'N/A';
     }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
 }

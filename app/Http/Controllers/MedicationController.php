@@ -55,7 +55,7 @@ class MedicationController extends Controller
         $medication->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $medication->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Medication Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Medication'), 'name' => $medication->name]));
     }
 
     public function update(Request $request, Medication $medication)
@@ -79,7 +79,7 @@ class MedicationController extends Controller
 
         $medication->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Medication Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Medication'), 'name' => $medication->name]));
     }
 
     public function destroy(Medication $medication)
@@ -88,9 +88,9 @@ class MedicationController extends Controller
         
         try {
             $medication->delete();
-            return back()->with('success', 'Medication Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Medication'), 'name' => $medication->name]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }

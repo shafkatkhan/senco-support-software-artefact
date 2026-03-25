@@ -48,7 +48,7 @@ class MeetingController extends Controller
         $meeting->saveLlmAttachment($request->file('llm_attachment'), $request->input('llm_transcript'));
         $meeting->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Meeting Added Successfully!');
+        return back()->with('success', __(':item ":name" added successfully!', ['item' => __('Meeting'), 'name' => $meeting->title]));
     }
 
     public function update(Request $request, Meeting $meeting)
@@ -68,7 +68,7 @@ class MeetingController extends Controller
 
         $meeting->saveAttachments($request->file('additional_attachments'));
 
-        return back()->with('success', 'Meeting Updated Successfully!');
+        return back()->with('success', __(':item ":name" updated successfully!', ['item' => __('Meeting'), 'name' => $meeting->title]));
     }
 
     public function destroy(Meeting $meeting)
@@ -77,9 +77,9 @@ class MeetingController extends Controller
         
         try {
             $meeting->delete();
-            return back()->with('success', 'Meeting Deleted Successfully!');
+            return back()->with('success', __(':item ":name" deleted successfully!', ['item' => __('Meeting'), 'name' => $meeting->title]));
         } catch (QueryException $e) {
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('Something went wrong.'));
         }
     }
 }
