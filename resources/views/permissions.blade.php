@@ -18,8 +18,8 @@
                         @foreach($permissions as $permission)
                             <tr>
                                 <td data-order="{{ $permission->id }}" class="dt-left">
-                                    <strong>{{ $permission->name }}</strong><br>
-                                    <small class="text-muted">{{ $permission->description }}</small>
+                                    <strong>{{ __($permission->name) }}</strong><br>
+                                    <small class="text-muted">{{ __($permission->description) }}</small>
                                 </td>
                                 @foreach($userGroups as $userGroup)
                                     @php
