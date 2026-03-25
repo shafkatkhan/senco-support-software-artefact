@@ -333,6 +333,16 @@ return [
         ],
 
         'Attachments' => [
+            'File Name',
+            'Source / Name',
+            'Date Uploaded',
+            'Transcript Snippet',
+            'Edit Transcript',
+            'Delete Attachment',
+            'No attachments found for :name.',
+            'Transcript',
+            'Transcript content...',
+            'Update Transcript',
             'Attachment',
         ],
             
@@ -360,7 +370,6 @@ return [
             'File Name',
             'File Size',
             'Last Modified',
-            'Download',
             'No backups found.',
         ],
 
@@ -477,6 +486,7 @@ return [
             'Toggle Table View',
             'Toggle Card View',
             'Actions',
+            'Download',
             'Export',
             'Name',
             'First Name',

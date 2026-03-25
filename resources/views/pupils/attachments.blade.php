@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">
         <div class="section_title">
-            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
 
         <div class="table_wrap">
@@ -11,11 +11,11 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Source / Name</th>
-                        <th scope="col">Date Uploaded</th>
-                        <th scope="col">Transcript Snippet</th>
-                        <th scope="col" style="width: 140px;">Actions</th>
+                        <th scope="col">{{ __('File Name') }}</th>
+                        <th scope="col">{{ __('Source / Name') }}</th>
+                        <th scope="col">{{ __('Date Uploaded') }}</th>
+                        <th scope="col">{{ __('Transcript Snippet') }}</th>
+                        <th scope="col" style="width: 140px;">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                                 @if($attachment->transcription)
                                     {{ Str::limit($attachment->transcription->transcript, 50) }}
                                 @else
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endif
                             </td>
                             <td class="icon_wrap">
@@ -49,7 +49,7 @@
                                     data-bs-target="#edit" 
                                     data-url="{{ route('attachments.update_transcript', $attachment->id) }}"
                                     data-transcript="{{ $attachment->transcription->transcript }}"
-                                    title="Edit Transcript"
+                                    title="{{ __('Edit Transcript') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -59,7 +59,7 @@
                                     data-bs-target="#deleteAttachment" 
                                     data-url="{{ route('attachments.destroy', $attachment->id) }}" 
                                     data-name="{{ $attachment->filename }}"
-                                    title="Delete Attachment"
+                                    title="{{ __('Delete Attachment') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
@@ -67,7 +67,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="empty_table_message">No attachments found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="6" class="empty_table_message">{{ __('No attachments found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -79,7 +79,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit Transcript</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit Transcript') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post">
@@ -87,19 +87,19 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Transcript</label>
-                            <textarea class="form-control" name="transcript" id="edit_transcript_text" rows="10" required placeholder="Transcript content..."></textarea>
+                            <label>{{ __('Transcript') }}</label>
+                            <textarea class="form-control" name="transcript" id="edit_transcript_text" rows="10" required placeholder="{{ __('Transcript content...') }}"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update Transcript</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update Transcript') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
 @endsection
 
 @push('scripts')
