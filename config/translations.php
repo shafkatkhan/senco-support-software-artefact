@@ -380,6 +380,12 @@ return [
             'Subject',            
         ],
 
+        'Record Types' => [
+            'Create Record Type',
+            'No record types found.',
+            'Edit Record Type',
+        ],
+
         'Users' => [
             'Create User',
             'Mobile',

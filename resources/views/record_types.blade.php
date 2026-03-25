@@ -5,7 +5,7 @@
         <div class="content_top_buttons">
             @can('create-record-types')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                Create Record Type
+                {{ __('Create Record Type') }}
             </button>
             @endcan
         </div>
@@ -14,10 +14,10 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Description') }}</th>
                         @canany(['edit-record-types', 'delete-record-types'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -40,7 +40,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-record-types', 'delete-record-types']) ? '4' : '3' }}" class="empty_table_message">No record types found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-record-types', 'delete-record-types']) ? '4' : '3' }}" class="empty_table_message">{{ __('No record types found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -55,21 +55,21 @@
                 <form action="{{ route('record-types.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Create Record Type</h1>
+                        <h1 class="modal-title fs-5">{{ __('Create Record Type') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                            <input type="text" class="form-control" name="description" placeholder="Description" />
+                            <label>{{ __('Description') }}</label>
+                            <input type="text" class="form-control" name="description" placeholder="{{ __('Description') }}" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -85,21 +85,21 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Edit Record Type</h1>
+                        <h1 class="modal-title fs-5">{{ __('Edit Record Type') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Description</label>
-                            <input type="text" class="form-control" name="description" id="edit_description" placeholder="Description" />
+                            <label>{{ __('Description') }}</label>
+                            <input type="text" class="form-control" name="description" id="edit_description" placeholder="{{ __('Description') }}" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -108,7 +108,7 @@
     @endcan
 
     @can('delete-record-types')
-    @include('components.delete_modal', ['type' => 'Record Type'])
+    @include('components.delete_modal', ['type' => __('Record Type')])
     @endcan
 @endsection
 
