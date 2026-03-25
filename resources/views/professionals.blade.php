@@ -5,7 +5,7 @@
         <div class="content_top_buttons">
             @can('create-professionals')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                Add Professional
+                {{ __('Add New Professional') }}
             </button>
             @endcan
         </div>
@@ -14,12 +14,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Agency</th>
-                        <th scope="col">Contact</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Role') }}</th>
+                        <th scope="col">{{ __('Agency') }}</th>
+                        <th scope="col">{{ __('Contact') }}</th>
                         @canany(['edit-professionals', 'delete-professionals'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -28,8 +28,8 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $professional->title }} {{ $professional->first_name }} {{ $professional->last_name }}</td>
-                            <td>{{ $professional->role ?? 'N/A' }}</td>
-                            <td>{{ $professional->agency ?? 'N/A' }}</td>
+                            <td>{!! $professional->role ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
+                            <td>{!! $professional->agency ?? '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             <td>
                                 @if($professional->phone)
                                     <div><i class="fas fa-phone"></i> {{ $professional->phone }}</div>
@@ -38,7 +38,7 @@
                                     <div><i class="fas fa-envelope"></i> <a href="mailto:{{ $professional->email }}">{{ $professional->email }}</a></div>
                                 @endif
                                 @if(!$professional->phone && !$professional->email)
-                                    N/A
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endif
                             </td>
                             @canany(['edit-professionals', 'delete-professionals'])
@@ -74,7 +74,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-professionals', 'delete-professionals']) ? '6' : '5' }}" class="empty_table_message">No professionals found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-professionals', 'delete-professionals']) ? '6' : '5' }}" class="empty_table_message">{{ __('No professionals found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -89,47 +89,47 @@
                 <form action="{{ route('professionals.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Add Professional</h1>
+                        <h1 class="modal-title fs-5">{{ __('Add New Professional') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-2 form-group mb-3">
-                                <label>Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="Dr, Mr, etc." />
+                                <label>{{ __('Title') }}</label>
+                                <input type="text" class="form-control" name="title" placeholder="{{ __('Dr, Mr, etc.') }}" />
                             </div>
                             <div class="col-md-5 form-group mb-3">
-                                <label>First Name*</label>
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name" required />
+                                <label>{{ __('First Name') }}*</label>
+                                <input type="text" class="form-control" name="first_name" placeholder="{{ __('First Name') }}" required />
                             </div>
                             <div class="col-md-5 form-group mb-3">
-                                <label>Last Name*</label>
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required />
+                                <label>{{ __('Last Name') }}*</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="{{ __('Last Name') }}" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Role</label>
-                                <input type="text" class="form-control" name="role" placeholder="e.g. Speech Therapist" />
+                                <label>{{ __('Role') }}</label>
+                                <input type="text" class="form-control" name="role" placeholder="{{ __('e.g. Speech Therapist') }}" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Agency</label>
-                                <input type="text" class="form-control" name="agency" placeholder="e.g. NHS" />
+                                <label>{{ __('Agency') }}</label>
+                                <input type="text" class="form-control" name="agency" placeholder="{{ __('e.g. NHS') }}" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone" />
+                                <label>{{ __('Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" placeholder="{{ __('Phone') }}" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email" />
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}" />
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -145,47 +145,47 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Edit Professional</h1>
+                        <h1 class="modal-title fs-5">{{ __('Edit Professional') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                          <div class="row">
                             <div class="col-md-2 form-group mb-3">
-                                <label>Title</label>
-                                <input type="text" class="form-control" name="title" id="edit_title" placeholder="Dr, Mr, etc." />
+                                <label>{{ __('Title') }}</label>
+                                <input type="text" class="form-control" name="title" id="edit_title" placeholder="{{ __('Dr, Mr, etc.') }}" />
                             </div>
                             <div class="col-md-5 form-group mb-3">
-                                <label>First Name*</label>
-                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="First Name" required />
+                                <label>{{ __('First Name') }}*</label>
+                                <input type="text" class="form-control" name="first_name" id="edit_first_name" placeholder="{{ __('First Name') }}" required />
                             </div>
                             <div class="col-md-5 form-group mb-3">
-                                <label>Last Name*</label>
-                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="Last Name" required />
+                                <label>{{ __('Last Name') }}*</label>
+                                <input type="text" class="form-control" name="last_name" id="edit_last_name" placeholder="{{ __('Last Name') }}" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Role</label>
-                                <input type="text" class="form-control" name="role" id="edit_role" placeholder="e.g. Speech Therapist" />
+                                <label>{{ __('Role') }}</label>
+                                <input type="text" class="form-control" name="role" id="edit_role" placeholder="{{ __('e.g. Speech Therapist') }}" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Agency</label>
-                                <input type="text" class="form-control" name="agency" id="edit_agency" placeholder="e.g. NHS" />
+                                <label>{{ __('Agency') }}</label>
+                                <input type="text" class="form-control" name="agency" id="edit_agency" placeholder="{{ __('e.g. NHS') }}" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="Phone" />
+                                <label>{{ __('Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="{{ __('Phone') }}" />
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="Email" />
+                                <label>{{ __('Email') }}</label>
+                                <input type="email" class="form-control" name="email" id="edit_email" placeholder="{{ __('Email') }}" />
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -194,7 +194,7 @@
     @endcan
 
     @can('delete-professionals')
-    @include('components.delete_modal', ['type' => 'Professional'])
+    @include('components.delete_modal', ['type' => __('Professional')])
     @endcan
 @endsection
 

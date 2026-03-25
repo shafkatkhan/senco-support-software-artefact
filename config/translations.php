@@ -187,6 +187,11 @@ return [
             'Agency',
             'Add New Professional',
             'Cancel',
+            'No professionals found.',
+            'Dr, Mr, etc.',
+            'e.g. Speech Therapist',
+            'e.g. NHS',
+            'Edit Professional',
         ],
 
         'Family Members' => [
