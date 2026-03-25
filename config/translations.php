@@ -206,11 +206,20 @@ return [
         ],
 
         'School History' => [
-            'School Name',
             'School Type',
-            'Type of Class',
+            'e.g. State School, Grammar School, Special School...',
+            'Class Type',
             'Years Attended',
+            'e.g. 2.5',
             'Reason for Transition',
+            'e.g. Change of location, move to secondary...',
+            'No school history found for :name.',
+            'School Name',
+            'Name of School',            
+            'Edit School History',
+            'Previous School',
+            'Type of Class',
+            'e.g. Mainstream class, SEN unit...',
         ],
 
         'Diagnoses' => [

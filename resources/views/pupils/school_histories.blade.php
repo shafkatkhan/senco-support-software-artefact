@@ -4,15 +4,15 @@
     <section id="content">
         <div class="content_top_buttons justify-content-between">
             <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> Return back to pupils
+                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
-                    Toggle Card View
+                    {{ __('Toggle Card View') }}
                 </button>
                 @can('create-school-histories')
                 <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                    Add School History
+                    {{ __('Add School History') }}
                 </button> 
                 @endcan
             </div>            
@@ -55,30 +55,30 @@
                     <div class="bottom">
                         <div class="row">
                             <div class="item col-md-12">
-                                <div class="label">School Type:</div>
+                                <div class="label">{{ __('School Type') }}:</div>
                                 <div class="value">
-                                    {{ $history->school_type ?? 'N/A' }}
+                                    {!! $history->school_type ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Class Type:</div>
+                                <div class="label">{{ __('Class Type') }}:</div>
                                 <div class="value">
-                                    {{ $history->class_type ?? 'N/A' }}
+                                    {!! $history->class_type ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Years Attended:</div>
+                                <div class="label">{{ __('Years Attended') }}:</div>
                                 <div class="value">
-                                    {{ number_format((float)$history->years_attended, 1) ?? 'N/A' }}
+                                    {!! number_format((float)$history->years_attended, 1) ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             <hr>
                             <div class="item col-md-12">
-                                <div class="label">Reason for Transition:</div>
+                                <div class="label">{{ __('Reason for Transition') }}:</div>
                                 <div class="value">
-                                    {{ $history->transition_reason ?? 'N/A' }}
+                                    {!! $history->transition_reason ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
                                 </div>
                             </div>
                             @include('components.attachments_list', ['attachments' => $history->attachments, 'card' => true, 'delete_permission' => 'edit-school-histories'])
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             @empty
-                <div class="empty_grid_message">No school history found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</div>
+                <div class="empty_grid_message">{{ __('No school history found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</div>
             @endforelse
         </div>
 
@@ -95,13 +95,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name of School</th>
-                        <th scope="col">School Type</th>
-                        <th scope="col">Class Type</th>
-                        <th scope="col">Years Attended</th>
-                        <th scope="col">Attachments</th>
+                        <th scope="col">{{ __('Name of School') }}</th>
+                        <th scope="col">{{ __('School Type') }}</th>
+                        <th scope="col">{{ __('Class Type') }}</th>
+                        <th scope="col">{{ __('Years Attended') }}</th>
+                        <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-school-histories', 'delete-school-histories'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -147,7 +147,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-school-histories', 'delete-school-histories']) ? '7' : '6' }}" class="empty_table_message">No school history found for {{ $pupil->first_name }} {{ $pupil->last_name }}.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-school-histories', 'delete-school-histories']) ? '7' : '6' }}" class="empty_table_message">{{ __('No school history found for :name.', ['name' => $pupil->first_name.' '.$pupil->last_name]) }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -160,7 +160,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add School History</h1>
+                    <h1 class="modal-title fs-5">{{ __('Add School History') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('school-histories.store') }}" method="post" enctype="multipart/form-data">
@@ -170,32 +170,32 @@
                         @include('components.file_extraction_box')
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>School Name*</label>
-                                <input type="text" class="form-control" name="school_name" required placeholder="School Name">
+                                <label>{{ __('School Name') }}*</label>
+                                <input type="text" class="form-control" name="school_name" required placeholder="{{ __('School Name') }}">
                             </div>
                             <div class="col-md-3 form-group mb-3">
-                                <label>Years Attended</label>
-                                <input type="number" step="0.1" min="0" max="99" class="form-control" name="years_attended" placeholder="e.g. 2.5">
+                                <label>{{ __('Years Attended') }}</label>
+                                <input type="number" step="0.1" min="0" max="99" class="form-control" name="years_attended" placeholder="{{ __('e.g. 2.5') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>School Type</label>
-                                <input type="text" class="form-control" name="school_type" placeholder="e.g. State School, Grammar School, Special School...">
+                                <label>{{ __('School Type') }}</label>
+                                <input type="text" class="form-control" name="school_type" placeholder="{{ __('e.g. State School, Grammar School, Special School...') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Type of Class</label>
-                                <input type="text" class="form-control" name="class_type" placeholder="e.g. Mainstream class, SEN unit...">
+                                <label>{{ __('Type of Class') }}</label>
+                                <input type="text" class="form-control" name="class_type" placeholder="{{ __('e.g. Mainstream class, SEN unit...') }}">
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Reason for Transition</label>
-                             <textarea class="form-control" name="transition_reason" rows="3" placeholder="e.g. Change of location, move to secondary..."></textarea>
+                            <label>{{ __('Reason for Transition') }}</label>
+                             <textarea class="form-control" name="transition_reason" rows="3" placeholder="{{ __('e.g. Change of location, move to secondary...') }}"></textarea>
                         </div>
                         @include('components.attachments_input', ['for_create' => true])
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -208,7 +208,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit School History</h1>
+                    <h1 class="modal-title fs-5">{{ __('Edit School History') }}</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -217,32 +217,32 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>School Name*</label>
-                                <input type="text" class="form-control" name="school_name" id="edit_name" required placeholder="Main Street Primary">
+                                <label>{{ __('School Name') }}*</label>
+                                <input type="text" class="form-control" name="school_name" id="edit_name" required placeholder="{{ __('School Name') }}">
                             </div>
                             <div class="col-md-3 form-group mb-3">
-                                <label>Years Attended</label>
-                                <input type="number" step="0.1" min="0" max="99" class="form-control" name="years_attended" id="edit_years_attended" placeholder="e.g. 2.5">
+                                <label>{{ __('Years Attended') }}</label>
+                                <input type="number" step="0.1" min="0" max="99" class="form-control" name="years_attended" id="edit_years_attended" placeholder="{{ __('e.g. 2.5') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label>School Type</label>
-                                <input type="text" class="form-control" name="school_type" id="edit_school_type" placeholder="e.g. State School, Grammar School, Special School...">
+                                <label>{{ __('School Type') }}</label>
+                                <input type="text" class="form-control" name="school_type" id="edit_school_type" placeholder="{{ __('e.g. State School, Grammar School, Special School...') }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <label>Type of Class</label>
-                                <input type="text" class="form-control" name="class_type" id="edit_class_type" placeholder="e.g. Mainstream class, SEN unit...">
+                                <label>{{ __('Type of Class') }}</label>
+                                <input type="text" class="form-control" name="class_type" id="edit_class_type" placeholder="{{ __('e.g. Mainstream class, SEN unit...') }}">
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Reason for Transition</label>
-                             <textarea class="form-control" name="transition_reason" id="edit_transition_reason" rows="3" placeholder="e.g. Change of location, move to secondary..."></textarea>
+                            <label>{{ __('Reason for Transition') }}</label>
+                             <textarea class="form-control" name="transition_reason" id="edit_transition_reason" rows="3" placeholder="{{ __('e.g. Change of location, move to secondary...') }}"></textarea>
                         </div>
                         @include('components.attachments_input')
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -251,11 +251,11 @@
     @endcan
 
     @can('delete-school-histories')
-    @include('components.delete_modal', ['type' => 'Previous School'])
+    @include('components.delete_modal', ['type' => __('Previous School')])
     @endcan
 
     @can('edit-school-histories')
-    @include('components.delete_modal', ['type' => 'Attachment', 'id' => 'deleteAttachment'])
+    @include('components.delete_modal', ['type' => __('Attachment'), 'id' => 'deleteAttachment'])
     @endcan
 @endsection
 
