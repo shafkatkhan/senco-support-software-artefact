@@ -5,7 +5,7 @@
         <div class="content_top_buttons">
             @can('create-subjects')
             <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
-                Create Subject
+                {{ __('Create Subject') }}
             </button>
             @endcan
         </div>
@@ -14,12 +14,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col" class="dt-left">Proficiencies</th>
-                        <th scope="col" class="dt-left">Accommodations</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Code') }}</th>
+                        <th scope="col" class="dt-left">{{ __('Proficiencies') }}</th>
+                        <th scope="col" class="dt-left">{{ __('Accommodations') }}</th>
                         @canany(['edit-subjects', 'delete-subjects'])
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -33,14 +33,14 @@
                                 @forelse($subject->proficiencies as $proficiency)
                                     <span class="badge bg-secondary">{{ $proficiency->name }}</span>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </td>
                             <td data-order="{{ $subject->accommodations->count() }}" class="dt-left">
                                 @forelse($subject->accommodations as $accommodation)
                                     <span class="badge bg-secondary">{{ $accommodation->name }}</span>
                                 @empty
-                                    <span class="text-muted">N/A</span>
+                                    <span class="text-muted">{{ __('N/A') }}</span>
                                 @endforelse
                             </td>
                             @canany(['edit-subjects', 'delete-subjects'])
@@ -56,7 +56,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->canAny(['edit-subjects', 'delete-subjects']) ? '6' : '5' }}" class="empty_table_message">No subjects found.</td>
+                            <td colspan="{{ auth()->user()->canAny(['edit-subjects', 'delete-subjects']) ? '6' : '5' }}" class="empty_table_message">{{ __('No subjects found.') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -71,29 +71,29 @@
                 <form action="{{ route('subjects.store') }}" method="post"> 
                     @csrf
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Create Subject</h1>
+                        <h1 class="modal-title fs-5">{{ __('Create Subject') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Code</label>
-                            <input type="text" class="form-control" name="code" placeholder="Code" />
+                            <label>{{ __('Code') }}</label>
+                            <input type="text" class="form-control" name="code" placeholder="{{ __('Code') }}" />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Proficiencies</label>
-                            <select class="form-control select2_multi_select" name="proficiency_ids[]" id="new_proficiency_ids" multiple data-placeholder="Select proficiencies" data-dropdown_parent="new">
+                            <label>{{ __('Proficiencies') }}</label>
+                            <select class="form-control select2_multi_select" name="proficiency_ids[]" id="new_proficiency_ids" multiple data-placeholder="{{ __('Select proficiencies') }}" data-dropdown_parent="new">
                                 @foreach($proficiencies as $proficiency)
                                     <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Accommodations</label>
-                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="new_accommodation_ids" multiple data-placeholder="Select accommodations" data-dropdown_parent="new">
+                            <label>{{ __('Accommodations') }}</label>
+                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="new_accommodation_ids" multiple data-placeholder="{{ __('Select accommodations') }}" data-dropdown_parent="new">
                                 @foreach($accommodations as $accommodation)
                                     <option value="{{ $accommodation->id }}">{{ $accommodation->name }}</option>
                                 @endforeach
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Save</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -117,29 +117,29 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Edit Subject</h1>
+                        <h1 class="modal-title fs-5">{{ __('Edit Subject') }}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required />
+                            <label>{{ __('Name') }}</label>
+                            <input type="text" class="form-control" name="name" id="edit_name" placeholder="{{ __('Name') }}" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Code</label>
-                            <input type="text" class="form-control" name="code" id="edit_code" placeholder="Code" />
+                            <label>{{ __('Code') }}</label>
+                            <input type="text" class="form-control" name="code" id="edit_code" placeholder="{{ __('Code') }}" />
                         </div>
                         <div class="form-group mb-3">
-                            <label>Proficiencies</label>
-                            <select class="form-control select2_multi_select" name="proficiency_ids[]" id="edit_proficiency_ids" multiple data-placeholder="Select proficiencies" data-dropdown_parent="edit">
+                            <label>{{ __('Proficiencies') }}</label>
+                            <select class="form-control select2_multi_select" name="proficiency_ids[]" id="edit_proficiency_ids" multiple data-placeholder="{{ __('Select proficiencies') }}" data-dropdown_parent="edit">
                                 @foreach($proficiencies as $proficiency)
                                     <option value="{{ $proficiency->id }}">{{ $proficiency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <label>Accommodations</label>
-                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="edit_accommodation_ids" multiple data-placeholder="Select accommodations" data-dropdown_parent="edit">
+                            <label>{{ __('Accommodations') }}</label>
+                            <select class="form-control select2_multi_select" name="accommodation_ids[]" id="edit_accommodation_ids" multiple data-placeholder="{{ __('Select accommodations') }}" data-dropdown_parent="edit">
                                 @foreach($accommodations as $accommodation)
                                     <option value="{{ $accommodation->id }}">{{ $accommodation->name }}</option>
                                 @endforeach
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="save">Update</button>
+                        <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>
@@ -156,7 +156,7 @@
     @endcan
 
     @can('delete-subjects')
-    @include('components.delete_modal', ['type' => 'Subject'])
+    @include('components.delete_modal', ['type' => __('Subject')])
     @endcan
 @endsection
 

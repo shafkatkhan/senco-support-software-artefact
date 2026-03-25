@@ -304,7 +304,6 @@ return [
         'Diets' => [
             'Add Subject to Diet',
             'No diet entries found for :name.',
-            'Subject',
             'Add Diet Entry',
             'Choose Subject',
             'Add Accommodation',
@@ -370,6 +369,15 @@ return [
             'No proficiencies found.',
             'Edit Proficiency',
             'Proficiency',
+        ],
+
+        'Subjects' => [
+            'Create Subject',
+            'No subjects found.',
+            'Select proficiencies',
+            'Select accommodations',
+            'Edit Subject',
+            'Subject',            
         ],
 
         'Users' => [
