@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <title>{{ $title }}</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family={{ $fontFamily }}:wght@400;700&display=swap');
+
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: "{{ $fontName }}", "DejaVu Sans", sans-serif;
             font-size: 12px;
             color: #333;
         }

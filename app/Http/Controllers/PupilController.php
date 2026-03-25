@@ -745,7 +745,84 @@ class PupilController extends Controller
         $involvements = $pupil->involvements;
 
         $title = 'Pupil Profile Summary - ' . $pupil->first_name . ' ' . $pupil->last_name . ' (' . $pupil->pupil_number . ')';
-        $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements'));
+
+        // --- font translation ---
+        // map locale prefixes to the correct Noto Sans Google Fonts variant
+        $locale = app()->getLocale();
+        $fontMap = [
+            'ar' => 'Noto+Sans+Arabic',
+            'he' => 'Noto+Sans+Hebrew',
+            'yi' => 'Noto+Sans+Hebrew',
+            'fa' => 'Noto+Sans+Arabic',
+            'ur' => 'Noto+Sans+Arabic',
+            'ps' => 'Noto+Sans+Arabic',
+            'ckb' => 'Noto+Sans+Arabic',
+            'ug' => 'Noto+Sans+Arabic',
+            'sd' => 'Noto+Sans+Arabic',
+            'ks' => 'Noto+Sans+Devanagari',
+            'hi' => 'Noto+Sans+Devanagari',
+            'mr' => 'Noto+Sans+Devanagari',
+            'ne' => 'Noto+Sans+Devanagari',
+            'mai' => 'Noto+Sans+Devanagari',
+            'brx' => 'Noto+Sans+Devanagari',
+            'sat' => 'Noto+Sans+Ol+Chiki',
+            'bn' => 'Noto+Sans+Bengali',
+            'gu' => 'Noto+Sans+Gujarati',
+            'pa' => 'Noto+Sans+Gurmukhi',
+            'ta' => 'Noto+Sans+Tamil',
+            'te' => 'Noto+Sans+Telugu',
+            'kn' => 'Noto+Sans+Kannada',
+            'ml' => 'Noto+Sans+Malayalam',
+            'or' => 'Noto+Sans+Oriya',
+            'si' => 'Noto+Sans+Sinhala',
+            'th' => 'Noto+Sans+Thai',
+            'lo' => 'Noto+Sans+Lao',
+            'km' => 'Noto+Sans+Khmer',
+            'my' => 'Noto+Sans+Myanmar',
+            'dv' => 'Noto+Sans+Thaana',
+            'ka' => 'Noto+Sans+Georgian',
+            'hy' => 'Noto+Sans+Armenian',
+            'am' => 'Noto+Sans+Ethiopic',
+            'ti' => 'Noto+Sans+Ethiopic',
+            'zh' => 'Noto+Sans+SC',
+            'zh-CN' => 'Noto+Sans+SC',
+            'zh-TW' => 'Noto+Sans+TC',
+            'zh-HK' => 'Noto+Sans+HK',
+            'ja' => 'Noto+Sans+JP',
+            'ko' => 'Noto+Sans+KR',
+            'iu' => 'Noto+Sans+Canadian+Aboriginal',
+            'dz' => 'Noto+Sans+Tibetan',
+            'mni' => 'Noto+Sans+Meetei+Mayek',
+            'chr' => 'Noto+Sans+Cherokee',
+            'cop' => 'Noto+Sans+Coptic',
+            'syr' => 'Noto+Sans+Syriac',
+            'tha' => 'Noto+Sans+Thai',
+            'buh' => 'Noto+Sans+Buhid',
+            'hnn' => 'Noto+Sans+Hanunoo',
+            'tgl' => 'Noto+Sans+Tagalog',
+            'tbw' => 'Noto+Sans+Tagbanwa',
+            'bug' => 'Noto+Sans+Buginese',
+            'ban' => 'Noto+Sans+Balinese',
+            'su'  => 'Noto+Sans+Sundanese',
+            'jv'  => 'Noto+Sans+Javanese',
+            'rej' => 'Noto+Sans+Rejang',
+            'btk' => 'Noto+Sans+Batak',
+            'mak' => 'Noto+Sans+Makasar',
+            'lis' => 'Noto+Sans+Lisu',
+            'vro' => 'Noto+Sans+Vithkuqi',
+            'nqo' => 'Noto+Sans+NKo',
+            'vai' => 'Noto+Sans+Vai',
+            'bax' => 'Noto+Sans+Bamum',
+            'tzm' => 'Noto+Sans+Tifinagh',
+            'zgh' => 'Noto+Sans+Tifinagh',
+        ];
+
+        // find best match: try exact locale first, then language prefix
+        $fontFamily = $fontMap[$locale] ?? $fontMap[explode('-', $locale)[0]] ?? 'Noto+Sans';
+        $fontName = str_replace('+', ' ', $fontFamily);
+        // --- end font translation ---
+
+        $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements', 'fontName'));
         $filename = str_replace(' ', '-', $pupil->pupil_number . '-' . $pupil->first_name . '-' . $pupil->last_name) . '-Profile-Summary.pdf';
 
         return $pdf->download($filename);
