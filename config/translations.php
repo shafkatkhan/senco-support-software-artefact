@@ -17,6 +17,7 @@ return [
             'Professionals',
             'User Groups',
             'Users',
+            'System Settings',
             'Email Settings',
             'MFA Settings',
             'MFA Setup',
