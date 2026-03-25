@@ -94,109 +94,109 @@
                 <div class="sub_title">({{ $pupil->pupil_number }})</div>
             </td>
             <td style="text-align: right;">
-                <div>Pupil Profile Summary</div>
-                <div>Date: {{ date('d/m/Y') }}</div>
+                <div>{{ __('Pupil Profile Summary') }}</div>
+                <div>{{ __('Date: :date', ['date' => date('d/m/Y')]) }}</div>
             </td>
         </tr>
     </table>
 
     <div class="section">
-        <div class="section_title">Personal Details</div>
+        <div class="section_title">{{ __(Personal Details) }}</div>
         <table class="inline">
             <tr>
-                <th>Full Name</th>
+                <th>{{ __('Full Name') }}</th>
                 <td>{{ $pupil->first_name }} {{ $pupil->last_name }}</td>
             </tr>
             <tr>
-                <th>Pupil Number</th>
+                <th>{{ __('Pupil Number') }}</th>
                 <td>{{ $pupil->pupil_number }}</td>
             </tr>
             <tr>
-                <th>Date of Birth</th>
-                <td>{{ $pupil->dob?->format('d/m/Y') ?? 'N/A' }}</td>
+                <th>{{ __('Date of Birth') }}</th>
+                <td>{{ $pupil->dob?->format('d/m/Y') ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Gender</th>
-                <td>{{ $pupil->gender ?? 'N/A' }}</td>
+                <th>{{ __('Gender') }}</th>
+                <td>{{ $pupil->gender ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>After School Job</th>
-                <td>{{ $pupil->after_school_job ?? 'N/A' }}</td>
+                <th>{{ __('After School Job') }}</th>
+                <td>{{ $pupil->after_school_job ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Next of Kin</th>
-                <td>{{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : 'N/A' }}</td>
+                <th>{{ __('Next of Kin') }}</th>
+                <td>{{ $pupil->primaryFamilyMember ? $pupil->primaryFamilyMember->first_name . ' ' . $pupil->primaryFamilyMember->last_name : __('N/A') }}</td>
             </tr>
         </table>
     </div>
     
     <div class="section">
-        <div class="section_title">Contact Information</div>
+        <div class="section_title">{{ __('Contact Information') }}</div>
         <table class="inline">
             <tr>
-                <th>Phone</th>
-                <td>{{ $pupil->phone ?? 'N/A' }}</td>
+                <th>{{ __('Phone') }}</th>
+                <td>{{ $pupil->phone ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td>{{ $pupil->email ?? 'N/A' }}</td>
+                <th>{{ __('Email') }}</th>
+                <td>{{ $pupil->email ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Address</th>
-                <td>{!! collect([$pupil->address_line_1, $pupil->address_line_2])->filter()->implode(', <br>') ?: 'N/A' !!}</td>
+                <th>{{ __('Address') }}</th>
+                <td>{!! collect([$pupil->address_line_1, $pupil->address_line_2])->filter()->implode(', <br>') ?: __('N/A') !!}</td>
             </tr>
             <tr>
-                <th>Town/City</th>
-                <td>{{ $pupil->locality ?? 'N/A' }}</td>
+                <th>{{ __('Town/City') }}</th>
+                <td>{{ $pupil->locality ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Postcode</th>
-                <td>{{ $pupil->postcode ?? 'N/A' }}</td>
+                <th>{{ __('Postcode') }}</th>
+                <td>{{ $pupil->postcode ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Country</th>
-                <td>{{ $pupil->country ?? 'N/A' }}</td>
+                <th>{{ __('Country') }}</th>
+                <td>{{ $pupil->country ?? __('N/A') }}</td>
             </tr>
         </table>
     </div>
 
     <div class="section">
-        <div class="section_title">Safeguarding & Needs</div>
+        <div class="section_title">{{ __('Safeguarding & Needs') }}</div>
         <table class="inline">
             <tr>
-                <th>Smoking History</th>
+                <th>{{ __('Smoking History?') }}</th>
                 <td>{{ $pupil->smoking_history ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Drug Abuse History</th>
+                <th>{{ __('Drug Abuse History?') }}</th>
                 <td>{{ $pupil->drug_abuse_history ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Special Needs</th>
+                <th>{{ __('Special Needs?') }}</th>
                 <td>
                     @if($pupil->has_special_needs)
-                        {!! $pupil->special_needs_details ? nl2br(e($pupil->special_needs_details)) : 'Yes' !!}
+                        {!! $pupil->special_needs_details ? nl2br(e($pupil->special_needs_details)) : __('Yes') !!}
                     @else
-                        N/A
+                        {{ __('N/A') }}
                     @endif
                 </td>
             </tr>
             <tr>
-                <th>Special School History</th>
+                <th>{{ __('Special School History') }}</th>
                 <td>
                     @if($pupil->attended_special_school)
-                        {!! $pupil->special_school_details ? nl2br(e($pupil->special_school_details)) : 'Yes' !!}
+                        {!! $pupil->special_school_details ? nl2br(e($pupil->special_school_details)) : __('Yes') !!}
                     @else
-                        N/A
+                        {{ __('N/A') }}
                     @endif
                 </td>
             </tr>
             <tr>
-                <th>Social Services Involvement</th>
-                <td>{{ $pupil->social_services_involvement ? 'Yes' : 'No' }}</td>
+                <th>{{ __('Social Services Involvement') }}</th>
+                <td>{{ $pupil->social_services_involvement ? __('Yes') : __('No') }}</td>
             </tr>
             <tr>
-                <th>Social Worker</th>
+                <th>{{ __('Social Worker') }}</th>
                 <td>
                     @if($pupil->socialServicesProfessional)
                         {{ collect([
@@ -205,16 +205,16 @@
                             $pupil->socialServicesProfessional->last_name,
                         ])->filter()->implode(' ') }}
                     @else
-                        N/A
+                        {{ __('N/A') }}
                     @endif
                 </td>
             </tr>
             <tr>
-                <th>Visiting Probation Officer Required</th>
-                <td>{{ $pupil->probation_officer_required ? 'Yes' : 'No' }}</td>
+                <th>{{ __('Visiting Probation Officer Required') }}</th>
+                <td>{{ $pupil->probation_officer_required ? __('Yes') : __('No') }}</td>
             </tr>
             <tr>
-                <th>Probation Officer</th>
+                <th>{{ __('Probation Officer') }}</th>
                 <td>
                     @if($pupil->probationOfficerProfessional)
                         {{ collect([
@@ -223,7 +223,7 @@
                             $pupil->probationOfficerProfessional->last_name,
                         ])->filter()->implode(' ') }}
                     @else
-                        N/A
+                        {{ __('N/A') }}
                     @endif
                 </td>
             </tr>            
@@ -231,84 +231,84 @@
     </div>
 
     <div class="section">
-        <div class="section_title">Parental Description</div>
+        <div class="section_title">{{ __('Parental Description') }}</div>
         <div style="padding: 0 12px;">
-            {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : 'N/A' !!}
+            {!! $pupil->parental_description ? nl2br(e($pupil->parental_description)) : __('N/A') !!}
         </div>
     </div>
 
     <div class="section">
-        <div class="section_title">Treatment Plan</div>
+        <div class="section_title">{{ __('Treatment Plan') }}</div>
         <div style="padding: 0 12px;">
-            {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : 'N/A' !!}
+            {!! $pupil->treatment_plan ? nl2br(e($pupil->treatment_plan)) : __('N/A') !!}
         </div>
     </div>
 
     <div class="section">
-        <div class="section_title">Administrative Information</div>
+        <div class="section_title">{{ __('Administrative Information') }}</div>
         <table class="inline">
             <tr>
-                <th>Joined Date</th>
-                <td>{{ $pupil->joined_date?->format('d/m/Y') ?? 'N/A' }}</td>
+                <th>{{ __('Joined Date') }}</th>
+                <td>{{ $pupil->joined_date?->format('d/m/Y') ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Initial Tutor Group</th>
-                <td>{{ $pupil->initial_tutor_group ?? 'N/A' }}</td>
+                <th>{{ __('Initial Tutor Group') }}</th>
+                <td>{{ $pupil->initial_tutor_group ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Current Year Group</th>
-                <td>{{ $pupil->current_year_group ?? 'N/A' }}</td>
+                <th>{{ __('Current Year Group') }}</th>
+                <td>{{ $pupil->current_year_group ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Current Tutor Group</th>
-                <td>{{ $pupil->current_tutor_group ?? 'N/A' }}</td>
+                <th>{{ __('Current Tutor Group') }}</th>
+                <td>{{ $pupil->current_tutor_group ?? __('N/A') }}</td>
             </tr>
             <tr>
-                <th>Onboarded by</th>
+                <th>{{ __('Onboarded by') }}</th>
                 <td>{{ $pupil->onboardedBy->first_name }} {{ $pupil->onboardedBy->last_name }}</td>
             </tr>
             <tr>
-                <th>Last Edited</th>
+                <th>{{ __('Last Edited') }}</th>
                 <td>{{ $pupil->updated_at->format('d/m/Y') }}, {{ $pupil->updated_at->format('H:i') }}</td>
             </tr>
         </table>
     </div>
 
     <div class="section">
-        <div class="section_title">Data Summary</div>
+        <div class="section_title">{{ __('Data Summary') }}</div>
         <table class="inline">
             <tr>
-                <th>Medications</th>
+                <th>{{ __('Medications') }}</th>
                 <td>
                     <div class="label_cards">
                         @forelse ($pupil->medications as $medication)
                             <div>{{ $medication->name }}</div>
                         @empty
-                            N/A
+                            {{ __('N/A') }}
                         @endforelse
                     </div>
                 </td>
             </tr>
             <tr>
-                <th>Diagnoses</th>
+                <th>{{ __('Diagnoses') }}</th>
                 <td>
                     <div class="label_cards">
                         @forelse ($pupil->diagnoses as $diagnosis)
                             <div>{{ $diagnosis->name }}</div>
                         @empty
-                            N/A
+                            {{ __('N/A') }}
                         @endforelse
                     </div>
                 </td>
             </tr>
             <tr>
-                <th>Subjects</th>
+                <th>{{ __('Subjects') }}</th>
                 <td>
                     <div class="label_cards">
                         @forelse ($pupil->diets as $diet)
                             <div>{{ $diet->subject->name }}</div>
                         @empty
-                            N/A
+                            {{ __('N/A') }}
                         @endforelse
                     </div>
                 </td>
@@ -318,14 +318,14 @@
 
     @if($involvements->isNotEmpty())
     <div class="section">
-        <div class="section_title">Related Professionals</div>
+        <div class="section_title">{{ __('Related Professionals') }}</div>
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Involvement</th>
-                    <th>Contact</th>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Role') }}</th>
+                    <th>{{ __('Involvement') }}</th>
+                    <th>{{ __('Contact') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -348,7 +348,12 @@
     @endif
 
     <div class="footer">
-        Generated by MySENCOSupportSoftware on {{ now()->format('d/m/Y H:i') }} by {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} <br> Confidential data, not to be shared without consent. Handle with care.
+        {{ __('Generated by MySENCOSupportSoftware on :datetime by :name', [
+            'datetime' => now()->format('d/m/Y H:i'),
+            'name' => Auth::user()->first_name.' '.Auth::user()->last_name,
+        ]) }}
+        <br>
+        {{ __('Confidential data, not to be shared without consent. Handle with care.') }}
     </div>
 </body>
 </html>
