@@ -186,6 +186,13 @@ return [
 
         'Edit Pupil' => [
             'Edit information for :name',
+            'Return back to pupil dashboard',
+            'Edit Pupil',
+            'Update the pupil\'s profile fields. Related records such as medications, diagnoses, family members, and meetings are managed separately via the top navigation bar.',
+            'Update the primary details for the pupil.',
+            'None / Not Set',
+            'SEN and Background',
+            'Safeguarding and Probation',
         ],
 
         'Pupil Summary PDF Export' => [
