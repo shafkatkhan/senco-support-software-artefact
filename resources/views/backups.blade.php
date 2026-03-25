@@ -63,6 +63,6 @@
     </section>
 
     @can('delete-backups')
-    @include('components.delete_modal', ['type' => 'Backup'])
+    @include('components.delete_modal', ['type' => __('Backup')])
     @endcan
 @endsection

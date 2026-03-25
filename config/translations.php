@@ -418,15 +418,6 @@ return [
             'User',
         ],
 
-        'Backups' => [
-            'Are you sure you want to create a new backup? This may take a moment.',
-            'Create Backup',
-            'File Name',
-            'File Size',
-            'Last Modified',
-            'No backups found.',
-        ],
-
         'Email Settings' => [
             'SMTP Configuration',
             'Configure your mail server settings to allow the application to send outgoing emails (like MFA codes or notifications).',
@@ -693,6 +684,16 @@ return [
             'Can create backups.',
             'Delete Backups',
             'Can delete backups.',
+        ],
+
+        'Backups' => [
+            'Are you sure you want to create a new backup? This may take a moment.',
+            'Create Backup',
+            'File Name',
+            'File Size',
+            'Last Modified',
+            'No backups found.',
+            'Backup',
         ],
 
         'Delete Confirmation' => [
