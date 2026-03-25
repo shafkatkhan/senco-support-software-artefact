@@ -38,9 +38,9 @@
                             <td>{{ $user->mobile }}</td>
                             <td>{{ $user->position }}</td>
                             <td>{{ $user->addedBy ? $user->addedBy->first_name . ' ' . $user->addedBy->last_name : 'System' }}</td>
-                            <td data-order="{{ optional($user->joined_date)->format('Y-m-d') ?? '' }}">{{ $user->joined_date ? $user->joined_date->format('d/m/Y') : 'N/A' }}</td>
-                            <td data-order="{{ optional($user->expiry_date)->format('Y-m-d') ?? '' }}">{{ $user->expiry_date ? $user->expiry_date->format('d/m/Y') : 'N/A' }}</td>
-                            <td>{{ $user->group ? $user->group->name : 'N/A' }}</td>
+                            <td data-order="{{ optional($user->joined_date)->format('Y-m-d') ?? '' }}">{!! $user->joined_date ? $user->joined_date->format('d/m/Y') : '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
+                            <td data-order="{{ optional($user->expiry_date)->format('Y-m-d') ?? '' }}">{!! $user->expiry_date ? $user->expiry_date->format('d/m/Y') : '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
+                            <td>{!! $user->group ? $user->group->name : '<span class="text-muted">'.__('N/A').'</span>' !!}</td>
                             @canany(['edit-users', 'delete-users'])
                             <td class="icon_wrap">
                                 @can('edit-users')
@@ -217,7 +217,7 @@
     @endcan
 
     @can('delete-users')
-    @include('components.delete_modal', ['type' => 'User'])
+    @include('components.delete_modal', ['type' => __('User')])
     @endcan
 @endsection
 

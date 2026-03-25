@@ -414,6 +414,7 @@ return [
             'Group',
             'Choose Group',
             'Edit User',
+            'User',
         ],
 
         'Backups' => [
