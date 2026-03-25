@@ -303,7 +303,6 @@ return [
 
         'Diets' => [
             'Add Subject to Diet',
-            'Proficiency',
             'No diet entries found for :name.',
             'Subject',
             'Add Diet Entry',
@@ -364,6 +363,13 @@ return [
             'Select subjects',
             'Edit Major',
             'Major',
+        ],
+
+        'Proficiencies' => [
+            'Create Proficiency',
+            'No proficiencies found.',
+            'Edit Proficiency',
+            'Proficiency',
         ],
 
         'Users' => [
