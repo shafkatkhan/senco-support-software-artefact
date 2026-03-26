@@ -31,12 +31,12 @@
                 </div>
             @endif
             <div class="translation_top row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <div class="left">
                         Original: <span>English</span>
                     </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="right">
                         Translated: <span class="text-uppercase">{{ $locale_name }}</span>
                     </div>
@@ -48,8 +48,8 @@
                 
                 <div class="form-section-title">Language Direction</div>
                 <div class="row mb-3 align-items-center">
-                    <label class="col-sm-3 col-form-label">Direction</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-4 col-form-label">Direction</label>
+                    <div class="col-sm-8">
                         <select class="form-control" name="app_direction"required>
                             <option value="ltr" {{ $app_direction == 'ltr' ? 'selected' : '' }}>Left-to-Right (LTR)</option>
                             <option value="rtl" {{ $app_direction == 'rtl' ? 'selected' : '' }}>Right-to-Left (RTL)</option>
@@ -62,8 +62,8 @@
                     
                     @foreach($keys as $english_label)
                         <div class="row mb-3 align-items-center">
-                            <label class="col-sm-3 col-form-label">{{ $english_label }}</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 col-form-label">{{ $english_label }}</label>
+                            <div class="col-sm-8">
                                 <textarea class="form-control auto_resize_textarea" rows="1" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" required>{{ $auto_translations[$english_label] ?? '' }}</textarea>
                             </div>
                         </div>
