@@ -291,7 +291,7 @@
                     statusText.text('Configuring database and environment...');
                     descriptionText.text('This should only take a moment.');
                 } else {
-                    statusText.text('Connecting to AI Translation Service...');
+                    statusText.text('Translating software labels and content using AI...');
                     descriptionText.text('This may take a few minutes, depending on your language.');
                 }
 
