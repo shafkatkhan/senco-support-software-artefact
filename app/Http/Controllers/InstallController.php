@@ -214,7 +214,7 @@ class InstallController extends Controller
 
         $locale = env('APP_LOCALE');
         $locale_name = InstallState::get('locale_name', $locale); // fallback to locale code if name isn't found
-        $app_direction = in_array($locale, ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
+        $app_direction = in_array($locale, ['ar', 'he', 'fa', 'ur', 'ckb', 'dv', 'ks', 'ps', 'sd', 'ug', 'yi']) ? 'rtl' : 'ltr';
 
         $translation_schema = config('translations.groups');
         $auto_translations = InstallState::get('auto_translations', []);
