@@ -117,3 +117,8 @@ body{
     font-size: 14px;
     margin-top: 15px;
 }
+/**/
+.auto_resize_textarea {
+    overflow: hidden;
+    resize: none;
+}

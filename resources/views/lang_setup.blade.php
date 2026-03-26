@@ -64,7 +64,7 @@
                         <div class="row mb-3 align-items-center">
                             <label class="col-sm-3 col-form-label">{{ $english_label }}</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" value="{{ $auto_translations[$english_label] ?? '' }}" required>
+                                <textarea class="form-control auto_resize_textarea" rows="1" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" required>{{ $auto_translations[$english_label] ?? '' }}</textarea>
                             </div>
                         </div>
                     @endforeach
@@ -92,6 +92,16 @@
                 }
             });
             $('select[name="app_direction"]').trigger('change');
+
+            function resizeTextarea(el) {
+                $(el).css('height', 'auto').css('height', el.scrollHeight + 2 + 'px');
+            }
+            $('.auto_resize_textarea').on('input', function() {
+                resizeTextarea(this);
+            });
+            $('.auto_resize_textarea').each(function() {
+                resizeTextarea(this);
+            });
         });
     </script>
 </body>
