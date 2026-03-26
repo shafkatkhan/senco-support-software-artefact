@@ -19,6 +19,9 @@ class LlmService
     public static function transcribeAudio(string $audioPath, string $fileName): string
     {
         $provider = Setting::get('llm_provider', 'mistral');
+        // override php time limit
+        set_time_limit(500);
+
 
         if ($provider == 'openai') {
             $apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
@@ -67,6 +70,9 @@ class LlmService
     public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null): array
     {
         $provider = Setting::get('llm_provider', 'mistral');
+        // override php time limit
+        set_time_limit(500);
+
         $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
 
         if ($provider == 'openai') {
@@ -206,6 +212,9 @@ class LlmService
      */
     public static function extractAndRespond(\Illuminate\Http\Request $request, string $response_format_instructions)
     {
+        // override php time limit
+        set_time_limit(500);
+
         $request->validate([
             'file' => 'required|file',
         ]);
