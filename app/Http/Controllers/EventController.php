@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function extractFromFile(Request $request)
     {
         $response_format_instructions = "

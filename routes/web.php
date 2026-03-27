@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('events', EventController::class)->only(['store', 'update', 'destroy']);
     Route::post('/events/extract-file', [EventController::class, 'extractFromFile'])->name('events.extract-file');
+    Route::get('/pupils/{pupil}/events/export/{format}', [EventController::class, 'exportSpreadsheet'])->name('pupils.events.export')->middleware('can:export-pupil-data');
 
     Route::resource('family-members', FamilyMemberController::class)->only(['store', 'update', 'destroy']);
     Route::post('/family-members/extract-file', [FamilyMemberController::class, 'extractFromFile'])->name('family-members.extract-file');
