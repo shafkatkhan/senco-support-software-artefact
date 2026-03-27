@@ -327,7 +327,7 @@
                     <div class="sen_icon_wrap">
                         @can('export-pupil-data')
                         <a href="{{ route('pupils.export', $pupil->id) }}" class="sen_icon download_icon button_styled" style="width: auto; padding: 10px 15px;">
-                            <i class="fa-solid fa-download" style="margin-right: 10px;"></i>
+                            <i class="fa-solid fa-file-pdf" style="margin-right: 5px;"></i>
                             {{ __('Export') }}
                         </a>
                         @endcan
