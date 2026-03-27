@@ -85,11 +85,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
     Route::post('/medications/extract-file', [MedicationController::class, 'extractFromFile'])->name('medications.extract-file');
-    Route::get('/pupils/{pupil}/medications/export/{format}', [MedicationController::class, 'export'])->name('pupils.medications.export')->middleware('can:export-pupil-data');
+    Route::get('/pupils/{pupil}/medications/export/{format}', [MedicationController::class, 'exportSpreadsheet'])->name('pupils.medications.export')->middleware('can:export-pupil-data');
 
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
     Route::post('/diagnoses/extract-file', [DiagnosisController::class, 'extractFromFile'])->name('diagnoses.extract-file');
-    Route::get('/pupils/{pupil}/diagnoses/export/{format}', [DiagnosisController::class, 'export'])->name('pupils.diagnoses.export')->middleware('can:export-pupil-data');
+    Route::get('/pupils/{pupil}/diagnoses/export/{format}', [DiagnosisController::class, 'exportSpreadsheet'])->name('pupils.diagnoses.export')->middleware('can:export-pupil-data');
 
     Route::resource('records', RecordController::class)->only(['store', 'update', 'destroy']);
     Route::post('/records/extract-file', [RecordController::class, 'extractFromFile'])->name('records.extract-file');

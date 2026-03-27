@@ -26,6 +26,8 @@ use Carbon\Carbon;
 
 class PupilController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function extractFromFile(Request $request)
     {
         $recordTypes = RecordType::pluck('name')->implode(', ');
@@ -823,7 +825,7 @@ class PupilController extends Controller
         // --- end font translation ---
 
         $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements', 'fontName', 'fontFamily'));
-        $filename = str_replace(' ', '_', $pupil->pupil_number . '_' . $pupil->first_name . '_' . $pupil->last_name) . '_Profile_Summary.pdf';
+        $filename = $this->getPupilExportFilename($pupil, 'Profile_Summary', 'pdf');
 
         return $pdf->download($filename);
     }

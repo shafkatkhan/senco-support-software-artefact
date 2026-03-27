@@ -9,10 +9,11 @@ use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
-use Maatwebsite\Excel\Facades\Excel;
 
 class MedicationController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function extractFromFile(Request $request)
     {
         $response_format_instructions = "
@@ -95,15 +96,5 @@ class MedicationController extends Controller
         } catch (QueryException $e) {
             return back()->with('error', __('Something went wrong.'));
         }
-    }
-
-    public function export(Pupil $pupil, $format)
-    {
-        Gate::authorize('export-pupil-data');
-
-        $extension = strtolower($format) == 'csv' ? 'csv' : 'xlsx';
-        $filename = str_replace(' ', '_', $pupil->pupil_number . '_' . $pupil->first_name . '_' . $pupil->last_name) . '_Medications.'.$extension;
-        
-        return Excel::download(new MedicationsExport($pupil), $filename);
     }
 }
