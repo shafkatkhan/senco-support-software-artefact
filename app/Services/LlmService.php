@@ -16,19 +16,19 @@ class LlmService
      * @return string The transcribed text
      * @throws Exception
      */
-    public static function transcribeAudio(string $audioPath, string $fileName): string
+    public static function transcribeAudio(string $audioPath, string $fileName, ?string $overrideProvider = null, ?string $overrideModel = null): string
     {
-        $provider = Setting::get('llm_provider', 'mistral');
         // override php time limit
         set_time_limit(500);
 
+        $provider = $overrideProvider ?? Setting::get('llm_provider', 'mistral');
 
         if ($provider == 'openai') {
             $apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
-            $model = 'whisper-1';
+            $model = $overrideModel ?? 'whisper-1';
         } else {
             $apiUrl = 'https://api.mistral.ai/v1/audio/transcriptions';
-            $model = 'voxtral-mini-latest';
+            $model = $overrideModel ?? 'voxtral-mini-latest';
         }
         $apiKey = config('services.' . $provider . '.key');
         if (!$apiKey) {
@@ -67,12 +67,12 @@ class LlmService
      * @return array The decoded JSON response
      * @throws Exception
      */
-    public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null): array
+    public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null, ?string $overrideProvider = null, ?string $overrideModel = null): array
     {
-        $provider = Setting::get('llm_provider', 'mistral');
         // override php time limit
         set_time_limit(500);
 
+        $provider = $overrideProvider ?? Setting::get('llm_provider', 'mistral');
         $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
 
         if ($provider == 'openai') {
@@ -117,13 +117,13 @@ class LlmService
                         ]
                     ];
                 }
-                $model = "gpt-4.1-nano";
+                $model = $overrideModel ?? "gpt-4.1-nano";
             } else {
                 $content[] = [
                     "type" => $isImage ? "image_url" : "document_url",
                     $isImage ? "image_url" : "document_url" => $dataUrl,
                 ];
-                $model = $isImage ? "pixtral-12b-2409" : "mistral-small-latest";
+                $model = $overrideModel ?? ($isImage ? "pixtral-12b-2409" : "mistral-small-latest");
             }
 
             if ($data) {
@@ -142,7 +142,7 @@ class LlmService
                 "role" => "user",
                 "content" => $data
             ];
-            $model = $provider == 'openai' ? "gpt-4.1-nano" : "mistral-small-latest";
+            $model = $overrideModel ?? ($provider == 'openai' ? "gpt-4.1-nano" : "mistral-small-latest");
         }
 
         $payload = [
