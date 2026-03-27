@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('medications', MedicationController::class)->only(['store', 'update', 'destroy']);
     Route::post('/medications/extract-file', [MedicationController::class, 'extractFromFile'])->name('medications.extract-file');
+    Route::get('/pupils/{pupil}/medications/export/{format}', [MedicationController::class, 'export'])->name('pupils.medications.export')->middleware('can:export-pupil-data');
 
     Route::resource('diagnoses', DiagnosisController::class)->only(['store', 'update', 'destroy']);
     Route::post('/diagnoses/extract-file', [DiagnosisController::class, 'extractFromFile'])->name('diagnoses.extract-file');

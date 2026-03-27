@@ -294,6 +294,9 @@ html.has-secondary-nav #content {
 .top_button.toggle_button {
     background-color: #5388b6;
 }
+.top_button.export_button {
+   background-color: #28a745;
+}
 .modal-header{
 	background-color: #4179a9;
 	color: #FFF !important;

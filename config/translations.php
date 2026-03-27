@@ -796,6 +796,8 @@ return [
             'Actions',
             'Download',
             'Export',
+            'Export to Excel',
+            'Export to CSV',
             'Name',
             'First Name',
             'Last Name',
