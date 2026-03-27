@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('school-histories', SchoolHistoryController::class)->only(['store', 'update', 'destroy']);
     Route::post('/school-histories/extract-file', [SchoolHistoryController::class, 'extractFromFile'])->name('school-histories.extract-file');
+    Route::get('/pupils/{pupil}/school-histories/export/{format}', [SchoolHistoryController::class, 'exportSpreadsheet'])->name('pupils.school-histories.export')->middleware('can:export-pupil-data');
 
     Route::put('/attachments/{attachment}/transcript', [AttachmentController::class, 'updateTranscript'])->name('attachments.update_transcript')->middleware('can:manage-attachments');
 
