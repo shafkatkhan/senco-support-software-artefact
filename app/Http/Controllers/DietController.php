@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Gate;
 
 class DietController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function store(Request $request)
     {
         Gate::authorize('add-to-diets');

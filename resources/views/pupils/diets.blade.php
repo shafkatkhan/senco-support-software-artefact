@@ -2,21 +2,11 @@
 
 @section('content')
     <section id="content">
-        <div class="content_top_buttons justify-content-between">
-            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
-            </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button type="button" class="top_button toggle_button" id="toggleViewBtn">
-                    {{ __('Toggle Card View') }}
-                </button>
-                @can('add-to-diets')
-                <button type="button" class="top_button" data-bs-toggle="modal" data-bs-target="#new">
-                    {{ __('Add Subject to Diet') }}
-                </button>
-                @endcan
-            </div>
-        </div>
+        @include('components.pupil_page_top_header', [
+            'route_name' => 'diets',
+            'new_button_text' => __('Add Subject to Diet'),
+            'create_permission' => 'add-to-diets'
+        ])
 
         <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @forelse($pupil->diets as $diet)

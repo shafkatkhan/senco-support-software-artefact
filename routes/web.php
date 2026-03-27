@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupils/{pupil}/meetings/export/{format}', [MeetingController::class, 'exportSpreadsheet'])->name('pupils.meetings.export')->middleware('can:export-pupil-data');
     
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
+    Route::get('/pupils/{pupil}/diets/export/{format}', [DietController::class, 'exportSpreadsheet'])->name('pupils.diets.export')->middleware('can:export-pupil-data');
 
     Route::resource('school-histories', SchoolHistoryController::class)->only(['store', 'update', 'destroy']);
     Route::post('/school-histories/extract-file', [SchoolHistoryController::class, 'extractFromFile'])->name('school-histories.extract-file');
