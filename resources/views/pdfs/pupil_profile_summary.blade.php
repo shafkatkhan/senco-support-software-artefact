@@ -101,7 +101,7 @@
     </table>
 
     <div class="section">
-        <div class="section_title">{{ __(Personal Details) }}</div>
+        <div class="section_title">{{ __('Personal Details') }}</div>
         <table class="inline">
             <tr>
                 <th>{{ __('Full Name') }}</th>

@@ -822,7 +822,7 @@ class PupilController extends Controller
         $fontName = str_replace('+', ' ', $fontFamily);
         // --- end font translation ---
 
-        $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements', 'fontName'));
+        $pdf = Pdf::loadView('pdfs.pupil_profile_summary', compact('pupil', 'title', 'involvements', 'fontName', 'fontFamily'));
         $filename = str_replace(' ', '-', $pupil->pupil_number . '-' . $pupil->first_name . '-' . $pupil->last_name) . '-Profile-Summary.pdf';
 
         return $pdf->download($filename);
