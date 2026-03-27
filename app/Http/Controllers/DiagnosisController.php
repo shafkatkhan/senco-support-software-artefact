@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DiagnosesExport;
 use App\Models\Diagnosis;
 use App\Models\Professional;
+use App\Models\Pupil;
 use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DiagnosisController extends Controller
 {
@@ -106,5 +109,15 @@ class DiagnosisController extends Controller
         } catch (QueryException $e) {
             return back()->with('error', __('Something went wrong.'));
         }
+    }
+
+    public function export(Pupil $pupil, $format)
+    {
+        Gate::authorize('export-pupil-data');
+
+        $extension = strtolower($format) == 'csv' ? 'csv' : 'xlsx';
+        $filename = str_replace(' ', '_', $pupil->pupil_number . '_' . $pupil->first_name . '_' . $pupil->last_name) . '_Diagnoses.'.$extension;
+        
+        return Excel::download(new DiagnosesExport($pupil), $filename);
     }
 }
