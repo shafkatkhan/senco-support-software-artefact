@@ -25,13 +25,13 @@ class EventsExport extends BaseExport implements FromCollection, WithHeadings, W
     public function headings(): array
     {
         return [
-            'Title',
-            'Date',
-            'Reference No.',
-            'Description',
-            'Outcome / Next Steps',
-            'Created At',
-            'Last Edited',
+            __('Title'),
+            __('Date'),
+            __('Reference No.'),
+            __('Description'),
+            __('Outcome / Next Steps'),
+            __('Created At'),
+            __('Last Edited'),
         ];
     }
 

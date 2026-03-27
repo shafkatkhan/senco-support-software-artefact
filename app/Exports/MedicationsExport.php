@@ -26,18 +26,18 @@ class MedicationsExport extends BaseExport implements FromCollection, WithHeadin
     public function headings(): array
     {
         return [
-            'Name',
-            'Dosage',
-            'Frequency',
-            'Time of Day',
-            'Method of Administration',
-            'Start Date',
-            'End Date',
-            'Expiry Date',
-            'Storage Instructions',
-            'Self Administer',
-            'Created At',
-            'Last Updated',
+            __('Name'),
+            __('Dosage'),
+            __('Frequency'),
+            __('Time of Day'),
+            __('Method of Administration'),
+            __('Start Date'),
+            __('End Date'),
+            __('Expiry Date'),
+            __('Storage Instructions'),
+            __('Self Administer?'),
+            __('Created At'),
+            __('Last Updated'),
         ];
     }
 

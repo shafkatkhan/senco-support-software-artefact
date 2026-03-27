@@ -26,13 +26,13 @@ class DiagnosesExport extends BaseExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'Name',
-            'Date',
-            'Description',
-            'Recommendations',
-            'Carried out by',
-            'Created At',
-            'Last Updated',
+            __('Name'),
+            __('Date'),
+            __('Description'),
+            __('Recommendations'),
+            __('Carried Out By'),
+            __('Created At'),
+            __('Last Updated'),
         ];
     }
 

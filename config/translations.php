@@ -819,6 +819,8 @@ return [
             ':item for ":name" updated successfully!',
             ':item ":name" added successfully!',
             ':type settings updated successfully!',
+            'Created At',
+            'Last Updated',
         ],
     ],
 
