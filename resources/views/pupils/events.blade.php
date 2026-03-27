@@ -104,7 +104,7 @@
         </div>
 
         <div id="toggleViewTable" class="table_wrap">
-            <table class="table sen_table-striped">
+            <table class="table sen_table-striped" data-order='[[ 2, "desc" ]]'>
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
