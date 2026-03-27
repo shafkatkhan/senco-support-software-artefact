@@ -7,8 +7,9 @@ use App\Models\Pupil;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class DiagnosesExport implements FromCollection, WithHeadings, WithMapping
+class DiagnosesExport extends BaseExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
     protected $pupil;
 
