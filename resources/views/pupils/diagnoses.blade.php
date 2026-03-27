@@ -2,7 +2,10 @@
 
 @section('content')
     <section id="content">
-        @include('components.pupil_page_top_header', ['pupil' => $pupil, 'new_button_text' => __('Add New Diagnosis'), 'route_name' => 'diagnoses'])
+        @include('components.pupil_page_top_header', [
+            'route_name' => 'diagnoses',
+            'new_button_text' => __('Add New Diagnosis')
+        ])
 
         <div id="toggleViewGrid" class="sen_cards" style="display: none;">
             @forelse($pupil->diagnoses as $diagnosis)
