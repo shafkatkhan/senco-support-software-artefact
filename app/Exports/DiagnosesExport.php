@@ -44,12 +44,12 @@ class DiagnosesExport implements FromCollection, WithHeadings, WithMapping
 
         return [
             $diagnosis->name,
-            $diagnosis->date ? $diagnosis->date->format('Y-m-d') : '',
+            $diagnosis->date ? $diagnosis->date->format('d/m/Y') : '',
             $diagnosis->description,
             $diagnosis->recommendations,
             $professionalName,
-            $diagnosis->created_at ? $diagnosis->created_at->format('Y-m-d H:i') : '',
-            $diagnosis->updated_at ? $diagnosis->updated_at->format('Y-m-d H:i') : '',
+            $diagnosis->created_at ? $diagnosis->created_at->format('d/m/Y, H:i') : '',
+            $diagnosis->updated_at ? $diagnosis->updated_at->format('d/m/Y, H:i') : '',
         ];
     }
 }

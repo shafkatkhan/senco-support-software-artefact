@@ -48,13 +48,13 @@ class MedicationsExport implements FromCollection, WithHeadings, WithMapping
             $medication->frequency,
             $medication->time_of_day,
             $medication->administration_method,
-            $medication->start_date ? $medication->start_date->format('Y-m-d') : '',
-            $medication->end_date ? $medication->end_date->format('Y-m-d') : '',
-            $medication->expiry_date ? $medication->expiry_date->format('Y-m-d') : '',
+            $medication->start_date ? $medication->start_date->format('d/m/Y') : '',
+            $medication->end_date ? $medication->end_date->format('d/m/Y') : '',
+            $medication->expiry_date ? $medication->expiry_date->format('d/m/Y') : '',
             $medication->storage_instructions,
             $medication->self_administer ? 'Yes' : 'No',
-            $medication->created_at ? $medication->created_at->format('Y-m-d H:i') : '',
-            $medication->updated_at ? $medication->updated_at->format('Y-m-d H:i') : '',
+            $medication->created_at ? $medication->created_at->format('d/m/Y, H:i') : '',
+            $medication->updated_at ? $medication->updated_at->format('d/m/Y, H:i') : '',
         ];
     }
 }
