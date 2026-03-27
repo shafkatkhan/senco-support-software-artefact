@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Gate;
 
 class MeetingController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function extractFromFile(Request $request)
     {
         $meetingTypes = MeetingType::pluck('name')->implode(', ');

@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('meetings', MeetingController::class)->only(['store', 'update', 'destroy']);
     Route::post('/meetings/extract-file', [MeetingController::class, 'extractFromFile'])->name('meetings.extract-file');
+    Route::get('/pupils/{pupil}/meetings/export/{format}', [MeetingController::class, 'exportSpreadsheet'])->name('pupils.meetings.export')->middleware('can:export-pupil-data');
     
     Route::resource('diets', DietController::class)->only(['store', 'update', 'destroy']);
 
