@@ -47,8 +47,10 @@ abstract class BaseExport implements WithEvents, WithStyles, WithCustomCsvSettin
                 $highestRow = $sheet->getHighestDataRow();
                 $range = 'A1:' . $highestColumn . $highestRow;
 
-                // NOTE: cannot use setWrapText(true) here, as it causes non-Latin characters (Arabic, Chinese, etc.) to render as squares
-                // $sheet->getStyle($range)->getAlignment()->setWrapText(true);
+                // wrapText causes non-Latin characters (Arabic, Chinese, etc.) to render as squares, so only enabling it for languages that use the Latin alphabet
+                if (uses_latin_script()) {
+                    $sheet->getStyle($range)->getAlignment()->setWrapText(true);
+                }
                 
                 $sheet->getStyle($range)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
 
