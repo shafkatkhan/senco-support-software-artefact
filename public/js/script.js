@@ -14,7 +14,7 @@ $(document).on('click', '.delete_attachment_icon', function () {
 });
 
 $(document).ready(function() {
-    $('.new_button').addClass('button_styled');
+    $('.top_button').addClass('button_styled');
 
     // apply saved view preference on page load
     applyViewPreference();

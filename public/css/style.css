@@ -281,7 +281,7 @@ html.has-secondary-nav #content {
 	text-decoration: none;
 }
 /**/
-.new_button {
+.top_button {
     float: right;
     background-color: #B7860C;
     border: 1px solid #FFF;
@@ -290,6 +290,9 @@ html.has-secondary-nav #content {
     transition: 0.1s all linear;
     -ms-transition: 0.1s all linear;
     -webkit-transition: 0.1s all linear;
+}
+.top_button.toggle_button {
+    background-color: #5388b6;
 }
 .modal-header{
 	background-color: #4179a9;

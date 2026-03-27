@@ -4,7 +4,7 @@
     <section id="content">
         <div class="content_top_buttons">
             @can('create-record-types')
-            <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+            <button type="button" class="top_button" data-bs-toggle="modal" data-bs-target="#new">
                 {{ __('Create Record Type') }}
             </button>
             @endcan

@@ -7,11 +7,11 @@
                 <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
             </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
+                <button type="button" class="top_button toggle_button" id="toggleViewBtn">
                     {{ __('Toggle Card View') }}
                 </button>
                 @can('create-diagnoses')
-                <button type="button" class="new_button" data-bs-toggle="modal" data-bs-target="#new">
+                <button type="button" class="top_button" data-bs-toggle="modal" data-bs-target="#new">
                     {{ __('Add New Diagnosis') }}
                 </button> 
                 @endcan

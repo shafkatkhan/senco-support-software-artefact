@@ -3,11 +3,11 @@
 @section('content')
     <section id="content">
         <div class="content_top_buttons">
-            <button type="button" class="new_button" id="toggleViewBtn" style="background-color: #5388b6;">
+            <button type="button" class="top_button toggle_button" id="toggleViewBtn">
                 {{ __('View More Information') }}
             </button>
             @can('create-pupils')
-            <a href="{{ route('pupils.create') }}" class="new_button">
+            <a href="{{ route('pupils.create') }}" class="top_button">
                 {{ __('Onboard Pupil') }}
             </a>
             @endcan

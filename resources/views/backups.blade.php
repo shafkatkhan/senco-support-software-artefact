@@ -6,7 +6,7 @@
             @can('create-backups')
             <form action="{{ route('backups.store') }}" method="POST" style="display:inline;">
                 @csrf
-                <button type="submit" class="new_button" onclick="return confirm('{{ __('Are you sure you want to create a new backup? This may take a moment.') }}')">
+                <button type="submit" class="top_button" onclick="return confirm('{{ __('Are you sure you want to create a new backup? This may take a moment.') }}')">
                     {{ __('Create Backup') }}
                 </button>
             </form>
