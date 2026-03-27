@@ -142,7 +142,7 @@
         </div>
 
         <div id="toggleViewTable" class="table_wrap">
-            <table class="table sen_table-striped">
+            <table class="table sen_table-striped" data-order='[[1, "asc"]]'>
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -160,7 +160,7 @@
                     @forelse($pupil->familyMembers as $familyMember)
                         <tr @if($pupil->primary_family_member_id == $familyMember->id) class="primary_family_member" @endif>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>
+                            <td data-order="{{ $familyMember->last_name }}, {{ $familyMember->first_name }}">
                                 {{ $familyMember->first_name }} {{ $familyMember->last_name }}
                                 @if ($pupil->primary_family_member_id == $familyMember->id)
                                     <span class="badge" style="background-color: #aa1b1b; margin-left:10px;">{{ __('Next of Kin') }}</span>

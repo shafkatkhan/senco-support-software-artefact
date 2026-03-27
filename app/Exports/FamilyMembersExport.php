@@ -19,7 +19,7 @@ class FamilyMembersExport extends BaseExport implements FromCollection, WithHead
 
     public function collection()
     {
-        return $this->pupil->familyMembers;
+        return $this->pupil->familyMembers()->orderBy('last_name')->get();
     }
 
     public function headings(): array
