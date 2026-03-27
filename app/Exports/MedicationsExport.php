@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Medication;
 use App\Models\Pupil;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
