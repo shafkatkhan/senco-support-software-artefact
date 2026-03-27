@@ -250,7 +250,8 @@ return [
             'e.g. Universal Credit',
             "Pupil's next of kin?",
             'Edit Family Member',
-            'Family Member',            
+            'Family Member',
+            'Next of Kin?',
         ],
 
         'School History' => [
