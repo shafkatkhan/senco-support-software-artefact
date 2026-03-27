@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Gate;
 
 class RecordController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+    
     public function extractFromFile(Request $request)
     {
         $recordTypes = RecordType::pluck('name')->implode(', ');
