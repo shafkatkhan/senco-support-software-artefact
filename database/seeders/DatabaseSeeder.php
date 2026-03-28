@@ -274,9 +274,6 @@ class DatabaseSeeder extends Seeder
             RecordType::create($type);
         }
 
-        // create records
-        Record::factory(70)->create();
-
         // create meeting types
         $meetingTypes = [
             ['name' => 'EHCP Review', 'description' => 'Annual review of Education, Health and Care Plan.'],
@@ -289,12 +286,6 @@ class DatabaseSeeder extends Seeder
         foreach ($meetingTypes as $type) {
             MeetingType::create($type);
         }
-
-        // create meetings
-        Meeting::factory(50)->create();
-
-        // create events
-        Event::factory(50)->create();
 
         // create proficiencies
         $proficiencies = [
@@ -456,6 +447,15 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         });
+
+        // create records
+        Record::factory(70)->create();
+
+        // create meetings
+        Meeting::factory(50)->create();
+
+        // create events
+        Event::factory(50)->create();
 
         // create diets
         $pupils = Pupil::all();
