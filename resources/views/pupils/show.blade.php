@@ -36,7 +36,7 @@
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
-                            <i class="fa-regular fa-user"></i>
+                            <i class="fas fa-venus-mars"></i>
                             {{ __('Gender') }}:
                         </div>
                         <div class="value">
