@@ -8,7 +8,7 @@
             <button class="top_button export_button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-file-export"></i> {{ __('Export') }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu">
                 <li>
                     <a class="dropdown-item" href="{{ route('pupils.'.$route_name.'.export', ['pupil' => $pupil->id, 'format' => 'excel']) }}">
                         <i class="fas fa-file-excel text-success"></i> {{ __('Export to Excel') }}
