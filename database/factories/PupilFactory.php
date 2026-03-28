@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Major;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pupil>
@@ -34,6 +35,7 @@ class PupilFactory extends Factory
             'drug_abuse_history' => fake()->boolean(5),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
+            'major_id' => fake()->boolean(70) ? (Major::inRandomOrder()->first()->id ?? null) : null,
             'after_school_job' => fake()->boolean(20) ? fake()->jobTitle() : null,
             'has_special_needs' => $hasSpecialNeeds = fake()->boolean(30),
             'special_needs_details' => $hasSpecialNeeds ? fake()->sentence() : null,

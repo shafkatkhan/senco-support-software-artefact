@@ -61,6 +61,15 @@
                             <label class="form-label">{{ __('Email Address') }}</label>
                             <input type="email" name="email" class="form-control" value="{{ old('email', $pupil->email) }}">
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ __('Major') }}</label>
+                            <select name="major_id" class="form-select">
+                                <option value="">{{ __('None / Not Applicable') }}</option>
+                                @foreach($majors as $major)
+                                    <option value="{{ $major->id }}" {{ (string) old('major_id', $pupil->major_id) === (string) $major->id ? 'selected' : '' }}>{{ $major->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">{{ __('After School Job') }}</label>
                             <input type="text" name="after_school_job" class="form-control" value="{{ old('after_school_job', $pupil->after_school_job) }}">

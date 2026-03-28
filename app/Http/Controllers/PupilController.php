@@ -8,6 +8,7 @@ use App\Models\RecordType;
 use App\Models\Professional;
 use App\Models\MeetingType;
 use App\Models\Subject;
+use App\Models\Major;
 use App\Models\Proficiency;
 use App\Models\FamilyMember;
 use App\Models\SchoolHistory;
@@ -31,6 +32,7 @@ class PupilController extends Controller
     public function extractFromFile(Request $request)
     {
         $recordTypes = RecordType::pluck('name')->implode(', ');
+        $majors = Major::pluck('name')->implode(', ');
 
         $response_format_instructions = "
             pupil_number (pupil's student number),
@@ -41,6 +43,7 @@ class PupilController extends Controller
             joined_date (date pupil joined the school, format YYYY-MM-DD),
             year_group (pupil's year group, e.g. 7, 8, 9, 10, 11),
             tutor_group (pupil's tutor group / form class),
+            major (pupil's major, choose one of the following that best fits: [{$majors}], or return null if none fit),
             phone (pupil's phone number),
             email (pupil's email address),
             after_school_job (pupil's after school job),
@@ -177,8 +180,9 @@ class PupilController extends Controller
 
         $professionals = Professional::orderBy('last_name')->get();
         $record_types = RecordType::orderBy('name')->get();
+        $majors = Major::orderBy('name')->get();
         $title = __('Onboard New Pupil');
-        return view('pupils.create', compact('title', 'professionals', 'record_types'));
+        return view('pupils.create', compact('title', 'professionals', 'record_types', 'majors'));
     }
 
     /**
@@ -203,6 +207,7 @@ class PupilController extends Controller
             'email' => 'nullable|email|max:255',
             'after_school_job' => 'nullable|string|max:255',
             'joined_date' => 'nullable|date',
+            'major_id' => 'nullable|exists:majors,id',
             'year_group' => 'required|integer',
             'tutor_group' => 'nullable|string|max:255',
 
@@ -339,7 +344,7 @@ class PupilController extends Controller
 
             // create pupil
             $pupilData = collect($validated)->only([
-                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'after_school_job', 'joined_date', 'special_needs_details', 'special_school_details', 'parental_description', 'treatment_plan'
+                'pupil_number', 'first_name', 'last_name', 'dob', 'gender', 'address_line_1', 'address_line_2', 'locality', 'postcode', 'country', 'phone', 'email', 'major_id', 'after_school_job', 'joined_date', 'special_needs_details', 'special_school_details', 'parental_description', 'treatment_plan'
             ])->toArray();            
             $pupilData['smoking_history'] = $request->has('smoking_history');
             $pupilData['drug_abuse_history'] = $request->has('drug_abuse_history');
@@ -606,9 +611,10 @@ class PupilController extends Controller
 
         $pupil->load('familyMembers');
         $professionals = Professional::orderBy('last_name')->get();
+        $majors = Major::orderBy('name')->get();
         $title = __('Edit information for :name', ['name' => $pupil->full_name]);
 
-        return view('pupils.edit', compact('pupil', 'professionals', 'title'));
+        return view('pupils.edit', compact('pupil', 'professionals', 'majors', 'title'));
     }
 
     /**
@@ -633,6 +639,7 @@ class PupilController extends Controller
             'email' => 'nullable|email|max:255',
             'after_school_job' => 'nullable|string|max:255',
             'joined_date' => 'nullable|date',
+            'major_id' => 'nullable|exists:majors,id',
             'primary_family_member_id' => [
                 'nullable',
                 Rule::exists('family_members', 'id')->where('pupil_id', $pupil->id)
@@ -663,6 +670,7 @@ class PupilController extends Controller
             'phone',
             'email',
             'after_school_job',
+            'major_id',
             'primary_family_member_id',
             'address_line_1',
             'address_line_2',

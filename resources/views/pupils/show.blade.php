@@ -56,6 +56,16 @@
                     <div class="dashboard_item_divider"></div>
                     <div class="item">
                         <div class="label">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            {{ __('Major') }}:
+                        </div>
+                        <div class="value">
+                            {!! $pupil->major->name ?? '<span class="text-muted">'.__('N/A').'</span>' !!}
+                        </div>
+                    </div>
+                    <div class="dashboard_item_divider"></div>
+                    <div class="item">
+                        <div class="label">
                             <i class="fa-solid fa-house-chimney-user"></i>
                             {{ __('Next of Kin') }}:
                         </div>

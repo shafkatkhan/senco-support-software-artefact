@@ -28,6 +28,7 @@ class Pupil extends Model
         'drug_abuse_history',
         'phone',
         'email',
+        'major_id',
         'after_school_job',
         'has_special_needs',
         'special_needs_details',
@@ -177,5 +178,10 @@ class Pupil extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    public function major()
+    {
+        return $this->belongsTo(Major::class);
     }
 }

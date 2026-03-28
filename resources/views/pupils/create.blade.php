@@ -54,21 +54,30 @@
                                 <label class="form-label">{{ __('Joined Date') }}</label>
                                 <input type="date" name="joined_date" class="form-control" value="{{ old('joined_date', date('Y-m-d')) }}">
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">{{ __('Phone Number') }}</label>
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">{{ __('Email Address') }}</label>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">{{ __('Year Group') }} <span class="text-danger">*</span></label>
                                 <input type="number" name="year_group" class="form-control" value="{{ old('year_group') }}" min="1" required>
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">{{ __('Tutor Group') }}</label>
                                 <input type="text" name="tutor_group" class="form-control" value="{{ old('tutor_group') }}">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">{{ __('Phone Number') }}</label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">{{ __('Email Address') }}</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                                <label class="form-label">{{ __('Major') }}</label>
+                                <select name="major_id" class="form-select">
+                                    <option value="" selected>{{ __('None / Not Applicable') }}</option>
+                                    @foreach($majors as $major)
+                                        <option value="{{ $major->id }}" {{ (string) old('major_id') === (string) $major->id ? 'selected' : '' }}>{{ $major->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ __('After School Job') }}</label>
@@ -365,6 +374,15 @@
             if (d.joined_date) $('input[name="joined_date"]').val(d.joined_date);
             if (d.year_group) $('input[name="year_group"]').val(d.year_group);
             if (d.tutor_group) $('input[name="tutor_group"]').val(d.tutor_group);
+            if (d.major) {
+                var normalised_major = d.major.toString().trim().toLowerCase();
+                $('select[name="major_id"] option').each(function() {
+                    if ($(this).text().trim().toLowerCase() == normalised_major) {
+                        $('select[name="major_id"]').val($(this).val());
+                        return false;
+                    }
+                });
+            }
             if (d.phone) $('input[name="phone"]').val(d.phone);
             if (d.email) $('input[name="email"]').val(d.email);
             if (d.after_school_job) $('input[name="after_school_job"]').val(d.after_school_job);

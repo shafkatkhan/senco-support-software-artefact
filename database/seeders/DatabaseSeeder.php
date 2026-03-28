@@ -245,88 +245,6 @@ class DatabaseSeeder extends Seeder
         // create professionals
         Professional::factory(50)->create();
 
-        // create pupils
-        Pupil::factory(20)->create()->each(function ($pupil) {
-            // update pupil number
-            $pupil->update([
-                'pupil_number' => 'PUP-' . str_pad($pupil->id, 6, '0', STR_PAD_LEFT),
-            ]);
-
-            // add onboarded event
-            Event::create([
-                'pupil_id' => $pupil->id,
-                'title' => 'Pupil Onboarded',
-                'date' => $pupil->joined_date,
-                'description' => 'Pupil profile created and onboarded into the system.',
-            ]);
-
-            // add medications
-            $count = rand(0, 4);
-            if ($count > 0) {
-                Medication::factory($count)->create(['pupil_id' => $pupil->id]);
-            }
-            
-            // add family members
-            $familyCount = rand(3, 5);
-            $familyMembers = FamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
-
-            // assign primary family member
-            $pupil->update(['primary_family_member_id' => $familyMembers->random()->id]);
-
-            // add diagnoses
-            $diagnosisCount = rand(0, 3);
-            if ($diagnosisCount > 0) {
-                Diagnosis::factory($diagnosisCount)->create(['pupil_id' => $pupil->id]);
-            }
-
-            // add previous schools
-            $schoolHistoryCount = rand(0, 3);
-            if ($schoolHistoryCount > 0) {
-                SchoolHistory::factory($schoolHistoryCount)->create(['pupil_id' => $pupil->id]);
-            }
-
-            // add treatment plan updates
-            if ($pupil->treatment_plan) {
-                $updateCount = rand(0, 6);
-                for ($i = 0; $i < $updateCount; $i++) {
-                    TreatmentPlanUpdate::create([
-                        'pupil_id' => $pupil->id,
-                        'user_id' => User::inRandomOrder()->first()->id,
-                        'date' => fake()->dateTimeBetween($pupil->joined_date, 'now')->format('Y-m-d'),
-                        'description' => fake()->paragraph(),
-                    ]);
-                }
-            }
-
-            // add progressions
-            $joinedYear = (int) Carbon::parse($pupil->joined_date)->format('Y');
-            $currentYear = (int) date('Y');
-            
-            $baseYearGroup = rand(7, 9);
-            $baseTutorGroup = fake()->bothify($baseYearGroup . '?');
-            
-            PupilProgression::create([
-                'pupil_id' => $pupil->id,
-                'academic_year' => $joinedYear . '/' . ($joinedYear + 1),
-                'year_group' => $baseYearGroup,
-                'tutor_group' => $baseTutorGroup,
-                'type' => 'initial'
-            ]);
-
-            $yearsPassed = $currentYear - $joinedYear;
-            
-            for ($i = 1; $i <= $yearsPassed; $i++) {
-                $progYear = $joinedYear + $i;
-                PupilProgression::create([
-                    'pupil_id' => $pupil->id,
-                    'academic_year' => $progYear . '/' . ($progYear + 1),
-                    'year_group' => $baseYearGroup + $i,
-                    'tutor_group' => fake()->bothify(($baseYearGroup + $i) . '?'),
-                    'type' => 'auto'
-                ]);
-            }
-        });
-
         // create accommodations
         $accommodations = [
             ['name' => 'Extra Time', 'description' => '25% extra time in examinations.'],
@@ -454,6 +372,88 @@ class DatabaseSeeder extends Seeder
             if ($count > 0) {
                 $randomSubjects = $subjectIds->random($count)->all();
                 $major->subjects()->syncWithoutDetaching($randomSubjects);
+            }
+        });
+
+        // create pupils
+        Pupil::factory(20)->create()->each(function ($pupil) {
+            // update pupil number
+            $pupil->update([
+                'pupil_number' => 'PUP-' . str_pad($pupil->id, 6, '0', STR_PAD_LEFT),
+            ]);
+
+            // add onboarded event
+            Event::create([
+                'pupil_id' => $pupil->id,
+                'title' => 'Pupil Onboarded',
+                'date' => $pupil->joined_date,
+                'description' => 'Pupil profile created and onboarded into the system.',
+            ]);
+
+            // add medications
+            $count = rand(0, 4);
+            if ($count > 0) {
+                Medication::factory($count)->create(['pupil_id' => $pupil->id]);
+            }
+            
+            // add family members
+            $familyCount = rand(3, 5);
+            $familyMembers = FamilyMember::factory($familyCount)->create(['pupil_id' => $pupil->id]);
+
+            // assign primary family member
+            $pupil->update(['primary_family_member_id' => $familyMembers->random()->id]);
+
+            // add diagnoses
+            $diagnosisCount = rand(0, 3);
+            if ($diagnosisCount > 0) {
+                Diagnosis::factory($diagnosisCount)->create(['pupil_id' => $pupil->id]);
+            }
+
+            // add previous schools
+            $schoolHistoryCount = rand(0, 3);
+            if ($schoolHistoryCount > 0) {
+                SchoolHistory::factory($schoolHistoryCount)->create(['pupil_id' => $pupil->id]);
+            }
+
+            // add treatment plan updates
+            if ($pupil->treatment_plan) {
+                $updateCount = rand(0, 6);
+                for ($i = 0; $i < $updateCount; $i++) {
+                    TreatmentPlanUpdate::create([
+                        'pupil_id' => $pupil->id,
+                        'user_id' => User::inRandomOrder()->first()->id,
+                        'date' => fake()->dateTimeBetween($pupil->joined_date, 'now')->format('Y-m-d'),
+                        'description' => fake()->paragraph(),
+                    ]);
+                }
+            }
+
+            // add progressions
+            $joinedYear = (int) Carbon::parse($pupil->joined_date)->format('Y');
+            $currentYear = (int) date('Y');
+            
+            $baseYearGroup = rand(7, 9);
+            $baseTutorGroup = fake()->bothify($baseYearGroup . '?');
+            
+            PupilProgression::create([
+                'pupil_id' => $pupil->id,
+                'academic_year' => $joinedYear . '/' . ($joinedYear + 1),
+                'year_group' => $baseYearGroup,
+                'tutor_group' => $baseTutorGroup,
+                'type' => 'initial'
+            ]);
+
+            $yearsPassed = $currentYear - $joinedYear;
+            
+            for ($i = 1; $i <= $yearsPassed; $i++) {
+                $progYear = $joinedYear + $i;
+                PupilProgression::create([
+                    'pupil_id' => $pupil->id,
+                    'academic_year' => $progYear . '/' . ($progYear + 1),
+                    'year_group' => $baseYearGroup + $i,
+                    'tutor_group' => fake()->bothify(($baseYearGroup + $i) . '?'),
+                    'type' => 'auto'
+                ]);
             }
         });
 
