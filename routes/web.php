@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('pupil-progressions', PupilProgressionController::class)->only(['store', 'update', 'destroy'])->middleware('can:manage-pupil-progressions');
     Route::put('/pupils/{pupil}/toggle-auto-progression', [PupilProgressionController::class, 'toggleAutoProgression'])->name('pupils.toggle-auto-progression')->middleware('can:manage-pupil-progressions');
+    Route::get('/pupils/{pupil}/pupil-progressions/export/{format}', [PupilProgressionController::class, 'exportSpreadsheet'])->name('pupils.pupil-progressions.export')->middleware('can:export-pupil-data');
 
     Route::resource('accommodations', AccommodationController::class)->except(['create', 'show', 'edit']);
 

@@ -2,16 +2,12 @@
 
 @section('content')
     <section id="content">
-        <div class="content_top_buttons justify-content-between">
-            <div class="section_title">
-                <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
-            </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button type="button" class="top_button" data-bs-toggle="modal" data-bs-target="#new">
-                    {{ __('Add New Progression') }}
-                </button> 
-            </div>            
-        </div>
+        @include('components.pupil_page_top_header', [
+            'route_name' => 'pupil-progressions',
+            'new_button_text' => __('Add New Progression'),
+            'create_permission' => 'manage-pupil-progressions',
+            'hide_toggle' => true
+        ])
 
         <div class="table_wrap">
             <div class="settings_wrap dashboard auto_progression_wrap {{ !$progression_configured ? 'disabled_option' : '' }}">

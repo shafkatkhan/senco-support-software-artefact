@@ -22,9 +22,11 @@
             </ul>
         </div>
         @endcan
+        @if(!($hide_toggle ?? false))
         <button type="button" class="top_button toggle_button" id="toggleViewBtn">
             {{ __('Toggle Card View') }}
         </button>
+        @endif
         @can($create_permission ?? 'create-'.$route_name)
         <button type="button" class="top_button" data-bs-toggle="modal" data-bs-target="#new">
             {{ $new_button_text }}

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Gate;
 
 class PupilProgressionController extends Controller
 {
+    use \App\Traits\ExportsPupilData;
+
     public function store(Request $request)
     {
         $validated = $request->validate([
