@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\UserGroup;
-use App\Models\TestForm;
 use App\Models\Pupil;
 use App\Models\Medication;
 use App\Models\FamilyMember;
@@ -297,9 +296,6 @@ class DatabaseSeeder extends Seeder
             'user_group_id' => $readOnlyGroup->id,
             'added_by' => $adminUser->id,
         ]);
-
-        // create test rows
-        TestForm::factory(20)->create();
 
         // create professionals
         Professional::factory(50)->create();

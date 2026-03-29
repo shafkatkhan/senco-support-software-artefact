@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\InstallController;
-use App\Http\Controllers\TestFormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
 use \App\Http\Controllers\UserController;
@@ -54,9 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect('/pupils');
     });
-    
-    Route::get('/test-form', [TestFormController::class, 'index'])->name('test-form.index');
-    Route::post('/test-form', [TestFormController::class, 'store'])->name('test-form.store');
 
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 

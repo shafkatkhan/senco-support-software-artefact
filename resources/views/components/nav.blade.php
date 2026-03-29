@@ -5,7 +5,6 @@
         <li class="nav_user_name">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</li>
 
         <div class="nav_items @if(auth()->user()->isMfaPending()) nav_disabled @endif">
-            <li><a href="{{ route('test-form.index') }}" class="{{ request()->routeIs('test-form.*') ? 'activenav' : '' }}">{{ __('Test Form') }}</a></li>
             @can('view-pupils')
                 <li><a href="{{ route('pupils.index') }}" class="{{ request()->routeIs('pupils.*') ? 'activenav' : '' }}">{{ __('SEND Pupils') }}</a></li>
             @endcan
