@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
         $permissions = [
             // Pupil Management
             ['name' => 'View Pupils', 'slug' => 'view-pupils', 'description' => 'Can view the list of pupils and their details.'],
+            ['name' => 'Bulk Import Pupils', 'slug' => 'bulk-import-pupils', 'description' => 'Can import pupils in bulk via Excel/CSV file upload.'],
             ['name' => 'Create Pupils', 'slug' => 'create-pupils', 'description' => 'Can add new pupils.'],
             ['name' => 'Edit Pupils', 'slug' => 'edit-pupils', 'description' => 'Can edit existing pupils.'],
             ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],

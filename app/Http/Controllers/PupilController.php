@@ -19,15 +19,114 @@ use App\Models\Event;
 use App\Models\Setting;
 use App\Models\PupilProgression;
 use App\Services\LlmService;
+use App\Imports\PupilsImport;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PupilController extends Controller
 {
     use \App\Traits\ExportsPupilData;
+
+    public function showImportForm()
+    {
+        $title = __('Import Pupils');
+        return view('pupils.import', compact('title'));
+    }
+
+    /**
+     * Import pupils from an Excel/CSV file.
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt,xls,xlsx'
+        ]);
+
+        try {
+            $import = new PupilsImport;
+            Excel::import($import, $request->file('file'));
+            $count = $import->getImportedCount();
+            return redirect()->route('pupils.index')->with('success', __(':count pupils imported successfully!', ['count' => $count]));
+        } catch (\Exception $e) {
+            return back()->with('error', __('Error importing pupils: :error', ['error' => $e->getMessage()]));
+        }
+    }
+
+    /**
+     * Download a template for importing pupils.
+     */
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="pupils_import_template.csv"',
+        ];
+
+        $callback = function() {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, [
+                'pupil_number', 
+                'first_name', 
+                'last_name', 
+                'dob', 
+                'gender', 
+                'year_group', 
+                'tutor_group', 
+                'major',
+                'phone', 
+                'email', 
+                'address_line_1', 
+                'address_line_2', 
+                'locality', 
+                'postcode', 
+                'country', 
+                'after_school_job', 
+                'joined_date',
+                'parental_description',
+                'has_special_needs',
+                'special_needs_details',
+                'attended_special_school',
+                'special_school_details',
+                'smoking_history',
+                'drug_abuse_history',
+                'treatment_plan'
+            ]);
+            fputcsv($file, [
+                'PUP-00001', 
+                'John', 
+                'Doe', 
+                '2008-05-14', 
+                'Male', 
+                '10', 
+                '10A', 
+                'Car Electronics',
+                '07123456789', 
+                'john@example.com', 
+                '123 Main St', 
+                '', 
+                'London', 
+                'E1 1AA', 
+                'UK', 
+                '', 
+                '2023-09-01',
+                '',
+                'No',
+                '',
+                'No',
+                '',
+                'No',
+                'No',
+                ''
+            ]);
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 
     public function extractFromFile(Request $request)
     {

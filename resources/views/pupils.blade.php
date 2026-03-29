@@ -6,6 +6,11 @@
             <button type="button" class="top_button toggle_button" id="toggleViewBtn">
                 {{ __('View More Information') }}
             </button>
+            @can('bulk-import-pupils')
+            <a href="{{ route('pupils.import.form') }}" class="top_button" style="background-color: #107c41;">
+                <i class="fas fa-file-import"></i> {{ __('Import Pupils') }}
+            </a>
+            @endcan
             @can('create-pupils')
             <a href="{{ route('pupils.create') }}" class="top_button">
                 {{ __('Onboard Pupil') }}

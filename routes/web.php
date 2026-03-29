@@ -74,6 +74,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/pupil-details/{pupil}/attachments', [PupilController::class, 'attachments'])->name('pupils.attachments')->middleware('can:manage-attachments');
     Route::get('/pupil-details/{pupil}/progressions', [PupilController::class, 'progressions'])->name('pupils.progressions');
 
+    Route::get('/pupils/import', [PupilController::class, 'showImportForm'])->name('pupils.import.form')->middleware('can:bulk-import-pupils');
+    Route::post('/pupils/import', [PupilController::class, 'import'])->name('pupils.import')->middleware('can:bulk-import-pupils');
+    Route::get('/pupils/import/template', [PupilController::class, 'downloadTemplate'])->name('pupils.import.template')->middleware('can:bulk-import-pupils');
+
     Route::resource('pupils', PupilController::class)->except(['edit', 'show']);
     Route::get('/pupils/{pupil}/export', [PupilController::class, 'export'])->name('pupils.export')->middleware('can:export-pupil-data');
     Route::post('/pupils/extract-file', [PupilController::class, 'extractFromFile'])->name('pupils.extract-file');

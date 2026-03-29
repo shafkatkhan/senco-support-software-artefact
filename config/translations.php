@@ -80,6 +80,7 @@ return [
             'View More Information',
             'View Less Information',
             'Onboard Pupil',
+            'Import Pupils',
             'More Details',
             'Date of Birth',
             'Gender',
@@ -98,6 +99,23 @@ return [
             'Onboarded by',
             'Last Edited',
             'No Pupils Found.',
+        ],
+
+        'Pupil Import' => [
+            'Upload an Excel or CSV file to bulk import pupil records.',
+            'Select File',
+            'Supported formats: .csv, .xls, .xlsx',
+            'Import Data',
+            'To ensure a successful import, please use the provided template or ensure your file matches the exact column headers.',
+            'Download Template',
+            'Required Fields',
+            'Pupil Number, First Name, Last Name, and Year Group must be provided.',
+            'Dates',
+            'Please format dates as YYYY-MM-DD or use standard Excel date formats.',
+            'Updates',
+            'If a pupil with the same Pupil Number already exists, their information will be updated.',
+            ':count pupils imported successfully!',
+            'Error importing pupils: :error',
         ],
         
         'Pupil Onboarding' => [
