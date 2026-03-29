@@ -460,7 +460,7 @@ return [
             'Select proficiencies',
             'Select accommodations',
             'Edit Subject',
-            'Subject',            
+            'Subject',
         ],
 
         'Record Types' => [
@@ -491,6 +491,14 @@ return [
             'No pupils match the selected filters.',
             ':count pupil(s) found',
             'An error occurred while generating the report.',
+            'Auto Progression',
+            'Special Needs Details',
+            'Attended Special School?',
+            'Special School Details',
+            'Next of Kin Name',
+            'Next of Kin Relation',
+            'Next of Kin Phone',
+            'Next of Kin Email',
         ],
 
         'User Groups' => [
