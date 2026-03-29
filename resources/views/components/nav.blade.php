@@ -41,6 +41,9 @@
             @endcan
             <li class="dropdown_nav_btn"><a href="#">{{ __('System Settings') }} <i class="fas fa-chevron-left"></i></a></li>
             <div class="dropdown_items">
+                @can('manage-llm-settings')
+                    <li class="sub_nav_item"><a href="{{ route('llm-settings.index') }}" class="{{ request()->routeIs('llm-settings.*') ? 'activenav' : '' }}">{{ __('LLM Settings') }}</a></li>
+                @endcan
                 @can('manage-email-settings')
                     <li class="sub_nav_item"><a href="{{ route('email-settings.index') }}" class="{{ request()->routeIs('email-settings.*') ? 'activenav' : '' }}">{{ __('Email Settings') }}</a></li>
                 @endcan

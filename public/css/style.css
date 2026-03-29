@@ -999,12 +999,12 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	display: flex;
 	justify-content: flex-end;
 }
-.mfa_options{
+.settings_options{
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 }
-.mfa_option{
+.settings_option{
 	display: block;
 	border: 2px solid #e0e0e0;
 	border-radius: 8px;
@@ -1013,27 +1013,27 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	transition: all 0.2s ease;
 	background-color: #fafafa;
 }
-.mfa_option:hover{
+.settings_option:hover{
 	border-color: #b0c4de;
 	background-color: #f5f8fc;
 }
-.mfa_option.active{
+.settings_option.active{
 	border-color: #4179a9;
 	background-color: #f0f6fb;
 	box-shadow: 0 0 0 1px #4179a9;
 }
-.mfa_option input[type="radio"]{
+.settings_option input[type="radio"]{
 	display: none;
 }
-.mfa_option_content{
+.settings_option_content{
 	display: flex;
 	align-items: flex-start;
 	gap: 16px;
 }
-.mfa_option_content .text{
+.settings_option_content .text{
 	width: 100%;
 }
-.mfa_option_icon{
+.settings_option_icon{
 	width: 45px;
 	height: 45px;
 	border-radius: 50%;
@@ -1046,28 +1046,50 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #4179a9;
 	transition: all 0.2s ease;
 }
-.mfa_option.active .mfa_option_icon{
+.settings_option:not(.llm_option).active .settings_option_icon{
 	background-color: #4179a9;
 	color: #FFF;
 }
-.mfa_option_title{
+.settings_option.llm_option .settings_option_icon{
+	background-color: #f1f1f1;
+}
+.settings_option.llm_option.active .settings_option_icon{
+	background-color: #b9d8f2;
+	color: #FFF;
+}
+.settings_option_title{
 	font-weight: 600;
 	font-size: 16px;
 	color: #333;
 	margin-bottom: 4px;
 }
-.mfa_option_description{
+.settings_option_description{
 	font-size: 14px;
 	color: #777;
 	line-height: 1.4;
 }
-.mfa_option.disabled_option, .settings_wrap.disabled_option{
+.settings_option.disabled_option, .settings_wrap.disabled_option{
 	opacity: 0.5;
 	cursor: not-allowed;
 }
-.mfa_option.disabled_option .mfa_option_icon{
+.settings_option.disabled_option .settings_option_icon{
 	color: #999;
 	background-color: #eee;
+}
+.llm_option .settings_option_icon{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.llm_option .settings_option_icon img{
+	max-height: 48px;
+	max-width: 48px;
+}
+.llm_option .settings_option_description a{
+	color: #4179a9;
+}
+.llm_option .settings_option_description a:hover{
+	color: #1f84dc;
 }
 /**/
 .email_settings_wrap .settings_section{

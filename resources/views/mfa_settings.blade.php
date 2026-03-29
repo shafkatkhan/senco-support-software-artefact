@@ -10,39 +10,39 @@
                     <div class="title">{{ __('Multi-Factor Authentication') }}</div>
                     <div class="description">{{ __('Choose how users must verify their identity when logging in.') }}</div>
 
-                    <div class="mfa_options">
-                        <label class="mfa_option {{ $mfa_method === 'none' ? 'active' : '' }}">
+                    <div class="settings_options">
+                        <label class="settings_option {{ $mfa_method === 'none' ? 'active' : '' }}">
                             <input type="radio" name="mfa_method" value="none" {{ $mfa_method === 'none' ? 'checked' : '' }}>
-                            <div class="mfa_option_content">
-                                <div class="mfa_option_icon"><i class="fas fa-lock-open"></i></div>
+                            <div class="settings_option_content">
+                                <div class="settings_option_icon"><i class="fas fa-lock-open"></i></div>
                                 <div class="text">
-                                    <div class="mfa_option_title">{{ __('No MFA') }}</div>
-                                    <div class="mfa_option_description">{{ __('Users log in with username and password only. No additional verification step.') }}</div>
+                                    <div class="settings_option_title">{{ __('No MFA') }}</div>
+                                    <div class="settings_option_description">{{ __('Users log in with username and password only. No additional verification step.') }}</div>
                                 </div>
                             </div>
                         </label>
-                        <label class="mfa_option {{ $mfa_method === 'email' ? 'active' : '' }} {{ !$smtp_configured ? 'disabled_option' : '' }}">
+                        <label class="settings_option {{ $mfa_method === 'email' ? 'active' : '' }} {{ !$smtp_configured ? 'disabled_option' : '' }}">
                             <input type="radio" name="mfa_method" value="email" {{ $mfa_method === 'email' ? 'checked' : '' }} {{ !$smtp_configured ? 'disabled' : '' }}>
-                            <div class="mfa_option_content">
-                                <div class="mfa_option_icon"><i class="fas fa-envelope"></i></div>
+                            <div class="settings_option_content">
+                                <div class="settings_option_icon"><i class="fas fa-envelope"></i></div>
                                 <div class="text">
-                                    <div class="mfa_option_title">
+                                    <div class="settings_option_title">
                                         {{ __('Email Verification') }}
                                         @if(!$smtp_configured)
                                             <span class="badge bg-danger" style="font-size: 0.75rem;float:right;">{{ __('Requires SMTP Configuration') }}</span>
                                         @endif
                                     </div>
-                                    <div class="mfa_option_description">{{ __('A one-time code is sent to the user\'s email address after login. Users must enter the code to continue.') }}</div>
+                                    <div class="settings_option_description">{{ __('A one-time code is sent to the user\'s email address after login. Users must enter the code to continue.') }}</div>
                                 </div>
                             </div>
                         </label>
-                        <label class="mfa_option {{ $mfa_method === 'authenticator_app' ? 'active' : '' }}">
+                        <label class="settings_option {{ $mfa_method === 'authenticator_app' ? 'active' : '' }}">
                             <input type="radio" name="mfa_method" value="authenticator_app" {{ $mfa_method === 'authenticator_app' ? 'checked' : '' }}>
-                            <div class="mfa_option_content">
-                                <div class="mfa_option_icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="settings_option_content">
+                                <div class="settings_option_icon"><i class="fas fa-mobile-alt"></i></div>
                                 <div class="text">
-                                    <div class="mfa_option_title">{{ __('Authenticator App') }}</div>
-                                    <div class="mfa_option_description">{{ __('Users must set up an authenticator app and enter a time-based code each time they log in.') }}</div>
+                                    <div class="settings_option_title">{{ __('Authenticator App') }}</div>
+                                    <div class="settings_option_description">{{ __('Users must set up an authenticator app and enter a time-based code each time they log in.') }}</div>
                                 </div>
                             </div>
                         </label>
@@ -60,9 +60,9 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            $('.mfa_option input[type="radio"]').on('change', function () {
-                $('.mfa_option').removeClass('active');
-                $(this).closest('.mfa_option').addClass('active');
+            $('.settings_option input[type="radio"]').on('change', function () {
+                $('.settings_option').removeClass('active');
+                $(this).closest('.settings_option').addClass('active');
             });
         });
     </script>

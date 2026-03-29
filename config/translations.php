@@ -19,6 +19,7 @@ return [
             'User Groups',
             'Users',
             'System Settings',
+            'LLM Settings',
             'Email Settings',
             'MFA Settings',
             'MFA Setup',
@@ -510,6 +511,12 @@ return [
             'Choose Group',
             'Edit User',
             'User',
+        ],
+
+        'LLM Settings' => [
+            'Choose the AI provider and configure the API key to utilise data extraction features.',
+            'API Key',
+            'Your private API key for the selected provider.',
         ],
 
         'Email Settings' => [

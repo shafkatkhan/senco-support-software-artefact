@@ -174,6 +174,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Delete Users', 'slug' => 'delete-users', 'description' => 'Can delete users.'],            
 
             // Settings Management
+            ['name' => 'Manage LLM Settings', 'slug' => 'manage-llm-settings', 'description' => 'Can view and modify LLM settings: choosing the LLM provider and amending the API key.'],
             ['name' => 'Manage Email Settings', 'slug' => 'manage-email-settings', 'description' => 'Can view and modify email settings.'],
             ['name' => 'Manage MFA Settings', 'slug' => 'manage-mfa-settings', 'description' => 'Can view and modify MFA settings.'],
             ['name' => 'Manage Permissions', 'slug' => 'manage-permissions', 'description' => 'Can view and modify permissions.'],
