@@ -60,6 +60,7 @@
                     <li class="sub_nav_item"><a href="{{ route('progression-settings.index') }}" class="{{ request()->routeIs('progression-settings.*') ? 'activenav' : '' }}">{{ __('Progression Settings') }}</a></li>
                 @endcan
             </div>
+            <li><a href="{{ route('profile.edit') }}" class="{{ request()->routeIs('profile.edit') ? 'activenav' : '' }}">{{ __('Profile Settings') }}</a></li>
         </div>
     </ul>
 </section>

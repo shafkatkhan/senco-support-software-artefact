@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserGroupController;
 use \App\Http\Controllers\UserController;
@@ -53,6 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect('/pupils');
     });
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('user-groups', UserGroupController::class)->except(['create', 'show', 'edit']);
 

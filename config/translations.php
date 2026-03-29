@@ -26,6 +26,7 @@ return [
             'Permissions',
             'System Backups',
             'Progression Settings',
+            'Profile Settings',
         ],
 
         'Top Navigation' => [
@@ -519,6 +520,15 @@ return [
             'Choose Group',
             'Edit User',
             'User',
+        ],
+
+        'Profile Settings' => [
+            'Update your account details and change your password.',
+            'Change Password',
+            'Leave blank if you do not wish to change your password.',
+            'New Password',
+            'Confirm Password',
+            'Profile updated successfully!',
         ],
 
         'LLM Settings' => [
