@@ -56,7 +56,7 @@
                     <div class="form-section-title mt-0">System Configuration</div>
                     <div class="mb-3">
                         <label class="form-label">App URL</label>
-                        <input type="text" class="form-control" name="app_url" placeholder="http://localhost" value="http://localhost" required>
+                        <input type="text" class="form-control" name="app_url" placeholder="http://localhost" value="{{ old('app_url', 'http://localhost') }}" required>
                         <div class="form-text text-muted">The root URL where this application is hosted.</div>
                     </div>
                     <div class="mb-3">
@@ -234,7 +234,7 @@
                     <!--  -->
                     <div class="form-section-title">Database Configuration</div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="seed_demo_data" name="seed_demo_data" value="1">
+                        <input type="checkbox" class="form-check-input" id="seed_demo_data" name="seed_demo_data" value="1" {{ (old('seed_demo_data') == 1 ? 'checked' : '') }}>
                         <label class="form-check-label" for="seed_demo_data">Seed system with sample demo data (pupils, professionals, records, etc.)</label>
                         <div class="form-text text-muted">
                             If unchecked, the system will only seed core data (User Groups, Permissions, Settings, an Admin account, and sample record types, meeting types, and accommodations).
@@ -243,22 +243,22 @@
                     <div class="row mb-3">
                         <div class="col-md-8">
                             <label class="form-label">Database Host</label>
-                            <input type="text" class="form-control" name="db_host" placeholder="127.0.0.1" value="127.0.0.1" required>
+                            <input type="text" class="form-control" name="db_host" placeholder="127.0.0.1" value="{{ old('db_host', '127.0.0.1') }}" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Port</label>
-                            <input type="text" class="form-control" name="db_port" placeholder="3306" value="3306" required>
+                            <input type="text" class="form-control" name="db_port" placeholder="3306" value="{{ old('db_port', '3306') }}" required>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Database Name</label>
-                        <input type="text" class="form-control" name="db_name" placeholder="senco_db" required>
+                        <input type="text" class="form-control" name="db_name" placeholder="senco_db" value="{{ old('db_name') }}" required>
                         <div class="form-text text-muted">Ensure this database exists in your MySQL server.</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Database Username</label>
-                            <input type="text" class="form-control" name="db_username" placeholder="root" required>
+                            <input type="text" class="form-control" name="db_username" placeholder="root" value="{{ old('db_username') }}" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Database Password</label>
@@ -270,15 +270,15 @@
                         <div class="col-md-6">
                             <label class="form-label">Provider</label>
                             <select class="form-select" name="llm_provider" id="llm_provider" required>
-                                <option value="" selected disabled>--- Choose Option ---</option>
-                                <option value="openai">OpenAI</option>
-                                <option value="mistral">Mistral AI</option>
+                                <option value="" {{ old('llm_provider') == '' ? 'selected' : '' }} disabled>--- Choose Option ---</option>
+                                <option value="openai" {{ old('llm_provider') == 'openai' ? 'selected' : '' }}>OpenAI</option>
+                                <option value="mistral" {{ old('llm_provider') == 'mistral' ? 'selected' : '' }}>Mistral AI</option>
                             </select>
                             <div class="form-text text-muted">Select the AI provider for data extraction and translations.</div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">API Key</label>
-                            <input type="text" class="form-control" name="llm_api_key" placeholder="sk-ABC123..." required>
+                            <input type="text" class="form-control" name="llm_api_key" placeholder="sk-ABC123..." value="{{ old('llm_api_key') }}" required>
                             <div class="form-text text-muted">Your private API key for the selected provider.</div>
                         </div>
                     </div>
@@ -304,6 +304,11 @@
             var formContainer = $('#install-form-container');
             var processingContainer = $('#install-processing-container');
             var appLocale = $('select[name="app_locale"]');
+            
+            @if(old('app_locale'))
+                appLocale.val("{{ old('app_locale') }}");
+            @endif
+            
             var statusText = $('#loading_status');
             var descriptionText = $('#loading_status_description');
 
