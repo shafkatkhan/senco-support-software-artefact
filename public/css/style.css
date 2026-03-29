@@ -377,6 +377,7 @@ table{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+	text-decoration: none;
 }
 .icon i{
     color: #FFF;
@@ -389,6 +390,9 @@ table{
 }
 .download_icon{
 	background-color: #18a138;
+}
+.details_icon{
+	background-color: #41a986;
 }
 /**/
 @media screen and (max-width:1500px){

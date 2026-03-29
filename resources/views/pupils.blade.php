@@ -205,7 +205,7 @@
                         <th scope="col">{{ __('Special Needs?') }}</th>
                         <th scope="col">{{ __('Attachments') }}</th>
                         @canany(['edit-pupils', 'delete-pupils'])
-                        <th scope="col">{{ __('Actions') }}</th>
+                        <th scope="col" style="width: 135px;">{{ __('Actions') }}</th>
                         @endcanany
                     </tr>
                 </thead>
@@ -224,6 +224,7 @@
                             </td>
                             @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
+                                <a href="{{ route('pupils.show', $pupil->id) }}" class="icon details_icon"><i class="fa fa-eye"></i></a>
                                 @can('edit-pupils')
                                 <a href="{{ route('pupils.edit', $pupil->id) }}" class="icon edit_icon"><i class="fa fa-edit"></i></a>
                                 @endcan
