@@ -54,7 +54,7 @@
                                         Google Gemini
                                     </div>
                                     <div class="settings_option_description">
-                                        <a href="https://ai.google.dev" target="_blank">ai.google.dev</a>
+                                        <a href="https://aistudio.google.com/" target="_blank">aistudio.google.com</a>
                                     </div>
                                 </div>
                             </div>
