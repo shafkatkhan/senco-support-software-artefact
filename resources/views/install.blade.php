@@ -264,7 +264,23 @@
                             <input type="password" class="form-control" name="db_password" placeholder="">
                         </div>
                     </div>
-                    <!--  -->
+                    <div class="form-section-title">LLM Settings</div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Provider</label>
+                            <select class="form-select" name="llm_provider" id="llm_provider" required>
+                                <option value="" selected disabled>--- Choose Option ---</option>
+                                <option value="openai">OpenAI</option>
+                                <option value="mistral">Mistral AI</option>
+                            </select>
+                            <div class="form-text text-muted">Select the AI provider for data extraction and translations.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">API Key</label>
+                            <input type="text" class="form-control" name="llm_api_key" placeholder="sk-ABC123..." required>
+                            <div class="form-text text-muted">Your private API key for the selected provider.</div>
+                        </div>
+                    </div>
                     <div class="form-section-title">Restore from Backup (Optional)</div>
                     <div class="mb-4">
                         <label class="form-label">Database Backup File (.sql)</label>

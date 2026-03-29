@@ -47,6 +47,8 @@ class InstallController extends Controller
             'db_username' => 'required',
             'db_password' => 'nullable',
             'seed_demo_data' => 'nullable|boolean',
+            'llm_provider' => 'required|in:openai,mistral',
+            'llm_api_key' => 'required|string',
         ]);
 
         try {
@@ -57,6 +59,9 @@ class InstallController extends Controller
             config(['database.connections.mysql.database' => $request->db_name]);
             config(['database.connections.mysql.username' => $request->db_username]);
             config(['database.connections.mysql.password' => $request->db_password]);
+            
+            // update runtime LLM config
+            config(['services.' . $request->llm_provider . '.key' => $request->llm_api_key]);
 
             // force reconnection and verify connection
             DB::purge('mysql');
@@ -74,6 +79,8 @@ class InstallController extends Controller
                 Artisan::call('migrate:fresh', ['--seed' => true]);
             }
 
+            // save LLM provider to settings table
+            Setting::set('llm_provider', $request->llm_provider);
 
             // mapping of full language names
             $languages = [
@@ -129,7 +136,7 @@ class InstallController extends Controller
                     $english_labels = array_merge($english_labels, $keys);
                 }
 
-                $apiKey = config('services.mistral.key');
+                $apiKey = $request->llm_api_key;
                 $auto_translations = [];
 
                 if ($apiKey && !empty($english_labels)) {
@@ -160,6 +167,13 @@ class InstallController extends Controller
                 'DB_USERNAME' => $request->db_username,
                 'DB_PASSWORD' => $request->db_password,
             ];
+            
+            if ($request->llm_provider == 'openai') {
+                $environment_updates['OPENAI_API_KEY'] = $request->llm_api_key;
+            } else {
+                $environment_updates['MISTRAL_API_KEY'] = $request->llm_api_key;
+            }
+
             if ($english_language) {
                 $environment_updates['APP_LANGUAGE_DIRECTION'] = 'ltr';
             }
