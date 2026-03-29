@@ -8,6 +8,7 @@ return [
         'Side Navigation' => [
             'Test Form',
             'SEND Pupils',
+            'Cohort Reports',
             'Accommodations',
             'Majors',
             'Proficiencies',
@@ -453,6 +454,23 @@ return [
             'Create Meeting Type',
             'No meeting types found.',
             'Edit Meeting Type',
+        ],
+
+        'Cohort Reports' => [
+            'Filters',
+            'Clear all',
+            'Condition',
+            'Search condition...',
+            'Search medications...',
+            'Search accommodations...',
+            'Search majors...',
+            'No Major',
+            'Search subjects...',
+            'Loading report preview...',
+            'Loading...',
+            'No pupils match the selected filters.',
+            ':count pupil(s) found',
+            'An error occurred while generating the report.',
         ],
 
         'User Groups' => [

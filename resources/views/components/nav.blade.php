@@ -9,6 +9,9 @@
             @can('view-pupils')
                 <li><a href="{{ route('pupils.index') }}" class="{{ request()->routeIs('pupils.*') ? 'activenav' : '' }}">{{ __('SEND Pupils') }}</a></li>
             @endcan
+            @can('export-cohort-reports')
+                <li><a href="{{ route('reports.index') }}" class="{{ request()->routeIs('reports.*') ? 'activenav' : '' }}">{{ __('Cohort Reports') }}</a></li>
+            @endcan
             @can('view-accommodations')
                 <li><a href="{{ route('accommodations.index') }}" class="{{ request()->routeIs('accommodations.*') ? 'activenav' : '' }}">{{ __('Accommodations') }}</a></li>
             @endcan

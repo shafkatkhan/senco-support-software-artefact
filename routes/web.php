@@ -30,6 +30,7 @@ use \App\Http\Controllers\SchoolHistoryController;
 use \App\Http\Controllers\AttachmentController;
 use \App\Http\Controllers\PupilProgressionController;
 use \App\Http\Controllers\ProgressionSettingController;
+use \App\Http\Controllers\ReportController;
 
 Route::get('/debug-session', function () {
     return response()->json(session()->all());
@@ -156,4 +157,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/progression-settings', [ProgressionSettingController::class, 'index'])->name('progression-settings.index')->middleware('can:manage-school-progression-settings');
     Route::put('/progression-settings', [ProgressionSettingController::class, 'update'])->name('progression-settings.update')->middleware('can:manage-school-progression-settings');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index')->middleware('can:export-cohort-reports');
+    Route::get('/reports/preview', [ReportController::class, 'preview'])->name('reports.preview')->middleware('can:export-cohort-reports');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export')->middleware('can:export-cohort-reports');
 });

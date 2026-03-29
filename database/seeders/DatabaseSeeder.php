@@ -62,6 +62,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Edit Pupils', 'slug' => 'edit-pupils', 'description' => 'Can edit existing pupils.'],
             ['name' => 'Delete Pupils', 'slug' => 'delete-pupils', 'description' => 'Can delete pupils.'],
             ['name' => 'Export Pupil Data', 'slug' => 'export-pupil-data', 'description' => 'Can export an individual pupil\'s data.'],
+            ['name' => 'Export Class-based Reports', 'slug' => 'export-cohort-reports', 'description' => 'Can export class-based reports on pupils with given conditions, medications, etc.'],
 
             // Attachment Management
             ['name' => 'Manage Attachments', 'slug' => 'manage-attachments', 'description' => 'Can view, edit and delete attachments in dedicated attachments page.'],

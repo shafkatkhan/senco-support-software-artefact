@@ -159,6 +159,11 @@ class Pupil extends Model
     {
         return $this->hasMany(PupilProgression::class);
     }
+    
+    public function latestProgression()
+    {
+        return $this->hasOne(PupilProgression::class)->latestOfMany();
+    }
 
     public function getInitialTutorGroupAttribute()
     {
