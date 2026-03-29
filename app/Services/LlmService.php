@@ -22,32 +22,74 @@ class LlmService
         set_time_limit(500);
 
         $provider = $overrideProvider ?? Setting::get('llm_provider');
-
-        if ($provider == 'openai') {
-            $apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
-            $model = $overrideModel ?? 'whisper-1';
-        } else {
-            $apiUrl = 'https://api.mistral.ai/v1/audio/transcriptions';
-            $model = $overrideModel ?? 'voxtral-mini-latest';
-        }
         $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
+        
         if (!$apiKey) {
             throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }
 
-        $response = Http::withToken($apiKey)
-            ->timeout(120)
-            ->attach('file', file_get_contents($audioPath), $fileName)
-            ->post($apiUrl, [
-                'model' => $model,
-            ]);
+        $transcript = "";
 
-        if ($response->failed()) {
-            throw new Exception('API error: ' . $response->body());
+        switch ($provider) {
+            case 'gemini':
+                $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/' . ($overrideModel ?? 'gemini-3-flash-preview') . ':generateContent?key=' . $apiKey;
+                $mimeType = mime_content_type($audioPath) ?: 'audio/mpeg';
+                $base64Audio = base64_encode(file_get_contents($audioPath));
+                
+                $payload = [
+                    "contents" => [
+                        [
+                            "parts" => [
+                                ["text" => "Transcribe the following audio exactly as spoken."],
+                                [
+                                    "inline_data" => [
+                                        "mime_type" => $mimeType,
+                                        "data" => $base64Audio
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+                
+                $response = Http::timeout(120)->post($apiUrl, $payload);
+                
+                if ($response->failed()) {
+                    throw new Exception('API error: ' . $response->body());
+                }
+                
+                $result = $response->json();
+                $transcript = $result["candidates"][0]["content"]["parts"][0]["text"] ?? "";
+                break;
+
+            case 'openai':
+            case 'mistral':
+                $apiUrl = $provider == 'openai' 
+                    ? 'https://api.openai.com/v1/audio/transcriptions' 
+                    : 'https://api.mistral.ai/v1/audio/transcriptions';
+                    
+                $model = $provider == 'openai' 
+                    ? ($overrideModel ?? 'whisper-1') 
+                    : ($overrideModel ?? 'voxtral-mini-latest');
+
+                $response = Http::withToken($apiKey)
+                    ->timeout(120)
+                    ->attach('file', file_get_contents($audioPath), $fileName)
+                    ->post($apiUrl, [
+                        'model' => $model,
+                    ]);
+
+                if ($response->failed()) {
+                    throw new Exception('API error: ' . $response->body());
+                }
+
+                $result = $response->json();
+                $transcript = $result["text"] ?? "";
+                break;
+
+            default:
+                throw new Exception("Unsupported LLM provider: " . $provider);
         }
-
-        $result = $response->json();
-        $transcript = $result["text"] ?? "";
 
         if (empty($transcript)) {
             throw new Exception('No transcript text generated.');
@@ -73,94 +115,145 @@ class LlmService
         set_time_limit(500);
 
         $provider = $overrideProvider ?? Setting::get('llm_provider');
-        $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
-
-        if ($provider == 'openai') {
-            $apiUrl = 'https://api.openai.com/v1/chat/completions';
-        } else {
-            $apiUrl = 'https://api.mistral.ai/v1/chat/completions';
-        }
         $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
+        
         if (!$apiKey) {
             throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }
 
-        $messages = [];
-        
-        if ($instructions) {
-            $messages[] = [
-                "role" => "system",
-                "content" => $instructions
-            ];
-        }
+        $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
+        $structuredDataRaw = "{}";
 
-        if ($filePath && $mimeType) {
-            $fileBase64 = base64_encode(file_get_contents($filePath));
-            $dataUrl = "data:{$mimeType};base64,{$fileBase64}";
-            
-            $content = [];
-            
-            if ($provider == 'openai') {
-                if ($isImage) {
-                    $content[] = [
-                        "type" => "image_url",
-                        "image_url" => [
-                            "url" => $dataUrl
-                        ],
-                    ];
-                } else {
-                    $content[] = [
-                        "type" => "file",
-                        "file" => [
-                            "filename" => basename($filePath),
-                            "file_data" => $dataUrl
+        switch ($provider) {
+            case 'gemini':
+                $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/' . ($overrideModel ?? 'gemini-3-flash-preview') . ':generateContent?key=' . $apiKey;
+                
+                $parts = [];
+                
+                if ($filePath && $mimeType) {
+                    $parts[] = [
+                        "inline_data" => [
+                            "mime_type" => $mimeType,
+                            "data" => base64_encode(file_get_contents($filePath))
                         ]
                     ];
                 }
-                $model = $overrideModel ?? "gpt-4.1-nano";
-            } else {
-                $content[] = [
-                    "type" => $isImage ? "image_url" : "document_url",
-                    $isImage ? "image_url" : "document_url" => $dataUrl,
+                if ($data) {
+                    $parts[] = [ "text" => $data ];
+                }
+                
+                $payload = [
+                    "contents" => [
+                        [ "parts" => $parts ]
+                    ],
+                    "generationConfig" => [
+                        "responseMimeType" => "application/json"
+                    ]
                 ];
-                $model = $overrideModel ?? ($isImage ? "pixtral-12b-2409" : "mistral-small-latest");
-            }
+                
+                if ($instructions) {
+                    $payload["systemInstruction"] = [
+                        "parts" => [ [ "text" => $instructions ] ]
+                    ];
+                }
+                
+                $response = Http::timeout(120)->post($apiUrl, $payload);
+                
+                if ($response->failed()) {
+                    throw new Exception('API error: ' . $response->body());
+                }
+                
+                $result = $response->json();
+                $structuredDataRaw = $result["candidates"][0]["content"]["parts"][0]["text"] ?? "{}";
+                break;
 
-            if ($data) {
-                $content[] = [
-                    "type" => "text",
-                    "text" => $data,
+            case 'openai':
+            case 'mistral':
+                $apiUrl = $provider == 'openai' 
+                    ? 'https://api.openai.com/v1/chat/completions' 
+                    : 'https://api.mistral.ai/v1/chat/completions';
+
+                $messages = [];
+                
+                if ($instructions) {
+                    $messages[] = [
+                        "role" => "system",
+                        "content" => $instructions
+                    ];
+                }
+
+                if ($filePath && $mimeType) {
+                    $fileBase64 = base64_encode(file_get_contents($filePath));
+                    $dataUrl = "data:{$mimeType};base64,{$fileBase64}";
+                    
+                    $content = [];
+                    
+                    if ($provider == 'openai') {
+                        if ($isImage) {
+                            $content[] = [
+                                "type" => "image_url",
+                                "image_url" => [
+                                    "url" => $dataUrl
+                                ],
+                            ];
+                        } else {
+                            $content[] = [
+                                "type" => "file",
+                                "file" => [
+                                    "filename" => basename($filePath),
+                                    "file_data" => $dataUrl
+                                ]
+                            ];
+                        }
+                        $model = $overrideModel ?? "gpt-4.1-nano";
+                    } else {
+                        $content[] = [
+                            "type" => $isImage ? "image_url" : "document_url",
+                            $isImage ? "image_url" : "document_url" => $dataUrl,
+                        ];
+                        $model = $overrideModel ?? ($isImage ? "pixtral-12b-2409" : "mistral-small-latest");
+                    }
+
+                    if ($data) {
+                        $content[] = [
+                            "type" => "text",
+                            "text" => $data,
+                        ];
+                    }
+                    $messages[] = [
+                        "role" => "user",
+                        "content" => $content
+                    ];
+                    
+                } else {
+                    $messages[] = [
+                        "role" => "user",
+                        "content" => $data
+                    ];
+                    $model = $overrideModel ?? ($provider == 'openai' ? "gpt-4.1-nano" : "mistral-small-latest");
+                }
+
+                $payload = [
+                    "model" => $model,
+                    "response_format" => ["type" => "json_object"],
+                    "messages" => $messages
                 ];
-            }
-            $messages[] = [
-                "role" => "user",
-                "content" => $content
-            ];
-            
-        } else {
-            $messages[] = [
-                "role" => "user",
-                "content" => $data
-            ];
-            $model = $overrideModel ?? ($provider == 'openai' ? "gpt-4.1-nano" : "mistral-small-latest");
+
+                $response = Http::withToken($apiKey)
+                    ->timeout(120)
+                    ->post($apiUrl, $payload);
+
+                if ($response->failed()) {
+                    throw new Exception('API error: ' . $response->body());
+                }
+
+                $result = $response->json();
+                $structuredDataRaw = $result["choices"][0]["message"]["content"] ?? "{}";
+                break;
+
+            default:
+                throw new Exception("Unsupported LLM provider: " . $provider);
         }
-
-        $payload = [
-            "model" => $model,
-            "response_format" => ["type" => "json_object"],
-            "messages" => $messages
-        ];
-
-        $response = Http::withToken($apiKey)
-            ->timeout(120)
-            ->post($apiUrl, $payload);
-
-        if ($response->failed()) {
-            throw new Exception('API error: ' . $response->body());
-        }
-
-        $result = $response->json();
-        $structuredDataRaw = $result["choices"][0]["message"]["content"] ?? "{}";
 
         return json_decode($structuredDataRaw, true) ?? [];
     }

@@ -273,6 +273,7 @@
                                 <option value="" {{ old('llm_provider') == '' ? 'selected' : '' }} disabled>--- Choose Option ---</option>
                                 <option value="openai" {{ old('llm_provider') == 'openai' ? 'selected' : '' }}>OpenAI</option>
                                 <option value="mistral" {{ old('llm_provider') == 'mistral' ? 'selected' : '' }}>Mistral AI</option>
+                                <option value="gemini" {{ old('llm_provider') == 'gemini' ? 'selected' : '' }}>Google Gemini</option>
                             </select>
                             <div class="form-text text-muted">Select the AI provider for data extraction and translations.</div>
                         </div>

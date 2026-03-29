@@ -47,7 +47,7 @@ class InstallController extends Controller
             'db_username' => 'required',
             'db_password' => 'nullable',
             'seed_demo_data' => 'nullable|boolean',
-            'llm_provider' => 'required|in:openai,mistral',
+            'llm_provider' => 'required|in:openai,mistral,gemini',
             'llm_api_key' => 'required|string',
         ]);
 
@@ -145,7 +145,12 @@ class InstallController extends Controller
                         "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". Do not change or omit any of the original english keys. Preserve all Laravel-style placeholders exactly as written, such as :name, :count, :date, :time, etc. Do not translate, remove, rename, or alter these placeholders in any way.";
 
                     try {
-                        $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions);
+                        if ($request->llm_provider == 'gemini') {
+                            // use fastest model for translation
+                            $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions, null, null, 'gemini', 'gemini-2.5-flash-lite', $request->llm_api_key);
+                        } else {
+                            $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions);
+                        }
                         if (empty($auto_translations)) {
                              throw new \Exception("(AI Translation failure) The LLM returned an empty translation. Please check your API key and try again.");
                         }

@@ -43,6 +43,22 @@
                                 </div>
                             </div>
                         </label>
+                        <label class="settings_option llm_option {{ $llm_provider === 'gemini' ? 'active' : '' }}">
+                            <input type="radio" name="llm_provider" value="gemini" {{ $llm_provider === 'gemini' ? 'checked' : '' }}>
+                            <div class="settings_option_content">
+                                <div class="settings_option_icon">
+                                    <img src="{{ asset('img/gemini.png') }}" alt="Gemini Logo" style="width: 65%;">
+                                </div>
+                                <div class="text">
+                                    <div class="settings_option_title">
+                                        Google Gemini
+                                    </div>
+                                    <div class="settings_option_description">
+                                        <a href="https://ai.google.dev" target="_blank">ai.google.dev</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                     </div>
 
                     <div class="form-group mt-4">
