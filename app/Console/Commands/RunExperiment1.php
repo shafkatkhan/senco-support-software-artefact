@@ -14,7 +14,7 @@ class RunExperiment1 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai or mistral)}';
+    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai or mistral)} {--api-key= : The API key to use}';
 
     /**
      * The console command description.
@@ -82,17 +82,19 @@ class RunExperiment1 extends Command
             $this->error("LLM provider not specified. Use eg. --provider=openai or --provider=mistral.");
             return;
         }
+        
+        $llm_api_key = $this->option('api-key');
 
         $this->info("Found " . count($files) . " total audio files. Processing " . count($audioFilesToProcess) . " files starting from offset {$offset}.");
 
         foreach ($audioFilesToProcess as $fileName) {
-            $this->processFile($recordingsPath, $fileName, $llm_provider);
+            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key);
         }
         
         $this->info("Experiment batch completed.");
     }
 
-    private function processFile($path, $fileName, $llm_provider)
+    private function processFile($path, $fileName, $llm_provider, $llm_api_key)
     {
         if($llm_provider == 'openai'){
             $llm_transcription_model = 'whisper-1';
@@ -129,7 +131,7 @@ class RunExperiment1 extends Command
 
         try {
             // transcription
-            $transcript = LlmService::transcribeAudio($fullPath, $fileName, $llm_provider, $llm_transcription_model);
+            $transcript = LlmService::transcribeAudio($fullPath, $fileName, $llm_provider, $llm_transcription_model, $llm_api_key);
             $transcriptionTimeEnd = microtime(true);
             $transcriptionTimeMs = round(($transcriptionTimeEnd - $transcriptionTimeStart) * 1000);
 
@@ -151,7 +153,7 @@ class RunExperiment1 extends Command
                 $instructions . 
                 "Do not guess. Use null if missing.";
             $extractionTimeStart = microtime(true);
-            $extractedData = LlmService::processRequest($transcript, $jsonInstructions, null, null, $llm_provider, $llm_extraction_model);
+            $extractedData = LlmService::processRequest($transcript, $jsonInstructions, null, null, $llm_provider, $llm_extraction_model, $llm_api_key);
             $extractionTimeEnd = microtime(true);
             $extractionTimeMs = round(($extractionTimeEnd - $extractionTimeStart) * 1000);
 

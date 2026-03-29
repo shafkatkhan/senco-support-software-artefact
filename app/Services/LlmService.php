@@ -16,12 +16,12 @@ class LlmService
      * @return string The transcribed text
      * @throws Exception
      */
-    public static function transcribeAudio(string $audioPath, string $fileName, ?string $overrideProvider = null, ?string $overrideModel = null): string
+    public static function transcribeAudio(string $audioPath, string $fileName, ?string $overrideProvider = null, ?string $overrideModel = null, ?string $overrideApiKey = null): string
     {
         // override php time limit
         set_time_limit(500);
 
-        $provider = $overrideProvider ?? Setting::get('llm_provider', 'mistral');
+        $provider = $overrideProvider ?? Setting::get('llm_provider');
 
         if ($provider == 'openai') {
             $apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
@@ -30,7 +30,7 @@ class LlmService
             $apiUrl = 'https://api.mistral.ai/v1/audio/transcriptions';
             $model = $overrideModel ?? 'voxtral-mini-latest';
         }
-        $apiKey = config('services.' . $provider . '.key');
+        $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
         if (!$apiKey) {
             throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }
@@ -67,12 +67,12 @@ class LlmService
      * @return array The decoded JSON response
      * @throws Exception
      */
-    public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null, ?string $overrideProvider = null, ?string $overrideModel = null): array
+    public static function processRequest(string $data, ?string $instructions = null, ?string $filePath = null, ?string $mimeType = null, ?string $overrideProvider = null, ?string $overrideModel = null, ?string $overrideApiKey = null): array
     {
         // override php time limit
         set_time_limit(500);
 
-        $provider = $overrideProvider ?? Setting::get('llm_provider', 'mistral');
+        $provider = $overrideProvider ?? Setting::get('llm_provider');
         $isImage = $mimeType ? str_starts_with($mimeType, 'image/') : false;
 
         if ($provider == 'openai') {
@@ -80,7 +80,7 @@ class LlmService
         } else {
             $apiUrl = 'https://api.mistral.ai/v1/chat/completions';
         }
-        $apiKey = config('services.' . $provider . '.key');
+        $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
         if (!$apiKey) {
             throw new Exception(strtoupper($provider) . "_API_KEY is not set.");
         }

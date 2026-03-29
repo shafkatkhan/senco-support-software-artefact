@@ -79,8 +79,9 @@ class InstallController extends Controller
                 Artisan::call('migrate:fresh', ['--seed' => true]);
             }
 
-            // save LLM provider to settings table
+            // save LLM provider and API key to settings table
             Setting::set('llm_provider', $request->llm_provider);
+            Setting::set('llm_api_key', $request->llm_api_key);
 
             // mapping of full language names
             $languages = [
@@ -171,12 +172,6 @@ class InstallController extends Controller
                 'DB_PASSWORD' => $request->db_password,
             ];
             
-            if ($request->llm_provider == 'openai') {
-                $environment_updates['OPENAI_API_KEY'] = $request->llm_api_key;
-            } else {
-                $environment_updates['MISTRAL_API_KEY'] = $request->llm_api_key;
-            }
-
             if ($english_language) {
                 $environment_updates['APP_LANGUAGE_DIRECTION'] = 'ltr';
             }
