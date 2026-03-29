@@ -98,7 +98,8 @@ return [
             'Address',
             'Onboarded by',
             'Last Edited',
-            'No Pupils Found.',
+            'No pupils found.',
+            'Pupil',
         ],
 
         'Pupil Import' => [
