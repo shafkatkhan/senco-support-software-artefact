@@ -38,7 +38,7 @@
                                         Mistral AI
                                     </div>
                                     <div class="settings_option_description">
-                                        <a href="https://mistral.ai/news/agents-api" target="_blank">mistral.ai/news/agents-api</a>
+                                        <a href="https://docs.mistral.ai" target="_blank">docs.mistral.ai</a>
                                     </div>
                                 </div>
                             </div>
