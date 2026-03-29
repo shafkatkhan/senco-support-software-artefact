@@ -36,6 +36,7 @@
             <div class="card-body">
                 @if(session('error'))
                     <div class="alert alert-danger">
+                        <strong>Installation Failed:</strong><br>
                         {{ session('error') }}
                     </div>
                 @endif

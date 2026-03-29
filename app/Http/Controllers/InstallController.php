@@ -145,8 +145,11 @@ class InstallController extends Controller
 
                     try {
                         $auto_translations = LlmService::processRequest(json_encode($english_labels), $instructions);
+                        if (empty($auto_translations)) {
+                             throw new \Exception("(AI Translation failure) The LLM returned an empty translation. Please check your API key and try again.");
+                        }
                     } catch (\Exception $e) {
-                        // silently fail and fallback to empty boxes if the API drops
+                        throw new \Exception("(AI Translation failure) " . $e->getMessage() . ". Please check your API key and try again.");
                     }
                 }
                 // ---------------------------------------------
@@ -186,7 +189,13 @@ class InstallController extends Controller
             return redirect(route('install.lang_setup_view'))->with('success', 'Database installed successfully! Please configure language translations.');
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Installation failed: ' . $e->getMessage())->withInput();
+            try {
+                // wipe the database if installation fails midway to prevent a "half-installed" state from redirecting to login
+                Artisan::call('db:wipe', ['--force' => true]);
+            } catch (\Exception $cleanupEx) {
+                // ignore cleanup errors
+            }
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
 
