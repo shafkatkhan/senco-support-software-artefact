@@ -5,7 +5,7 @@
         <div class="settings_wrap email_settings_wrap">
             <div class="settings_section">
                 <div class="title">
-                    <i class="fa-solid fa-chart-line"></i> {{ __('Pupil Progression Settings') }}
+                    <i class="fa-solid fa-chart-line me-1"></i> {{ __('Pupil Progression Settings') }}
                 </div>
                 <div class="description">
                     {{ __('Configure the parameters for automatic pupil progression.') }}
