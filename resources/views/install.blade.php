@@ -232,6 +232,13 @@
                     </div>
                     <!--  -->
                     <div class="form-section-title">Database Configuration</div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="seed_demo_data" name="seed_demo_data" value="1">
+                        <label class="form-check-label" for="seed_demo_data">Seed system with sample demo data (pupils, professionals, records, etc.)</label>
+                        <div class="form-text text-muted">
+                            If unchecked, the system will only seed core data (User Groups, Permissions, Settings, an Admin account, and sample record types, meeting types, and accommodations).
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col-md-8">
                             <label class="form-label">Database Host</label>

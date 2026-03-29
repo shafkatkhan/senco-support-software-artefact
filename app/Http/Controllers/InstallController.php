@@ -46,6 +46,7 @@ class InstallController extends Controller
             'db_name' => 'required',
             'db_username' => 'required',
             'db_password' => 'nullable',
+            'seed_demo_data' => 'nullable|boolean',
         ]);
 
         try {
@@ -69,6 +70,7 @@ class InstallController extends Controller
                 DB::unprepared($sqlInput);
             } else {
                 // no backup provided: run migrations and seed
+                config(['app.seed_demo_data' => $request->has('seed_demo_data')]);
                 Artisan::call('migrate:fresh', ['--seed' => true]);
             }
 

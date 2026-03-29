@@ -229,24 +229,6 @@ class DatabaseSeeder extends Seeder
             'joined_date' => now(),
         ]);
 
-        // create 10 standard users
-        User::factory(10)->create([
-            'user_group_id' => $standardGroup->id,
-            'added_by' => $adminUser->id,
-        ]);
-
-        // create 10 read-only users
-        User::factory(10)->create([
-            'user_group_id' => $readOnlyGroup->id,
-            'added_by' => $adminUser->id,
-        ]);
-
-        // create test rows
-        TestForm::factory(20)->create();
-
-        // create professionals
-        Professional::factory(50)->create();
-
         // create accommodations
         $accommodations = [
             ['name' => 'Extra Time', 'description' => '25% extra time in examinations.'],
@@ -297,6 +279,29 @@ class DatabaseSeeder extends Seeder
         foreach ($proficiencies as $proficiency) {
             Proficiency::create($proficiency);
         }
+        
+        // return if not seeding demo data
+        if (!config('app.seed_demo_data', true)) {
+            return;
+        }
+
+        // create 10 standard users
+        User::factory(10)->create([
+            'user_group_id' => $standardGroup->id,
+            'added_by' => $adminUser->id,
+        ]);
+
+        // create 10 read-only users
+        User::factory(10)->create([
+            'user_group_id' => $readOnlyGroup->id,
+            'added_by' => $adminUser->id,
+        ]);
+
+        // create test rows
+        TestForm::factory(20)->create();
+
+        // create professionals
+        Professional::factory(50)->create();
 
         // create subjects
         $subjects = [
