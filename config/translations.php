@@ -519,6 +519,7 @@ return [
             'Group',
             'Choose Group',
             'Edit User',
+            'Leave blank to keep current password.',
             'User',
         ],
 

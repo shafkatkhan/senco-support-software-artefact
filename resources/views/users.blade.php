@@ -206,6 +206,11 @@
                                 <div class="form-text text-muted">{{ __('When date is reached, user will be deactivated. Leave blank for no expiry.') }}</div>
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label>{{ __('Password') }}</label>
+                            <input type="password" class="form-control" name="password" placeholder="{{ __('Password') }}" />
+                            <div class="form-text text-muted">{{ __('Leave blank to keep current password.') }}</div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" name="save">{{ __('Update') }}</button>
