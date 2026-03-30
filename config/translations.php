@@ -543,8 +543,6 @@ return [
             'SMTP Host',
             'e.g. smtp.mailgun.org',
             'SMTP Port',
-            'Username',
-            'Password',
             'Encryption',
             'None',
             'Sender Identity',
