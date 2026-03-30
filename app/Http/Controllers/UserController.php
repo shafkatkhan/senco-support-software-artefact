@@ -60,7 +60,7 @@ class UserController extends Controller
             'expiry_date' => $request->expiry_date,
         ]);
         
-        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('User'), 'name' => $user->full_name]));
+        return back()->with('success', __(':item ":name" created successfully!', ['item' => __('User'), 'name' => $request->first_name.' '.$request->last_name]));
     }
 
     public function update(Request $request, User $user)
