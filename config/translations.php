@@ -536,6 +536,7 @@ return [
             'Choose the AI provider and configure the API key to utilise data extraction features.',
             'API Key',
             'Your private API key for the selected provider.',
+            'No AI features.',
         ],
 
         'Email Settings' => [

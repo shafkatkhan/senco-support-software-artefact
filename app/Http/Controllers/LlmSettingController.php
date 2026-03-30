@@ -19,8 +19,8 @@ class LlmSettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'llm_provider' => 'required|in:openai,mistral,gemini',
-            'llm_api_key' => 'required|string',
+            'llm_provider' => 'required|in:none,openai,mistral,gemini',
+            'llm_api_key' => 'required_unless:llm_provider,none',
         ]);
 
         Setting::set('llm_provider', $request->llm_provider);

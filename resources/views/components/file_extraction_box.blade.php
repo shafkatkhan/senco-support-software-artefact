@@ -1,3 +1,4 @@
+@if(\App\Models\Setting::get('llm_provider') != 'none')
 <div class="file_extraction_box">
     <div class="upload_icon"><i class="fas fa-upload"></i></div>
     <div class="label">
@@ -26,3 +27,4 @@
         </button>
     </div>
 </div>
+@endif

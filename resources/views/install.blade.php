@@ -271,6 +271,7 @@
                             <label class="form-label">Provider</label>
                             <select class="form-select" name="llm_provider" id="llm_provider" required>
                                 <option value="" {{ old('llm_provider') == '' ? 'selected' : '' }} disabled>--- Choose Option ---</option>
+                                <option value="none">None (no AI features)</option>
                                 <option value="openai" {{ old('llm_provider') == 'openai' ? 'selected' : '' }}>OpenAI</option>
                                 <option value="mistral" {{ old('llm_provider') == 'mistral' ? 'selected' : '' }}>Mistral AI</option>
                                 <option value="gemini" {{ old('llm_provider') == 'gemini' ? 'selected' : '' }}>Google Gemini</option>
@@ -316,8 +317,10 @@
             $('#install-form-container form').on('submit', function() {
                 var locale = appLocale.val();
                 var isEnglish = locale && locale.startsWith('en');
+                var providerSelect = $('#llm_provider');
+                var noLlm = providerSelect.val() == 'none';
                 
-                if (isEnglish) {
+                if (isEnglish || noLlm) {
                     statusText.text('Configuring database and environment...');
                     descriptionText.text('This should only take a moment.');
                 } else {
@@ -332,6 +335,19 @@
                 // force layout scroll to ensure visibility
                 window.scrollTo(0, 0);
             });
+
+            // only validate api key if LLM provider is selected
+            var providerSelect = $('#llm_provider');
+            var apiKeyInput = $('input[name="llm_api_key"]');
+            function checkLlmProvider() {
+                if (providerSelect.val() == 'none') {
+                    apiKeyInput.prop('required', false).prop('disabled', true);
+                } else {
+                    apiKeyInput.prop('required', true).prop('disabled', false);
+                }
+            }
+            providerSelect.on('change', checkLlmProvider);
+            checkLlmProvider();
         });
     </script>
 </body>

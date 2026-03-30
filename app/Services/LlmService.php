@@ -22,6 +22,11 @@ class LlmService
         set_time_limit(500);
 
         $provider = $overrideProvider ?? Setting::get('llm_provider');
+        
+        if ($provider == 'none') {
+            throw new Exception("AI features are disabled.");
+        }
+
         $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
         
         if (!$apiKey) {
@@ -115,6 +120,11 @@ class LlmService
         set_time_limit(500);
 
         $provider = $overrideProvider ?? Setting::get('llm_provider');
+        
+        if ($provider == 'none') {
+            throw new Exception("AI features are disabled.");
+        }
+
         $apiKey = $overrideApiKey ?? Setting::get('llm_api_key');
         
         if (!$apiKey) {

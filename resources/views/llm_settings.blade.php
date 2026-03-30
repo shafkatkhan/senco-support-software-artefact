@@ -11,6 +11,22 @@
                     <div class="description">{{ __('Choose the AI provider and configure the API key to utilise data extraction features.') }}</div>
 
                     <div class="settings_options">
+                        <label class="settings_option llm_option {{ $llm_provider === 'none' ? 'active' : '' }}">
+                            <input type="radio" name="llm_provider" value="none" {{ $llm_provider === 'none' ? 'checked' : '' }}>
+                            <div class="settings_option_content">
+                                <div class="settings_option_icon">
+                                    <i class="fas fa-ban text-danger" style="font-size: 25px;"></i>
+                                </div>
+                                <div class="text">
+                                    <div class="settings_option_title">
+                                        {{ __('None') }}
+                                    </div>
+                                    <div class="settings_option_description">
+                                        {{ __('No AI features.') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                         <label class="settings_option llm_option {{ $llm_provider === 'openai' ? 'active' : '' }}">
                             <input type="radio" name="llm_provider" value="openai" {{ $llm_provider === 'openai' ? 'checked' : '' }}>
                             <div class="settings_option_content">
@@ -86,7 +102,18 @@
             $('.settings_option input[type="radio"]').on('change', function () {
                 $('.settings_option').removeClass('active');
                 $(this).closest('.settings_option').addClass('active');
+                checkLlmProvider();
             });
+
+            function checkLlmProvider() {
+                var val = $('input[name="llm_provider"]:checked').val();
+                if (val == 'none') {
+                    $('#llm_api_key').prop('required', false).prop('disabled', true);
+                } else {
+                    $('#llm_api_key').prop('required', true).prop('disabled', false);
+                }
+            }
+            checkLlmProvider();
         });
     </script>
 @endpush

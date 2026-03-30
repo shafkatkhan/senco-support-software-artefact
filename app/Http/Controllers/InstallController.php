@@ -47,8 +47,8 @@ class InstallController extends Controller
             'db_username' => 'required',
             'db_password' => 'nullable',
             'seed_demo_data' => 'nullable|boolean',
-            'llm_provider' => 'required|in:openai,mistral,gemini',
-            'llm_api_key' => 'required|string',
+            'llm_provider' => 'required|in:none,openai,mistral,gemini',
+            'llm_api_key' => 'required_unless:llm_provider,none',
         ]);
 
         try {
@@ -140,7 +140,7 @@ class InstallController extends Controller
                 $apiKey = $request->llm_api_key;
                 $auto_translations = [];
 
-                if ($apiKey && !empty($english_labels)) {
+                if ($request->llm_provider != 'none' && $apiKey && !empty($english_labels)) {
                     $instructions = 
                         "Return a pure JSON object where the keys are EXACTLY the English strings provided to you, and the values are their highly accurate translations into: " . $locale_name . ". Do not change or omit any of the original english keys. Preserve all Laravel-style placeholders exactly as written, such as :name, :count, :date, :time, etc. Do not translate, remove, rename, or alter these placeholders in any way.";
 
