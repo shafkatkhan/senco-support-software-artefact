@@ -6,7 +6,6 @@ return [
 
     'groups' => [
         'Side Navigation' => [
-            'Test Form',
             'SEND Pupils',
             'Cohort Reports',
             'Accommodations',
@@ -55,10 +54,6 @@ return [
             'There was an error logging in.',
             'This user account has expired.',
             'Please contact your administrator.',
-        ],
-
-        'Test Form' => [
-            'Test',
         ],
 
         'File Extraction' => [
