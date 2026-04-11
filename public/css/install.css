@@ -21,7 +21,7 @@ body{
     margin: 0px auto;
 }
 .card-header {
-    background-color: #3f7cae;
+    background-color: #4179a9;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -40,7 +40,7 @@ body{
     padding: 30px;
 }
 .form-section-title {
-    color: #3f7cae;
+    color: #4179a9;
     font-weight: 600;
     margin-bottom: 20px;
     padding-bottom: 10px;
@@ -49,8 +49,8 @@ body{
     margin-top: 35px;
 }
 .btn-primary {
-    background-color: #3f7cae;
-    border-color: #3f7cae;
+    background-color: #4179a9;
+    border-color: #4179a9;
     padding: 10px 24px;
     font-weight: 500;
 }
@@ -69,7 +69,7 @@ body{
     padding: 10px;
 }
 .form-control:focus, .form-select:focus {
-    border-color: #3f7cae;
+    border-color: #4179a9;
     box-shadow: 0 0 0 3px rgba(63, 124, 174, 0.1);
 }
 /**/
@@ -98,7 +98,7 @@ body{
 #install-processing-container .spinner-grow {
     width: 65px;
     height: 65px;
-    color: #3f7cae;
+    color: #4179a9;
 }
 .loading-container {
     min-height: 400px;
