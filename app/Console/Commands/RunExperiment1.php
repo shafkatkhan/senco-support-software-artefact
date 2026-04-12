@@ -111,6 +111,18 @@ class RunExperiment1 extends Command
 
         ########################################################################
 
+        // skip if a successful result already exists for this file, with both models
+        $exists = DB::connection('experiments')->table('experiment1_results')
+            ->where('filename', $fileName)
+            ->where('llm_transcription_model', $llm_transcription_model)
+            ->where('llm_extraction_model', $llm_extraction_model)
+            ->where('status', 'success')
+            ->exists();
+
+        if ($exists) {
+            $this->info("Skipping {$fileName} - already processed with {$llm_transcription_model} + {$llm_extraction_model}.");
+            return;
+        }
 
         $fullPath = $path . '/' . $fileName;
         $this->info("{$i}: Processing {$fileName}...");
