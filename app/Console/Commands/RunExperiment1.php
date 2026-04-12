@@ -14,7 +14,7 @@ class RunExperiment1 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai, mistral, or gemini)} {--api-key= : The API key to use}';
+    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai, mistral, or gemini)} {--api-key= : The API key to use} {--transcription-model= : The transcription model to use} {--extraction-model= : The extraction model to use}';
 
     /**
      * The console command description.
@@ -84,34 +84,22 @@ class RunExperiment1 extends Command
         }
         
         $llm_api_key = $this->option('api-key');
+        $llm_transcription_model = $this->option('transcription-model');
+        $llm_extraction_model = $this->option('extraction-model');
 
         $this->info("Found " . count($files) . " total audio files. Processing " . count($audioFilesToProcess) . " files starting from offset {$offset}.");
 
         $i = 1;
         foreach ($audioFilesToProcess as $fileName) {
-            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key, $i);
+            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key, $llm_transcription_model, $llm_extraction_model, $i);
             $i++;
         }
         
         $this->info("Experiment batch completed.");
     }
 
-    private function processFile($path, $fileName, $llm_provider, $llm_api_key, $i)
+    private function processFile($path, $fileName, $llm_provider, $llm_api_key, $llm_transcription_model, $llm_extraction_model, $i)
     {
-        if($llm_provider == 'openai'){
-            $llm_transcription_model = 'whisper-1';
-            $llm_extraction_model = 'gpt-4.1-nano';
-        }else if($llm_provider == 'mistral'){
-            $llm_transcription_model = 'voxtral-mini-latest';
-            $llm_extraction_model = 'mistral-small-latest';
-        }else if($llm_provider == 'gemini'){
-            $llm_transcription_model = 'gemini-3.1-flash-lite-preview';
-            $llm_extraction_model = 'gemini-2.5-flash-lite';
-        }else {
-            $this->error("Unknown provider: {$llm_provider}");
-            return;
-        }
-
         ########################################################################
 
         // skip if a successful result already exists for this file, with both models
