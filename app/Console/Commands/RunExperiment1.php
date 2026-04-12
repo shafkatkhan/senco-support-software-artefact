@@ -14,7 +14,7 @@ class RunExperiment1 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai or mistral)} {--api-key= : The API key to use}';
+    protected $signature = 'app:run-experiment1 {--limit=5 : The number of recordings to process} {--offset=0 : The offset to start from} {--provider= : The LLM provider to use (openai, mistral, or gemini)} {--api-key= : The API key to use}';
 
     /**
      * The console command description.
@@ -104,6 +104,9 @@ class RunExperiment1 extends Command
         }else if($llm_provider == 'mistral'){
             $llm_transcription_model = 'voxtral-mini-latest';
             $llm_extraction_model = 'mistral-small-latest';
+        }else if($llm_provider == 'gemini'){
+            $llm_transcription_model = 'gemini-3.1-flash-lite-preview';
+            $llm_extraction_model = 'gemini-2.5-flash-lite';
         }else {
             $this->error("Unknown provider: {$llm_provider}");
             return;
