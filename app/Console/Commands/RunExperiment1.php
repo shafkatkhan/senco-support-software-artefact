@@ -87,14 +87,16 @@ class RunExperiment1 extends Command
 
         $this->info("Found " . count($files) . " total audio files. Processing " . count($audioFilesToProcess) . " files starting from offset {$offset}.");
 
+        $i = 1;
         foreach ($audioFilesToProcess as $fileName) {
-            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key);
+            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key, $i);
+            $i++;
         }
         
         $this->info("Experiment batch completed.");
     }
 
-    private function processFile($path, $fileName, $llm_provider, $llm_api_key)
+    private function processFile($path, $fileName, $llm_provider, $llm_api_key, $i)
     {
         if($llm_provider == 'openai'){
             $llm_transcription_model = 'whisper-1';
@@ -111,7 +113,7 @@ class RunExperiment1 extends Command
 
 
         $fullPath = $path . '/' . $fileName;
-        $this->info("Processing {$fileName}...");
+        $this->info("{$i}: Processing {$fileName}...");
 
         // determine speaker native language from filename (e.g., afrikaans1.mp3 -> afrikaans)
         $speakerNativeLanguage = preg_replace('/[0-9]+\.[a-zA-Z0-9]+$/', '', $fileName);
