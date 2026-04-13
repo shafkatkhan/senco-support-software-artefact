@@ -126,8 +126,8 @@ abstract class RunExperimentBase extends Command
         $reference = strtolower(preg_replace('/[[:punct:]]/', '', $reference));
         $hypothesis = strtolower(preg_replace('/[[:punct:]]/', '', $hypothesis));
 
-        $ref_words = array_values(array_filter(explode(' ', $reference)));
-        $hyp_words = array_values(array_filter(explode(' ', $hypothesis)));
+        $ref_words = array_values(array_filter(preg_split('/\s+/', $reference)));
+        $hyp_words = array_values(array_filter(preg_split('/\s+/', $hypothesis)));
 
         $n = count($ref_words);
         $m = count($hyp_words);
