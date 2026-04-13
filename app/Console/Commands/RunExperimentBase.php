@@ -136,34 +136,32 @@ abstract class RunExperimentBase extends Command
         $n = count($ref_words);
         $m = count($hyp_words);
 
-        // build DP table for word-level Levenshtein distance
-        $dp = [];
-        for ($i = 0; $i <= $n; $i++) {
-            $dp[$i] = array_fill(0, $m + 1, 0);
-        }
+        if ($n == 0) return 0;
 
-        // base cases
-        for ($i = 0; $i <= $n; $i++) $dp[$i][0] = $i; // deletions
-        for ($j = 0; $j <= $m; $j++) $dp[0][$j] = $j; // insertions
+        // build DP arrays for word-level Levenshtein distance (O(M) space optimization)
+        $prev = range(0, $m);
+        $curr = array_fill(0, $m + 1, 0);
 
-        // fill DP table
         for ($i = 1; $i <= $n; $i++) {
+            $curr[0] = $i; // base case: deletion
+            
             for ($j = 1; $j <= $m; $j++) {
                 if ($ref_words[$i - 1] === $hyp_words[$j - 1]) {
-                    $dp[$i][$j] = $dp[$i - 1][$j - 1]; // no edit needed
+                    $curr[$j] = $prev[$j - 1]; // no edit needed
                 } else {
-                    $dp[$i][$j] = min(
-                        $dp[$i - 1][$j] + 1,     // deletion
-                        $dp[$i][$j - 1] + 1,     // insertion
-                        $dp[$i - 1][$j - 1] + 1  // substitution
+                    $curr[$j] = min(
+                        $prev[$j] + 1,         // deletion
+                        $curr[$j - 1] + 1,     // insertion
+                        $prev[$j - 1] + 1      // substitution
                     );
                 }
             }
+            
+            // move to next iteration
+            $prev = $curr;
         }
 
-        if ($n == 0) return 0;
-
-        $wer = $dp[$n][$m] / $n;
+        $wer = $prev[$m] / $n;
 
         return round($wer * 100, 4);
     }
