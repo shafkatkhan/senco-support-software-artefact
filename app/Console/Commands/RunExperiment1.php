@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Services\LlmService;
 
-class RunExperiment1 extends Command
+class RunExperiment1 extends RunExperimentBase
 {
     /**
      * The name and signature of the console command.
@@ -47,82 +46,30 @@ class RunExperiment1 extends Command
         'meeting_location' => 'train station'
     ];
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    protected function getExperimentPath(): string
     {
-        $limit = $this->option('limit');
-        $offset = $this->option('offset');
-
-        $recordingsPath = Storage::path('experiments/experiment1/recordings');
-        
-        if (!is_dir($recordingsPath)) {
-            $this->error("Recordings directory not found at {$recordingsPath}");
-            return;
-        }
-
-        $files = array_diff(scandir($recordingsPath), array('..', '.'));
-        
-        // sort files to ensure consistent ordering when using offset
-        // randomise file order with fixed seed, so that processing order is reproducible
-        sort($files);
-        mt_srand(42);
-        shuffle($files);
-        
-        $files = array_values($files);
-        
-        // filter for audio files only, ignores files like .DS_Store
-        $files = array_filter($files, function($file) {
-            return in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'webm']);
-        });
-        $files = array_values($files);
-
-        // apply offset and limit
-        $audioFilesToProcess = array_slice($files, $offset, $limit);
-
-        $llm_provider = $this->option('provider');
-        if ($llm_provider == null) {
-            $this->error("LLM provider not specified. Use eg. --provider=openai or --provider=mistral.");
-            return;
-        }
-        
-        $llm_api_key = $this->option('api-key');
-        $llm_transcription_model = $this->option('transcription-model');
-        $llm_extraction_model = $this->option('extraction-model');
-
-        $this->info("Found " . count($files) . " total audio files. Processing " . count($audioFilesToProcess) . " files starting from offset {$offset}.");
-
-        $i = 1;
-        foreach ($audioFilesToProcess as $fileName) {
-            $this->processFile($recordingsPath, $fileName, $llm_provider, $llm_api_key, $llm_transcription_model, $llm_extraction_model, $i);
-            $i++;
-        }
-        
-        $this->info("Experiment batch completed.");
+        return Storage::path('experiments/experiment1/recordings');
     }
 
-    private function processFile($path, $fileName, $llm_provider, $llm_api_key, $llm_transcription_model, $llm_extraction_model, $i)
+    protected function getResultsTable(): string
+    {
+        return 'experiment1_results';
+    }
+
+    protected function processFile(string $path, string $fileName, string $llmProvider, ?string $llmApiKey, ?string $llmTranscriptionModel, ?string $llmExtractionModel, int $index): void
     {
         gc_collect_cycles(); // free memory between files
 
         ########################################################################
 
         // skip if a successful result already exists for this file, with both models
-        $exists = DB::connection('experiments')->table('experiment1_results')
-            ->where('filename', $fileName)
-            ->where('llm_transcription_model', $llm_transcription_model)
-            ->where('llm_extraction_model', $llm_extraction_model)
-            ->where('status', 'success')
-            ->exists();
-
-        if ($exists) {
-            $this->info("Skipping {$fileName} - already processed with {$llm_transcription_model} + {$llm_extraction_model}.");
+        if ($this->resultExists($fileName, $llmTranscriptionModel, $llmExtractionModel)) {
+            $this->info("Skipping {$fileName} - already processed with {$llmTranscriptionModel} + {$llmExtractionModel}.");
             return;
         }
 
         $fullPath = $path . '/' . $fileName;
-        $this->info("{$i}: Processing {$fileName}...");
+        $this->info("{$index}: Processing {$fileName}...");
 
         // determine speaker native language from filename (e.g., afrikaans1.mp3 -> afrikaans)
         $speakerNativeLanguage = preg_replace('/[0-9]+\.[a-zA-Z0-9]+$/', '', $fileName);
@@ -142,7 +89,7 @@ class RunExperiment1 extends Command
 
         try {
             // transcription
-            $transcript = LlmService::transcribeAudio($fullPath, $fileName, $llm_provider, $llm_transcription_model, $llm_api_key);
+            $transcript = LlmService::transcribeAudio($fullPath, $fileName, $llmProvider, $llmTranscriptionModel, $llmApiKey);
             $transcriptionTimeEnd = microtime(true);
             $transcriptionTimeMs = round(($transcriptionTimeEnd - $transcriptionTimeStart) * 1000);
 
@@ -164,7 +111,7 @@ class RunExperiment1 extends Command
                 $instructions . 
                 "Do not guess. Use null if missing.";
             $extractionTimeStart = microtime(true);
-            $extractedData = LlmService::processRequest($transcript, $jsonInstructions, null, null, $llm_provider, $llm_extraction_model, $llm_api_key);
+            $extractedData = LlmService::processRequest($transcript, $jsonInstructions, null, null, $llmProvider, $llmExtractionModel, $llmApiKey);
             $extractionTimeEnd = microtime(true);
             $extractionTimeMs = round(($extractionTimeEnd - $extractionTimeStart) * 1000);
 
@@ -199,9 +146,9 @@ class RunExperiment1 extends Command
             'total_time_ms' => $totalTimeMs,
             'status' => $status,
             'error_message' => $errorMessage,
-            'llm_provider' => $llm_provider,
-            'llm_transcription_model' => $llm_transcription_model,
-            'llm_extraction_model' => $llm_extraction_model,
+            'llm_provider' => $llmProvider,
+            'llm_transcription_model' => $llmTranscriptionModel,
+            'llm_extraction_model' => $llmExtractionModel,
             'processed_at' => now(),
         ]);
 
@@ -225,50 +172,6 @@ class RunExperiment1 extends Command
         }
         
         $this->info("Completed {$fileName}. Status: {$status}. Total Time: {$totalTimeMs}ms");
-    }
-
-    private function calculateWer($reference, $hypothesis)
-    {
-        // lowercase and remove punctuation for fairer comparison
-        $reference = strtolower(preg_replace('/[[:punct:]]/', '', $reference));
-        $hypothesis = strtolower(preg_replace('/[[:punct:]]/', '', $hypothesis));
-
-        $ref_words = array_values(array_filter(explode(' ', $reference)));
-        $hyp_words = array_values(array_filter(explode(' ', $hypothesis)));
-
-        $n = count($ref_words);
-        $m = count($hyp_words);
-
-        // build DP table for word-level Levenshtein distance
-        $dp = [];
-        for ($i = 0; $i <= $n; $i++) {
-            $dp[$i] = array_fill(0, $m + 1, 0);
-        }
-
-        // base cases
-        for ($i = 0; $i <= $n; $i++) $dp[$i][0] = $i; // deletions
-        for ($j = 0; $j <= $m; $j++) $dp[0][$j] = $j; // insertions
-
-        // fill DP table
-        for ($i = 1; $i <= $n; $i++) {
-            for ($j = 1; $j <= $m; $j++) {
-                if ($ref_words[$i - 1] === $hyp_words[$j - 1]) {
-                    $dp[$i][$j] = $dp[$i - 1][$j - 1]; // no edit needed
-                } else {
-                    $dp[$i][$j] = min(
-                        $dp[$i - 1][$j] + 1,     // deletion
-                        $dp[$i][$j - 1] + 1,     // insertion
-                        $dp[$i - 1][$j - 1] + 1  // substitution
-                    );
-                }
-            }
-        }
-
-        if ($n == 0) return 0;
-
-        $wer = $dp[$n][$m] / $n;
-        
-        return round($wer * 100, 4);
     }
 
     private function calculateExtractionAccuracy($expected, $actual)
@@ -313,14 +216,5 @@ class RunExperiment1 extends Command
         if ($totalKeys == 0) return 0;
 
         return round(($correctMatches / $totalKeys) * 100, 4);
-    }
-
-    private function getAudioDuration($filePath)
-    {
-        // get audio duration using ffmpeg library
-        $cmd = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " . escapeshellarg($filePath);
-        $duration = shell_exec($cmd);
-
-        return $duration ? floatval(trim($duration)) : null;
     }
 }
