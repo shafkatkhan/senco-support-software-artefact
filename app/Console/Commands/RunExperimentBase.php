@@ -126,6 +126,10 @@ abstract class RunExperimentBase extends Command
         $reference = strtolower(preg_replace('/[[:punct:]]/', '', $reference));
         $hypothesis = strtolower(preg_replace('/[[:punct:]]/', '', $hypothesis));
 
+        // normalise equivalent words
+        $reference = preg_replace('/\bokay\b/', 'ok', $reference);
+        $hypothesis = preg_replace('/\bokay\b/', 'ok', $hypothesis);
+
         $ref_words = array_values(array_filter(preg_split('/\s+/', $reference)));
         $hyp_words = array_values(array_filter(preg_split('/\s+/', $hypothesis)));
 
