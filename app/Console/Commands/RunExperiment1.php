@@ -65,7 +65,11 @@ class RunExperiment1 extends Command
         $files = array_diff(scandir($recordingsPath), array('..', '.'));
         
         // sort files to ensure consistent ordering when using offset
-        natsort($files);
+        // randomise file order with fixed seed, so that processing order is reproducible
+        sort($files);
+        mt_srand(42);
+        shuffle($files);
+        
         $files = array_values($files);
         
         // filter for audio files only, ignores files like .DS_Store
