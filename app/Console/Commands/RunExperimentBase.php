@@ -62,7 +62,7 @@ abstract class RunExperimentBase extends Command
 
         $llm_api_key = $this->option('api-key');
         $llm_transcription_model = $this->option('transcription-model');
-        $llm_extraction_model = $this->option('extraction-model') ?? null;
+        $llm_extraction_model = $this->hasOption('extraction-model') ? $this->option('extraction-model') : null;
 
         $this->info("Found " . count($files) . " total audio files. Processing " . count($audioFilesToProcess) . " files starting from offset {$offset}.");
         
