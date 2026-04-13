@@ -69,27 +69,62 @@ class LlmService
 
             case 'openai':
             case 'mistral':
-                $apiUrl = $provider == 'openai' 
-                    ? 'https://api.openai.com/v1/audio/transcriptions' 
-                    : 'https://api.mistral.ai/v1/audio/transcriptions';
-                    
                 $model = $provider == 'openai' 
                     ? ($overrideModel ?? 'whisper-1') 
                     : ($overrideModel ?? 'voxtral-mini-latest');
 
-                $response = Http::withToken($apiKey)
-                    ->timeout(120)
-                    ->attach('file', file_get_contents($audioPath), $fileName)
-                    ->post($apiUrl, [
+                // voxtral-small uses the chat completions endpoint with base64 audio
+                if (str_contains($model, 'voxtral-small')) {
+                    $base64Audio = base64_encode(file_get_contents($audioPath));
+
+                    $response = Http::withToken($apiKey)
+                        ->timeout(120)
+                        ->post('https://api.mistral.ai/v1/chat/completions', [
+                            'model' => $model,
+                            'messages' => [
+                                [
+                                    'role' => 'user',
+                                    'content' => [
+                                        ['type' => 'input_audio', 'input_audio' => $base64Audio],
+                                        ['type' => 'text', 'text' => 'Transcribe the following audio exactly as spoken.'],
+                                    ]
+                                ]
+                            ]
+                        ]);
+
+                    if ($response->failed()) {
+                        throw new Exception('API error: ' . $response->body());
+                    }
+
+                    $result = $response->json();
+                    $transcript = $result["choices"][0]["message"]["content"] ?? "";
+                } else {
+                    // standard file upload transcription endpoint
+                    $apiUrl = $provider == 'openai' 
+                        ? 'https://api.openai.com/v1/audio/transcriptions' 
+                        : 'https://api.mistral.ai/v1/audio/transcriptions';
+
+                    $postData = [
                         'model' => $model,
-                    ]);
+                    ];
 
-                if ($response->failed()) {
-                    throw new Exception('API error: ' . $response->body());
+                    // diarisation models require chunking_strategy
+                    if (str_contains($model, 'diarize')) {
+                        $postData['chunking_strategy'] = 'auto';
+                    }
+
+                    $response = Http::withToken($apiKey)
+                        ->timeout(120)
+                        ->attach('file', file_get_contents($audioPath), $fileName)
+                        ->post($apiUrl, $postData);
+
+                    if ($response->failed()) {
+                        throw new Exception('API error: ' . $response->body());
+                    }
+
+                    $result = $response->json();
+                    $transcript = $result["text"] ?? "";
                 }
-
-                $result = $response->json();
-                $transcript = $result["text"] ?? "";
                 break;
 
             default:
