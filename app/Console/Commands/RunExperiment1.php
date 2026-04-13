@@ -100,6 +100,8 @@ class RunExperiment1 extends Command
 
     private function processFile($path, $fileName, $llm_provider, $llm_api_key, $llm_transcription_model, $llm_extraction_model, $i)
     {
+        gc_collect_cycles(); // free memory between files
+
         ########################################################################
 
         // skip if a successful result already exists for this file, with both models
