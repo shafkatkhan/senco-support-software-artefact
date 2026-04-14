@@ -75,11 +75,10 @@ class BackupController extends Controller
     {
         Gate::authorize('view-download-backups');
 
-        $file = urldecode($file_path);
         $disk = Storage::disk('local');
 
-        if ($disk->exists($file)) {
-            return response()->download($disk->path($file));
+        if ($disk->exists($file_path)) {
+            return response()->download($disk->path($file_path));
         }
 
         return redirect()->route('backups.index')->with('error', __('Backup file not found.'));
@@ -92,12 +91,11 @@ class BackupController extends Controller
     {
         Gate::authorize('delete-backups');
 
-        $file = urldecode($file_path);
-        $fileName = basename($file);
+        $fileName = basename($file_path);
         $disk = Storage::disk('local');
 
-        if ($disk->exists($file)) {
-            $disk->delete($file);
+        if ($disk->exists($file_path)) {
+            $disk->delete($file_path);
             return redirect()->route('backups.index')->with('success', __(':item ":name" deleted successfully!', ['item' => __('Backup'), 'name' => $fileName]));
         }
 

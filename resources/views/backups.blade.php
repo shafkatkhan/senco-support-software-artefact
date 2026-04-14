@@ -36,7 +36,7 @@
                             @canany(['view-download-backups', 'delete-backups'])
                             <td class="icon_wrap">
                                 @can('view-download-backups')
-                                <a class="icon download_icon button_styled" href="{{ route('backups.download', ['file_path' => urlencode($backup['relative_path'])]) }}" title="{{ __('Download') }}">
+                                <a class="icon download_icon button_styled" href="{{ route('backups.download', ['file_path' => $backup['relative_path']]) }}" title="{{ __('Download') }}">
                                     <i class="fa fa-download"></i>
                                 </a>
                                 @endcan
@@ -44,7 +44,7 @@
                                 <button class="icon delete_icon" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
-                                    data-url="{{ route('backups.destroy', ['file_path' => urlencode($backup['relative_path'])]) }}" 
+                                    data-url="{{ route('backups.destroy', ['file_path' => $backup['relative_path']]) }}" 
                                     data-name="{{ $backup['file_name'] }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
