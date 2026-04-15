@@ -60,6 +60,15 @@ class RunExperiment2 extends RunExperimentBase
         }
         $expectedTranscription = file_get_contents($groundTruthPath);
         
+        // convert files to UTF-8 so the WER calculation doesn't break due to null bytes
+        $encoding = mb_detect_encoding($expectedTranscription, ['UTF-8', 'UTF-16LE', 'UTF-16BE'], true);
+        if ($encoding && $encoding !== 'UTF-8') {
+            $expectedTranscription = mb_convert_encoding($expectedTranscription, 'UTF-8', $encoding);
+        }
+        
+        // strip out any invisible Byte Order Marks
+        $expectedTranscription = preg_replace('/^\xEF\xBB\xBF/', '', $expectedTranscription);
+
         // filter out diarisation speaker labels like "D: " or "P: " at the start of lines
         $expectedTranscription = preg_replace('/^[A-Za-z]+:\s*/m', '', $expectedTranscription);
         $expectedTranscription = trim($expectedTranscription);
