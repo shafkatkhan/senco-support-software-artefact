@@ -9,6 +9,7 @@ use App\Services\LlmService;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class RecordController extends Controller
 {
