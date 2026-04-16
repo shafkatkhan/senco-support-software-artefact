@@ -2,7 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Diagnosis;
 use App\Models\Professional;
+use App\Models\Pupil;
+use App\Models\Record;
+use App\Models\RecordType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -177,5 +181,24 @@ class ProfessionalTest extends TestCase
         $response->assertSessionHas('error');
         
         Professional::flushEventListeners();
+    }
+
+    public function test_professional_has_many_records_and_diagnoses(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $professional = Professional::factory()->create();
+        $record = Record::factory()->create([
+            'pupil_id' => $pupil->id,
+            'record_type_id' => RecordType::factory()->create()->id,
+            'professional_id' => $professional->id,
+        ]);
+        $diagnosis = Diagnosis::factory()->create([
+            'pupil_id' => $pupil->id,
+            'professional_id' => $professional->id,
+        ]);
+
+        $this->assertTrue($professional->fresh()->records->first()->is($record));
+        $this->assertTrue($professional->fresh()->diagnoses->first()->is($diagnosis));
     }
 }
