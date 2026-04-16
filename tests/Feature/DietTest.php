@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Accommodation;
 use App\Models\Diet;
 use App\Models\Pupil;
+use App\Models\Proficiency;
 use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -105,5 +107,32 @@ class DietTest extends TestCase
         $response->assertSessionHas('error');
         
         Diet::flushEventListeners();
+    }
+
+    public function test_diet_relationships_and_accommodation_pivot(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $subject = Subject::factory()->create();
+        $proficiency = Proficiency::factory()->create();
+        $accommodation = Accommodation::factory()->create();
+        $diet = Diet::factory()->create([
+            'pupil_id' => $pupil->id,
+            'subject_id' => $subject->id,
+            'proficiency_id' => $proficiency->id,
+        ]);
+
+        $diet->accommodations()->attach($accommodation->id, [
+            'status' => 'Recommended',
+            'details' => 'Use in class.',
+        ]);
+
+        $relatedAccommodation = $diet->fresh()->accommodations->first();
+        $this->assertTrue($diet->pupil->is($pupil));
+        $this->assertTrue($diet->subject->is($subject));
+        $this->assertTrue($diet->proficiency->is($proficiency));
+        $this->assertTrue($relatedAccommodation->is($accommodation));
+        $this->assertEquals('Recommended', $relatedAccommodation->pivot->status);
+        $this->assertEquals('Use in class.', $relatedAccommodation->pivot->details);
     }
 }
