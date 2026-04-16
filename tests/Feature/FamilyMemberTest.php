@@ -75,6 +75,25 @@ class FamilyMemberTest extends TestCase
         $this->assertCount(1, $member->attachments);
     }
 
+    public function test_store_sets_next_of_kin_as_primary_family_member(): void
+    {
+        $user = $this->adminUser('family-members');
+        $pupil = Pupil::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('family-members.store'), [
+            'pupil_id' => $pupil->id,
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'next_of_kin' => '1',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $member = FamilyMember::where('first_name', 'Jane')->first();
+        $this->assertEquals($member->id, $pupil->fresh()->primary_family_member_id);
+    }
+
     public function test_update_modifies_family_member(): void
     {
         $user = $this->adminUser('family-members');
@@ -93,6 +112,38 @@ class FamilyMemberTest extends TestCase
             'id' => $member->id,
             'first_name' => 'New Name',
         ]);
+    }
+
+    public function test_update_sets_next_of_kin_as_primary_family_member(): void
+    {
+        $user = $this->adminUser('family-members');
+        $member = FamilyMember::factory()->create();
+
+        $response = $this->actingAs($user)->put(route('family-members.update', $member), [
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'next_of_kin' => '1',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+        $this->assertEquals($member->id, $member->pupil->fresh()->primary_family_member_id);
+    }
+
+    public function test_update_unsets_next_of_kin_when_current_primary_family_member(): void
+    {
+        $user = $this->adminUser('family-members');
+        $member = FamilyMember::factory()->create();
+        $member->pupil->update(['primary_family_member_id' => $member->id]);
+
+        $response = $this->actingAs($user)->put(route('family-members.update', $member), [
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+        $this->assertNull($member->pupil->fresh()->primary_family_member_id);
     }
 
     public function test_destroy_deletes_family_member(): void
