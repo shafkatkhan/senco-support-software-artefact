@@ -55,7 +55,7 @@ class MeetingTest extends TestCase
         $pupil = Pupil::factory()->create();
 
         Storage::fake('local');
-        $file = UploadedFile::fake()->create('doc.pdf', 100);
+        $file = UploadedFile::fake()->createWithContent('doc.pdf', '%PDF-1.4 test');
 
         $response = $this->actingAs($user)->post(route('meetings.store'), [
             'pupil_id' => $pupil->id,

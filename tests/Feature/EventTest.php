@@ -34,7 +34,7 @@ class EventTest extends TestCase
         $pupil = Pupil::factory()->create();
 
         Storage::fake('local');
-        $file1 = UploadedFile::fake()->create('doc1.pdf', 100);
+        $file1 = UploadedFile::fake()->createWithContent('doc1.pdf', '%PDF-1.4 test');
 
         $response = $this->actingAs($user)->post(route('events.store'), [
             'pupil_id' => $pupil->id,
@@ -83,7 +83,7 @@ class EventTest extends TestCase
         $event = Event::factory()->create();
 
         Storage::fake('local');
-        $file = UploadedFile::fake()->create('new_doc.pdf', 100);
+        $file = UploadedFile::fake()->createWithContent('new_doc.pdf', '%PDF-1.4 test');
 
         $response = $this->actingAs($user)->put(route('events.update', $event), [
             'title' => 'Updated Title',
