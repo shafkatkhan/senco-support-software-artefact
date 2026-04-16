@@ -68,4 +68,18 @@ class PermissionTest extends TestCase
 
         $this->assertTrue($group->fresh()->permissions->contains($perm));
     }
+
+    public function test_permission_belongs_to_many_user_groups(): void
+    {
+        $group = UserGroup::factory()->create();
+        $permission = Permission::create([
+            'name' => 'View Test',
+            'slug' => 'view-test',
+            'description' => 'Test permission',
+        ]);
+
+        $permission->userGroups()->attach($group->id);
+
+        $this->assertTrue($permission->fresh()->userGroups->first()->is($group));
+    }
 }
