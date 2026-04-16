@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Diagnosis;
+use App\Models\Professional;
 use App\Models\Pupil;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -158,5 +160,22 @@ class DiagnosisTest extends TestCase
         $response->assertSessionHas('error');
         
         Diagnosis::flushEventListeners();
+    }
+
+    public function test_diagnosis_relationships_and_date_cast(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $professional = Professional::factory()->create();
+        $diagnosis = Diagnosis::factory()->create([
+            'pupil_id' => $pupil->id,
+            'professional_id' => $professional->id,
+            'date' => '2026-04-16',
+        ]);
+
+        $this->assertTrue($diagnosis->pupil->is($pupil));
+        $this->assertTrue($diagnosis->professional->is($professional));
+        $this->assertInstanceOf(Carbon::class, $diagnosis->date);
+        $this->assertEquals('2026-04-16', $diagnosis->date->format('Y-m-d'));
     }
 }
