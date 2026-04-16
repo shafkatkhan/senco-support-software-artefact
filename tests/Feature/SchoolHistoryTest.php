@@ -129,4 +129,15 @@ class SchoolHistoryTest extends TestCase
         
         SchoolHistory::flushEventListeners();
     }
+
+    public function test_school_history_belongs_to_pupil(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $history = SchoolHistory::factory()->create([
+            'pupil_id' => $pupil->id,
+        ]);
+
+        $this->assertTrue($history->pupil->is($pupil));
+    }
 }
