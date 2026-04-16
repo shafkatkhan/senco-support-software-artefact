@@ -7,6 +7,7 @@ use App\Models\MeetingType;
 use App\Models\Pupil;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -124,5 +125,22 @@ class MeetingTest extends TestCase
         $response->assertSessionHas('error');
         
         Meeting::flushEventListeners();
+    }
+
+    public function test_meeting_relationships_and_date_cast(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $meetingType = MeetingType::factory()->create();
+        $meeting = Meeting::factory()->create([
+            'pupil_id' => $pupil->id,
+            'meeting_type_id' => $meetingType->id,
+            'date' => '2026-04-16',
+        ]);
+
+        $this->assertTrue($meeting->pupil->is($pupil));
+        $this->assertTrue($meeting->meetingType->is($meetingType));
+        $this->assertInstanceOf(Carbon::class, $meeting->date);
+        $this->assertEquals('2026-04-16', $meeting->date->format('Y-m-d'));
     }
 }
