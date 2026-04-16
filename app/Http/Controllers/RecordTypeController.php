@@ -22,7 +22,7 @@ class RecordTypeController extends Controller
     {
         Gate::authorize('create-record-types');
 
-        RecordType::create($request->validate([
+        $record_type = RecordType::create($request->validate([
             'name' => 'required|unique:record_types,name|max:255',
             'description' => 'nullable|string',
         ]));
