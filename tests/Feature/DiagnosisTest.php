@@ -73,6 +73,45 @@ class DiagnosisTest extends TestCase
         $this->assertCount(1, $diag->attachments);
     }
 
+    public function test_store_creates_inline_professional(): void
+    {
+        $user = $this->adminUser('diagnoses');
+        $pupil = Pupil::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('diagnoses.store'), [
+            'pupil_id' => $pupil->id,
+            'name' => 'Dyslexia',
+            'is_new_professional' => '1',
+            'prof_title' => 'Dr',
+            'prof_first_name' => 'John',
+            'prof_last_name' => 'Smith',
+            'prof_role' => 'Educational Psychologist',
+            'prof_agency' => 'Learning Support',
+            'prof_phone' => '07123456789',
+            'prof_email' => 'john@example.com',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('professionals', [
+            'title' => 'Dr',
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'role' => 'Educational Psychologist',
+            'agency' => 'Learning Support',
+            'phone' => '07123456789',
+            'email' => 'john@example.com',
+        ]);
+
+        $professional = \App\Models\Professional::where('email', 'john@example.com')->first();
+        $this->assertDatabaseHas('diagnoses', [
+            'pupil_id' => $pupil->id,
+            'name' => 'Dyslexia',
+            'professional_id' => $professional->id,
+        ]);
+    }
+
     public function test_update_modifies_diagnosis(): void
     {
         $user = $this->adminUser('diagnoses');
