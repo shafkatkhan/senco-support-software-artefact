@@ -93,6 +93,17 @@ class AttachmentTest extends TestCase
         $this->assertEquals('New text', $attachment->fresh()->transcription->transcript);
     }
 
+    public function test_attachment_transcription_belongs_to_attachment(): void
+    {
+        $attachment = Attachment::factory()->create();
+        $transcription = AttachmentTranscription::create([
+            'attachment_id' => $attachment->id,
+            'transcript' => 'Transcript text',
+        ]);
+
+        $this->assertTrue($transcription->attachment->is($attachment));
+    }
+
     public function test_destroy_deletes_attachment(): void
     {
         $user = $this->userWithPermissions(['manage-attachments']);
