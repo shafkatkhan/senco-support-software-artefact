@@ -22,7 +22,7 @@ class UserGroupController extends Controller
     {
         Gate::authorize('create-user-groups');
 
-        UserGroup::create($request->validate([
+        $user_group = UserGroup::create($request->validate([
             'name' => 'required|unique:user_groups,name|max:255',
             'description' => 'nullable|string',
         ]));
