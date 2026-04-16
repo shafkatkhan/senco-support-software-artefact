@@ -278,6 +278,40 @@ class MeetingTypeTest extends TestCase
         $this->assertDatabaseMissing('meetings', ['id' => $meeting->id]);
     }
 
+    public function test_destroy_prevents_deletion_if_meetings_assigned(): void
+    {
+        $user = $this->adminUser('meeting-types');
+        $type = MeetingType::factory()->create();
+
+        MeetingType::deleting(function () {
+            throw new \Illuminate\Database\QueryException('', '', [], new \Exception('fk', 23000));
+        });
+
+        $response = $this->actingAs($user)->delete(route('meeting-types.destroy', $type));
+
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+        
+        MeetingType::flushEventListeners();
+    }
+
+    public function test_destroy_returns_error_on_general_exception(): void
+    {
+        $user = $this->adminUser('meeting-types');
+        $type = MeetingType::factory()->create();
+
+        MeetingType::deleting(function () {
+            throw new \Illuminate\Database\QueryException('', '', [], new \Exception());
+        });
+
+        $response = $this->actingAs($user)->delete(route('meeting-types.destroy', $type));
+
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+        
+        MeetingType::flushEventListeners();
+    }
+
     public function test_meeting_type_has_many_meetings(): void
     {
         $user = $this->adminUser('meeting-types');
