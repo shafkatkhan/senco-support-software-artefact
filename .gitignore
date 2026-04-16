@@ -26,3 +26,4 @@ Thumbs.db
 /lang/*
 !/lang/.gitkeep
 /storage/fonts
+/coverage-report

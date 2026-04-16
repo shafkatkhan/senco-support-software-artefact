@@ -25,6 +25,7 @@ return new class extends Migration
             $table->date('expiry_date')->nullable()->after('joined_date');
 
             // Drop unneeded default columns
+            $table->dropUnique('users_email_unique');
             $table->dropColumn(['email', 'email_verified_at']);
         });
     }
