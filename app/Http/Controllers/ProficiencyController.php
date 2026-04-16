@@ -22,7 +22,7 @@ class ProficiencyController extends Controller
     {
         Gate::authorize('create-proficiencies');
 
-        Proficiency::create($request->validate([
+        $proficiency = Proficiency::create($request->validate([
             'name' => 'required|unique:proficiencies,name|max:255',
             'description' => 'nullable|string',
         ]));
