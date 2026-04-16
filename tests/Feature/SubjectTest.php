@@ -3,7 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Accommodation;
+use App\Models\Diet;
+use App\Models\Major;
 use App\Models\Proficiency;
+use App\Models\Pupil;
 use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -203,5 +206,29 @@ class SubjectTest extends TestCase
         $response->assertSessionHas('error');
         
         Subject::flushEventListeners();
+    }
+
+    public function test_subject_relationships(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $subject = Subject::factory()->create();
+        $major = Major::factory()->create();
+        $accommodation = Accommodation::factory()->create();
+        $proficiency = Proficiency::factory()->create();
+        $diet = Diet::factory()->create([
+            'pupil_id' => $pupil->id,
+            'subject_id' => $subject->id,
+        ]);
+
+        $subject->majors()->attach($major->id);
+        $subject->accommodations()->attach($accommodation->id);
+        $subject->proficiencies()->attach($proficiency->id);
+
+        $freshSubject = $subject->fresh();
+        $this->assertTrue($freshSubject->majors->first()->is($major));
+        $this->assertTrue($freshSubject->accommodations->first()->is($accommodation));
+        $this->assertTrue($freshSubject->proficiencies->first()->is($proficiency));
+        $this->assertTrue($freshSubject->diets->first()->is($diet));
     }
 }
