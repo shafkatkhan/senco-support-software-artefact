@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Diet;
 use App\Models\Proficiency;
+use App\Models\Pupil;
+use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -165,5 +168,23 @@ class ProficiencyTest extends TestCase
         $response->assertSessionHas('error');
         
         Proficiency::flushEventListeners();
+    }
+
+    public function test_proficiency_has_many_subjects_and_diets(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $proficiency = Proficiency::factory()->create();
+        $subject = Subject::factory()->create();
+        $diet = Diet::factory()->create([
+            'pupil_id' => $pupil->id,
+            'subject_id' => $subject->id,
+            'proficiency_id' => $proficiency->id,
+        ]);
+
+        $proficiency->subjects()->attach($subject->id);
+
+        $this->assertTrue($proficiency->fresh()->subjects->first()->is($subject));
+        $this->assertTrue($proficiency->fresh()->diets->first()->is($diet));
     }
 }
