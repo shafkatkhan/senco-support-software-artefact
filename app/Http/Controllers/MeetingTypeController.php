@@ -22,7 +22,7 @@ class MeetingTypeController extends Controller
     {
         Gate::authorize('create-meeting-types');
 
-        MeetingType::create($request->validate([
+        $meeting_type = MeetingType::create($request->validate([
             'name' => 'required|unique:meeting_types,name|max:255',
             'description' => 'nullable|string',
         ]));
