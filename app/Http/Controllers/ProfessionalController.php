@@ -22,7 +22,7 @@ class ProfessionalController extends Controller
     {
         Gate::authorize('create-professionals');
 
-        Professional::create($request->validate([
+        $professional = Professional::create($request->validate([
             'title' => 'nullable|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
