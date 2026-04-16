@@ -20,7 +20,7 @@ class MeetingFactory extends Factory
     {
         return [
             'pupil_id' => Pupil::inRandomOrder()->value('id') ?? Pupil::factory(),
-            'meeting_type_id' => MeetingType::inRandomOrder()->value('id'),
+            'meeting_type_id' => MeetingType::inRandomOrder()->value('id') ?? MeetingType::factory(),
             'date' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
             'title' => $this->faker->sentence(3),
             'participants' => $this->faker->name() . ', ' . $this->faker->name(),
