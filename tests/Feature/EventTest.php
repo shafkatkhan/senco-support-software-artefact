@@ -6,9 +6,9 @@ use App\Models\Event;
 use App\Models\Pupil;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use App\Services\LlmService;
 
 class EventTest extends TestCase
 {
@@ -129,5 +129,19 @@ class EventTest extends TestCase
         $response->assertSessionHas('error');
         
         Event::flushEventListeners();
+    }
+
+    public function test_event_belongs_to_pupil_and_casts_date(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $event = Event::factory()->create([
+            'pupil_id' => $pupil->id,
+            'date' => '2026-04-16',
+        ]);
+
+        $this->assertTrue($event->pupil->is($pupil));
+        $this->assertInstanceOf(Carbon::class, $event->date);
+        $this->assertEquals('2026-04-16', $event->date->format('Y-m-d'));
     }
 }
