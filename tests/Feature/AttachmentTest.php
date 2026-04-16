@@ -3,10 +3,19 @@
 namespace Tests\Feature;
 
 use App\Models\Attachment;
+use App\Models\AttachmentTranscription;
+use App\Models\Diagnosis;
+use App\Models\Event;
+use App\Models\FamilyMember;
+use App\Models\Medication;
+use App\Models\Meeting;
+use App\Models\Pupil;
+use App\Models\Record;
+use App\Models\RecordType;
+use App\Models\SchoolHistory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use App\Models\Transcription;
 
 class AttachmentTest extends TestCase
 {
@@ -111,5 +120,78 @@ class AttachmentTest extends TestCase
         $response->assertSessionHas('error');
         
         Attachment::flushEventListeners();
+    }
+
+    public function test_attachment_relations_source_names_and_delete_cleanup(): void
+    {
+        Storage::fake('local');
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create([
+            'onboarded_by' => $onboarder->id,
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+        ]);
+        $recordType = RecordType::factory()->create(['name' => 'Assessment']);
+        $models = [
+            'Medication: Aspirin' => Medication::factory()->create([
+                'pupil_id' => $pupil->id,
+                'name' => 'Aspirin',
+            ]),
+            'Diagnosis: Dyslexia' => Diagnosis::factory()->create([
+                'pupil_id' => $pupil->id,
+                'name' => 'Dyslexia',
+            ]),
+            'Event: Review Booked' => Event::factory()->create([
+                'pupil_id' => $pupil->id,
+                'title' => 'Review Booked',
+            ]),
+            'Meeting: Annual Review' => Meeting::factory()->create([
+                'pupil_id' => $pupil->id,
+                'title' => 'Annual Review',
+            ]),
+            'Family Member: Alex Doe' => FamilyMember::factory()->create([
+                'pupil_id' => $pupil->id,
+                'first_name' => 'Alex',
+                'last_name' => 'Doe',
+            ]),
+            'School History: Central School' => SchoolHistory::factory()->create([
+                'pupil_id' => $pupil->id,
+                'school_name' => 'Central School',
+            ]),
+            'Record: Assessment Record' => Record::factory()->create([
+                'pupil_id' => $pupil->id,
+                'record_type_id' => $recordType->id,
+                'title' => null,
+            ]),
+            'Pupil Profile' => $pupil,
+        ];
+
+        foreach ($models as $expectedSourceName => $model) {
+            $attachment = Attachment::factory()->create([
+                'attachable_type' => $model::class,
+                'attachable_id' => $model->id,
+            ]);
+
+            $this->assertTrue($attachment->attachable->is($model));
+            $this->assertEquals($expectedSourceName, $attachment->source_name);
+        }
+
+        $attachment = Attachment::factory()->create([
+            'attachable_type' => Pupil::class,
+            'attachable_id' => $pupil->id,
+            'file_path' => 'attachments/test.pdf',
+        ]);
+        AttachmentTranscription::create([
+            'attachment_id' => $attachment->id,
+            'transcript' => 'Transcript text',
+        ]);
+        Storage::put('attachments/test.pdf', 'contents');
+
+        $this->assertEquals('Transcript text', $attachment->transcription->transcript);
+
+        $attachment->delete();
+
+        Storage::assertMissing('attachments/test.pdf');
+        $this->assertEquals('Unknown Source', (new Attachment())->source_name);
     }
 }
