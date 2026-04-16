@@ -6,6 +6,7 @@ use App\Models\Medication;
 use App\Models\Pupil;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -124,5 +125,27 @@ class MedicationTest extends TestCase
         $response->assertSessionHas('error');
         
         Medication::flushEventListeners();
+    }
+
+    public function test_medication_belongs_to_pupil_and_casts_dates_and_boolean(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $medication = Medication::factory()->create([
+            'pupil_id' => $pupil->id,
+            'start_date' => '2026-04-16',
+            'end_date' => '2026-05-16',
+            'expiry_date' => '2027-04-16',
+            'self_administer' => 1,
+        ]);
+
+        $this->assertTrue($medication->pupil->is($pupil));
+        $this->assertInstanceOf(Carbon::class, $medication->start_date);
+        $this->assertInstanceOf(Carbon::class, $medication->end_date);
+        $this->assertInstanceOf(Carbon::class, $medication->expiry_date);
+        $this->assertEquals('2026-04-16', $medication->start_date->format('Y-m-d'));
+        $this->assertEquals('2026-05-16', $medication->end_date->format('Y-m-d'));
+        $this->assertEquals('2027-04-16', $medication->expiry_date->format('Y-m-d'));
+        $this->assertTrue($medication->self_administer);
     }
 }
