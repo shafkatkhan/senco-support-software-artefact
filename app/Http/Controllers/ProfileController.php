@@ -41,8 +41,8 @@ class ProfileController extends Controller
             'last_name' => $validated['last_name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'mobile' => $validated['mobile'],
-            'position' => $validated['position'],
+            'mobile' => $validated['mobile'] ?? '',
+            'position' => $validated['position'] ?? null,
         ]);
 
         if ($request->filled('password')) {
