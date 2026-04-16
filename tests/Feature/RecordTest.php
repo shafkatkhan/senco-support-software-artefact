@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Professional;
 use App\Models\Record;
 use App\Models\Pupil;
 use App\Models\RecordType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -153,5 +155,25 @@ class RecordTest extends TestCase
         $response->assertSessionHas('error');
         
         Record::flushEventListeners();
+    }
+
+    public function test_record_relationships_and_date_cast(): void
+    {
+        $onboarder = $this->userWithPermissions([]);
+        $pupil = Pupil::factory()->create(['onboarded_by' => $onboarder->id]);
+        $recordType = RecordType::factory()->create();
+        $professional = Professional::factory()->create();
+        $record = Record::factory()->create([
+            'pupil_id' => $pupil->id,
+            'record_type_id' => $recordType->id,
+            'professional_id' => $professional->id,
+            'date' => '2026-04-16',
+        ]);
+
+        $this->assertTrue($record->pupil->is($pupil));
+        $this->assertTrue($record->recordType->is($recordType));
+        $this->assertTrue($record->professional->is($professional));
+        $this->assertInstanceOf(Carbon::class, $record->date);
+        $this->assertEquals('2026-04-16', $record->date->format('Y-m-d'));
     }
 }
