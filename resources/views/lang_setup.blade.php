@@ -9,71 +9,73 @@
     <link rel="stylesheet" href="{{ asset('css/install.css') }}" type="text/css" />
 </head>
 <body>
-    <div class="install-card">
-        <div class="card-header">
-            <div class="title">SENCOSupportSoftware Setup</div>
-            <div class="subtitle">Language Configuration</div>
-        </div>
-        <div class="card-body">
-            @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <div class="translation_top row">
-                <div class="col-sm-4">
-                    <div class="left">
-                        Original: <span>English</span>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="right">
-                        Translated: <span class="text-uppercase">{{ $locale_name }}</span>
-                    </div>
-                </div>
+    <div id="install-form-container">
+        <div class="install-card">
+            <div class="card-header">
+                <div class="title">SENCOSupportSoftware Setup</div>
+                <div class="subtitle">Language Configuration</div>
             </div>
-            <form action="{{ route('install.lang_setup') }}" method="POST">
-                @csrf
-                <input type="hidden" name="app_locale" value="{{ $locale }}">
-                
-                <div class="form-section-title">Language Direction</div>
-                <div class="row mb-3 align-items-center">
-                    <label class="col-sm-4 col-form-label">Direction</label>
+            <div class="card-body">
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="translation_top row">
+                    <div class="col-sm-4">
+                        <div class="left">
+                            Original: <span>English</span>
+                        </div>
+                    </div>
                     <div class="col-sm-8">
-                        <select class="form-control" name="app_direction"required>
-                            <option value="ltr" {{ $app_direction == 'ltr' ? 'selected' : '' }}>Left-to-Right (LTR)</option>
-                            <option value="rtl" {{ $app_direction == 'rtl' ? 'selected' : '' }}>Right-to-Left (RTL)</option>
-                        </select>
+                        <div class="right">
+                            Translated: <span class="text-uppercase">{{ $locale_name }}</span>
+                        </div>
                     </div>
                 </div>
-                
-                @foreach($translation_schema as $group => $keys)
-                    <div class="form-section-title">{{ $group }}</div>
+                <form action="{{ route('install.lang_setup') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="app_locale" value="{{ $locale }}">
                     
-                    @foreach($keys as $english_label)
-                        <div class="row mb-3 align-items-center">
-                            <label class="col-sm-4 col-form-label">{{ $english_label }}</label>
-                            <div class="col-sm-8">
-                                <textarea class="form-control auto_resize_textarea" rows="1" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" required>{{ $auto_translations[$english_label] ?? '' }}</textarea>
-                            </div>
+                    <div class="form-section-title">Language Direction</div>
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label">Direction</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="app_direction"required>
+                                <option value="ltr" {{ $app_direction == 'ltr' ? 'selected' : '' }}>Left-to-Right (LTR)</option>
+                                <option value="rtl" {{ $app_direction == 'rtl' ? 'selected' : '' }}>Right-to-Left (RTL)</option>
+                            </select>
                         </div>
+                    </div>
+                    
+                    @foreach($translation_schema as $group => $keys)
+                        <div class="form-section-title">{{ $group }}</div>
+                        
+                        @foreach($keys as $english_label)
+                            <div class="row mb-3 align-items-center">
+                                <label class="col-sm-4 col-form-label">{{ $english_label }}</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control auto_resize_textarea" rows="1" name="translations[{{ base64_encode($english_label) }}]" placeholder="{{ $english_label }}" required>{{ $auto_translations[$english_label] ?? '' }}</textarea>
+                                </div>
+                            </div>
+                        @endforeach
                     @endforeach
-                @endforeach
 
-                <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Save Translations</button>
-                </div>
-            </form>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Save Translations</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
