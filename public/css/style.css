@@ -1254,6 +1254,15 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	color: #333;
 	margin-bottom: 15px;
 }
+@media screen and (max-width: 700px) {
+	.mfa_setup_action{
+		flex-direction: column;
+		gap: 0px;
+	}
+	.mfa_setup_action form{
+		width: 100%;
+	}
+}
 /**/
 .nice_link{
 	color: #5388b6;
