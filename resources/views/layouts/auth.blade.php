@@ -15,7 +15,7 @@
 <body class="login_body">
     <section id="loginBox">
         <div class="login_logo">
-            <img src="{{ asset('img/logo.png') }}" alt="MySencoSupportSoftware">
+            <img src="{{ asset('img/logo-w.png') }}" alt="MySencoSupportSoftware">
         </div>
         
         @yield('content')
