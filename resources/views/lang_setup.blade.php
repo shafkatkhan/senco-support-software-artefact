@@ -12,7 +12,7 @@
     <div id="install-form-container">
         <div class="install-card">
             <div class="card-header">
-                <div class="title">EduSen Setup</div>
+                <img src="{{ asset('img/logo-w.png') }}" alt="EduSen" class="logo">
                 <div class="subtitle">Language Configuration</div>
             </div>
             <div class="card-body">

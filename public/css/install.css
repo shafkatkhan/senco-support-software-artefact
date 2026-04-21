@@ -30,14 +30,17 @@ body{
     text-align: center;
     border-bottom: none;
 }
+.install-card .logo {
+    width: 120px;
+    margin-bottom: 8px;
+}
 .card-header .title {
     font-weight: 600;
     margin: 0;
     font-size: 24px;
 }
 .card-header .subtitle {
-    font-size: 14px;
-    opacity: 0.8;
+    font-size: 15px;
 }
 .card-body {
     padding: 30px;
