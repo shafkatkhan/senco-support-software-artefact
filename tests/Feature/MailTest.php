@@ -12,7 +12,7 @@ class MailTest extends TestCase
     {
         $mail = new TestEmail();
 
-        $this->assertEquals('Test Email - MySencoSupportSoftware', $mail->envelope()->subject);
+        $this->assertEquals('Test Email - EduSen', $mail->envelope()->subject);
         $this->assertEquals('emails.test_email', $mail->content()->view);
         $this->assertEquals([], $mail->attachments());
 

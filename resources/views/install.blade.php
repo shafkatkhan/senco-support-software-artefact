@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MySencoSupportSoftware | Installation</title>
+    <title>EduSen | Installation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -12,7 +12,7 @@
     <div id="install-processing-container">
         <div class="install-card">
             <div class="card-header">
-                <div class="title">SENCOSupportSoftware Setup</div>
+                <div class="title">EduSen Setup</div>
                 <div class="subtitle">Processing...</div>
             </div>
             <div class="card-body">
@@ -30,7 +30,7 @@
     <div id="install-form-container">
         <div class="install-card">
             <div class="card-header">
-                <div class="title">SENCOSupportSoftware Setup</div>
+                <div class="title">EduSen Setup</div>
                 <div class="subtitle">Initial Installation & Configuration</div>
             </div>
             <div class="card-body">

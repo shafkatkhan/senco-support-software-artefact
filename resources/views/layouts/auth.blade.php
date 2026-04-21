@@ -10,19 +10,19 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" />
     @endif
     <link type="text/css" rel="stylesheet" href="{{ asset('css/login.css') }}">
-    <title>{{ $title ?? 'MySencoSupportSoftware' }}</title>
+    <title>{{ 'EduSen | '.$title ?? 'EduSen' }}</title>
 </head>
 <body class="login_body">
     <section id="loginBox">
         <div class="login_logo">
-            <img src="{{ asset('img/logo-w.png') }}" alt="MySencoSupportSoftware">
+            <img src="{{ asset('img/logo-w.png') }}" alt="EduSen">
         </div>
         
         @yield('content')
         
         <div class="login_info">
             <div>
-               © MySencoSupportSoftware {{ date("Y") }} 
+               © EduSen {{ date("Y") }} 
             </div>
             <div>
                 <a href="https://shafkatkhan.com">

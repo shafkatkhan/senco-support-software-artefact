@@ -2,7 +2,7 @@
     <div class="top_nav_header">
         <div style="display: flex; align-items: center; padding: 0px 15px;">
             <a href="#" id="toggleNavBtn"><i class="fas fa-bars"></i></a>
-            <div class="page_title">{{ isset($title) ? $title : 'MySencoSupportSoftware' }}</div>
+            <div class="page_title">{{ isset($title) ? $title : 'EduSen' }}</div>
         </div>
         <div class="logout">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

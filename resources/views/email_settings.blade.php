@@ -51,12 +51,12 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('From Address') }} <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" name="mail_from_address" value="{{ $settings['mail_from_address'] }}" required placeholder="noreply@mysencosupport.com">
+                                <input type="email" class="form-control" name="mail_from_address" value="{{ $settings['mail_from_address'] }}" required placeholder="noreply@example.com">
                                 <div class="form-text text-muted">{{ __('The email address your emails will be sent from.') }}</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('From Name') }} <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="mail_from_name" value="{{ $settings['mail_from_name'] }}" required placeholder="MySencoSupportSoftware">
+                                <input type="text" class="form-control" name="mail_from_name" value="{{ $settings['mail_from_name'] }}" required placeholder="EduSen">
                                 <div class="form-text text-muted">{{ __('The name displayed as the sender.') }}</div>
                             </div>
                         </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MySencoSupportSoftware | Installation</title>
+    <title>EduSen | Installation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link id="bootstrap-css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -12,7 +12,7 @@
     <div id="install-form-container">
         <div class="install-card">
             <div class="card-header">
-                <div class="title">SENCOSupportSoftware Setup</div>
+                <div class="title">EduSen Setup</div>
                 <div class="subtitle">Language Configuration</div>
             </div>
             <div class="card-body">

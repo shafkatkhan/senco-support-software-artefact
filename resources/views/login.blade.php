@@ -1,4 +1,4 @@
-@extends('layouts.auth', ['title' => 'MySencoSupportSoftware | Login'])
+@extends('layouts.auth', ['title' => 'EduSen | Login'])
 
 @section('content')
 <div class="login_form">
