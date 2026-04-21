@@ -622,6 +622,19 @@ table{
 .sen_edit_icon{
     background-color: #12408a;
 }
+@media screen and (max-width: 1275px) {
+	.sen_cards .sen_card {
+		flex: 0 1 100%;
+	}
+}
+@media screen and (max-width: 767px) {
+	.sen_cards .sen_card .top {
+		flex-direction: column;
+	}
+	.sen_icon_wrap{
+		margin-top: 10px;
+	}
+}
 /**/
 .button_styled{
 	text-decoration: none;
