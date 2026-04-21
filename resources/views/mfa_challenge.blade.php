@@ -1,4 +1,4 @@
-@extends('layouts.auth', ['title' => 'EduSen | MFA Challenge'])
+@extends('layouts.auth', ['title' => 'MFA Challenge'])
 
 @section('content')
 <div class="login_form">

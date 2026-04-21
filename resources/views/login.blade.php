@@ -1,4 +1,4 @@
-@extends('layouts.auth', ['title' => 'EduSen | Login'])
+@extends('layouts.auth', ['title' => 'Login'])
 
 @section('content')
 <div class="login_form">
