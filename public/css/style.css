@@ -1112,6 +1112,11 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	font-size: 14px;
 	margin-bottom: .5rem;
 }
+@media screen and (max-width: 991px) {
+	.email_settings_wrap{
+		gap: 25px;
+	}
+}
 /**/
 .mfa_setup_status{
 	display: flex;

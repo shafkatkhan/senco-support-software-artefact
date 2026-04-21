@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">        
         <div class="row settings_wrap email_settings_wrap">
-            <div class="col-md-8 d-flex flex-column">
+            <div class="col-lg-7 d-flex flex-column">
                 <div class="settings_section">
                     <div class="title">
                         <i class="fas fa-envelope me-2"></i>{{ __('SMTP Configuration') }}
@@ -68,7 +68,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-4 d-flex flex-column">
+            <div class="col-lg-5 d-flex flex-column">
                 <div class="settings_section" style="background-color: #ffffff91;">
                     <div class="title">
                         <i class="fas fa-info-circle me-2"></i>{{ __('Instructions') }}
