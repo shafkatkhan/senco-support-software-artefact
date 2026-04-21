@@ -671,6 +671,47 @@ html.nav-hidden #top_nav {
     width: 100% !important;
 }
 /* end sidebar toggle */
+
+/* mobile nav overlay */
+#nav_overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 998;
+}
+html.mobile-nav-open #nav_overlay {
+    display: block;
+}
+
+@media screen and (max-width: 900px) {
+    #nav {
+        transform: translateX(-100%);
+        z-index: 999;
+    }
+    [dir="rtl"] #nav {
+        transform: translateX(100%);
+    }
+    html.mobile-nav-open #nav {
+        transform: translateX(0) !important;
+    }
+    #content, #top_nav {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    html.nav-hidden #nav {
+        transform: translateX(-100%) !important;
+    }
+    [dir="rtl"] html.nav-hidden #nav {
+        transform: translateX(100%) !important;
+    }
+    html.nav-hidden #content,
+    html.nav-hidden #top_nav {
+        width: 100% !important;
+    }
+}
+/* end mobile nav overlay */
 /**/
 #toggle_professional_btn{
 	font-size: 0.85rem;

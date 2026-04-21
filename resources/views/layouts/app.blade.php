@@ -45,6 +45,7 @@
 
 @include('components.nav')
 @include('components.top_nav')
+<div id="nav_overlay"></div>
 
 @yield('content')
 

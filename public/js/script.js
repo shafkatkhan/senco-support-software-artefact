@@ -26,11 +26,29 @@ $(document).ready(function() {
         applyViewPreference();
     });
 
+    function hideNavWidth() {
+        return window.innerWidth <= 900;
+    }
+
     $('#toggleNavBtn').click(function(e) {
         e.preventDefault();
-        $('html').toggleClass('nav-hidden');
-        var isHidden = $('html').hasClass('nav-hidden');
-        localStorage.setItem('sen_nav_hidden', isHidden);
+        if (hideNavWidth()) {
+            $('html').toggleClass('mobile-nav-open');
+        } else {
+            $('html').toggleClass('nav-hidden');
+            var isHidden = $('html').hasClass('nav-hidden');
+            localStorage.setItem('sen_nav_hidden', isHidden);
+        }
+    });
+
+    $('#nav_overlay').click(function() {
+        $('html').removeClass('mobile-nav-open');
+    });
+
+    $(window).on('resize', function() {
+        if (!hideNavWidth()) {
+            $('html').removeClass('mobile-nav-open');
+        }
     });
 
     $('.dropdown_nav_btn').click(function(e) {
