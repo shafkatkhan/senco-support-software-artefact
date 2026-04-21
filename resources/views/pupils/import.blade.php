@@ -5,7 +5,7 @@
         <div class="section_title">
             <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
-        <div class="row settings_wrap onboarding_wrap">
+        <div class="row settings_wrap import_wrap">
             <div class="col-lg-7 d-flex flex-column">                
                 <div class="settings_section">
                     <div class="title">

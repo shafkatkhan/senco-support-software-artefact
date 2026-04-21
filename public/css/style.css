@@ -1106,14 +1106,20 @@ div.dt-container .dt-paging .dt-paging-button.last {
 .email_settings_wrap .settings_section{
 	flex-grow: 1;
 }
-.email_settings_wrap .form-label, .onboarding_wrap label:not(.form-check-label){
+.email_settings_wrap .form-label, .onboarding_wrap label:not(.form-check-label), .import_wrap label:not(.form-check-label){
 	font-weight: 500;
 	color: #4a5568;
 	font-size: 14px;
 	margin-bottom: .5rem;
 }
+@media screen and (max-width: 1200px) {
+	.onboarding_wrap{
+		flex-direction: column-reverse;
+		gap: 25px;
+	}
+}
 @media screen and (max-width: 991px) {
-	.email_settings_wrap, .onboarding_wrap{
+	.email_settings_wrap, .import_wrap{
 		gap: 25px;
 	}
 }
