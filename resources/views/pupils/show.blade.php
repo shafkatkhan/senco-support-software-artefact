@@ -6,7 +6,7 @@
             <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
         <div class="row settings_wrap dashboard">
-            <div class="col-md-5 d-flex flex-column dashboard_section">
+            <div class="col-xl-5 d-flex flex-column dashboard_section">
                 <div class="settings_section">
                     <div class="title">
                         <i class="fas fa-user"></i>{{ __('Personal Details') }}
@@ -329,7 +329,7 @@
                     </div>  
                 </div>
             </div>
-            <div class="col-md-7 d-flex flex-column dashboard_section">
+            <div class="col-xl-7 d-flex flex-column dashboard_section">
                 <div class="settings_section" style="display: flex; align-items: center; justify-content: space-between;">
                     <div class="title" style="margin-bottom: 0px;">
                         <i class="fa-solid fa-gear"></i>{{ __('Actions') }}
