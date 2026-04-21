@@ -111,3 +111,17 @@ body{
 .back_to_login:hover{
 	color: #ddd;
 }
+
+@media screen and (max-width: 650px) {
+	#loginBox{
+		width: 90%;
+		padding-top: 60px;
+	}
+	#login_btn{
+		width: 100%;
+	}
+	.login_info{
+		flex-direction: column;
+		text-align: center;
+	}
+}
