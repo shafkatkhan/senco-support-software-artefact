@@ -6,7 +6,7 @@
             <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
         <div class="row settings_wrap onboarding_wrap">
-            <div class="col-md-8 d-flex flex-column">                
+            <div class="col-lg-7 d-flex flex-column">                
                 <div class="settings_section">
                     <div class="title">
                         <i class="fa-solid fa-file-arrow-up"></i> {{ __('Import Pupils') }}
@@ -33,7 +33,7 @@
                 </div>
             </div>
             
-            <div class="col-md-4 d-flex flex-column">
+            <div class="col-lg-5 d-flex flex-column">
                 <div class="settings_section" style="background-color: #ffffff91;">
                     <div class="title">
                         <i class="fas fa-info-circle me-2"></i>{{ __('Instructions') }}

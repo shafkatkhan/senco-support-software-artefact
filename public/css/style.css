@@ -1113,7 +1113,7 @@ div.dt-container .dt-paging .dt-paging-button.last {
 	margin-bottom: .5rem;
 }
 @media screen and (max-width: 991px) {
-	.email_settings_wrap{
+	.email_settings_wrap, .onboarding_wrap{
 		gap: 25px;
 	}
 }
