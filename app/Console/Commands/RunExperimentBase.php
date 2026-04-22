@@ -138,7 +138,7 @@ abstract class RunExperimentBase extends Command
 
         if ($n == 0) return 0;
 
-        // build DP arrays for word-level Levenshtein distance (O(M) space optimization)
+        // build DP arrays for word-level Levenshtein distance (O(M) space optimisation)
         $prev = range(0, $m);
         $curr = array_fill(0, $m + 1, 0);
 
