@@ -18,6 +18,7 @@
                                         data-bs-target="#deleteAttachment" 
                                         data-url="{{ route('attachments.destroy', $attachment->id) }}" 
                                         data-name="{{ $attachment->filename }}"
+                                        aria-label="{{ __('Delete') }}"
                                     >
                                         <i class="far fa-trash-alt"></i>
                                     </button>

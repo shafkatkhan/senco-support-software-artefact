@@ -38,10 +38,10 @@
                             @canany(['edit-majors', 'delete-majors'])
                             <td class="icon_wrap">
                                 @can('edit-majors')
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('majors.update', $major->id) }}" data-name="{{ $major->name }}" data-code="{{ $major->code }}" data-subjects='@json($major->subjects->pluck("id"))'><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" aria-label="{{ __('Edit') }}" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('majors.update', $major->id) }}" data-name="{{ $major->name }}" data-code="{{ $major->code }}" data-subjects='@json($major->subjects->pluck("id"))'><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-majors')
-                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('majors.destroy', $major->id) }}" data-name="{{ $major->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon" aria-label="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('majors.destroy', $major->id) }}" data-name="{{ $major->name }}"><i class="fa fa-trash-alt"></i></button>
                                 @endcan
                             </td>
                             @endcanany

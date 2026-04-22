@@ -33,7 +33,7 @@
                                 {{ __('More Details') }}
                             </a>
                             @can('edit-pupils')
-                            <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled">
+                            <a href="{{ route('pupils.edit', $pupil->id) }}" class="sen_icon sen_edit_icon button_styled" aria-label="{{ __('Edit') }}">
                                 <i class="far fa-edit"></i>
                             </a>
                             @endcan
@@ -42,7 +42,8 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#delete"
                                 data-url="{{ route('pupils.destroy', $pupil->id) }}"
-                                data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}">
+                                data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}"
+                                aria-label="{{ __('Delete') }}">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                             @endcan
@@ -224,16 +225,17 @@
                             </td>
                             @canany(['edit-pupils', 'delete-pupils'])
                             <td class="icon_wrap">
-                                <a href="{{ route('pupils.show', $pupil->id) }}" class="icon details_icon"><i class="fa fa-eye"></i></a>
+                                <a href="{{ route('pupils.show', $pupil->id) }}" class="icon details_icon" aria-label="{{ __('View Details') }}"><i class="fa fa-eye"></i></a>
                                 @can('edit-pupils')
-                                <a href="{{ route('pupils.edit', $pupil->id) }}" class="icon edit_icon"><i class="fa fa-edit"></i></a>
+                                <a href="{{ route('pupils.edit', $pupil->id) }}" class="icon edit_icon" aria-label="{{ __('Edit') }}"><i class="fa fa-edit"></i></a>
                                 @endcan
                                 @can('delete-pupils')
                                 <button class="icon delete_icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete"
                                     data-url="{{ route('pupils.destroy', $pupil->id) }}"
-                                    data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}">
+                                    data-name="{{ $pupil->first_name }} {{ $pupil->last_name }}"
+                                    aria-label="{{ __('Delete') }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
                                 @endcan

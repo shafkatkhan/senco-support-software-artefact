@@ -27,6 +27,7 @@
                                 data-reference_number="{{ $record->reference_number }}"
                                 data-description="{{ $record->description }}"
                                 data-outcome="{{ $record->outcome }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -37,6 +38,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('records.destroy', $record->id) }}" 
                                 data-name="{{ $record->title ?? $record->recordType->name . ' Record' }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -149,6 +151,7 @@
                                     data-reference_number="{{ $record->reference_number }}"
                                     data-description="{{ $record->description }}"
                                     data-outcome="{{ $record->outcome }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -159,6 +162,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('records.destroy', $record->id) }}" 
                                     data-name="{{ $record->title ?? $record->recordType->name . ' Record' }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

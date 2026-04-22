@@ -17,7 +17,7 @@
     </form>
     <div class="alert alert-danger alert-dismissible fade" role="alert" style="display:none;">
         <span id="login_error_message"></span>
-        <button type="button" class="close" onclick="$(this).parent().hide()">
+        <button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div> 

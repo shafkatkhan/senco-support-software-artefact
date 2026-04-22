@@ -24,6 +24,7 @@
                                 data-subject_id="{{ $diet->subject_id }}"
                                 data-proficiency_id="{{ $diet->proficiency_id }}"
                                 data-accommodations="{{ $diet->accommodations->toJson() }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -34,6 +35,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('diets.destroy', $diet->id) }}"
                                 data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -112,7 +114,8 @@
                                     data-url="{{ route('diets.update', $diet->id) }}"
                                     data-subject_id="{{ $diet->subject_id }}"
                                     data-proficiency_id="{{ $diet->proficiency_id }}"
-                                    data-accommodations="{{ $diet->accommodations->toJson() }}">
+                                    data-accommodations="{{ $diet->accommodations->toJson() }}"
+                                    aria-label="{{ __('Edit') }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
                                 @endcan
@@ -121,7 +124,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete"
                                     data-url="{{ route('diets.destroy', $diet->id) }}"
-                                    data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}">
+                                    data-name="{{ $diet->subject->name . ($diet->proficiency ? ' (' . $diet->proficiency->name . ')' : '') }}"
+                                    aria-label="{{ __('Delete') }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
                                 @endcan
@@ -309,7 +313,7 @@
                     <textarea name="accommodations[${accommodationRowIndex}][details]" class="form-control" rows="1" placeholder="${__('Details (Optional)')}">${details || ''}</textarea>
                 </div>
                 <div class="col-md-1">
-                    <button type="button" class="btn btn-danger btn-sm w-100" onclick="$(this).closest('.acc-row').remove()"><i class="fa fa-times"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm w-100" onclick="$(this).closest('.acc-row').remove()" aria-label="${__('Remove')}"><i class="fa fa-times"></i></button>
                 </div>
             </div>
         `;

@@ -46,10 +46,10 @@
                             @canany(['edit-subjects', 'delete-subjects'])
                             <td class="icon_wrap">
                                 @can('edit-subjects')
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('subjects.update', $subject->id) }}" data-name="{{ $subject->name }}" data-code="{{ $subject->code }}" data-accommodations='@json($subject->accommodations->pluck("id"))' data-proficiencies='@json($subject->proficiencies->pluck("id"))'><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" aria-label="{{ __('Edit') }}" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('subjects.update', $subject->id) }}" data-name="{{ $subject->name }}" data-code="{{ $subject->code }}" data-accommodations='@json($subject->accommodations->pluck("id"))' data-proficiencies='@json($subject->proficiencies->pluck("id"))'><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-subjects')
-                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('subjects.destroy', $subject->id) }}" data-name="{{ $subject->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon" aria-label="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('subjects.destroy', $subject->id) }}" data-name="{{ $subject->name }}"><i class="fa fa-trash-alt"></i></button>
                                 @endcan
                             </td>
                             @endcanany

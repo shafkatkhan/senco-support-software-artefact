@@ -73,6 +73,7 @@
                                     data-academic_year="{{ $progression->academic_year }}"
                                     data-year_group="{{ $progression->year_group }}"
                                     data-tutor_group="{{ $progression->tutor_group }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -81,6 +82,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('pupil-progressions.destroy', $progression->id) }}" 
                                     data-name="{{ $progression->academic_year }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

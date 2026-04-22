@@ -47,7 +47,8 @@
                                 <button class="icon edit_icon" 
                                     data-id="{{ $user->id }}"
                                     data-bs-toggle="modal" 
-                                    data-bs-target="#edit">
+                                    data-bs-target="#edit"
+                                    aria-label="{{ __('Edit') }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
                                 @endcan
@@ -56,7 +57,8 @@
                                     data-bs-toggle="modal" 
                                     data-bs-target="#delete" 
                                     data-url="{{ route('users.destroy', $user->id) }}" 
-                                    data-name="{{ $user->first_name }} {{ $user->last_name }}">
+                                    data-name="{{ $user->first_name }} {{ $user->last_name }}"
+                                    aria-label="{{ __('Delete') }}">
                                     <i class="fa fa-trash-alt"></i>
                                 </button>
                                 @endcan

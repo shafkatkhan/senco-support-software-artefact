@@ -3,7 +3,7 @@
 @section('content')
     <section id="content">
         <div class="section_title">
-            <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
+            <a href="{{ route('pupils.index') }}" class="previous_icon" aria-label="{{ __('Return back to pupils') }}"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
         </div>
 
         <div class="table_wrap">
@@ -39,7 +39,7 @@
                                 @endif
                             </td>
                             <td class="icon_wrap">
-                                <a class="icon download_icon button_styled" href="{{ route('attachments.show', ['attachment' => $attachment->id, 'download' => 1]) }}" title="{{ __('Download') }}">
+                                <a class="icon download_icon button_styled" href="{{ route('attachments.show', ['attachment' => $attachment->id, 'download' => 1]) }}" title="{{ __('Download') }}" aria-label="{{ __('Download') }}">
                                     <i class="fa fa-download"></i>
                                 </a>
                                 
@@ -50,6 +50,7 @@
                                     data-url="{{ route('attachments.update_transcript', $attachment->id) }}"
                                     data-transcript="{{ $attachment->transcription->transcript }}"
                                     title="{{ __('Edit Transcript') }}"
+                                    aria-label="{{ __('Edit Transcript') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -60,6 +61,7 @@
                                     data-url="{{ route('attachments.destroy', $attachment->id) }}" 
                                     data-name="{{ $attachment->filename }}"
                                     title="{{ __('Delete Attachment') }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

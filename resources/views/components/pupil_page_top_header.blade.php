@@ -1,6 +1,6 @@
 <div class="content_top_buttons justify-content-between">
     <div class="section_title">
-        <a href="{{ route('pupils.index') }}" class="previous_icon"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
+        <a href="{{ route('pupils.index') }}" class="previous_icon" aria-label="{{ __('Return back to pupils') }}"><i class="fas {{ is_rtl() ? 'fa-arrow-circle-right' : 'fa-arrow-circle-left' }}"></i></a> {{ __('Return back to pupils') }}
     </div>
     <div style="display: flex; gap: 10px; justify-content: flex-end;">
         @can('export-pupil-data')

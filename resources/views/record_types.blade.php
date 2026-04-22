@@ -30,10 +30,10 @@
                             @canany(['edit-record-types', 'delete-record-types'])
                             <td class="icon_wrap">
                                 @can('edit-record-types')
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('record-types.update', $record_type->id) }}" data-name="{{ $record_type->name }}" data-description="{{ $record_type->description }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" aria-label="{{ __('Edit') }}" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('record-types.update', $record_type->id) }}" data-name="{{ $record_type->name }}" data-description="{{ $record_type->description }}"><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-record-types')
-                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('record-types.destroy', $record_type->id) }}" data-name="{{ $record_type->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon" aria-label="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('record-types.destroy', $record_type->id) }}" data-name="{{ $record_type->name }}"><i class="fa fa-trash-alt"></i></button>
                                 @endcan
                             </td>
                             @endcanany

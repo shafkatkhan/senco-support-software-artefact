@@ -42,6 +42,7 @@
                                 data-occupation="{{ $familyMember->occupation }}"
                                 data-state_support="{{ $familyMember->state_support }}"
                                 data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -52,6 +53,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('family-members.destroy', $familyMember->id) }}" 
                                 data-name="{{ $familyMember->first_name }} {{ $familyMember->last_name }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -196,6 +198,7 @@
                                     data-occupation="{{ $familyMember->occupation }}"
                                     data-state_support="{{ $familyMember->state_support }}"
                                     data-is_primary="{{ $pupil->primary_family_member_id == $familyMember->id ? '1' : '0' }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -206,6 +209,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('family-members.destroy', $familyMember->id) }}" 
                                     data-name="{{ $familyMember->first_name }} {{ $familyMember->last_name }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

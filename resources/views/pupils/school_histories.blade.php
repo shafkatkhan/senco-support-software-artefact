@@ -25,6 +25,7 @@
                                 data-class_type="{{ $history->class_type }}"
                                 data-years_attended="{{ $history->years_attended }}"
                                 data-transition_reason="{{ $history->transition_reason }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -35,6 +36,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('school-histories.destroy', $history->id) }}" 
                                 data-name="{{ $history->school_name }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -117,6 +119,7 @@
                                     data-class_type="{{ $history->class_type }}"
                                     data-years_attended="{{ $history->years_attended }}"
                                     data-transition_reason="{{ $history->transition_reason }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -127,6 +130,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('school-histories.destroy', $history->id) }}" 
                                     data-name="{{ $history->school_name }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

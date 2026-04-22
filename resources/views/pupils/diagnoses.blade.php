@@ -25,6 +25,7 @@
                                 data-professional_id="{{ $diagnosis->professional_id }}"
                                 data-description="{{ $diagnosis->description }}"
                                 data-recommendations="{{ $diagnosis->recommendations }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -35,6 +36,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('diagnoses.destroy', $diagnosis->id) }}" 
                                 data-name="{{ $diagnosis->name }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -130,6 +132,7 @@
                                     data-professional_id="{{ $diagnosis->professional_id }}"
                                     data-description="{{ $diagnosis->description }}"
                                     data-recommendations="{{ $diagnosis->recommendations }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -140,6 +143,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('diagnoses.destroy', $diagnosis->id) }}" 
                                     data-name="{{ $diagnosis->name }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

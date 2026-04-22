@@ -1,7 +1,7 @@
 <section id="top_nav">
     <div class="top_nav_header">
         <div style="display: flex; align-items: center; padding: 0px 15px;">
-            <a href="#" id="toggleNavBtn"><i class="fas fa-bars"></i></a>
+            <a href="#" id="toggleNavBtn" aria-label="Toggle navigation"><i class="fas fa-bars"></i></a>
             <div class="page_title">{{ isset($title) ? $title : 'EduSen' }}</div>
         </div>
         <div class="logout">

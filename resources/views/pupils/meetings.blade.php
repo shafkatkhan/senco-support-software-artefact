@@ -26,6 +26,7 @@
                                 data-participants="{{ $meeting->participants }}"
                                 data-discussion="{{ $meeting->discussion }}"
                                 data-recommendations="{{ $meeting->recommendations }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -36,6 +37,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('meetings.destroy', $meeting->id) }}" 
                                 data-name="{{ $meeting->title }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -139,6 +141,7 @@
                                     data-participants="{{ $meeting->participants }}"
                                     data-discussion="{{ $meeting->discussion }}"
                                     data-recommendations="{{ $meeting->recommendations }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -149,6 +152,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('meetings.destroy', $meeting->id) }}" 
                                     data-name="{{ $meeting->title }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

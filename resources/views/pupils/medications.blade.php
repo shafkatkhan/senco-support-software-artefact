@@ -30,6 +30,7 @@
                                 data-expiry_date="{{ $medication->expiry_date ? $medication->expiry_date->format('Y-m-d') : '' }}"
                                 data-storage_instructions="{{ $medication->storage_instructions }}"
                                 data-self_administer="{{ $medication->self_administer }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -40,6 +41,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('medications.destroy', $medication->id) }}" 
                                 data-name="{{ $medication->name }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -184,6 +186,7 @@
                                     data-expiry_date="{{ $medication->expiry_date ? $medication->expiry_date->format('Y-m-d') : '' }}"
                                     data-storage_instructions="{{ $medication->storage_instructions }}"
                                     data-self_administer="{{ $medication->self_administer }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -194,6 +197,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('medications.destroy', $medication->id) }}" 
                                     data-name="{{ $medication->name }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

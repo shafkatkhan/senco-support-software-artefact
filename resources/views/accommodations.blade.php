@@ -30,10 +30,10 @@
                             @canany(['edit-accommodations', 'delete-accommodations'])
                             <td class="icon_wrap">
                                 @can('edit-accommodations')
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('accommodations.update', $accommodation->id) }}" data-name="{{ $accommodation->name }}" data-description="{{ $accommodation->description }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" aria-label="{{ __('Edit') }}" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('accommodations.update', $accommodation->id) }}" data-name="{{ $accommodation->name }}" data-description="{{ $accommodation->description }}"><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-accommodations')
-                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('accommodations.destroy', $accommodation->id) }}" data-name="{{ $accommodation->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon" aria-label="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('accommodations.destroy', $accommodation->id) }}" data-name="{{ $accommodation->name }}"><i class="fa fa-trash-alt"></i></button>
                                 @endcan
                             </td>
                             @endcanany

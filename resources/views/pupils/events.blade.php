@@ -25,6 +25,7 @@
                                 data-reference_number="{{ $event->reference_number }}"
                                 data-description="{{ $event->description }}"
                                 data-outcome="{{ $event->outcome }}"
+                                aria-label="{{ __('Edit') }}"
                             >
                                 <i class="far fa-edit"></i>
                             </button>
@@ -35,6 +36,7 @@
                                 data-bs-target="#delete" 
                                 data-url="{{ route('events.destroy', $event->id) }}" 
                                 data-name="{{ $event->title }}"
+                                aria-label="{{ __('Delete') }}"
                             >
                                 <i class="far fa-trash-alt"></i>
                             </button>
@@ -128,6 +130,7 @@
                                     data-reference_number="{{ $event->reference_number }}"
                                     data-description="{{ $event->description }}"
                                     data-outcome="{{ $event->outcome }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -138,6 +141,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('events.destroy', $event->id) }}" 
                                     data-name="{{ $event->title }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

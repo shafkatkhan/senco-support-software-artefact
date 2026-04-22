@@ -55,6 +55,7 @@
                                     data-agency="{{ $professional->agency }}" 
                                     data-phone="{{ $professional->phone }}" 
                                     data-email="{{ $professional->email }}"
+                                    aria-label="{{ __('Edit') }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -65,6 +66,7 @@
                                     data-bs-target="#delete" 
                                     data-url="{{ route('professionals.destroy', $professional->id) }}" 
                                     data-name="{{ $professional->title }} {{ $professional->first_name }} {{ $professional->last_name }}"
+                                    aria-label="{{ __('Delete') }}"
                                 >
                                     <i class="fa fa-trash-alt"></i>
                                 </button>

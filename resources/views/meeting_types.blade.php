@@ -30,10 +30,10 @@
                             @canany(['edit-meeting-types', 'delete-meeting-types'])
                             <td class="icon_wrap">
                                 @can('edit-meeting-types')
-                                <button class="icon edit_icon" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('meeting-types.update', $meeting_type->id) }}" data-name="{{ $meeting_type->name }}" data-description="{{ $meeting_type->description }}"><i class="fa fa-edit"></i></button>
+                                <button class="icon edit_icon" aria-label="{{ __('Edit') }}" data-bs-toggle="modal" data-bs-target="#edit" data-url="{{ route('meeting-types.update', $meeting_type->id) }}" data-name="{{ $meeting_type->name }}" data-description="{{ $meeting_type->description }}"><i class="fa fa-edit"></i></button>
                                 @endcan
                                 @can('delete-meeting-types')
-                                <button class="icon delete_icon" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('meeting-types.destroy', $meeting_type->id) }}" data-name="{{ $meeting_type->name }}"><i class="fa fa-trash-alt"></i></button>
+                                <button class="icon delete_icon" aria-label="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete" data-url="{{ route('meeting-types.destroy', $meeting_type->id) }}" data-name="{{ $meeting_type->name }}"><i class="fa fa-trash-alt"></i></button>
                                 @endcan
                             </td>
                             @endcanany
