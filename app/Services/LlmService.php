@@ -57,7 +57,7 @@ class LlmService
                     ]
                 ];
                 
-                $response = Http::timeout(120)->post($apiUrl, $payload);
+                $response = Http::timeout(600)->post($apiUrl, $payload);
                 
                 if ($response->failed()) {
                     throw new Exception('API error: ' . $response->body());
@@ -78,7 +78,7 @@ class LlmService
                     $base64Audio = base64_encode(file_get_contents($audioPath));
 
                     $response = Http::withToken($apiKey)
-                        ->timeout(120)
+                        ->timeout(600)
                         ->post('https://api.mistral.ai/v1/chat/completions', [
                             'model' => $model,
                             'messages' => [
@@ -114,7 +114,7 @@ class LlmService
                     }
 
                     $response = Http::withToken($apiKey)
-                        ->timeout(120)
+                        ->timeout(600)
                         ->attach('file', file_get_contents($audioPath), $fileName)
                         ->post($apiUrl, $postData);
 
@@ -202,7 +202,7 @@ class LlmService
                     ];
                 }
                 
-                $response = Http::timeout(120)->post($apiUrl, $payload);
+                $response = Http::timeout(600)->post($apiUrl, $payload);
                 
                 if ($response->failed()) {
                     throw new Exception('API error: ' . $response->body());
@@ -285,7 +285,7 @@ class LlmService
                 ];
 
                 $response = Http::withToken($apiKey)
-                    ->timeout(120)
+                    ->timeout(600)
                     ->post($apiUrl, $payload);
 
                 if ($response->failed()) {
