@@ -38,7 +38,7 @@
             @can('view-users')
                 <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'activenav' : '' }}">{{ __('Users') }}</a></li>
             @endcan
-            <li class="dropdown_nav_btn"><a href="#">{{ __('System Settings') }} <i class="fas fa-chevron-left"></i></a></li>
+            <li class="dropdown_nav_btn"><a href="#">{{ __('System Settings') }} <i class="fas fa-chevron-{{ is_rtl() ? 'right' : 'left' }}"></i></a></li>
             <div class="dropdown_items">
                 @can('manage-llm-settings')
                     <li class="sub_nav_item"><a href="{{ route('llm-settings.index') }}" class="{{ request()->routeIs('llm-settings.*') ? 'activenav' : '' }}">{{ __('LLM Settings') }}</a></li>

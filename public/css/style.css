@@ -71,6 +71,9 @@ html.has-secondary-nav #nav {
 	-o-transition: 0.3s all linear;
 	-webkit-transition: 0.3s all linear;
 }
+[dir="rtl"] #nav li i {
+    float: left;
+}
 #nav li a{
 	padding:16px 18px;
 	width:100%;
