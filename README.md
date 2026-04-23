@@ -1,59 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="https://github.com/shafkatkhan/senco-support-software-artefact/blob/f9c98e2126d2681b23e0a11a329a6058eb028509/public/img/logo.svg" width="300" alt="EduSen Logo"></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# EduSen: An AI-powered SENCO Support System
 
-## About Laravel
+A web-based pupil data management system built for Special Educational Needs Coordinators (SENCOs). The application streamlines the recording, retrieval, and reporting of pupil SEN data, with an AI-powered data extraction pipeline that lets staff upload documents, images, or voice recordings and have form fields pre-populated automatically.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Pupil Profiles** — store and manage pupil personal details, school history, family members, diagnoses, medications, accommodations, and progression records
+- **AI Data Extraction** — upload a PDF, image, or audio recording; the system transcribes and/or extracts structured data and pre-populates the relevant form for staff to review before saving
+- **Multi-provider LLM Support** — configurable to use OpenAI or Google Gemini via a single abstraction layer
+- **Reports and Exports** — generate per-pupil PDF reports and cohort CSV/Excel exports with AJAX-powered filters
+- **Role-based Access Control** — user groups with granular per-permission gates stored in the database
+- **Multi-Factor Authentication** — TOTP-based MFA with QR code enrolment; policy enforced globally by an administrator
+- **Installation Wizard** — guided first-run setup: database connection, admin account creation, language selection, and LLM provider configuration
+- **Internationalisation** — language key system with right-to-left layout support; LLM-assisted translation available during installation
+- **Automated Backups** — one-click database backup with download and restore, powered by `mysqldump-php`
+- **Secure File Storage** — attachments served through authenticated routes only; files deleted automatically when their database record is removed
+- **Import** — bulk pupil import from Excel/CSV
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Technology Stack and Packages
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer | Technology |
+|---|---|
+| Backend framework | Laravel 12 (PHP 8.2+) |
+| Database | MySQL |
+| Frontend | Bootstrap 5.3, jQuery, DataTables, Select2 |
+| PDF generation | barryvdh/laravel-dompdf |
+| Excel/CSV export & import | maatwebsite/excel |
+| MFA | pragmarx/google2fa-laravel + bacon/bacon-qr-code |
+| Database backup | ifsnop/mysqldump-php |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Requirements
 
-### Premium Partners
+- PHP 8.2 or higher
+- Composer
+- MySQL (or MariaDB equivalent)
+- An API key for at least one supported LLM provider (OpenAI, Mistral, or Google Gemini), to use AI features
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+> The application can be self-hosted on low-cost hardware such as a Raspberry Pi 4, as outlined in the [Installation Guide](docs/installation-guide.pdf).
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Installation
 
-## Code of Conduct
+### 1. Clone and install dependencies
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone https://github.com/shafkatkhan/senco-support-software-artefact.git senco
+cd senco
+composer install --optimize-autoloader
+```
 
-## Security Vulnerabilities
+### 2. Configure environment
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. Start the application
+
+```bash
+php artisan serve
+```
+
+Navigate to `http://localhost:8000`. You will be redirected to the **Installation Wizard** on first run, which will guide you through:
+
+1. Initialising the database connection and creating database tables
+2. Selecting the application language
+3. Selecting and configuring your LLM provider (API key entry)
+
+No manual `.env` editing is required, as all the configurations are completed through the wizard UI.
+
+---
+
+## Testing
+
+```bash
+php artisan test
+```
+
+The test suite uses Laravel's feature testing framework and achieves 100% code coverage across all controller endpoints. Tests cover permission gates, validation constraints, and database operations including backup and restore flows.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) (AGPL-3.0).
+
+This software is designed for non-commercial use by schools and educational institutions.
