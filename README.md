@@ -43,7 +43,7 @@ A web-based pupil data management system built for Special Educational Needs Coo
 - MySQL (or MariaDB equivalent)
 - An API key for at least one supported LLM provider (OpenAI, Mistral, or Google Gemini), to use AI features
 
-> The application can be self-hosted on low-cost hardware such as a Raspberry Pi 4, as outlined in the [Installation Guide](docs/installation-guide.pdf).
+> The application can be self-hosted on low-cost hardware such as a Raspberry Pi 4, as outlined in the [Installation Guide](https://github.com/shafkatkhan/senco-support-software-artefact/blob/745e3fee8b23e5e94ff1af14a21a00498d905261/docs/installation-guide.pdf).
 
 ---
 
